@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isValidCulture } from "../src/utilities/isValidCulture";
+import { isValidCulture } from "../src/services/isValidCulture";
 
 describe("isValidCulture", () => {
   it("validates en-US as true", () => {

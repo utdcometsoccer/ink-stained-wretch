@@ -1,8 +1,8 @@
 import type { Language } from "../../types/Language";
 import type { Region } from "../../types/Region";
 import type { Culture } from "../../types/Culture";
-import { useState, useEffect } from "react";
-import { isValidCulture } from "../../utilities/isValidCulture";
+import { useEffect } from "react";
+import { isValidCulture } from "../../services/isValidCulture";
 import './ChooseCulture.css';
 import type { ChooseCultureProps } from "./ChooseCultureProps";
 
@@ -10,45 +10,47 @@ import { languageNames } from "./languageNames";
 import { regionNames } from "./regionNames";
 
 export function ChooseCulture({ state, dispatch }: ChooseCultureProps) {
-  const [isFirstVisit, setIsFirstVisit] = useState(true);
-  const [selectedLanguage, setSelectedLanguage] = useState<Language | null>(null);
-  const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
+  // Use state from State interface instead of local useState hooks
+  const isFirstVisit = state.isFirstVisitCulture ?? true;
+  const selectedLanguage = state.selectedLanguage ?? null;
+  const selectedRegion = state.selectedRegion ?? null;
 
 
   useEffect(() => {
-    if (!isFirstVisit) return;
+  if (!isFirstVisit) return;
   // Only auto-detect if state.autoDetect is true (default true)
   if (typeof state.autoDetect === 'undefined' || state.autoDetect) {
-      const browserLang = navigator.language || (navigator.languages && navigator.languages[0]) || 'en-US';
-      const [lang, region] = browserLang.split('-');
-      const culture = `${lang}-${region}` as Culture;
+  const browserLang = navigator.language || (navigator.languages && navigator.languages[0]) || 'en-US';
+  const [lang, regionRaw] = browserLang.split('-');
+  const region = regionRaw ?? 'US';
+  const culture = `${lang}-${region}` as Culture;
 
       if (isValidCulture(culture)) {
-        dispatch({ type: 'UPDATE_STATE', payload: { culture } });
+        dispatch({ type: 'UPDATE_STATE', payload: { culture, isFirstVisit: false } });
         setTimeout(() => {
           dispatch({ type: 'SET_UI_STATE', payload: 'createAccount' });
         }, 1000);
       } else {
-        setIsFirstVisit(false);
+  dispatch({ type: 'UPDATE_STATE', payload: { isFirstVisit: false } });
       }
     } else {
       // If autoDetect is false, do not auto-detect, just show the form
-      setIsFirstVisit(false);
+  dispatch({ type: 'UPDATE_STATE', payload: { isFirstVisit: false } });
     }
   }, [isFirstVisit, dispatch, state.autoDetect]);
 
   const handleLanguageSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedLanguage(e.target.value as Language);
+  dispatch({ type: 'UPDATE_STATE', payload: { selectedLanguage: e.target.value as Language } });
   };
 
   const handleRegionSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedRegion(e.target.value as Region);
+  dispatch({ type: 'UPDATE_STATE', payload: { selectedRegion: e.target.value as Region } });
   };
 
   const handleSubmit = () => {
-    if (selectedLanguage && selectedRegion) {
-      const culture = `${selectedLanguage}-${selectedRegion}` as Culture;
-
+    if (selectedLanguage) {
+      const region = selectedRegion ?? 'US';
+      const culture = `${selectedLanguage}-${region}` as Culture;
       if (isValidCulture(culture)) {
         dispatch({ type: 'UPDATE_STATE', payload: { culture } });
         dispatch({ type: 'SET_UI_STATE', payload: 'createAccount' });
