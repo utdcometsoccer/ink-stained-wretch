@@ -1,0 +1,1 @@
+export type UIStates = 'chooseCulture' | 'createAccount' | 'login' | 'domainRegistration' | 'authorPage' | 'chooseSubscription' | 'checkout' | 'thankYou' | 'error';

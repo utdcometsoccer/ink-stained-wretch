@@ -1,0 +1,45 @@
+{
+  "name": "ink-stained-wretch",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@azure/msal-browser": "^4.21.0",
+    "@azure/msal-react": "^3.0.19",
+    "@microsoft/applicationinsights-react-js": "^19.3.7",
+    "@microsoft/applicationinsights-web": "^3.3.9",
+    "@mui/icons-material": "^7.3.1",
+    "@stripe/react-stripe-js": "^3.9.1",
+    "@stripe/stripe-js": "^7.8.0",
+    "applicationinsights": "^3.9.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.33.0",
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "@vitest/browser": "^3.2.4",
+    "eslint": "^9.33.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "jsdom": "^26.1.0",
+    "playwright": "^1.55.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.39.1",
+    "vite": "^7.1.2",
+    "vitest": "^3.2.4",
+    "vitest-browser-react": "^1.0.1"
+  }
+}
