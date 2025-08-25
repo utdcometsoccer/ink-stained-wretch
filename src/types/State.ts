@@ -8,6 +8,9 @@ import type { Book } from "./Book";
 import type { Social } from "./SocialLink";
 
 export interface State {
+  isFirstVisitCulture?: boolean;
+  selectedLanguage?: string;
+  selectedRegion?: string;
   error?: string;
   culture?: Culture;
   userProfile?: UserProfile;
