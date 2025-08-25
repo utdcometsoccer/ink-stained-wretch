@@ -1,69 +1,77 @@
-# React + TypeScript + Vite
+# Ink Stained Wretch
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modular, type-safe author platform built with React, TypeScript, and Vite. This project features robust state management, culture selection, and integrated telemetry using Microsoft Application Insights.
 
-Currently, two official plugins are available:
+## Key Features
+- **Modular Component Architecture**: Components like `ChooseCulture` are organized in their own folders with colocated CSS and props interfaces for maintainability.
+- **Type-Safe State Management**: Uses `useReducer` and strict TypeScript types for UI state, culture, language, and region selection.
+- **Culture Selection**: Supports ISO 639-1 language codes and ISO 3166-1 region codes, with user-friendly dropdowns and auto-detection logic.
+- **Application Insights Integration**: Tracks page views, errors, custom events, performance, and user sessions anonymously.
+- **Vite + React 18**: Fast development environment with HMR and modern tooling.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Recent Changes
+- Migrated `ChooseCulture` to its own folder with `index.tsx` entry point and colocated CSS.
+- Split out `ChooseCultureProps` to a separate file for better type management.
+- Modularized language and region code mappings into `languageNames.ts` and `regionNames.ts`.
+- Updated reducer and UI logic to support auto-detecting culture from browser settings.
+- Integrated Microsoft Application Insights for telemetry and analytics.
+- Initial commit and push to GitHub remote repository.
 
-## Expanding the ESLint configuration
+## Application Insights Setup
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+This application uses Microsoft Application Insights for telemetry, error tracking, and analytics.
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Configuration
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+1. Create a `.env` file in the root directory (copy from `.env.example`)
+2. Add your Application Insights connection string:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+VITE_APPLICATION_INSIGHTS_CONNECTION_STRING=InstrumentationKey=your-key;IngestionEndpoint=https://your-region.in.applicationinsights.azure.com/;LiveEndpoint=https://your-region.livediagnostics.monitor.azure.com/
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Getting Your Connection String
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. Go to the [Azure Portal](https://portal.azure.com)
+2. Navigate to your Application Insights resource
+3. In the overview page, copy the **Connection String** (not the Instrumentation Key)
+4. Paste it into your `.env` file
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### What Gets Tracked
+- **Page Views**: Automatic tracking of route changes
+- **Errors**: All unhandled errors and exceptions
+- **Custom Events**: UI state changes and user interactions
+- **Performance**: Ajax calls and page load times
+- **User Sessions**: Anonymous user behavior tracking
+
+### Environment Variables
+The app will work without Application Insights configured, but you'll see a warning in the console. In production, make sure to set the environment variable in your hosting platform.
+
+### Privacy
+Application Insights is configured to track anonymous usage data only. No personally identifiable information is collected.
+
+## Getting Started
+
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/utdcometsoccer/ink-stained-wretch.git
+   cd ink-stained-wretch
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up your `.env` file (see Application Insights Setup above).
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+## Folder Structure
+- `src/components/ChooseCulture/` — Culture selection UI, props, CSS, and code mappings
+- `src/types/` — TypeScript type definitions for app state, culture, language, region, etc.
+- `src/services/applicationInsights.ts` — Application Insights integration
+- `docs/APPLICATION_INSIGHTS.md` — Telemetry setup and documentation
+
+## License
+MIT
