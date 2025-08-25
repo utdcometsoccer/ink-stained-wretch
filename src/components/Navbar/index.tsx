@@ -1,30 +1,8 @@
 import { useState } from 'react';
-import type { UIStates } from '../types/UIStates';
-import type { Action } from '../reducers/appReducer';
+import type { UIStates } from '../../types/UIStates';
 import './Navbar.css';
-
-interface NavbarProps {
-  currentState: UIStates;
-  dispatch: React.Dispatch<Action>;
-}
-
-interface NavItem {
-  state: UIStates;
-  label: string;
-  icon: string;
-  description: string;
-}
-
-const navItems: NavItem[] = [
-  { state: 'chooseCulture', label: 'Culture', icon: '🌍', description: 'Choose Language & Region' },
-  { state: 'createAccount', label: 'Sign Up', icon: '👤', description: 'Create Account' },
-  { state: 'login', label: 'Login', icon: '🔑', description: 'Sign In' },
-  { state: 'domainRegistration', label: 'Domain', icon: '🌐', description: 'Register Domain' },
-  { state: 'authorPage', label: 'Author', icon: '✍️', description: 'Author Page' },
-  { state: 'chooseSubscription', label: 'Plans', icon: '💎', description: 'Choose Plan' },
-  { state: 'checkout', label: 'Checkout', icon: '💳', description: 'Complete Purchase' },
-  { state: 'thankYou', label: 'Success', icon: '✅', description: 'Thank You' }
-];
+import type { NavbarProps } from './NavbarProps';
+import { navItems } from './navItems';
 
 export function Navbar({ currentState, dispatch }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -57,7 +35,7 @@ export function Navbar({ currentState, dispatch }: NavbarProps) {
             className="brand-button"
             onClick={() => handleNavigation('chooseCulture')}
           >
-            📚 Ink Stained Wretch
+            📚 Ink Stained Wretches
           </button>
         </div>
 
