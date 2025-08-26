@@ -225,7 +225,9 @@ export const stateProvinceNames: Record<Region, string[]> = {
     RS: [],
     RU: [],
     RW: [],
-    SA: [],
+    SA: [
+        "Al Bahah", "Al Jawf", "Al Madinah", "Al Qassim", "Asir", "Eastern Province", "Ha'il", "Jazan", "Makkah", "Najran", "Northern Borders", "Riyadh", "Tabuk"
+    ],
     SB: [],
     SC: [],
     SD: [],
