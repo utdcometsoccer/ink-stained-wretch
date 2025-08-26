@@ -1,6 +1,12 @@
 
 import type { Region } from "../types/Region";
 export const stateProvinceNames: Record<Region, string[]> = {
+    BN: [],
+    BO: [],
+    BQ: [],
+    BR: [],
+    BS: [],
+    AA: [],
     CN: [
         // Provinces
         "Anhui", "Fujian", "Gansu", "Guangdong", "Guizhou", "Hainan", "Hebei", "Heilongjiang", "Henan", "Hubei", "Hunan", "Jiangsu", "Jiangxi", "Jilin", "Liaoning", "Qinghai", "Shaanxi", "Shandong", "Shanxi", "Sichuan", "Yunnan", "Zhejiang",
