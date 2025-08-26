@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly VITE_ENTRA_POLICY: string;
   readonly VITE_ENTRA_AUTHORITY: string;
   readonly VITE_ENTRA_SCOPES: string;
+  readonly VITE_COUNTDOWN_SECONDS: number;
 }
 
 interface ImportMeta {

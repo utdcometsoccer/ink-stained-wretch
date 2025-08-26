@@ -8,6 +8,8 @@ import type { Book } from "./Book";
 import type { Social } from "./SocialLink";
 
 export interface State {
+  domainContactInfo?: import("./ContactInformation").ContactInformation;
+  domainError?: string | null;
   isMenuOpen?: boolean;
   isAuthenticated?: boolean;
   isFirstVisitCulture?: boolean;
@@ -22,6 +24,7 @@ export interface State {
     domain?: Domain;
     contactInformation?: ContactInformation;
   };
+  domainInputValue?: string;
   authorPageInformation?: {
     author?: Author;
     articles?: Article[];

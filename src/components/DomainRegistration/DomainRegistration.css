@@ -1,0 +1,17 @@
+.domain-success-message {
+  color: #388e3c;
+  margin-top: 0.5em;
+  font-weight: 500;
+}
+.domain-input-success {
+  border: 2px solid #388e3c;
+  background-color: #f0fff0;
+}
+.domain-input-error {
+  border: 2px solid #d32f2f;
+  background-color: #fff0f0;
+}
+.error-message {
+  color: red;
+  margin-top: 0.5em;
+}

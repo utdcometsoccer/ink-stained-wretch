@@ -11,24 +11,25 @@ interface LoginProps {
 
 export function Login({ state, dispatch }: LoginProps) {
   const countdownRef = React.useRef<HTMLDivElement>(null);
+  const COUNTDOWN_SECONDS = Number(import.meta.env.VITE_COUNTDOWN_SECONDS) || 10;
   // Update CSS variable for countdown width
   React.useEffect(() => {
     if (countdownRef.current) {
-      const percent = `${(10 - (state.countdown ?? 0)) * 10}%`;
+      const percent = `${(COUNTDOWN_SECONDS - (state.countdown ?? 0)) * (100 / COUNTDOWN_SECONDS)}%`;
       countdownRef.current.style.setProperty('--countdown-width', percent);
     }
-  }, [state.countdown]);
+  }, [state.countdown, COUNTDOWN_SECONDS]);
   const { instance, accounts } = useMsal();
   // Only use accounts if initialized
   const msalReady = typeof accounts !== 'undefined' && Array.isArray(accounts);
   // Start countdown when authenticated
   React.useEffect(() => {
     if (msalReady && accounts.length > 0) {
-      dispatch({ type: 'UPDATE_STATE', payload: { showRedirect: true, countdown: 10 } });
+      dispatch({ type: 'UPDATE_STATE', payload: { showRedirect: true, countdown: COUNTDOWN_SECONDS } });
     } else {
       dispatch({ type: 'UPDATE_STATE', payload: { showRedirect: false, countdown: null } });
     }
-  }, [msalReady, accounts, dispatch]);
+  }, [msalReady, accounts, dispatch, COUNTDOWN_SECONDS]);
 
   // Countdown effect
   React.useEffect(() => {
@@ -38,6 +39,7 @@ export function Login({ state, dispatch }: LoginProps) {
       }, 1000);
       return () => clearTimeout(timer);
     } else if (state.showRedirect && state.countdown === 0) {
+      dispatch({ type: 'UPDATE_STATE', payload: { countdown: null } });
       dispatch({ type: 'SET_UI_STATE', payload: 'domainRegistration' });
     }
   }, [state.showRedirect, state.countdown, dispatch]);
