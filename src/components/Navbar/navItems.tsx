@@ -2,8 +2,7 @@ import type { NavItem } from './NavItem';
 
 export const navItems: NavItem[] = [
     { state: 'chooseCulture', label: 'Culture', icon: '🌍', description: 'Choose Language & Region' },
-    { state: 'createAccount', label: 'Sign Up', icon: '👤', description: 'Create Account' },
-    { state: 'login', label: 'Login', icon: '🔑', description: 'Sign In' },
+    { state: 'login', label: 'Login', icon: '🔑', description: 'Sign In / Sign Up' },
     { state: 'domainRegistration', label: 'Domain', icon: '🌐', description: 'Register Domain' },
     { state: 'authorPage', label: 'Author', icon: '✍️', description: 'Author Page' },
     { state: 'chooseSubscription', label: 'Plans', icon: '💎', description: 'Choose Plan' },

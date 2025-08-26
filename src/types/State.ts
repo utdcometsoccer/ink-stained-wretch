@@ -8,7 +8,11 @@ import type { Book } from "./Book";
 import type { Social } from "./SocialLink";
 
 export interface State {
+  isMenuOpen?: boolean;
+  isAuthenticated?: boolean;
   isFirstVisitCulture?: boolean;
+  countdown?: number | null;
+  showRedirect?: boolean;
   selectedLanguage?: string;
   selectedRegion?: string;
   error?: string;

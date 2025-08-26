@@ -1,8 +1,7 @@
 import { useReducer, useEffect } from 'react'
 import './App.css'
 import { appReducer, initialState } from './reducers/appReducer'
-import { CreateAccount } from './components/CreateAccount'
-import { Login } from './components/Login'
+import { Login } from './components/LoginRegister'
 import { DomainRegistration } from './components/DomainRegistration'
 import { AuthorPage } from './components/AuthorPage'
 import { ChooseSubscription } from './components/ChooseSubscription'
@@ -13,6 +12,8 @@ import { ErrorBoundary } from './components/ErrorBoundary'
 import { Navbar } from './components/Navbar'
 import { initializeAppInsights, trackException, trackEvent, trackPageView } from './services/applicationInsights'
 import { ChooseCulture } from './components/ChooseCulture/index'
+import { MsalProvider } from "@azure/msal-react";
+import { msalInstance } from "./services/msalConfig";
 
 function App() {
   const [appState, dispatch] = useReducer(appReducer, initialState)
@@ -77,8 +78,6 @@ function App() {
       switch (appState.currentUIState) {
         case 'chooseCulture':
           return <ChooseCulture state={appState.state} dispatch={dispatch} />
-        case 'createAccount':
-          return <CreateAccount state={appState.state} dispatch={dispatch} />
         case 'login':
           return <Login state={appState.state} dispatch={dispatch} />
         case 'domainRegistration':
@@ -108,14 +107,16 @@ function App() {
   }
 
   return (
-    <ErrorBoundary onError={handleReactError}>
-      <div className="app">
-        <Navbar currentState={appState.currentUIState} dispatch={dispatch} />
-        <main className="app-content">
-          {renderCurrentComponent()}
-        </main>
-      </div>
-    </ErrorBoundary>
+    <MsalProvider instance={msalInstance}>
+      <ErrorBoundary onError={handleReactError}>
+        <div className="app">
+          <Navbar currentState={appState.currentUIState} dispatch={dispatch} state={appState.state} />
+          <main className="app-content">
+            {renderCurrentComponent()}
+          </main>
+        </div>
+      </ErrorBoundary>
+    </MsalProvider>
   )
 }
 

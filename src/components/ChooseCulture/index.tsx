@@ -28,7 +28,7 @@ export function ChooseCulture({ state, dispatch }: ChooseCultureProps) {
       if (isValidCulture(culture)) {
         dispatch({ type: 'UPDATE_STATE', payload: { culture, isFirstVisit: false } });
         setTimeout(() => {
-          dispatch({ type: 'SET_UI_STATE', payload: 'createAccount' });
+          dispatch({ type: 'SET_UI_STATE', payload: 'login' });
         }, 1000);
       } else {
   dispatch({ type: 'UPDATE_STATE', payload: { isFirstVisit: false } });
