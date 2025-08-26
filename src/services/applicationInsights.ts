@@ -1,10 +1,13 @@
 import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+import { ReactPlugin } from '@microsoft/applicationinsights-react-js';
+import { createBrowserHistory } from "history";
+
 
 let appInsights: ApplicationInsights | null = null;
 
 export const initializeAppInsights = () => {
   const connectionString = import.meta.env.VITE_APPLICATION_INSIGHTS_CONNECTION_STRING;
-  
+
   if (!connectionString) {
     console.warn('Application Insights connection string not found. Analytics will not be available.');
     return null;
@@ -15,19 +18,15 @@ export const initializeAppInsights = () => {
   }
 
   try {
+    var reactPlugin = new ReactPlugin();
+    const browserHistory = createBrowserHistory();
     appInsights = new ApplicationInsights({
       config: {
         connectionString: connectionString,
-        enableAutoRouteTracking: true, // Track route changes automatically
-        enableCorsCorrelation: true, // Enable CORS correlation
-        enableRequestHeaderTracking: true,
-        enableResponseHeaderTracking: true,
-        enableAjaxErrorStatusText: true,
-        enableAjaxPerfTracking: true,
-        maxAjaxCallsPerView: 20,
-        disableExceptionTracking: false,
-        disableTelemetry: false,
-        enableUnhandledPromiseRejectionTracking: true,
+        extensions: [reactPlugin],
+        extensionConfig: {
+          [reactPlugin.identifier]: { history: browserHistory }
+        }
       }
     });
 
