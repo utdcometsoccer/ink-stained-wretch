@@ -8,6 +8,7 @@ import type { Book } from "./Book";
 import type { Social } from "./SocialLink";
 
 export interface State {
+  domainContactInfo?: import("./ContactInformation").ContactInformation;
   domainError?: string | null;
   isMenuOpen?: boolean;
   isAuthenticated?: boolean;

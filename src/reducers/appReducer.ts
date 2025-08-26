@@ -2,7 +2,7 @@ import type { UIStates } from "../types/UIStates";
 import type { State } from "../types/State";
 
 export interface Action {
-  type: 'SET_UI_STATE' | 'SET_ERROR' | 'CLEAR_ERROR' | 'UPDATE_STATE';
+  type: 'SET_UI_STATE' | 'SET_ERROR' | 'CLEAR_ERROR' | 'UPDATE_STATE' | 'UPDATE_DOMAIN_INPUT_VALUE' | 'UPDATE_DOMAIN_ERROR' | 'UPDATE_DOMAIN';
   payload?: any;
 }
 
@@ -19,7 +19,7 @@ export const initialState: AppState = {
 export function appReducer(state: AppState, action: Action): AppState {
   switch (action.type) {
     case 'SET_UI_STATE': {
-      // Support payload as either UIStates or { uiState, autoDetect }
+      // ...existing code...
       if (typeof action.payload === 'object' && action.payload !== null && 'uiState' in action.payload) {
         return {
           ...state,
@@ -63,6 +63,33 @@ export function appReducer(state: AppState, action: Action): AppState {
         state: {
           ...state.state,
           ...action.payload
+        }
+      };
+    case 'UPDATE_DOMAIN_INPUT_VALUE':
+      return {
+        ...state,
+        state: {
+          ...state.state,
+          domainInputValue: action.payload
+        }
+      };
+    case 'UPDATE_DOMAIN_ERROR':
+      return {
+        ...state,
+        state: {
+          ...state.state,
+          domainError: action.payload
+        }
+      };
+    case 'UPDATE_DOMAIN':
+      return {
+        ...state,
+        state: {
+          ...state.state,
+          domainRegistration: {
+            ...state.state.domainRegistration,
+            domain: action.payload
+          }
         }
       };
     default:
