@@ -5,6 +5,10 @@ export type ContactInformation = {
   lastName: string;
   address: string;
   address2?: string;
+  city: string;
+  state: string;
+  country?: string;
+  zipCode: string;
   emailAddress: string;
   telephoneNumber: string;
 };

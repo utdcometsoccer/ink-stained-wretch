@@ -6,10 +6,14 @@ import { validateDomainWhois } from "../../services/validateDomainWhois";
 import { domainRegex } from "../../services/domainRegex";
 import { validateEmail } from "../../services/validateEmail";
 import { validatePhone } from "../../services/validatePhone";
+import { CountryDropdown } from "../CountryDropdown";
+import { StateProvinceDropdown } from "../StateProvinceDropdown";
+import { extractSelectedRegion } from "../../services/extractSelectedRegion";
 
 export function DomainRegistration({ state, dispatch }: DomainRegistrationProps) {
     const COUNTDOWN_SECONDS = Number(import.meta.env.VITE_COUNTDOWN_SECONDS) || 10;
     const countdownRef = useRef<HTMLDivElement>(null);
+    const selectedRegion = extractSelectedRegion(state.domainContactInfo, state.culture);
 
     useEffect(() => {
         if (countdownRef.current) {
@@ -34,6 +38,11 @@ export function DomainRegistration({ state, dispatch }: DomainRegistrationProps)
         firstName: '',
         lastName: '',
         address: '',
+        address2: '',
+        city: '',
+        state: '',
+        country: '',
+        zipCode: '',
         emailAddress: '',
         telephoneNumber: '',
     };
@@ -41,7 +50,7 @@ export function DomainRegistration({ state, dispatch }: DomainRegistrationProps)
     const domainError = state.domainError || null;
     const isValid = domainValidate(domainInputValue) && !domainError && domainInputValue;
 
-    const handleContactChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleContactChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         dispatch({
             type: "UPDATE_DOMAIN_CONTACT_INFO",
@@ -87,11 +96,15 @@ export function DomainRegistration({ state, dispatch }: DomainRegistrationProps)
         const lastName = (form.elements.namedItem("lastName") as HTMLInputElement)?.value.trim();
         const address = (form.elements.namedItem("address") as HTMLInputElement)?.value.trim();
         const address2 = (form.elements.namedItem("address2") as HTMLInputElement)?.value.trim();
+        const city = (form.elements.namedItem("city") as HTMLInputElement)?.value.trim();
+        const stateVal = (form.elements.namedItem("state") as HTMLInputElement)?.value.trim();
+        const country = (form.elements.namedItem("country") as HTMLInputElement)?.value.trim();
+        const zipCode = (form.elements.namedItem("zipCode") as HTMLInputElement)?.value.trim();
         const emailAddress = (form.elements.namedItem("emailAddress") as HTMLInputElement)?.value.trim();
         const telephoneNumber = (form.elements.namedItem("telephoneNumber") as HTMLInputElement)?.value.trim();
 
         // Validate contact info
-        const requiredFields = [firstName, lastName, address, emailAddress, telephoneNumber];
+        const requiredFields = [firstName, lastName, address, city, stateVal, zipCode, emailAddress, telephoneNumber];
         if (requiredFields.some(f => !f || f.trim() === '')) {
             dispatch({ type: "UPDATE_DOMAIN_ERROR", payload: 'Please fill out all required contact information.' });
             return;
@@ -126,6 +139,10 @@ export function DomainRegistration({ state, dispatch }: DomainRegistrationProps)
                     lastName,
                     address,
                     address2,
+                    city,
+                    state: stateVal,
+                    country,
+                    zipCode,
                     emailAddress,
                     telephoneNumber,
                 },
@@ -211,6 +228,49 @@ export function DomainRegistration({ state, dispatch }: DomainRegistrationProps)
                             name="address2"
                             defaultValue={contactInfo.address2 || ''}
                             onChange={handleContactChange}
+                        />
+                    </label>
+                    <br />
+                    <label>
+                        City:
+                        <input
+                            type="text"
+                            name="city"
+                            defaultValue={contactInfo.city}
+                            onChange={handleContactChange}
+                            required
+                        />
+                    </label>
+                    <br />
+                    <label>
+                        State / Province:
+                        <StateProvinceDropdown
+                            region={selectedRegion}
+                            value={contactInfo.state}
+                            onChange={handleContactChange}
+                            required={true}
+                            name="state"
+                        />
+                    </label>
+                    <br />
+                    <label>
+                        Country:
+                        <CountryDropdown
+                            region={selectedRegion}
+                            defaultValue={contactInfo.country}
+                            onChange={handleContactChange}
+                            required={false}
+                        />
+                    </label>
+                    <br />
+                    <label>
+                        Zip Code:
+                        <input
+                            type="text"
+                            name="zipCode"
+                            defaultValue={contactInfo.zipCode}
+                            onChange={handleContactChange}
+                            required
                         />
                     </label>
                     <br />
