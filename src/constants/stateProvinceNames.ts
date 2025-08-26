@@ -1,13 +1,37 @@
 
 import type { Region } from "../types/Region";
 export const stateProvinceNames: Record<Region, string[]> = {
-    AA: [],
+    CN: [
+        // Provinces
+        "Anhui", "Fujian", "Gansu", "Guangdong", "Guizhou", "Hainan", "Hebei", "Heilongjiang", "Henan", "Hubei", "Hunan", "Jiangsu", "Jiangxi", "Jilin", "Liaoning", "Qinghai", "Shaanxi", "Shandong", "Shanxi", "Sichuan", "Yunnan", "Zhejiang",
+        // Autonomous regions
+        "Guangxi", "Inner Mongolia", "Ningxia", "Xinjiang", "Tibet",
+        // Municipalities
+        "Beijing", "Chongqing", "Shanghai", "Tianjin",
+        // Special Administrative Regions
+        "Hong Kong", "Macau"
+    ],
+    HK: ["Hong Kong"],
+    MO: ["Macau"],
+    SG: ["Singapore"],
+    TW: [
+        // Special municipalities
+        "Taipei", "New Taipei", "Taoyuan", "Taichung", "Tainan", "Kaohsiung",
+        // Provinces
+        "Keelung", "Hsinchu", "Chiayi", "Yilan", "Hsinchu County", "Miaoli", "Changhua", "Nantou", "Yunlin", "Chiayi County", "Pingtung", "Penghu", "Kinmen", "Lienchiang"
+    ],
+    MY: [
+        // States
+        "Johor", "Kedah", "Kelantan", "Malacca", "Negeri Sembilan", "Pahang", "Penang", "Perak", "Perlis", "Sabah", "Sarawak", "Selangor", "Terengganu",
+        // Federal Territories
+        "Kuala Lumpur", "Labuan", "Putrajaya"
+    ],
     AC: [],
     AD: [],
     AE: [],
     AF: [],
     AG: ["Saint George", "Saint John", "Saint Mary", "Saint Paul", "Saint Peter", "Saint Philip"],
-    AI: [],
+    AI: [],    
     AL: [],
     AM: [],
     AO: [],
@@ -30,11 +54,6 @@ export const stateProvinceNames: Record<Region, string[]> = {
     BJ: [],
     BL: [],
     BM: ["Devonshire", "Hamilton", "Paget", "Pembroke", "Sandys", "Smith's", "Southampton", "St. George's", "Warwick"],
-    BN: [],
-    BO: ["Beni", "Chuquisaca", "Cochabamba", "La Paz", "Oruro", "Pando", "Potosí", "Santa Cruz", "Tarija"],
-    BQ: [],
-    BR: [],
-    BS: ["Acklins", "Berry Islands", "Bimini", "Cat Island", "Crooked Island", "Eleuthera", "Exuma", "Grand Bahama", "Inagua", "Long Island", "Mayaguana", "New Providence", "Ragged Island", "Rum Cay", "San Salvador"],
     BT: [],
     BV: [],
     BW: [],
@@ -50,7 +69,6 @@ export const stateProvinceNames: Record<Region, string[]> = {
     CK: [],
     CL: ["Aisén", "Antofagasta", "Araucanía", "Atacama", "Biobío", "Coquimbo", "Libertador General Bernardo O'Higgins", "Los Lagos", "Los Ríos", "Magallanes", "Maule", "Ñuble", "Santiago Metropolitan", "Tarapacá", "Valparaíso"],
     CM: [],
-    CN: [],
     CO: ["Amazonas", "Antioquia", "Arauca", "Atlántico", "Bolívar", "Boyacá", "Caldas", "Caquetá", "Casanare", "Cauca", "Cesar", "Chocó", "Córdoba", "Cundinamarca", "Guainía", "Guaviare", "Huila", "La Guajira", "Magdalena", "Meta", "Nariño", "Norte de Santander", "Putumayo", "Quindío", "Risaralda", "San Andrés y Providencia", "Santander", "Sucre", "Tolima", "Valle del Cauca", "Vaupés", "Vichada"],
     CR: ["Alajuela", "Cartago", "Guanacaste", "Heredia", "Limón", "Puntarenas", "San José"],
     CU: ["Camagüey", "Ciego de Ávila", "Cienfuegos", "Granma", "Guantánamo", "Holguín", "Isla de la Juventud", "La Habana", "Las Tunas", "Matanzas", "Mayabeque", "Pinar del Río", "Sancti Spíritus", "Santiago de Cuba", "Villa Clara"],
@@ -99,7 +117,6 @@ export const stateProvinceNames: Record<Region, string[]> = {
     GU: [],
     GW: [],
     GY: ["Barima-Waini", "Cuyuni-Mazaruni", "Demerara-Mahaica", "East Berbice-Corentyne", "Essequibo Islands-West Demerara", "Mahaica-Berbice", "Pomeroon-Supenaam", "Potaro-Siparuni", "Upper Demerara-Berbice", "Upper Takutu-Upper Essequibo"],
-    HK: [],
     HM: [],
     HN: ["Atlántida", "Choluteca", "Colón", "Comayagua", "Copán", "Cortés", "El Paraíso", "Francisco Morazán", "Gracias a Dios", "Intibucá", "Islas de la Bahía", "La Paz", "Lempira", "Ocotepeque", "Olancho", "Santa Bárbara", "Valle", "Yoro"],
     HR: [],
@@ -111,7 +128,7 @@ export const stateProvinceNames: Record<Region, string[]> = {
     IL: [],
     IM: [],
     IN: [
-        "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Delhi", "Jammu and Kashmir", "Ladakh", "Puducherry", "Chandigarh", "Andaman and Nicobar Islands", "Lakshadweep", "Dadra and Nagar Haveli and Daman and Diu" 
+        "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal", "Delhi", "Jammu and Kashmir", "Ladakh", "Puducherry", "Chandigarh", "Andaman and Nicobar Islands", "Lakshadweep", "Dadra and Nagar Haveli and Daman and Diu"
     ],
     IO: [],
     IQ: [],
@@ -155,7 +172,6 @@ export const stateProvinceNames: Record<Region, string[]> = {
     ML: [],
     MM: [],
     MN: [],
-    MO: [],
     MP: [],
     MQ: [],
     MR: [],
@@ -165,7 +181,6 @@ export const stateProvinceNames: Record<Region, string[]> = {
     MV: [],
     MW: [],
     MX: ["Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas", "Chihuahua", "Coahuila", "Colima", "Durango", "Guanajuato", "Guerrero", "Hidalgo", "Jalisco", "Mexico State", "Michoacán", "Morelos", "Nayarit", "Nuevo León", "Oaxaca", "Puebla", "Querétaro", "Quintana Roo", "San Luis Potosí", "Sinaloa", "Sonora", "Tabasco", "Tamaulipas", "Tlaxcala", "Veracruz", "Yucatán", "Zacatecas"],
-    MY: [],
     MZ: [],
     NA: [],
     NC: [],
@@ -207,7 +222,6 @@ export const stateProvinceNames: Record<Region, string[]> = {
     SC: [],
     SD: [],
     SE: [],
-    SG: [],
     SH: [],
     SI: [],
     SJ: [],

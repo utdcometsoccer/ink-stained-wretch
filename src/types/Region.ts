@@ -234,6 +234,7 @@
     | "TR" // Turkey
     | "TT" // Trinidad and Tobago
     | "TV" // Tuvalu
+    | "TW" // Taiwan
     | "TZ" // Tanzania
     | "UA" // Ukraine
     | "UG" // Uganda
