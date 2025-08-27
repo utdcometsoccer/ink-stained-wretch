@@ -1,24 +1,22 @@
 import { type ChangeEvent } from "react";
-import { stateProvinceNames } from "../constants/stateProvinceNames";
-import type { Region } from "../types/Region";
 
 export function StateProvinceDropdown({
-  region,
+  options,
   value,
   onChange,
   onTextChange,
   required = false,
-  name = "state"
+  name = "state",
+  inputRef
 }: {
-  region?: Region;
+  options: string[];
   value?: string;
   onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
   onTextChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
   name?: string;
+  inputRef?: React.RefObject<HTMLInputElement | HTMLSelectElement | null>;
 }) {
-  // Get states/provinces for the selected region, or empty array
-  const options = region && stateProvinceNames[region] ? stateProvinceNames[region] : [];
 
   // If no options or only "N/A", show text input
   const showTextInput = options.length === 0 || (options.length === 1 && options[0] === "N/A");
@@ -27,19 +25,21 @@ export function StateProvinceDropdown({
     <input
       type="text"
       name={name}
-      value={value || ""}
+      defaultValue={value || ""}
       onChange={onTextChange}
       required={required}
       placeholder="Enter State / Province"
       title="State / Province"
+      ref={inputRef as React.RefObject<HTMLInputElement>}
     />
   ) : (
     <select
       name={name}
-      value={value || ""}
+      defaultValue={value || ""}
       onChange={onChange}
       required={required}
       title="State / Province"
+      ref={inputRef as React.RefObject<HTMLSelectElement>}
     >
       <option value="">Select State / Province</option>
       {options.map((label) => (

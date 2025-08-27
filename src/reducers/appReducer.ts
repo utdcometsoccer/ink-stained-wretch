@@ -1,5 +1,8 @@
 import type { UIStates } from "../types/UIStates";
 import type { State } from "../types/State";
+import { extractSelectedRegion } from "../services/extractSelectedRegion";
+import { getStateProvinceOptions } from "../services/getStateProvinceOptions";
+import { getLanguageFromCulture } from "../services/getLanguageFromCulture";
 
 export interface Action {
   type: 'SET_UI_STATE' | 'SET_ERROR' | 'CLEAR_ERROR' | 'UPDATE_STATE' | 'UPDATE_DOMAIN_INPUT_VALUE' | 'UPDATE_DOMAIN_ERROR' | 'UPDATE_DOMAIN';
@@ -13,7 +16,9 @@ interface AppState {
 
 export const initialState: AppState = {
   currentUIState: 'chooseCulture',
-  state: {}
+  state: {
+    stateProvinceOptions: []
+  }
 };
 
 export function appReducer(state: AppState, action: Action): AppState {
@@ -58,13 +63,32 @@ export function appReducer(state: AppState, action: Action): AppState {
         }
       };
     case 'UPDATE_STATE':
-      return {
-        ...state,
-        state: {
+      {
+        // Merge new state
+        const newState = {
           ...state.state,
           ...action.payload
-        }
-      };
+        };
+
+        // Dependency: selectedRegion and stateProvinceOptions depend on country and culture
+        const domainContactInfo = newState.domainContactInfo || newState.domainRegistration?.contactInformation;
+        const culture = newState.culture;
+        const selectedRegion = extractSelectedRegion(domainContactInfo, culture);
+        const stateProvinceOptions = getStateProvinceOptions(selectedRegion);
+
+        // Dependency: selectedLanguage depends on culture
+        const selectedLanguage = culture ? getLanguageFromCulture(culture) : undefined;
+
+        return {
+          ...state,
+          state: {
+            ...newState,
+            selectedRegion,
+            stateProvinceOptions,
+            selectedLanguage,
+          }
+        };
+      }
     case 'UPDATE_DOMAIN_INPUT_VALUE':
       return {
         ...state,

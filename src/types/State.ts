@@ -8,6 +8,7 @@ import type { Book } from "./Book";
 import type { Social } from "./SocialLink";
 
 export interface State {
+  stateProvinceOptions?: string[];
   domainContactInfo?: import("./ContactInformation").ContactInformation;
   domainError?: string | null;
   isMenuOpen?: boolean;

@@ -8,12 +8,16 @@ import { validateEmail } from "../../services/validateEmail";
 import { validatePhone } from "../../services/validatePhone";
 import { CountryDropdown } from "../CountryDropdown";
 import { StateProvinceDropdown } from "../StateProvinceDropdown";
+import { getStateProvinceOptions } from "../../services/getStateProvinceOptions";
 import { extractSelectedRegion } from "../../services/extractSelectedRegion";
 
 export function DomainRegistration({ state, dispatch }: DomainRegistrationProps) {
     const COUNTDOWN_SECONDS = Number(import.meta.env.VITE_COUNTDOWN_SECONDS) || 10;
     const countdownRef = useRef<HTMLDivElement>(null);
     const selectedRegion = extractSelectedRegion(state.domainContactInfo, state.culture);
+    const stateProvinceOptions = state.stateProvinceOptions || [];
+    const cityRef = useRef<HTMLInputElement>(null);
+    const stateRef = useRef<HTMLInputElement | HTMLSelectElement>(null);
 
     useEffect(() => {
         if (countdownRef.current) {
@@ -52,13 +56,36 @@ export function DomainRegistration({ state, dispatch }: DomainRegistrationProps)
 
     const handleContactChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        dispatch({
-            type: "UPDATE_DOMAIN_CONTACT_INFO",
-            payload: {
-                ...contactInfo,
-                [name]: value,
-            },
-        });
+        // If country changes, reset state/province and city form elements directly
+        if (name === "country") {
+            if (cityRef.current) cityRef.current.value = "";
+            if (stateRef.current) stateRef.current.value = "";
+            const newRegion = value as import("../../types/Region").Region;
+            const newOptions = getStateProvinceOptions(newRegion);
+            dispatch({
+                type: "UPDATE_DOMAIN_CONTACT_INFO",
+                payload: {
+                    ...contactInfo,
+                    country: value,
+                    state: "", // Reset state/province
+                    city: "", // Reset city
+                },
+            });
+            dispatch({
+                type: "UPDATE_STATE",
+                payload: {
+                    stateProvinceOptions: newOptions
+                }
+            });
+        } else {
+            dispatch({
+                type: "UPDATE_DOMAIN_CONTACT_INFO",
+                payload: {
+                    ...contactInfo,
+                    [name]: value,
+                },
+            });
+        }
     };
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -239,17 +266,21 @@ export function DomainRegistration({ state, dispatch }: DomainRegistrationProps)
                             defaultValue={contactInfo.city}
                             onChange={handleContactChange}
                             required
+                            ref={cityRef}
                         />
                     </label>
                     <br />
                     <label>
                         State / Province:
                         <StateProvinceDropdown
-                            region={selectedRegion}
+                            key={contactInfo.country}
+                            options={stateProvinceOptions}
                             value={contactInfo.state}
                             onChange={handleContactChange}
+                            onTextChange={handleContactChange}
                             required={true}
                             name="state"
+                            inputRef={stateRef}
                         />
                     </label>
                     <br />

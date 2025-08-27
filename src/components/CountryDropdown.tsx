@@ -21,7 +21,7 @@ export function CountryDropdown({ region, value, onChange, required = false, nam
   return (
     <select
       name={name}
-      value={selectedValue}
+      defaultValue={selectedValue}
       onChange={onChange}
       required={required}
       title="Country"
