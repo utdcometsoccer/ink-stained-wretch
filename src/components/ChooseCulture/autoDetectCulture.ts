@@ -1,12 +1,12 @@
 import type { Culture } from "../../types/Culture";
 import type { State } from "../../types/State";
 import type { Dispatch } from "react";
-import type { LoginAction } from "../../types/LoginAction";
+import type { Action } from "../../reducers/appReducer";
 import { isValidCulture } from "../../services/isValidCulture";
 
 export function autoDetectCulture(  
   state: State,
-  dispatch: Dispatch<LoginAction>
+  dispatch: Dispatch<Action>
 ) {
   if (state.isFirstVisitCulture === false) return;
   if (typeof state.autoDetect === 'undefined' || state.autoDetect) {

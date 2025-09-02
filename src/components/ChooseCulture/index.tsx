@@ -11,18 +11,16 @@ export function ChooseCulture({ state, dispatch }: ChooseCultureProps) {
   }, [state, dispatch]);
 
   // If this is first visit and we're auto-detecting, show loading state
-  if ((state.isFirstVisitCulture ?? true) && !state.culture) return <AutoDetectLoading />;
+  if ((state.isFirstVisitCulture ?? true) && !state.cultureInfo) return <AutoDetectLoading />;
 
   return (
     <div className="choose-culture-container">
       <h1>Choose Your Language and Region</h1>
       <p>Select your preferred language and region for the best experience.</p>
 
-      {state.culture && (
+      {state.cultureInfo && (
         <ChooseCultureForm
-          culture={state.culture}
-          selectedLanguage={state.selectedLanguage}
-          selectedRegion={state.selectedRegion}
+          cultureInfo={state.cultureInfo}
           dispatch={dispatch}
         />
       )}

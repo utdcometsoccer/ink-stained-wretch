@@ -1,7 +1,7 @@
 import { useRef, useEffect } from "react";
 import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 import type { State } from "../../types/State";
-import type { LoginAction } from "../../types/LoginAction";
+import type { Action } from "../../reducers/appReducer";
 import "./LoginRegister.css";
 import { useLoginLogic } from "./loginLogic";
 import { LoginHeader } from "./LoginHeader";
@@ -12,7 +12,7 @@ import { CountdownIndicator } from "../CountdownIndicator";
 
 interface LoginProps {
   state: State;
-  dispatch: React.Dispatch<LoginAction>;
+  dispatch: React.Dispatch<Action>;
 }
 
 export function Login({ state, dispatch }: LoginProps) {

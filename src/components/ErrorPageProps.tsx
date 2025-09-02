@@ -1,8 +1,8 @@
-import type { Dispatch } from "react";
-import type { LoginAction } from "../types/LoginAction";
 import type { State } from "../types/State";
+import type { Action } from "../reducers/appReducer";
+import type { Dispatch } from "react";
 
 export interface ErrorPageProps {
   state: State;
-  dispatch: Dispatch<LoginAction>;
+  dispatch: Dispatch<Action>;
 }

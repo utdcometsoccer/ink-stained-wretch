@@ -1,13 +1,13 @@
 import type { State } from "../../types/State";
 import type { Dispatch } from "react";
-import type { LoginAction } from "../../types/LoginAction";
+import type { Action } from "../../reducers/appReducer";
 import type { LoginLogicResult } from "../../types/LoginLogicResult";
 import { useMsal } from "@azure/msal-react";
 
 
 export function useLoginLogic(
   state: State,
-  dispatch: Dispatch<LoginAction>,
+  dispatch: Dispatch<Action>,
   countdownRef: React.RefObject<HTMLDivElement | null>
 ): LoginLogicResult {
 
