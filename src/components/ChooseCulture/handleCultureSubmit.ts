@@ -2,12 +2,13 @@ import type { Language } from "../../types/Language";
 import type { Region } from "../../types/Region";
 import type { Culture } from "../../types/Culture";
 import type { Dispatch } from "react";
+import type { LoginAction } from "../../types/LoginAction";
 import { isValidCulture } from "../../services/isValidCulture";
 
 export function handleCultureSubmit(
   selectedLanguage: Language | null,
   selectedRegion: Region | null,
-  dispatch: Dispatch<{ type: string; payload?: any }>
+  dispatch: Dispatch<LoginAction>
 ) {
   if (selectedLanguage) {
     const region = selectedRegion ?? 'US';

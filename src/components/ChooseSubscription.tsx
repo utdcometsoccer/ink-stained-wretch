@@ -1,8 +1,10 @@
+import type { LoginAction } from "../types/LoginAction";
 import type { State } from "../types/State";
+import type { Dispatch } from "react";
 
 interface ChooseSubscriptionProps {
   state: State;
-  dispatch: React.Dispatch<any>;
+  dispatch: Dispatch<LoginAction>;
 }
 
 export function ChooseSubscription({ state, dispatch }: ChooseSubscriptionProps) {

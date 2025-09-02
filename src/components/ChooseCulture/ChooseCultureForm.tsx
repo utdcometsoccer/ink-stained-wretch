@@ -3,14 +3,7 @@ import { handleLanguageSelect } from "./handleLanguageSelect";
 import { handleRegionSelect } from "./handleRegionSelect";
 import { languageNames } from "./languageNames";
 import { regionNames } from "./regionNames";
-import type { Dispatch } from "react";
-
-interface ChooseCultureFormProps {
-  culture: string;
-  selectedLanguage?: string;
-  selectedRegion?: string;
-  dispatch: Dispatch<{ type: string; payload?: any }>;
-}
+import type { ChooseCultureFormProps } from "./ChooseCultureFormProps";
 
 export function ChooseCultureForm({ culture, selectedLanguage, selectedRegion, dispatch }: ChooseCultureFormProps) {
   return (

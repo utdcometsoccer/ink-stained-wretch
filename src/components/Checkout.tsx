@@ -1,9 +1,4 @@
-import type { State } from "../types/State";
-
-interface CheckoutProps {
-  state: State;
-  dispatch: React.Dispatch<any>;
-}
+import type { CheckoutProps } from "./CheckoutProps";
 
 export function Checkout({ state, dispatch }: CheckoutProps) {
   return (

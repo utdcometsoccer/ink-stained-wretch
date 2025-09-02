@@ -1,9 +1,4 @@
-import type { State } from "../types/State";
-
-interface AuthorPageProps {
-  state: State;
-  dispatch: React.Dispatch<any>;
-}
+import type { AuthorPageProps } from "./AuthorPageProps";
 
 export function AuthorPage({ state, dispatch }: AuthorPageProps) {
   return (

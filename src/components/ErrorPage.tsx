@@ -1,10 +1,5 @@
-import type { State } from "../types/State";
 import './ErrorPage.css';
-
-interface ErrorPageProps {
-  state: State;
-  dispatch: React.Dispatch<any>;
-}
+import type { ErrorPageProps } from "./ErrorPageProps";
 
 export function ErrorPage({ state, dispatch }: ErrorPageProps) {
   const isDevelopment = import.meta.env.MODE === 'development';
