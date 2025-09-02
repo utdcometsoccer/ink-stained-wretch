@@ -1,9 +1,4 @@
-import type { State } from "../types/State";
-
-interface ThankYouProps {
-  state: State;
-  dispatch: React.Dispatch<any>;
-}
+import type { ThankYouProps } from "./ThankYouProps";
 
 export function ThankYou({ state, dispatch }: ThankYouProps) {
   return (

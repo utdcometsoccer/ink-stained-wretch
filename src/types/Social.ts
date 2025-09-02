@@ -1,6 +1,5 @@
-export type Social = {
-    id: string;
-    authorID: string;
-    name: string;
-    url: string;
-};
+export interface Social {
+  id: string;
+  Name: string;
+  URL: string;
+}

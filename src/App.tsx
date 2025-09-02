@@ -2,7 +2,6 @@ import { useReducer, useEffect } from 'react'
 import './App.css'
 import { appReducer, initialState } from './reducers/appReducer'
 import { Login } from './components/LoginRegister'
-import { DomainRegistration } from './components/DomainRegistration'
 import { ChooseSubscription } from './components/ChooseSubscription'
 import { Checkout } from './components/Checkout'
 import { ThankYou } from './components/ThankYou'
@@ -14,6 +13,7 @@ import { ChooseCulture } from './components/ChooseCulture/index'
 import { MsalProvider } from "@azure/msal-react";
 import { msalInstance } from "./services/msalConfig";
 import { AuthorRegistration } from './components/AuthorRegistration'
+import { DomainRegistration } from './components/DomainRegistration'
 
 function App() {
   const [appState, dispatch] = useReducer(appReducer, initialState)

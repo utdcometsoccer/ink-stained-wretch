@@ -1,5 +1,8 @@
-// Temporary type until AuthorRegistrationProps is defined elsewhere
-export type AuthorRegistrationProps = {
-    state: any;
-    dispatch: React.Dispatch<any>;
-};
+import type { Dispatch } from "react";
+import type { Action } from "../../reducers/appReducer";
+import type { State } from "../../types/State";
+
+export interface AuthorRegistrationProps {
+    state: State;
+    dispatch: Dispatch<Action>;
+}
