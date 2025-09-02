@@ -46,32 +46,120 @@ VITE_APPLICATION_INSIGHTS_CONNECTION_STRING=InstrumentationKey=your-key;Ingestio
 
 ### Environment Variables
 The app will work without Application Insights configured, but you'll see a warning in the console. In production, make sure to set the environment variable in your hosting platform.
-
-### Privacy
-Application Insights is configured to track anonymous usage data only. No personally identifiable information is collected.
-
-## Getting Started
-
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/utdcometsoccer/ink-stained-wretch.git
-   cd ink-stained-wretch
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Set up your `.env` file (see Application Insights Setup above).
-4. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
 ## Folder Structure
-- `src/components/ChooseCulture/` — Culture selection UI, props, CSS, and code mappings
-- `src/types/` — TypeScript type definitions for app state, culture, language, region, etc.
-- `src/services/applicationInsights.ts` — Application Insights integration
-- `docs/APPLICATION_INSIGHTS.md` — Telemetry setup and documentation
 
-## License
-MIT
+```
+ink-stained-wretch/
+├── public/
+│   └── vite.svg
+├── src/
+│   ├── App.tsx
+│   ├── App.css
+│   ├── main.tsx
+│   ├── index.css
+│   ├── vite-env.d.ts
+│   ├── assets/
+│   │   └── react.svg
+│   ├── components/
+│   │   ├── AuthorPage.tsx
+│   │   ├── AuthorPageProps.tsx
+│   │   ├── Checkout.tsx
+│   │   ├── CheckoutProps.tsx
+│   │   ├── ChooseCulture/
+│   │   │   ├── autoDetectCulture.ts
+│   │   │   ├── AutoDetectLoading.tsx
+│   │   │   ├── ChooseCulture.css
+│   │   │   ├── ChooseCultureForm.tsx
+│   │   │   ├── ChooseCultureFormProps.tsx
+│   │   │   ├── ChooseCultureProps.ts
+│   │   │   ├── handleCultureSubmit.ts
+│   │   │   ├── handleLanguageSelect.ts
+│   │   │   ├── handleRegionSelect.ts
+│   │   │   ├── index.tsx
+│   │   │   ├── languageNames.ts
+│   │   │   └── regionNames.ts
+│   │   ├── ChooseSubscription.tsx
+│   │   ├── CountdownIndicator/
+│   │   │   ├── CountdownIndicatorProps.tsx
+│   │   │   └── index.tsx
+│   │   ├── DomainRegistration/
+│   │   │   ├── ContactInfoForm.tsx
+│   │   │   ├── ContactInfoFormProps.tsx
+│   │   │   ├── DomainInput.tsx
+│   │   │   ├── DomainRegistration.css
+│   │   │   ├── domainRegistrationLogic.ts
+│   │   │   ├── DomainRegistrationProps.tsx
+│   │   │   └── index.tsx
+│   │   ├── ErrorBoundary.tsx
+│   │   ├── ErrorPage.css
+│   │   ├── ErrorPage.tsx
+│   │   ├── ErrorPageProps.tsx
+│   │   ├── LoginRegister/
+│   │   │   ├── index.tsx
+│   │   │   ├── LoginButton.tsx
+│   │   │   ├── LoginButtonProps.tsx
+│   │   │   ├── LoginHeader.tsx
+│   │   │   ├── loginLogic.ts
+│   │   │   ├── LoginRegister.css
+│   │   │   ├── LogoutButton.tsx
+│   │   │   └── LogoutHeader.tsx
+│   │   ├── Navbar/
+│   │   │   ├── index.tsx
+│   │   │   ├── Navbar.css
+│   │   │   ├── NavbarProps.tsx
+│   │   │   ├── NavItem.tsx
+│   │   │   └── navItems.tsx
+│   │   ├── ThankYou.tsx
+│   │   ├── ThankYouProps.tsx
+│   ├── constants/
+│   │   ├── regionNames.ts
+│   │   └── stateProvinceNames.ts
+│   ├── reducers/
+│   │   └── appReducer.ts
+│   ├── services/
+│   │   ├── applicationInsights.ts
+│   │   ├── domainRegex.ts
+│   │   ├── domainValidate.ts
+│   │   ├── extractSelectedRegion.ts
+│   │   ├── getLanguageFromCulture.ts
+│   │   ├── getRegionFromCulture.ts
+│   │   ├── getStateProvinceOptions.ts
+│   │   ├── isValidCulture.ts
+│   │   ├── isValidLanguage.ts
+│   │   ├── isValidRegion.ts
+│   │   ├── msalConfig.ts
+│   │   ├── validateDomainWhois.ts
+│   │   ├── validateEmail.ts
+│   │   └── validatePhone.ts
+│   ├── types/
+│   │   ├── Article.ts
+│   │   ├── Author.ts
+│   │   ├── Book.ts
+│   │   ├── ContactInformation.ts
+│   │   ├── Culture.ts
+│   │   ├── Domain.ts
+│   │   ├── DomainRegistration.ts
+│   │   ├── Language.ts
+│   │   ├── LoginAction.ts
+│   │   ├── LoginLogicResult.ts
+│   │   ├── Region.ts
+│   │   ├── Social.ts
+│   │   ├── SocialLink.ts
+│   │   ├── State.ts
+│   │   ├── UIStates.ts
+│   │   ├── UserProfile.ts
+│   │   └── WhoisResult.ts
+│   └── tests/
+│       └── isValidCulture.test.ts
+├── eslint.config.js
+├── index.html
+├── package.json
+├── package-lock.json
+├── README.md
+├── setupTests.ts
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+├── vite.config.ts
+└── .gitignore
+```
