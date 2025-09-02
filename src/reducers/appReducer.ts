@@ -1,8 +1,10 @@
 import type { UIStates } from "../types/UIStates";
 import type { State } from "../types/State";
+import { extractSelectedRegion } from "../services/extractSelectedRegion";
+import { getLanguageFromCulture } from "../services/getLanguageFromCulture";
 
 export interface Action {
-  type: 'SET_UI_STATE' | 'SET_ERROR' | 'CLEAR_ERROR' | 'UPDATE_STATE' | 'UPDATE_DOMAIN_INPUT_VALUE' | 'UPDATE_DOMAIN_ERROR' | 'UPDATE_DOMAIN';
+  type: 'SET_UI_STATE' | 'SET_ERROR' | 'CLEAR_ERROR' | 'UPDATE_STATE' | 'UPDATE_DOMAIN_INPUT_VALUE' | 'UPDATE_DOMAIN_ERROR' | 'UPDATE_DOMAIN' | 'UPDATE_DOMAIN_CONTACT_INFO';
   payload?: any;
 }
 
@@ -13,7 +15,8 @@ interface AppState {
 
 export const initialState: AppState = {
   currentUIState: 'chooseCulture',
-  state: {}
+  state: {
+  }
 };
 
 export function appReducer(state: AppState, action: Action): AppState {
@@ -58,13 +61,30 @@ export function appReducer(state: AppState, action: Action): AppState {
         }
       };
     case 'UPDATE_STATE':
-      return {
-        ...state,
-        state: {
+      {
+        // Merge new state
+        const newState = {
           ...state.state,
           ...action.payload
-        }
-      };
+        };
+
+        // Dependency: selectedRegion and stateProvinceOptions depend on country and culture
+        const domainContactInfo = newState.domainContactInfo || newState.domainRegistration?.contactInformation;
+        const culture = newState.culture;
+        const selectedRegion = extractSelectedRegion(domainContactInfo, culture);
+     
+        // Dependency: selectedLanguage depends on culture
+        const selectedLanguage = culture ? getLanguageFromCulture(culture) : undefined;
+
+        return {
+          ...state,
+          state: {
+            ...newState,
+            selectedRegion,
+            selectedLanguage,
+          }
+        };
+      }
     case 'UPDATE_DOMAIN_INPUT_VALUE':
       return {
         ...state,
@@ -89,6 +109,17 @@ export function appReducer(state: AppState, action: Action): AppState {
           domainRegistration: {
             ...state.state.domainRegistration,
             domain: action.payload
+          }
+        }
+      };
+    case 'UPDATE_DOMAIN_CONTACT_INFO':
+      return {
+        ...state,
+        state: {
+          ...state.state,
+          domainRegistration: {
+            ...state.state.domainRegistration,
+            contactInformation: action.payload
           }
         }
       };

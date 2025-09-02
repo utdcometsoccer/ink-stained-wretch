@@ -6,17 +6,16 @@ import type { Author } from "./Author";
 import type { Article } from "./Article";
 import type { Book } from "./Book";
 import type { Social } from "./SocialLink";
+import type { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
 
 export interface State {
-  domainContactInfo?: import("./ContactInformation").ContactInformation;
   domainError?: string | null;
   isMenuOpen?: boolean;
   isAuthenticated?: boolean;
   isFirstVisitCulture?: boolean;
   countdown?: number | null;
   showRedirect?: boolean;
-  selectedLanguage?: string;
-  selectedRegion?: string;
+  cultureInfo?: CultureInfo;
   error?: string;
   culture?: Culture;
   userProfile?: UserProfile;
