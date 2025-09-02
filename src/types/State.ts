@@ -9,7 +9,6 @@ import type { Social } from "./SocialLink";
 
 export interface State {
   stateProvinceOptions?: string[];
-  domainContactInfo?: import("./ContactInformation").ContactInformation;
   domainError?: string | null;
   isMenuOpen?: boolean;
   isAuthenticated?: boolean;

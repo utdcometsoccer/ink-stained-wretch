@@ -1,21 +1,19 @@
 import { type ChangeEvent, type FormEvent, useEffect, useRef } from "react";
-import "./DomainRegistration.css";
-import type { DomainRegistrationProps } from "./DomainRegistrationProps";
-import { domainValidate } from "../../services/domainValidate";
-import { validateDomainWhois } from "../../services/validateDomainWhois";
+import { StateDropdown, CountryDropdown } from "@idahoedokpayi/react-country-state-selector";
 import { domainRegex } from "../../services/domainRegex";
+import { domainValidate } from "../../services/domainValidate";
+import { extractSelectedRegion } from "../../services/extractSelectedRegion";
+import { getStateProvinceOptions } from "../../services/getStateProvinceOptions";
+import { validateDomainWhois } from "../../services/validateDomainWhois";
 import { validateEmail } from "../../services/validateEmail";
 import { validatePhone } from "../../services/validatePhone";
-import { CountryDropdown } from "../CountryDropdown";
-import { StateProvinceDropdown } from "../StateProvinceDropdown";
-import { getStateProvinceOptions } from "../../services/getStateProvinceOptions";
-import { extractSelectedRegion } from "../../services/extractSelectedRegion";
+import "./DomainRegistration.css";
+import type { DomainRegistrationProps } from "./DomainRegistrationProps";
+
 
 export function DomainRegistration({ state, dispatch }: DomainRegistrationProps) {
     const COUNTDOWN_SECONDS = Number(import.meta.env.VITE_COUNTDOWN_SECONDS) || 10;
     const countdownRef = useRef<HTMLDivElement>(null);
-    const selectedRegion = extractSelectedRegion(state.domainContactInfo, state.culture);
-    const stateProvinceOptions = state.stateProvinceOptions || [];
     const cityRef = useRef<HTMLInputElement>(null);
     const stateRef = useRef<HTMLInputElement | HTMLSelectElement>(null);
 
@@ -38,7 +36,7 @@ export function DomainRegistration({ state, dispatch }: DomainRegistrationProps)
         }
     }, [state.showRedirect, state.countdown, dispatch]);
     // Local state for contact info fields
-    const contactInfo = state.domainContactInfo || {
+    const contactInfo = (state.domainRegistration ? state.domainRegistration.contactInformation : undefined) || {
         firstName: '',
         lastName: '',
         address: '',
@@ -50,6 +48,7 @@ export function DomainRegistration({ state, dispatch }: DomainRegistrationProps)
         emailAddress: '',
         telephoneNumber: '',
     };
+    const selectedRegion = extractSelectedRegion(contactInfo, state.culture);    
     const domainInputValue = state.domainInputValue || '';
     const domainError = state.domainError || null;
     const isValid = domainValidate(domainInputValue) && !domainError && domainInputValue;
@@ -272,15 +271,20 @@ export function DomainRegistration({ state, dispatch }: DomainRegistrationProps)
                     <br />
                     <label>
                         State / Province:
-                        <StateProvinceDropdown
-                            key={contactInfo.country}
-                            options={stateProvinceOptions}
+                        <StateDropdown
+                            country={contactInfo.country}
                             value={contactInfo.state}
-                            onChange={handleContactChange}
-                            onTextChange={handleContactChange}
+                            onChange={(e: { target: { value: any; }; }) => {
+                                // mimic handleContactChange for state
+                                handleContactChange({
+                                    target: {
+                                        name: "state",
+                                        value: e.target.value
+                                    }
+                                } as ChangeEvent<HTMLInputElement | HTMLSelectElement>);
+                            }}
                             required={true}
-                            name="state"
-                            inputRef={stateRef}
+                            ref={stateRef}
                         />
                     </label>
                     <br />

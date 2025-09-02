@@ -47,8 +47,9 @@ export function Login({ state, dispatch }: LoginProps) {
 
   const handleSignIn = async () => {
     try {
+      const scopeArray = import.meta.env.VITE_ENTRA_SCOPES.split(",");
       const response = await instance.loginPopup({
-        scopes: import.meta.env.VITE_ENTRA_SCOPES.split(","),
+        scopes: scopeArray,
         authority: import.meta.env.VITE_ENTRA_AUTHORITY,
         prompt: "select_account"
       });
@@ -66,13 +67,18 @@ export function Login({ state, dispatch }: LoginProps) {
         dispatch({ type: 'SET_UI_STATE', payload: 'domainRegistration' });
       }
     } catch (error) {
+      const mode = import.meta.env.MODE;
       let errorMessage = 'An unknown error occurred.';
-      if (typeof error === 'string') {
-        errorMessage = error;
-      } else if (error instanceof Error) {
-        errorMessage = error.message;
-      } else if (error && typeof error === 'object' && 'message' in error && typeof (error as any).message === 'string') {
-        errorMessage = (error as any).message;
+      if (mode === 'development') {
+        if (typeof error === 'string') {
+          errorMessage = error;
+        } else if (error instanceof Error) {
+          errorMessage = error.message + (error.stack ? `\n${error.stack}` : '');
+        } else if (error && typeof error === 'object' && 'message' in error && typeof (error as any).message === 'string') {
+          errorMessage = (error as any).message;
+        }
+      } else {
+        errorMessage = 'An error occurred during sign in. Please try again.';
       }
       dispatch({ type: 'UPDATE_STATE', payload: { error: errorMessage } });
     }
