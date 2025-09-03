@@ -1,0 +1,7 @@
+import type { Article } from "../../types/Article";
+
+export interface ArticleListProps {
+  articles: Article[];
+  onEdit: (id: string) => void;
+  onAdd: () => void;
+}
