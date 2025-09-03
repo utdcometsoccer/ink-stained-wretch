@@ -24,5 +24,5 @@
     "noUncheckedSideEffectImports": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src", "tests/isValidCulture.test.ts"]
+  "include": ["src", "tests/isValidCulture.test.ts", "tests/ContactInfoForm.test.tsx", "tests/DomainInput.test.tsx", "tests/DomainRegistration.test.tsx", "tests/domainRegistrationLogic.test.ts"]
 }
