@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import type { FC } from "react";
 import type { Author } from "../../types/Author";
 import type { AuthorListProps } from "./AuthorListProps";
@@ -6,38 +6,42 @@ import { AuthorForm } from "./AuthorForm";
 import "./AuthorList.css";
 import { authorListReducer, initialAuthorListState } from "../../reducers/authorListReducer";
 
-export const AuthorList: FC<AuthorListProps & { token: string }> = ({ state, onEdit, token }) => {
+export const AuthorList: FC<AuthorListProps & { token: string }> = ({ state, token }) => {
   const authors: Author[] = Array.isArray(state.Authors) ? state.Authors : [];
   const [listState, dispatchList] = useReducer(authorListReducer, { ...initialAuthorListState, authorList: authors });
+  const [editAuthor, setEditAuthor] = useState<Author | null>(null);
 
   const handleAddAuthor = () => {
-    dispatchList({
-      type: "SHOW_FORM",
-      payload: {
-        id: crypto.randomUUID(),
-        AuthorName: "",
-        LanguageName: "",
-        RegionName: "",
-        EmailAddress: "",
-        WelcomeText: "",
-        AboutText: "",
-        HeadShotURL: "",
-        CopyrightText: "",
-        TopLevelDomain: "",
-        SecondLevelDomain: "",
-        Articles: [],
-        Books: [],
-        Socials: []
-      }
+    setEditAuthor({
+      id: crypto.randomUUID(),
+      AuthorName: "",
+      LanguageName: "",
+      RegionName: "",
+      EmailAddress: "",
+      WelcomeText: "",
+      AboutText: "",
+      HeadShotURL: "",
+      CopyrightText: "",
+      TopLevelDomain: "",
+      SecondLevelDomain: "",
+      Articles: [],
+      Books: [],
+      Socials: []
     });
+  };
+
+  const handleEditAuthor = (id: string) => {
+    const found = listState.authorList.find(a => a.id === id);
+    if (found) setEditAuthor(found);
   };
 
   const handleSaveAuthor = (author: Author) => {
     dispatchList({ type: "SAVE_AUTHOR", payload: author });
+    setEditAuthor(null);
   };
 
   const handleCancelAuthor = () => {
-    dispatchList({ type: "HIDE_FORM" });
+    setEditAuthor(null);
   };
 
   return (
@@ -49,14 +53,14 @@ export const AuthorList: FC<AuthorListProps & { token: string }> = ({ state, onE
             <span className="author-list-author">{author.AuthorName}</span>
             <span className="author-list-span">Language: {author.LanguageName}</span>
             <span className="author-list-span">Region: {author.RegionName}</span>
-            <button className="author-list-edit-btn" onClick={() => onEdit(author.id)}>Edit</button>
+            <button className="author-list-edit-btn" onClick={() => handleEditAuthor(author.id)}>Edit</button>
           </li>
         ))}
       </ul>
       <button className="author-list-add-btn" onClick={handleAddAuthor}>Add Author</button>
-      {listState.showForm && listState.newAuthor && (
+      {editAuthor && (
         <AuthorForm
-          author={listState.newAuthor}
+          author={editAuthor}
           token={token}
           domain={state.domainRegistration?.domain}
           onSave={handleSaveAuthor}
