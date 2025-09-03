@@ -1,14 +1,12 @@
 import { useEffect, useRef } from "react";
+import { domainRegex } from "../../services/domainRegex";
 import { domainValidate } from "../../services/domainValidate";
-import { getStateProvinceOptions } from "../../services/getStateProvinceOptions";
 import { validateDomainWhois } from "../../services/validateDomainWhois";
 import { validateEmail } from "../../services/validateEmail";
 import { validatePhone } from "../../services/validatePhone";
-import { domainRegex } from "../../services/domainRegex";
-
-import type { State } from "../../types/State";
 import type { Dispatch } from "react";
 import type { Action } from "../../reducers/appReducer";
+import type { State } from "../../types/State";
 
 export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Action>) {
   const COUNTDOWN_SECONDS = Number(import.meta.env.VITE_COUNTDOWN_SECONDS) || 10;
@@ -53,27 +51,13 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
 
   function handleContactChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = e.target;
-    if (name === "country") {
-      if (cityRef.current) cityRef.current.value = "";
-      if (stateRef.current) stateRef.current.value = "";
-      dispatch({
-        type: "UPDATE_DOMAIN_CONTACT_INFO",
-        payload: {
-          ...contactInfo,
-          country: value,
-          state: "",
-          city: "",
-        },
-      });
-     } else {
-      dispatch({
-        type: "UPDATE_DOMAIN_CONTACT_INFO",
-        payload: {
-          ...contactInfo,
-          [name]: value,
-        },
-      });
-    }
+    dispatch({
+      type: "UPDATE_DOMAIN_CONTACT_INFO",
+      payload: {
+        ...contactInfo,
+        [name]: value,
+      },
+    });
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
