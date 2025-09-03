@@ -2,10 +2,14 @@ import { useState } from "react";
 import type { FC, ChangeEvent, FormEvent } from "react";
 
 import type { Book } from "../../types/Book";
-import type { BookFormProps } from "./BookFormProps";
 
-export const BookForm: FC<BookFormProps> = ({ book, onSave, onCancel }) => {
+import type { BookFormProps } from "./BookFormProps";
+import "./BookForm.css";
+import { ImageManager } from "../ImageManager";
+
+export const BookForm: FC<BookFormProps & { token: string }> = ({ book, token, onSave, onCancel }) => {
   const [form, setForm] = useState<Book>(book);
+  const [showImageManager, setShowImageManager] = useState(false);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -33,10 +37,25 @@ export const BookForm: FC<BookFormProps> = ({ book, onSave, onCancel }) => {
       </label>
       <label>
         Cover:
-        <input name="Cover" value={form.Cover} onChange={handleChange} />
+        <input name="Cover" value={form.Cover} onChange={handleChange} className="book-form-cover" />
+        <button type="button" className="book-form-cover-btn" onClick={() => setShowImageManager(true)}>
+          Choose Image
+        </button>
+        {showImageManager && (
+          <div className="book-form-image-manager">
+            <ImageManager
+              token={token}
+              onSelect={img => {
+                setForm({ ...form, Cover: img.url });
+                setShowImageManager(false);
+              }}
+            />
+            <button type="button" className="book-form-image-manager-close" onClick={() => setShowImageManager(false)}>Close</button>
+          </div>
+        )}
       </label>
-      <button type="submit">Save</button>
-      <button type="button" onClick={onCancel}>Cancel</button>
+      <button type="submit" className="book-form-btn">Save</button>
+      <button type="button" className="book-form-btn" onClick={onCancel}>Cancel</button>
     </form>
   );
 }

@@ -3,6 +3,7 @@ import type { FC, ChangeEvent, FormEvent } from "react";
 
 import type { Article } from "../../types/Article";
 import type { ArticleFormProps } from "./ArticleFormProps";
+import "./ArticleForm.css";
 
 export const ArticleForm: FC<ArticleFormProps> = ({ article, onSave, onCancel }) => {
   const [form, setForm] = useState<Article>(article);
@@ -35,8 +36,8 @@ export const ArticleForm: FC<ArticleFormProps> = ({ article, onSave, onCancel })
         URL:
         <input name="URL" value={form.URL} onChange={handleChange} />
       </label>
-      <button type="submit">Save</button>
-      <button type="button" onClick={onCancel}>Cancel</button>
+  <button type="submit" className="article-form-btn">Save</button>
+  <button type="button" className="article-form-btn" onClick={onCancel}>Cancel</button>
     </form>
   );
 }

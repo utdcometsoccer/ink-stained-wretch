@@ -1,26 +1,28 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import type { FC } from "react";
 import type { Author } from "../../types/Author";
 import type { Article } from "../../types/Article";
 import type { Book } from "../../types/Book";
 import type { Social } from "../../types/Social";
 import { ArticleList } from "./ArticleList";
+import "./AuthorForm.css";
+import { ImageManager } from "../ImageManager";
 import { BookList } from "./BookList";
 import { SocialList } from "./SocialList";
 import { ArticleForm } from "./ArticleForm";
 import { BookForm } from "./BookForm";
 import { SocialForm } from "./SocialForm";
+import { CountryDropdown, CultureInfo, type Culture } from "@idahoedokpayi/react-country-state-selector";
+import type { AuthorFormProps } from "./AuthorFormProps";
+import { LanguageDropdown } from "../LanguageDropdown";
+import { authorFormReducer, initialAuthorFormState } from "../../reducers/authorFormReducer";
 
-interface AuthorFormProps {
-  author: Author;
-  onSave: (author: Author) => void;
-  onCancel: () => void;
-}
 
-export const AuthorForm: FC<AuthorFormProps> = ({ author, onSave, onCancel }) => {
-  const [form, setForm] = useState<Author>(author);
+export const AuthorForm: FC<AuthorFormProps> = ({ author, token, onSave, onCancel }) => {
+  const [form, dispatchForm] = useReducer(authorFormReducer, author ?? initialAuthorFormState);
   const [editType, setEditType] = useState<"article" | "book" | "social" | null>(null);
   const [editIndex, setEditIndex] = useState<number | null>(null);
+  const [showImageManager, setShowImageManager] = useState(false);
 
   // Handlers for editing child objects
   const handleEditArticle = (id: string) => {
@@ -47,38 +49,41 @@ export const AuthorForm: FC<AuthorFormProps> = ({ author, onSave, onCancel }) =>
 
   // Handlers for saving child objects
   const handleSaveArticle = (article: Article) => {
-    const newArticles = [...form.Articles];
-    if (editIndex !== null) newArticles[editIndex] = article;
-    setForm({ ...form, Articles: newArticles });
+    if (editIndex !== null) {
+      const updated = form.Articles.map((a, i) => i === editIndex ? article : a);
+      dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Articles", value: updated } });
+    }
     setEditType(null); setEditIndex(null);
   };
   const handleSaveBook = (book: Book) => {
-    const newBooks = [...form.Books];
-    if (editIndex !== null) newBooks[editIndex] = book;
-    setForm({ ...form, Books: newBooks });
+    if (editIndex !== null) {
+      const updated = form.Books.map((b, i) => i === editIndex ? book : b);
+      dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Books", value: updated } });
+    }
     setEditType(null); setEditIndex(null);
   };
   const handleSaveSocial = (social: Social) => {
-    const newSocials = [...form.Socials];
-    if (editIndex !== null) newSocials[editIndex] = social;
-    setForm({ ...form, Socials: newSocials });
+    if (editIndex !== null) {
+      const updated = form.Socials.map((s, i) => i === editIndex ? social : s);
+      dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Socials", value: updated } });
+    }
     setEditType(null); setEditIndex(null);
   };
 
   // Add handlers
   const handleAddArticle = () => {
     const newArticle: Article = { id: crypto.randomUUID(), Title: "", Date: "", Publication: "", URL: "" };
-    setForm({ ...form, Articles: [...form.Articles, newArticle] });
+    dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Articles", value: [...form.Articles, newArticle] } });
     setEditType("article"); setEditIndex(form.Articles.length);
   };
   const handleAddBook = () => {
     const newBook: Book = { id: crypto.randomUUID(), Title: "", Description: "", URL: "", Cover: "" };
-    setForm({ ...form, Books: [...form.Books, newBook] });
+    dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Books", value: [...form.Books, newBook] } });
     setEditType("book"); setEditIndex(form.Books.length);
   };
   const handleAddSocial = () => {
     const newSocial: Social = { id: crypto.randomUUID(), Name: "", URL: "" };
-    setForm({ ...form, Socials: [...form.Socials, newSocial] });
+    dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Socials", value: [...form.Socials, newSocial] } });
     setEditType("social"); setEditIndex(form.Socials.length);
   };
 
@@ -87,7 +92,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ author, onSave, onCancel }) =>
 
   // Main form change handler
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    dispatchForm({ type: "UPDATE_FIELD", payload: { name: e.target.name, value: e.target.value } });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -100,7 +105,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ author, onSave, onCancel }) =>
     return <ArticleForm article={form.Articles[editIndex]} onSave={handleSaveArticle} onCancel={handleCancelChild} />;
   }
   if (editType === "book" && editIndex !== null) {
-    return <BookForm book={form.Books[editIndex]} onSave={handleSaveBook} onCancel={handleCancelChild} />;
+    return <BookForm token={token} book={form.Books[editIndex]} onSave={handleSaveBook} onCancel={handleCancelChild} />;
   }
   if (editType === "social" && editIndex !== null) {
     return <SocialForm social={form.Socials[editIndex]} onSave={handleSaveSocial} onCancel={handleCancelChild} />;
@@ -116,12 +121,19 @@ export const AuthorForm: FC<AuthorFormProps> = ({ author, onSave, onCancel }) =>
       </label>
       <label>
         Language:
-        <input name="LanguageName" value={form.LanguageName} onChange={handleChange} />
+        <LanguageDropdown
+          name="LanguageName"
+          value={form.LanguageName}
+          onChange={e => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "LanguageName", value: e.target.value } })}
+          required
+        />
       </label>
-      <label>
-        Region:
-        <input name="RegionName" value={form.RegionName} onChange={handleChange} />
-      </label>
+      <CountryDropdown
+        culture={new CultureInfo(`${form.LanguageName}-${form.RegionName}` as Culture)}
+        selectedCountry={form.RegionName}
+        Label="Country: "
+        onCountryChange={(val: string) => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "RegionName", value: val } })}
+      />
       <label>
         Email:
         <input name="EmailAddress" value={form.EmailAddress} onChange={handleChange} />
@@ -137,6 +149,21 @@ export const AuthorForm: FC<AuthorFormProps> = ({ author, onSave, onCancel }) =>
       <label>
         Headshot URL:
         <input name="HeadShotURL" value={form.HeadShotURL} onChange={handleChange} />
+        <button type="button" className="author-form-headshot-btn" onClick={() => setShowImageManager(true)}>
+          Choose Image
+        </button>
+        {showImageManager && (
+          <div className="author-form-image-manager">
+            <ImageManager
+              token={token}
+              onSelect={img => {
+                dispatchForm({ type: "UPDATE_FIELD", payload: { name: "HeadShotURL", value: img.url } });
+                setShowImageManager(false);
+              }}
+            />
+            <button type="button" className="author-form-image-manager-close" onClick={() => setShowImageManager(false)}>Close</button>
+          </div>
+        )}
       </label>
       <label>
         Copyright Text:

@@ -1,5 +1,7 @@
+
 import { type ChangeEvent } from "react";
 import type { Language } from "../types/Language";
+import "./LanguageDropdown.css";
 
 // ISO code to display name mapping (partial, can be extended)
 const languageNames: Record<Language, string> = {
@@ -198,7 +200,7 @@ export function LanguageDropdown({ value, onChange, required = false, name = "la
 }) {
   return (
     <>
-      <label htmlFor={name}>Language</label>
+      <label htmlFor={name} className="language-dropdown-label">Language</label>
       <select
         id={name}
         name={name}
@@ -207,6 +209,7 @@ export function LanguageDropdown({ value, onChange, required = false, name = "la
         onChange={onChange}
         required={required}
         title="Select Language"
+        className="language-dropdown-select"
       >
         <option value="">Select Language</option>
         {Object.entries(languageNames).map(([code, label]) => (

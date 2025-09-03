@@ -1,10 +1,10 @@
-import type { ThankYouProps } from "./ThankYouProps";
+import "./ThankYou.css";
 
-export function ThankYou({ state, dispatch }: ThankYouProps) {
+export const ThankYou = () => {
   return (
-    <div>
-      <h1>Thank You</h1>
-      <p>Thank you for your purchase!</p>
+    <div className="thank-you-container">
+      <h1 className="thank-you-title">Thank You</h1>
+      <p className="thank-you-message">Thank you for your purchase!</p>
       {/* Add thank you message and next steps here */}
     </div>
   );
