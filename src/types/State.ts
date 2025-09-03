@@ -5,8 +5,7 @@ import type { Domain } from "./Domain";
 import type { ContactInformation } from "./ContactInformation";
 import type { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
 
-export interface State {
-  authorInfo?: Author;
+export interface State {  
   authorError?: string | null;
   Authors?: Author[];
   domainError?: string | null;
@@ -25,4 +24,5 @@ export interface State {
   };
   domainInputValue?: string;
   autoDetect?: boolean;
+  authToken?: string | null;
 }

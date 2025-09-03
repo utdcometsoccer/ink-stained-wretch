@@ -29,6 +29,7 @@ export function AuthorRegistration({ state, dispatch }: AuthorRegistrationProps)
                 dispatch={dispatch}
                 onEdit={handleEdit}
                 onAdd={handleAdd}
+                token={state.authToken ?? ''}
             />
         </div>
     );

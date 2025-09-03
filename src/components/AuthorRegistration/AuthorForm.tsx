@@ -1,25 +1,32 @@
-import { useReducer, useState } from "react";
+import { CountryDropdown, CultureInfo, type Culture } from "@idahoedokpayi/react-country-state-selector";
 import type { FC } from "react";
-import type { Author } from "../../types/Author";
+import { useReducer, useState } from "react";
+import { authorFormReducer, initialAuthorFormState } from "../../reducers/authorFormReducer";
 import type { Article } from "../../types/Article";
 import type { Book } from "../../types/Book";
 import type { Social } from "../../types/Social";
+import { ImageManager } from "../ImageManager";
+import { LanguageDropdown } from "../LanguageDropdown";
+import { ArticleForm } from "./ArticleForm";
 import { ArticleList } from "./ArticleList";
 import "./AuthorForm.css";
-import { ImageManager } from "../ImageManager";
-import { BookList } from "./BookList";
-import { SocialList } from "./SocialList";
-import { ArticleForm } from "./ArticleForm";
-import { BookForm } from "./BookForm";
-import { SocialForm } from "./SocialForm";
-import { CountryDropdown, CultureInfo, type Culture } from "@idahoedokpayi/react-country-state-selector";
 import type { AuthorFormProps } from "./AuthorFormProps";
-import { LanguageDropdown } from "../LanguageDropdown";
-import { authorFormReducer, initialAuthorFormState } from "../../reducers/authorFormReducer";
+import { BookForm } from "./BookForm";
+import { BookList } from "./BookList";
+import { SocialForm } from "./SocialForm";
+import { SocialList } from "./SocialList";
 
 
-export const AuthorForm: FC<AuthorFormProps> = ({ author, token, onSave, onCancel }) => {
-  const [form, dispatchForm] = useReducer(authorFormReducer, author ?? initialAuthorFormState);
+export const AuthorForm: FC<AuthorFormProps> = ({ author, token, domain, onSave, onCancel }) => {
+  // If domain is provided, update TopLevelDomain and SecondLevelDomain in initial state
+  const initialState = domain
+    ? {
+        ...author ?? initialAuthorFormState,
+        TopLevelDomain: domain.topLevelDomain || "",
+        SecondLevelDomain: domain.secondLevelDomain || ""
+      }
+    : author ?? initialAuthorFormState;
+  const [form, dispatchForm] = useReducer(authorFormReducer, initialState);
   const [editType, setEditType] = useState<"article" | "book" | "social" | null>(null);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [showImageManager, setShowImageManager] = useState(false);
@@ -129,7 +136,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ author, token, onSave, onCance
         />
       </label>
       <CountryDropdown
-        culture={new CultureInfo(`${form.LanguageName}-${form.RegionName}` as Culture)}
+        culture={new CultureInfo(`${form.LanguageName || "en"}-${form.RegionName || "US"}` as Culture)}
         selectedCountry={form.RegionName}
         Label="Country: "
         onCountryChange={(val: string) => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "RegionName", value: val } })}
@@ -171,11 +178,11 @@ export const AuthorForm: FC<AuthorFormProps> = ({ author, token, onSave, onCance
       </label>
       <label>
         Top Level Domain:
-        <input name="TopLevelDomain" value={form.TopLevelDomain} onChange={handleChange} />
+        <input name="TopLevelDomain" value={form.TopLevelDomain} readOnly />
       </label>
       <label>
         Second Level Domain:
-        <input name="SecondLevelDomain" value={form.SecondLevelDomain} onChange={handleChange} />
+        <input name="SecondLevelDomain" value={form.SecondLevelDomain} readOnly />
       </label>
       <h3>Articles</h3>
       <ArticleList articles={form.Articles} onEdit={handleEditArticle} onAdd={handleAddArticle} />

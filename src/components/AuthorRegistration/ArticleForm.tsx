@@ -19,6 +19,7 @@ export const ArticleForm: FC<ArticleFormProps> = ({ article, onSave, onCancel })
 
   return (
     <form onSubmit={handleSubmit}>
+      <h2>Edit Article</h2>
       <input name="id" value={form.id} readOnly hidden />
       <label>
         Title:

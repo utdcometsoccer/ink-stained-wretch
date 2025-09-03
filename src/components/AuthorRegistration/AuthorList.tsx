@@ -58,6 +58,7 @@ export const AuthorList: FC<AuthorListProps & { token: string }> = ({ state, onE
         <AuthorForm
           author={listState.newAuthor}
           token={token}
+          domain={state.domainRegistration?.domain}
           onSave={handleSaveAuthor}
           onCancel={handleCancelAuthor}
         />
