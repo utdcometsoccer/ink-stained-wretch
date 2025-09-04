@@ -17,11 +17,12 @@ import { SocialForm } from "./SocialForm";
 import { SocialList } from "./SocialList";
 
 
-export const AuthorForm: FC<AuthorFormProps> = ({ author, token, domain, onSave, onCancel }) => {
+export const AuthorForm: FC<AuthorFormProps> = ({ author, language, token, domain, onSave, onCancel }) => {
   // If domain is provided, update TopLevelDomain and SecondLevelDomain in initial state
   const initialState = domain
     ? {
         ...author ?? initialAuthorFormState,
+        LanguageName: language,
         TopLevelDomain: domain.topLevelDomain || "",
         SecondLevelDomain: domain.secondLevelDomain || ""
       }
