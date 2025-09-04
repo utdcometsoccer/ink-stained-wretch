@@ -1,4 +1,5 @@
 import { useRef, useEffect } from "react";
+import { getAccessToken } from "../../services/getAccessToken";
 import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 import type { State } from "../../types/State";
 import type { Action } from "../../reducers/appReducer";
@@ -30,11 +31,15 @@ export function Login({ state, dispatch }: LoginProps) {
   }, [state.countdown, COUNTDOWN_SECONDS, updateCountdownWidth]);
 
   useEffect(() => {
-    if (msalReady && state.isAuthenticated) {
-      dispatch({ type: 'UPDATE_STATE', payload: { showRedirect: true, countdown: COUNTDOWN_SECONDS } });
-    } else {
-      dispatch({ type: 'UPDATE_STATE', payload: { showRedirect: false, countdown: null } });
+    async function fetchToken() {
+      if (msalReady && state.isAuthenticated) {
+        const token = await getAccessToken();
+        dispatch({ type: 'UPDATE_STATE', payload: { showRedirect: true, countdown: COUNTDOWN_SECONDS, authToken: token } });
+      } else {
+        dispatch({ type: 'UPDATE_STATE', payload: { showRedirect: false, countdown: null, authToken: null } });
+      }
     }
+    fetchToken();
   }, [msalReady, state.isAuthenticated, dispatch, COUNTDOWN_SECONDS]);
 
   useEffect(() => {

@@ -1,5 +1,7 @@
+
 import type { FC } from "react";
 import type { CountdownIndicatorProps } from "./CountdownIndicatorProps";
+import "./CountdownIndicator.css";
 
 export const CountdownIndicator: FC<CountdownIndicatorProps> = ({ countdown, showRedirect, countdownRef, text }) => {
   if (!showRedirect || !countdown || countdown <= 0) return null;

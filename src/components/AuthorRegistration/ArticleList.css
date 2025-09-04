@@ -1,0 +1,20 @@
+.article-list-ul {
+  list-style: none;
+  padding: 0;
+}
+.article-list-li {
+  margin-bottom: 1em;
+}
+.article-list-title {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+.article-list-span {
+  margin-left: 12px;
+}
+.article-list-edit-btn {
+  margin-left: 12px;
+}
+.article-list-add-btn {
+  margin-top: 1em;
+}

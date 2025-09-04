@@ -1,16 +1,20 @@
-import type { Language } from "./Language";
-import type { Region } from "./Region";
+import type { Article } from "./Article";
+import type { Book } from "./Book";
+import type { Social } from "./Social";
 
-export type Author = {
+export interface Author {
   id: string;
-  topLevelDomain: string;
-  secondLevelDomain: string;
-  languageName: Language;
-  regionName: Region;
-  authorName: string;
-  welcomeText: string;
-  aboutText: string;
-  headshotURL: string;
-  copyrightText: string;
-  emailAddress?: string;
-};
+  TopLevelDomain: string;
+  SecondLevelDomain: string;
+  LanguageName: string;
+  RegionName: string;
+  AuthorName: string;
+  WelcomeText: string;
+  AboutText: string;
+  HeadShotURL: string;
+  CopyrightText: string;
+  EmailAddress: string;
+  Articles: Article[];
+  Books: Book[];
+  Socials: Social[];
+}

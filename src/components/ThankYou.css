@@ -1,0 +1,23 @@
+/* ThankYou.css */
+
+.thank-you-container {
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.thank-you-title {
+  font-size: 2rem;
+  color: #1976d2;
+  margin-bottom: 1rem;
+}
+
+.thank-you-message {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 2rem;
+}

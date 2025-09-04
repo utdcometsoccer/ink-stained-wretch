@@ -1,14 +1,13 @@
+import type { Author } from "./Author";
 import type { Culture } from "./Culture";
 import type { UserProfile } from "./UserProfile";
 import type { Domain } from "./Domain";
 import type { ContactInformation } from "./ContactInformation";
-import type { Author } from "./Author";
-import type { Article } from "./Article";
-import type { Book } from "./Book";
-import type { Social } from "./SocialLink";
 import type { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
 
-export interface State {
+export interface State {  
+  authorError?: string | null;
+  Authors?: Author[];
   domainError?: string | null;
   isMenuOpen?: boolean;
   isAuthenticated?: boolean;
@@ -24,11 +23,6 @@ export interface State {
     contactInformation?: ContactInformation;
   };
   domainInputValue?: string;
-  authorPageInformation?: {
-    author?: Author;
-    articles?: Article[];
-    books?: Book[];
-    socials?: Social[];
-  };
   autoDetect?: boolean;
+  authToken?: string | null;
 }

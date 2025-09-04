@@ -1,8 +1,7 @@
-export type Book = {
-    id?: string;
-    authorID?: string
-    title: string;
-    description: string;
-    url?: string;
-    cover?: string;
-};
+export interface Book {
+  id: string;
+  Title: string;
+  Description: string;
+  URL: string;
+  Cover: string;
+}

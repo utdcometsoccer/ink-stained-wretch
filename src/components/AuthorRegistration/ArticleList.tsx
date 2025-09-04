@@ -1,0 +1,23 @@
+
+import type { FC } from "react";
+import "./ArticleList.css";
+
+import type { ArticleListProps } from "./ArticleListProps";
+
+export const ArticleList: FC<ArticleListProps> = ({ articles, onEdit, onAdd }) => (
+  <div>
+    <h2 className="article-list-title">Articles</h2>
+    <ul className="article-list-ul">
+      {articles.map(article => (
+        <li key={article.id} className="article-list-li">
+          <span className="article-list-span"><strong>{article.Title}</strong></span>
+          <span className="article-list-span">Date: {article.Date}</span>
+          <span className="article-list-span">Publication: {article.Publication}</span>
+          <span className="article-list-span">URL: {article.URL}</span>
+          <button className="article-list-edit-btn" onClick={() => onEdit(article.id)}>Edit</button>
+        </li>
+      ))}
+    </ul>
+    <button className="article-list-add-btn" onClick={onAdd}>Add Article</button>
+  </div>
+);

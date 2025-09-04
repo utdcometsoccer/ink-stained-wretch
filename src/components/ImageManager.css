@@ -1,0 +1,32 @@
+.image-manager-list {
+  list-style: none;
+  padding: 0;
+}
+.image-manager-item {
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+}
+.image-manager-img {
+  max-width: 120px;
+  max-height: 120px;
+  margin-right: 12px;
+}
+.image-manager-name {
+  margin-right: 12px;
+}
+.image-manager-select-btn {
+  margin-left: 12px;
+}
+.image-manager-delete-btn {
+  margin-left: 8px;
+}
+.image-manager-error {
+  color: red;
+}
+.image-manager-refresh-btn {
+  margin-top: 1em;
+}
+.image-manager-close-btn {
+  margin-top: 8px;
+}

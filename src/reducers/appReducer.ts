@@ -4,7 +4,16 @@ import { extractSelectedRegion } from "../services/extractSelectedRegion";
 import { getLanguageFromCulture } from "../services/getLanguageFromCulture";
 
 export interface Action {
-  type: 'SET_UI_STATE' | 'SET_ERROR' | 'CLEAR_ERROR' | 'UPDATE_STATE' | 'UPDATE_DOMAIN_INPUT_VALUE' | 'UPDATE_DOMAIN_ERROR' | 'UPDATE_DOMAIN' | 'UPDATE_DOMAIN_CONTACT_INFO';
+  type:
+    | 'SET_UI_STATE'
+    | 'SET_ERROR'
+    | 'CLEAR_ERROR'
+    | 'UPDATE_STATE'
+    | 'UPDATE_DOMAIN_INPUT_VALUE'
+    | 'UPDATE_DOMAIN_ERROR'
+    | 'UPDATE_DOMAIN'
+    | 'UPDATE_DOMAIN_CONTACT_INFO'
+    | 'UPDATE_AUTHOR_ERROR';
   payload?: any;
 }
 
@@ -76,12 +85,16 @@ export function appReducer(state: AppState, action: Action): AppState {
         // Dependency: selectedLanguage depends on culture
         const selectedLanguage = culture ? getLanguageFromCulture(culture) : undefined;
 
+        // Ensure authToken is updated if present in payload
+        const authToken = 'authToken' in action.payload ? action.payload.authToken : newState.authToken;
+
         return {
           ...state,
           state: {
             ...newState,
             selectedRegion,
             selectedLanguage,
+            authToken,
           }
         };
       }
@@ -121,6 +134,14 @@ export function appReducer(state: AppState, action: Action): AppState {
             ...state.state.domainRegistration,
             contactInformation: action.payload
           }
+        }
+      };
+    case 'UPDATE_AUTHOR_ERROR':
+      return {
+        ...state,
+        state: {
+          ...state.state,
+          authorError: action.payload
         }
       };
     default:

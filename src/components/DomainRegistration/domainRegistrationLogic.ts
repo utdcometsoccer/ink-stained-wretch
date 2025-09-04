@@ -29,7 +29,7 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
       return () => clearTimeout(timer);
     } else if (state.showRedirect && state.countdown === 0) {
       dispatch({ type: 'UPDATE_STATE', payload: { countdown: null } });
-      dispatch({ type: 'SET_UI_STATE', payload: 'author' });
+      dispatch({ type: 'SET_UI_STATE', payload: 'authorPage' });
     }
   }, [state.showRedirect, state.countdown, dispatch]);
 

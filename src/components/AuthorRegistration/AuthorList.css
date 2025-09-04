@@ -1,0 +1,33 @@
+.author-list {
+  /* Container styles if needed */
+}
+
+.author-list-title {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+.author-list-ul {
+  list-style: none;
+  padding: 0;
+}
+
+.author-list-li {
+  margin-bottom: 1em;
+}
+
+.author-list-author {
+  font-weight: bold;
+}
+
+.author-list-span {
+  margin-left: 12px;
+}
+
+.author-list-edit-btn {
+  margin-left: 12px;
+}
+
+.author-list-add-btn {
+  margin-top: 1em;
+}

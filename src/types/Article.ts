@@ -1,8 +1,7 @@
-export type Article = {
-  id?: string;
-  authorID?: string;
-  title: string;
-  url: string;
-  publication?: string;
-  date?: string;
-};
+export interface Article {
+  id: string;
+  Title: string;
+  Date: string;
+  Publication: string;
+  URL: string;
+}

@@ -2,8 +2,6 @@ import { useReducer, useEffect } from 'react'
 import './App.css'
 import { appReducer, initialState } from './reducers/appReducer'
 import { Login } from './components/LoginRegister'
-import { DomainRegistration } from './components/DomainRegistration'
-import { AuthorPage } from './components/AuthorPage'
 import { ChooseSubscription } from './components/ChooseSubscription'
 import { Checkout } from './components/Checkout'
 import { ThankYou } from './components/ThankYou'
@@ -14,6 +12,8 @@ import { initializeAppInsights, trackException, trackEvent, trackPageView } from
 import { ChooseCulture } from './components/ChooseCulture/index'
 import { MsalProvider } from "@azure/msal-react";
 import { msalInstance } from "./services/msalConfig";
+import { AuthorRegistration } from './components/AuthorRegistration'
+import { DomainRegistration } from './components/DomainRegistration'
 
 function App() {
   const [appState, dispatch] = useReducer(appReducer, initialState)
@@ -83,7 +83,7 @@ function App() {
         case 'domainRegistration':
           return <DomainRegistration state={appState.state} dispatch={dispatch} />
         case 'authorPage':
-          return <AuthorPage state={appState.state} dispatch={dispatch} />
+          return <AuthorRegistration state={appState.state} dispatch={dispatch} />
         case 'chooseSubscription':
           return <ChooseSubscription state={appState.state} dispatch={dispatch} />
         case 'checkout':
