@@ -6,10 +6,11 @@ import { AuthorForm } from "./AuthorForm";
 import "./AuthorList.css";
 import { authorListReducer, initialAuthorListState } from "../../reducers/authorListReducer";
 
-export const AuthorList: FC<AuthorListProps & { token: string }> = ({ state, token }) => {
+export const AuthorList: FC<AuthorListProps & { token: string; dispatch: Function }> = ({ state, token, dispatch }) => {
   const authors: Author[] = Array.isArray(state.Authors) ? state.Authors : [];
   const [listState, dispatchList] = useReducer(authorListReducer, { ...initialAuthorListState, authorList: authors });
   const [editAuthor, setEditAuthor] = useState<Author | null>(null);
+  const [authorWarning, setAuthorWarning] = useState<string>("");
 
   const handleAddAuthor = () => {
     setEditAuthor({
@@ -44,6 +45,16 @@ export const AuthorList: FC<AuthorListProps & { token: string }> = ({ state, tok
     setEditAuthor(null);
   };
 
+  // Handler for validation and UI state change
+  const handleValidateAuthors = () => {
+    if (listState.authorList.length < 1) {
+      setAuthorWarning("You must add at least one author record before continuing.");
+    } else {
+      setAuthorWarning("");
+      dispatch({ type: "SET_UI_STATE", payload: "chooseSubscription" });
+    }
+  };
+
   return (
     <div className="author-list">
       <h2 className="author-list-title">Authors List</h2>
@@ -58,6 +69,8 @@ export const AuthorList: FC<AuthorListProps & { token: string }> = ({ state, tok
         ))}
       </ul>
       <button className="author-list-add-btn" onClick={handleAddAuthor}>Add Author</button>
+      <button className="author-list-validate-btn" onClick={handleValidateAuthors}>Continue</button>
+      {authorWarning && <div className="author-list-warning">{authorWarning}</div>}
       {editAuthor && (
         <AuthorForm
           author={editAuthor}
