@@ -1,19 +1,19 @@
-import { useReducer, useEffect } from 'react'
+import { MsalProvider } from "@azure/msal-react"
+import { useEffect, useReducer } from 'react'
 import './App.css'
-import { appReducer, initialState } from './reducers/appReducer'
-import { Login } from './components/LoginRegister'
-import { ChooseSubscription } from './components/ChooseSubscription'
-import { Checkout } from './components/Checkout'
-import { ThankYou } from './components/ThankYou'
-import { ErrorPage } from './components/ErrorPage'
-import { ErrorBoundary } from './components/ErrorBoundary'
-import { Navbar } from './components/Navbar'
-import { initializeAppInsights, trackException, trackEvent, trackPageView } from './services/applicationInsights'
-import { ChooseCulture } from './components/ChooseCulture/index'
-import { MsalProvider } from "@azure/msal-react";
-import { msalInstance } from "./services/msalConfig";
 import { AuthorRegistration } from './components/AuthorRegistration'
+import { Checkout } from './components/Checkout'
+import { ChooseCulture } from './components/ChooseCulture/index'
+import { ChooseSubscription } from './components/ChooseSubscription'
 import { DomainRegistration } from './components/DomainRegistration'
+import { ErrorBoundary } from './components/ErrorBoundary'
+import { ErrorPage } from './components/ErrorPage'
+import { Login } from './components/LoginRegister'
+import { Navbar } from './components/Navbar'
+import { ThankYou } from './components/ThankYou'
+import { appReducer, initialState } from './reducers/appReducer'
+import { initializeAppInsights, trackEvent, trackException, trackPageView } from './services/applicationInsights'
+import { msalInstance } from "./services/msalConfig"
 
 function App() {
   const [appState, dispatch] = useReducer(appReducer, initialState)
@@ -89,7 +89,7 @@ function App() {
         case 'checkout':
           return <Checkout state={appState.state} dispatch={dispatch} />
         case 'thankYou':
-          return <ThankYou state={appState.state} dispatch={dispatch} />
+          return <ThankYou />
         case 'error':
           return <ErrorPage state={appState.state} dispatch={dispatch} />
         default:

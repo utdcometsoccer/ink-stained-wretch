@@ -1,0 +1,98 @@
+/* ChooseSubscription.css */
+
+.choose-subscription-page {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 32px 24px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.choose-subscription-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 32px;
+  color: #222;
+}
+
+.choose-subscription-options {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.choose-subscription-card {
+  background: #f7f7fa;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 24px 20px;
+  width: 180px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  text-align: center;
+}
+
+.choose-subscription-card.selected {
+  border-color: #0078d4;
+  box-shadow: 0 4px 16px rgba(0,120,212,0.10);
+  background: #e6f2fb;
+}
+
+.choose-subscription-price {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #0078d4;
+  margin: 12px 0;
+}
+
+.choose-subscription-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.choose-subscription-features li {
+  margin-bottom: 6px;
+}
+
+.choose-subscription-selected {
+  margin-top: 8px;
+  color: #0078d4;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.choose-subscription-continue-btn {
+  display: block;
+  width: 100%;
+  padding: 14px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: #0078d4;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 18px;
+  transition: background 0.2s;
+}
+
+.choose-subscription-continue-btn:disabled {
+  background: #b0b0b0;
+  cursor: not-allowed;
+}
+
+.choose-subscription-note {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+  margin-top: 12px;
+}
