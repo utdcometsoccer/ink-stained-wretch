@@ -34,9 +34,17 @@ export function authorListReducer(state: AuthorListState, action: AuthorListActi
       return { ...state, showForm: false, newAuthor: null };
     }
     case "SAVE_AUTHOR": {
+      const newAuthor = (action as { type: "SAVE_AUTHOR"; payload: Author }).payload;
+      const exists = state.authorList.some(author => author.id === newAuthor.id);
+      let updatedList;
+      if (exists) {
+        updatedList = state.authorList.map(author => author.id === newAuthor.id ? newAuthor : author);
+      } else {
+        updatedList = [...state.authorList, newAuthor];
+      }
       return {
         ...state,
-        authorList: [...state.authorList, (action as { type: "SAVE_AUTHOR"; payload: Author }).payload],
+        authorList: updatedList,
         showForm: false,
         newAuthor: null,
       };
