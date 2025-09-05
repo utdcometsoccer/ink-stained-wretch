@@ -1,3 +1,30 @@
+/* Shared button styles for the entire app */
+.app-btn {
+  width: 100%;
+  padding: 12px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  background: #0078d4;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.app-btn:hover {
+  background: #005fa3;
+}
+
+.app-btn.cancel {
+  background: #0078d4;
+  color: #fff;
+}
+.app-btn.cancel:disabled {
+  background: #e0e0e0;
+  color: #888;
+  cursor: not-allowed;
+}
 #root {
   margin: 0;
   padding: 0;

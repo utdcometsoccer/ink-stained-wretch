@@ -1,6 +1,10 @@
 import type { FC } from "react";
 import type { LoginButtonProps } from "./LoginButtonProps";
 
-export const LoginButton: FC<LoginButtonProps> = ({ onSignIn }) => (
-  <button onClick={onSignIn}>Sign in with Microsoft</button>
+export interface ExtendedLoginButtonProps extends LoginButtonProps {
+  className?: string;
+}
+
+export const LoginButton: FC<ExtendedLoginButtonProps> = ({ onSignIn, className }) => (
+  <button onClick={onSignIn} className={className}>Sign in with Microsoft</button>
 );

@@ -3,8 +3,6 @@ import { useEffect, useReducer } from 'react'
 import './App.css'
 import { AuthorRegistration } from './components/AuthorRegistration'
 import { Checkout } from './components/Checkout'
-import { ChooseCulture } from './components/ChooseCulture/index'
-import { ChooseSubscription } from './components/ChooseSubscription'
 import { DomainRegistration } from './components/DomainRegistration'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { ErrorPage } from './components/ErrorPage'
@@ -14,6 +12,8 @@ import { ThankYou } from './components/ThankYou'
 import { appReducer, initialState } from './reducers/appReducer'
 import { initializeAppInsights, trackEvent, trackException, trackPageView } from './services/applicationInsights'
 import { msalInstance } from "./services/msalConfig"
+import { ChooseCulture } from "./components/ChooseCulture"
+import ChooseSubscription from "./components/ChooseSubscription"
 
 function App() {
   const [appState, dispatch] = useReducer(appReducer, initialState)
