@@ -6,9 +6,11 @@ export interface Action {
     | 'SET_UI_STATE'
     | 'SET_ERROR'
     | 'CLEAR_ERROR'
-  | 'UPDATE_STATE'    // isMenuOpen will be managed locally in Navbar
+    | 'UPDATE_STATE'    // isMenuOpen will be managed locally in Navbar
     | 'UPDATE_DOMAIN'
-    | 'UPDATE_DOMAIN_CONTACT_INFO';
+    | 'UPDATE_DOMAIN_CONTACT_INFO'
+    | 'SAVE_AUTHOR'
+    | 'DELETE_AUTHOR';
   payload?: any;
 }
 
@@ -63,21 +65,20 @@ export function appReducer(state: AppState, action: Action): AppState {
           error: undefined
         }
       };
-    case 'UPDATE_STATE':
-      {
-        // Merge new state, but ignore isMenuOpen
-        const { ...restPayload } = action.payload || {};
-        const newState = {
-          ...state.state,
-          ...restPayload
-        };
-        return {
-          ...state,
-          state: {
-            ...newState
-          }
-        };
-      }
+    case 'UPDATE_STATE': {
+      // Merge new state, but ignore isMenuOpen
+      const { ...restPayload } = action.payload || {};
+      const newState = {
+        ...state.state,
+        ...restPayload
+      };
+      return {
+        ...state,
+        state: {
+          ...newState
+        }
+      };
+    }
     case 'UPDATE_DOMAIN':
       return {
         ...state,
@@ -100,6 +101,37 @@ export function appReducer(state: AppState, action: Action): AppState {
           }
         }
       };
+    case 'SAVE_AUTHOR': {
+      const author = action.payload;
+      const authors = Array.isArray(state.state.Authors) ? state.state.Authors : [];
+      const idx = authors.findIndex((a: any) => a.id === author.id);
+      let newAuthors;
+      if (idx >= 0) {
+        newAuthors = [...authors];
+        newAuthors[idx] = author;
+      } else {
+        newAuthors = [...authors, author];
+      }
+      return {
+        ...state,
+        state: {
+          ...state.state,
+          Authors: newAuthors
+        }
+      };
+    }
+    case 'DELETE_AUTHOR': {
+      const id = action.payload;
+      const authors = Array.isArray(state.state.Authors) ? state.state.Authors : [];
+      const newAuthors = authors.filter((a: any) => a.id !== id);
+      return {
+        ...state,
+        state: {
+          ...state.state,
+          Authors: newAuthors
+        }
+      };
+    }
     default:
       return state;
   }

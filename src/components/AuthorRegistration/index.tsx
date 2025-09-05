@@ -1,30 +1,21 @@
-
-import type { Dispatch } from "react";
 import { useReducer } from "react";
-import type { Action } from "../../reducers/appReducer";
 import { authorListReducer, initialAuthorListState } from "../../reducers/authorListReducer";
 import type { Author } from "../../types/Author";
-import type { State } from "../../types/State";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { AuthorForm } from "./AuthorForm";
 import "./AuthorList.css";
+import type { AuthorRegistrationProps } from "./AuthorRegistrationProps";
 
-export interface AuthorRegistrationProps {
-    state: State;
-    dispatch: Dispatch<Action>;
-}
 
 export function AuthorRegistration({ state, dispatch }: AuthorRegistrationProps) {
-    const handleDeleteAuthor = (id: string) => {
-        dispatchList({ type: "DELETE_AUTHOR", payload: id });
-    };
-    const authors: Author[] = Array.isArray(state.Authors) ? state.Authors : [];
+    const handleDeleteAuthor = (id: string) => {        
+        dispatch({ type: "DELETE_AUTHOR", payload: id });
+    };    
     const [listState, dispatchList] = useReducer(authorListReducer, {
-        ...initialAuthorListState,
-        authorList: authors
+        ...initialAuthorListState
     });
 
     const handleAddAuthor = () => {
@@ -50,23 +41,27 @@ export function AuthorRegistration({ state, dispatch }: AuthorRegistrationProps)
     };
 
     const handleEditAuthor = (id: string) => {
-        const found = listState.authorList.find(a => a.id === id);
+        const authors = Array.isArray(state.Authors) ? state.Authors : [];
+        const found = authors.find(a => a.id === id);
         if (found) {
             dispatchList({ type: "SHOW_FORM", payload: found });
         }
     };
 
-    const handleSaveAuthor = (author: Author) => {
-        dispatchList({ type: "SAVE_AUTHOR", payload: author });
+    const handleSaveAuthor = (author: Author) => {        
+        dispatch({ type: "SAVE_AUTHOR", payload: author });
+        dispatchList({ type: "HIDE_FORM" });
     };
 
     const handleCancelAuthor = () => {
         dispatchList({ type: "HIDE_FORM" });
         dispatchList({ type: "SET_NEW_AUTHOR_NULL" }); // Explicitly set newAuthor to null
+        dispatch({ type: "DELETE_AUTHOR", payload: listState.newAuthor?.id || "" });
     };
 
     const handleValidateAuthors = () => {
-        if (listState.authorList.length < 1) {
+        const authors = Array.isArray(state.Authors) ? state.Authors : [];
+        if (authors.length < 1) {
             dispatchList({ type: "SET_WARNING", payload: "You must add at least one author record before continuing." });
         } else {
             dispatchList({ type: "SET_WARNING", payload: "" });
@@ -74,11 +69,12 @@ export function AuthorRegistration({ state, dispatch }: AuthorRegistrationProps)
         }
     };
 
+    const authorsList = Array.isArray(state.Authors) ? state.Authors : [];
     return (
         <div className="author-list">
             <h2 className="author-list-title">Author Information</h2>
             <ul className="author-list-ul">
-                {listState.authorList.map(author => (
+                {authorsList.map(author => (
                     <li key={author.id} className="author-list-li">
                         <img
                             src={author.HeadShotURL || ''}
