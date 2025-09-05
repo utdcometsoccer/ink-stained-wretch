@@ -18,6 +18,21 @@ import { SocialList } from "./SocialList";
 
 
 export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSave, onCancel }) => {
+  // Delete handlers for each child type
+  const handleDeleteArticle = (id: string) => {
+    const updated = form.Articles.filter(a => a.id !== id);
+    dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Articles", value: updated } });
+  };
+
+  const handleDeleteBook = (id: string) => {
+    const updated = form.Books.filter(b => b.id !== id);
+    dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Books", value: updated } });
+  };
+
+  const handleDeleteSocial = (id: string) => {
+    const updated = form.Socials.filter(s => s.id !== id);
+    dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Socials", value: updated } });
+  };
   // Cancel logic for each child type
   const cancelArticle = () => {
     if (
@@ -248,12 +263,12 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
           Second Level Domain:
           <input name="SecondLevelDomain" value={form.SecondLevelDomain} readOnly />
         </label>
-        <h3>Articles</h3>
-        <ArticleList articles={form.Articles} onEdit={handleEditArticle} onAdd={handleAddArticle} />
-        <h3>Books</h3>
-        <BookList books={form.Books} onEdit={handleEditBook} onAdd={handleAddBook} />
-        <h3>Social Links</h3>
-        <SocialList socials={form.Socials} onEdit={handleEditSocial} onAdd={handleAddSocial} />
+  <h3>Articles</h3>
+  <ArticleList articles={form.Articles} onEdit={handleEditArticle} onAdd={handleAddArticle} onDelete={handleDeleteArticle} />
+  <h3>Books</h3>
+  <BookList books={form.Books} onEdit={handleEditBook} onAdd={handleAddBook} onDelete={handleDeleteBook} />
+  <h3>Social Links</h3>
+  <SocialList socials={form.Socials} onEdit={handleEditSocial} onAdd={handleAddSocial} onDelete={handleDeleteSocial} />
         <div className="author-form-btn-row">
           <button type="submit" className="app-btn">Save Author</button>
           <button type="button" className="app-btn cancel" onClick={onCancel}>Cancel</button>
