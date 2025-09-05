@@ -58,18 +58,18 @@ export function Login({ state, dispatch }: LoginProps) {
     <div>
       <UnauthenticatedTemplate>
         <LoginHeader />
-  <LoginButton onSignIn={handleSignIn} className="app-btn" />
+        <LoginButton onSignIn={handleSignIn} className="app-btn" />
         {/* Add login/register form here */}
       </UnauthenticatedTemplate>
       <AuthenticatedTemplate>
-        <LogoutHeader />
-  <LogoutButton onSignOut={handleSignOut} className="app-btn cancel" />
         <CountdownIndicator
           countdown={state.countdown}
           showRedirect={state.showRedirect}
           countdownRef={countdownRef}
           text={`Redirecting to Domain Registration in ${state.countdown ?? 0} seconds...`}
         />
+        <LogoutHeader />
+        <LogoutButton onSignOut={handleSignOut} className="app-btn cancel" />
       </AuthenticatedTemplate>
     </div>
   );
