@@ -1,3 +1,40 @@
+.social-form-fieldset {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 1.5em;
+  margin-bottom: 1em;
+  background: #fafbfc;
+}
+.social-form-legend {
+  font-weight: 600;
+  font-size: 1.2em;
+  margin-bottom: 1em;
+}
+.social-form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+}
+.social-form-label {
+  font-weight: 500;
+  margin-bottom: 0.5em;
+}
+.social-form-input {
+  width: 100%;
+  font-size: 1rem;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 0.25em;
+  margin-bottom: 0.5em;
+}
+.social-form-actions {
+  display: flex;
+  gap: 1em;
+  margin-top: 2em;
+  justify-content: flex-end;
+}
 .social-form-btn {
   margin-right: 8px;
 }

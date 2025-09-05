@@ -19,18 +19,26 @@ export const SocialForm: FC<SocialFormProps> = ({ social, onSave, onCancel }) =>
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Edit Social Link</h2>
-      <input name="id" value={form.id} readOnly hidden />
-      <label>
-        Name:
-        <input name="Name" value={form.Name} onChange={handleChange} />
-      </label>
-      <label>
-        URL:
-        <input name="URL" value={form.URL} onChange={handleChange} />
-      </label>
-  <button type="submit" className="social-form-btn app-btn">Save</button>
-  <button type="button" className="social-form-btn app-btn cancel" onClick={onCancel}>Cancel</button>
+      <fieldset className="social-form-fieldset">
+        <legend className="social-form-legend">Edit Social Link</legend>
+        <input name="id" value={form.id} readOnly hidden />
+        <div className="social-form-row">
+          <label className="social-form-label">
+            Name:
+            <input name="Name" value={form.Name} onChange={handleChange} className="social-form-input" />
+          </label>
+        </div>
+        <div className="social-form-row">
+          <label className="social-form-label">
+            URL:
+            <input name="URL" value={form.URL} onChange={handleChange} className="social-form-input" />
+          </label>
+        </div>
+        <div className="social-form-actions">
+          <button type="submit" className="social-form-btn app-btn">Save</button>
+          <button type="button" className="social-form-btn app-btn cancel" onClick={onCancel}>Cancel</button>
+        </div>
+      </fieldset>
     </form>
   );
 }
