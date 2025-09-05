@@ -66,7 +66,7 @@ export const Login: FC<LoginProps> = ({ state, dispatch }) => {
     <div>
       <UnauthenticatedTemplate>
         <LoginHeader />
-        <LoginButton onSignIn={handleSignIn} className="app-btn" />
+              <LoginButton onSignIn={handleSignIn} className="app-btn" />
       </UnauthenticatedTemplate>
       <AuthenticatedTemplate>
         <CountdownIndicator
@@ -77,7 +77,6 @@ export const Login: FC<LoginProps> = ({ state, dispatch }) => {
         />
         <LogoutHeader />
         <LogoutButton onSignOut={handleSignOut} className="app-btn cancel" />
-
       </AuthenticatedTemplate>
     </div>
   );
