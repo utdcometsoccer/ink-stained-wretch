@@ -1,4 +1,4 @@
-import { CountryDropdown, CultureInfo, type Culture } from "@idahoedokpayi/react-country-state-selector";
+import { CountryDropdown, cultureFromBrowser, CultureInfo, type Culture, type Language } from "@idahoedokpayi/react-country-state-selector";
 import type { FC } from "react";
 import { useReducer, useState } from "react";
 import { authorFormReducer, initialAuthorFormState } from "../../reducers/authorFormReducer";
@@ -17,19 +17,24 @@ import { SocialForm } from "./SocialForm";
 import { SocialList } from "./SocialList";
 
 
-export const AuthorForm: FC<AuthorFormProps> = ({ author, token, domain, onSave, onCancel }) => {
+export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSave, onCancel }) => {
   // If domain is provided, update TopLevelDomain and SecondLevelDomain in initial state
   const initialState = domain
     ? {
-        ...author ?? initialAuthorFormState,
-        TopLevelDomain: domain.topLevelDomain || "",
-        SecondLevelDomain: domain.secondLevelDomain || ""
-      }
+      ...author ?? initialAuthorFormState,
+      TopLevelDomain: domain.topLevelDomain || "",
+      SecondLevelDomain: domain.secondLevelDomain || ""
+    }
     : author ?? initialAuthorFormState;
   const [form, dispatchForm] = useReducer(authorFormReducer, initialState);
   const [editType, setEditType] = useState<"article" | "book" | "social" | null>(null);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [showImageManager, setShowImageManager] = useState(false);
+  const { authToken, cultureInfo } = appState;
+  const token = authToken ?? '';
+  const browserCulture = cultureFromBrowser()
+  const language = form.LanguageName || cultureInfo?.Language || browserCulture.Language || "en";
+
 
   // Handlers for editing child objects
   const handleEditArticle = (id: string) => {
@@ -130,7 +135,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ author, token, domain, onSave,
         Language:
         <LanguageDropdown
           name="LanguageName"
-          value={form.LanguageName}
+          value={language as Language}
           onChange={e => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "LanguageName", value: e.target.value } })}
           required
         />

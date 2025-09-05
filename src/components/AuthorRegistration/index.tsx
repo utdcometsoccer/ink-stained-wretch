@@ -79,8 +79,8 @@ export function AuthorRegistration({ state, dispatch }: AuthorRegistrationProps)
             {authorWarning && <div className="author-list-warning">{authorWarning}</div>}
             {editAuthor && (
                 <AuthorForm
+                    appState={state}
                     author={editAuthor}
-                    token={state.authToken ?? ''}
                     domain={state.domainRegistration?.domain}
                     onSave={handleSaveAuthor}
                     onCancel={handleCancelAuthor}
