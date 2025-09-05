@@ -105,7 +105,7 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
       dispatch({ type: "UPDATE_DOMAIN_ERROR", payload: null });
       dispatch({ type: "UPDATE_DOMAIN", payload: { secondLevelDomain: match[1], topLevelDomain: match[2] } });
       dispatch({ type: "UPDATE_DOMAIN_CONTACT_INFO", payload: { ...contactInfo } });
-      dispatch({ type: 'UPDATE_STATE', payload: { showRedirect: true, countdown: COUNTDOWN_SECONDS } });
+      dispatch({ type: 'SET_UI_STATE', payload: 'authorPage' });
     } else {
       dispatch({ type: "UPDATE_DOMAIN_ERROR", payload: 'Please enter a valid domain (e.g., example.com)' });
       dispatch({ type: "UPDATE_DOMAIN", payload: { topLevelDomain: '', secondLevelDomain: '' } });
