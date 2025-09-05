@@ -209,6 +209,8 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
         </label>
 
         <LanguageDropdown
+          culture={cultureInfo}
+          classNameSelect="input-fullwidth"
           Label="Language: "
           selectedLanguage={language as Language}
           onLanguageChange={(val: Language) => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "LanguageName", value: val } })}
@@ -216,6 +218,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
 
         <CountryDropdown
           culture={cultureInfo}
+          classNameSelect="input-fullwidth"
           selectedCountry={country}
           Label="Country: "
           onCountryChange={(val: string) => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "RegionName", value: val } })}

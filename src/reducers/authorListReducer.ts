@@ -20,7 +20,8 @@ export type AuthorListAction =
   | { type: "SAVE_AUTHOR"; payload: Author }
   | { type: "INIT_LIST"; payload: Author[] }
   | { type: "SET_WARNING"; payload: string }
-  | { type: "SET_NEW_AUTHOR_NULL" };
+  | { type: "SET_NEW_AUTHOR_NULL" }
+  | { type: "DELETE_AUTHOR"; payload: string };
 
 export function authorListReducer(state: AuthorListState, action: AuthorListAction): AuthorListState {
       switch (action.type) {
@@ -45,6 +46,12 @@ export function authorListReducer(state: AuthorListState, action: AuthorListActi
     }
     case "SET_WARNING": {
       return { ...state, authorWarning: (action as { type: "SET_WARNING"; payload: string }).payload };
+    }
+    case "DELETE_AUTHOR": {
+      return {
+        ...state,
+        authorList: state.authorList.filter(author => author.id !== (action as { type: "DELETE_AUTHOR"; payload: string }).payload)
+      };
     }
     default:
       return state;

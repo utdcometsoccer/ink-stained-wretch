@@ -1,7 +1,15 @@
-.author-list {
-  /* Container styles if needed */
+.author-list-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 1em;
 }
-
+.author-list-btn-row {
+  display: flex;
+  gap: 0.5em;
+  margin-left: 16px;
+  align-items: center;
+}
 .author-list-title {
   font-size: 1.5em;
   margin-bottom: 0.5em;
@@ -29,5 +37,5 @@
 }
 
 .author-list-add-btn {
-  margin-top: 1em;
+  
 }

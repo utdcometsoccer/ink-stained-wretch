@@ -3,6 +3,9 @@ import type { FC } from "react";
 import "./BookList.css";
 
 import type { BookListProps } from "./BookListProps";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 
 export const BookList: FC<BookListProps> = ({ books, onEdit, onAdd, onDelete }) => (
   <div>
@@ -13,11 +16,22 @@ export const BookList: FC<BookListProps> = ({ books, onEdit, onAdd, onDelete }) 
           <span className="book-list-span"><strong>{book.Title}</strong></span>
           <span className="book-list-span">Description: {book.Description}</span>
           <span className="book-list-span">URL: {book.URL}</span>
-          <button className="book-list-edit-btn app-btn" onClick={() => onEdit(book.id)}>Edit</button>
-          <button className="book-list-delete-btn app-btn cancel" onClick={() => onDelete(book.id)}>Delete</button>
+          <span className="book-list-btn-row">
+            <button className="book-list-edit-btn icon-btn" title="Edit" onClick={() => onEdit(book.id)}>
+              <EditIcon fontSize="small" />
+              <span className="btn-label">Edit</span>
+            </button>
+            <button className="book-list-delete-btn icon-btn cancel" title="Delete" onClick={() => onDelete(book.id)}>
+              <DeleteIcon fontSize="small" />
+              <span className="btn-label">Delete</span>
+            </button>
+          </span>
         </li>
       ))}
     </ul>
-    <button className="book-list-add-btn app-btn" onClick={onAdd}>Add Book</button>
+    <button className="book-list-add-btn icon-btn" title="Add Book" onClick={onAdd}>
+      <AddIcon fontSize="small" />
+      <span className="btn-label">Add Book</span>
+    </button>
   </div>
 );
