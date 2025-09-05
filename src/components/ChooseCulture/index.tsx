@@ -104,8 +104,10 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
           </button>
           <button
             type="button"
-            className="app-btn cancel"
-            onClick={() => localDispatch({ type: "CANCEL_COUNTDOWN" })}
+            className={`app-btn cancel`}
+            onClick={() => {
+              return localDispatch({ type: "CANCEL_COUNTDOWN" });
+            }}
             disabled={typeof localState.countdown !== "number" || localState.countdown <= 0}
           >
             Cancel
