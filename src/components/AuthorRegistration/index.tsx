@@ -63,7 +63,7 @@ export function AuthorRegistration({ state, dispatch }: AuthorRegistrationProps)
 
     return (
         <div className="author-list">
-            <h2 className="author-list-title">Authors List</h2>
+            <h2 className="author-list-title">Author Information</h2>
             <ul className="author-list-ul">
                 {listState.authorList.map(author => (
                     <li key={author.id} className="author-list-li">
@@ -79,8 +79,8 @@ export function AuthorRegistration({ state, dispatch }: AuthorRegistrationProps)
             {authorWarning && <div className="author-list-warning">{authorWarning}</div>}
             {editAuthor && (
                 <AuthorForm
+                    appState={state}
                     author={editAuthor}
-                    token={state.authToken ?? ''}
                     domain={state.domainRegistration?.domain}
                     onSave={handleSaveAuthor}
                     onCancel={handleCancelAuthor}
