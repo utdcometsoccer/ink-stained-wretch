@@ -112,9 +112,28 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
   const handleCancelChild = () => {
     if (form.editType === "article" && form.editIndex !== null) {
       // If canceling a newly added article (last index), remove it
-      if (form.editIndex === form.Articles.length - 1 && form.Articles[form.editIndex].Title === "" && form.Articles[form.editIndex].Date === "" && form.Articles[form.editIndex].Publication === "" && form.Articles[form.editIndex].URL === "") {
+      if (
+        form.editIndex === form.Articles.length - 1 &&
+        form.Articles[form.editIndex].Title === "" &&
+        form.Articles[form.editIndex].Date === "" &&
+        form.Articles[form.editIndex].Publication === "" &&
+        form.Articles[form.editIndex].URL === ""
+      ) {
         const updated = form.Articles.slice(0, -1);
         dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Articles", value: updated } });
+      }
+    }
+    if (form.editType === "book" && form.editIndex !== null) {
+      // If canceling a newly added book (last index), remove it
+      if (
+        form.editIndex === form.Books.length - 1 &&
+        form.Books[form.editIndex].Title === "" &&
+        form.Books[form.editIndex].Description === "" &&
+        form.Books[form.editIndex].URL === "" &&
+        form.Books[form.editIndex].Cover === ""
+      ) {
+        const updated = form.Books.slice(0, -1);
+        dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Books", value: updated } });
       }
     }
     dispatchForm({ type: "SET_EDIT_TYPE", payload: null });
