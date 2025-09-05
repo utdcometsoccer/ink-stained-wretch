@@ -110,6 +110,13 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
 
   // Cancel child edit
   const handleCancelChild = () => {
+    if (form.editType === "article" && form.editIndex !== null) {
+      // If canceling a newly added article (last index), remove it
+      if (form.editIndex === form.Articles.length - 1 && form.Articles[form.editIndex].Title === "" && form.Articles[form.editIndex].Date === "" && form.Articles[form.editIndex].Publication === "" && form.Articles[form.editIndex].URL === "") {
+        const updated = form.Articles.slice(0, -1);
+        dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Articles", value: updated } });
+      }
+    }
     dispatchForm({ type: "SET_EDIT_TYPE", payload: null });
     dispatchForm({ type: "SET_EDIT_INDEX", payload: null });
   };
