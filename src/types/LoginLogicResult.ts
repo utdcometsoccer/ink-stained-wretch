@@ -1,7 +1,5 @@
-export type LoginLogicResult = {
-  COUNTDOWN_SECONDS: number;
+export type LoginLogicResult = {  
   msalReady: boolean;
-  updateCountdownWidth: () => void;
   handleSignIn: () => Promise<void>;
   handleSignOut: () => void;
 };

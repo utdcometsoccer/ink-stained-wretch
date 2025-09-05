@@ -1,12 +1,12 @@
 
-import { useReducer, useState } from "react";
+import type { Dispatch } from "react";
+import { useReducer } from "react";
+import type { Action } from "../../reducers/appReducer";
+import { authorListReducer, initialAuthorListState } from "../../reducers/authorListReducer";
 import type { Author } from "../../types/Author";
+import type { State } from "../../types/State";
 import { AuthorForm } from "./AuthorForm";
 import "./AuthorList.css";
-import { authorListReducer, initialAuthorListState } from "../../reducers/authorListReducer";
-import type { State } from "../../types/State";
-import type { Dispatch } from "react";
-import type { Action } from "../../reducers/appReducer";
 
 export interface AuthorRegistrationProps {
     state: State;
@@ -15,48 +15,53 @@ export interface AuthorRegistrationProps {
 
 export function AuthorRegistration({ state, dispatch }: AuthorRegistrationProps) {
     const authors: Author[] = Array.isArray(state.Authors) ? state.Authors : [];
-    const [listState, dispatchList] = useReducer(authorListReducer, { ...initialAuthorListState, authorList: authors });
-    const [editAuthor, setEditAuthor] = useState<Author | null>(null);
-    const [authorWarning, setAuthorWarning] = useState<string>("");
+    const [listState, dispatchList] = useReducer(authorListReducer, {
+        ...initialAuthorListState,
+        authorList: authors
+    });
 
     const handleAddAuthor = () => {
-        setEditAuthor({
-            id: crypto.randomUUID(),
-            AuthorName: "",
-            LanguageName: "",
-            RegionName: "",
-            EmailAddress: "",
-            WelcomeText: "",
-            AboutText: "",
-            HeadShotURL: "",
-            CopyrightText: "",
-            TopLevelDomain: "",
-            SecondLevelDomain: "",
-            Articles: [],
-            Books: [],
-            Socials: []
+        dispatchList({
+            type: "SHOW_FORM",
+            payload: {
+                id: crypto.randomUUID(),
+                AuthorName: "",
+                LanguageName: "",
+                RegionName: "",
+                EmailAddress: "",
+                WelcomeText: "",
+                AboutText: "",
+                HeadShotURL: "",
+                CopyrightText: "",
+                TopLevelDomain: "",
+                SecondLevelDomain: "",
+                Articles: [],
+                Books: [],
+                Socials: []
+            }
         });
     };
 
     const handleEditAuthor = (id: string) => {
         const found = listState.authorList.find(a => a.id === id);
-        if (found) setEditAuthor(found);
+        if (found) {
+            dispatchList({ type: "SHOW_FORM", payload: found });
+        }
     };
 
     const handleSaveAuthor = (author: Author) => {
         dispatchList({ type: "SAVE_AUTHOR", payload: author });
-        setEditAuthor(null);
     };
 
     const handleCancelAuthor = () => {
-        setEditAuthor(null);
+        dispatchList({ type: "HIDE_FORM" });
     };
 
     const handleValidateAuthors = () => {
         if (listState.authorList.length < 1) {
-            setAuthorWarning("You must add at least one author record before continuing.");
+            dispatchList({ type: "SET_WARNING", payload: "You must add at least one author record before continuing." });
         } else {
-            setAuthorWarning("");
+            dispatchList({ type: "SET_WARNING", payload: "" });
             dispatch({ type: "SET_UI_STATE", payload: "chooseSubscription" });
         }
     };
@@ -76,11 +81,11 @@ export function AuthorRegistration({ state, dispatch }: AuthorRegistrationProps)
             </ul>
             <button className="author-list-add-btn" onClick={handleAddAuthor}>Add Author</button>
             <button className="author-list-validate-btn" onClick={handleValidateAuthors}>Continue</button>
-            {authorWarning && <div className="author-list-warning">{authorWarning}</div>}
-            {editAuthor && (
+            {listState.authorWarning && <div className="author-list-warning">{listState.authorWarning}</div>}
+            {listState.showForm && listState.newAuthor && (
                 <AuthorForm
                     appState={state}
-                    author={editAuthor}
+                    author={listState.newAuthor}
                     domain={state.domainRegistration?.domain}
                     onSave={handleSaveAuthor}
                     onCancel={handleCancelAuthor}
