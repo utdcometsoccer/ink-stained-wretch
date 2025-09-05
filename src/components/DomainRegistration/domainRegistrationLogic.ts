@@ -14,6 +14,7 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
   const cityRef = useRef<HTMLInputElement>(null);
   const stateRef = useRef<HTMLInputElement | HTMLSelectElement>(null);
 
+  // move this code into COuntDownIndicator
   useEffect(() => {
     if (countdownRef.current) {
       const percent = `${(COUNTDOWN_SECONDS - (state.countdown ?? 0)) * (100 / COUNTDOWN_SECONDS)}%`;
