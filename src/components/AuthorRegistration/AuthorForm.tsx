@@ -185,75 +185,80 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
   // Main Author form
   return (
     <form onSubmit={handleSubmit}>
-      <input name="id" value={form.id} readOnly hidden />
-      <label>
-        Author Name:
-        <input name="AuthorName" value={form.AuthorName} onChange={handleChange} />
-      </label>
+      <fieldset className="author-form-fieldset">
+        <legend>Author Information</legend>
+        <input name="id" value={form.id} readOnly hidden />
+        <label>
+          Author Name:
+          <input name="AuthorName" value={form.AuthorName} onChange={handleChange} />
+        </label>
 
-      <LanguageDropdown
-        Label="Language: "
-        selectedLanguage={language as Language}
-        onLanguageChange={(val: Language) => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "LanguageName", value: val } })}
-      />
+        <LanguageDropdown
+          Label="Language: "
+          selectedLanguage={language as Language}
+          onLanguageChange={(val: Language) => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "LanguageName", value: val } })}
+        />
 
-      <CountryDropdown
-        culture={cultureInfo}
-        selectedCountry={country}
-        Label="Country: "
-        onCountryChange={(val: string) => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "RegionName", value: val } })}
-      />
-      <label>
-        Email:
-        <input name="EmailAddress" value={emailAddress} onChange={handleChange} />
-      </label>
-      <label>
-        Welcome Text:
-        <textarea name="WelcomeText" value={form.WelcomeText} onChange={handleChange} />
-      </label>
-      <label>
-        About Text:
-        <textarea name="AboutText" value={form.AboutText} onChange={handleChange} />
-      </label>
-      <label>
-        Headshot URL:
-        <input name="HeadShotURL" value={form.HeadShotURL} onChange={handleChange} />
-        <button type="button" className="author-form-headshot-btn" onClick={() => dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: true })}>
-          Choose Image
-        </button>
-        {form.showImageManager && (
-          <div className="author-form-image-manager">
-            <ImageManager
-              token={token}
-              onSelect={img => {
-                dispatchForm({ type: "UPDATE_FIELD", payload: { name: "HeadShotURL", value: img.url } });
-                dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: false });
-              }}
-            />
-            <button type="button" className="author-form-image-manager-close" onClick={() => dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: false })}>Close</button>
-          </div>
-        )}
-      </label>
-      <label>
-        Copyright Text:
-        <input name="CopyrightText" value={form.CopyrightText} onChange={handleChange} />
-      </label>
-      <label>
-        Top Level Domain:
-        <input name="TopLevelDomain" value={form.TopLevelDomain} readOnly />
-      </label>
-      <label>
-        Second Level Domain:
-        <input name="SecondLevelDomain" value={form.SecondLevelDomain} readOnly />
-      </label>
-      <h3>Articles</h3>
-      <ArticleList articles={form.Articles} onEdit={handleEditArticle} onAdd={handleAddArticle} />
-      <h3>Books</h3>
-      <BookList books={form.Books} onEdit={handleEditBook} onAdd={handleAddBook} />
-      <h3>Social Links</h3>
-      <SocialList socials={form.Socials} onEdit={handleEditSocial} onAdd={handleAddSocial} />
-      <button type="submit" className="app-btn">Save Author</button>
-      <button type="button" className="app-btn cancel" onClick={onCancel}>Cancel</button>
+        <CountryDropdown
+          culture={cultureInfo}
+          selectedCountry={country}
+          Label="Country: "
+          onCountryChange={(val: string) => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "RegionName", value: val } })}
+        />
+        <label>
+          Email:
+          <input name="EmailAddress" value={emailAddress} onChange={handleChange} />
+        </label>
+        <label>
+          Welcome Text:
+          <textarea name="WelcomeText" value={form.WelcomeText} onChange={handleChange} />
+        </label>
+        <label>
+          About Text:
+          <textarea name="AboutText" value={form.AboutText} onChange={handleChange} />
+        </label>
+        <label>
+          Headshot URL:
+          <input name="HeadShotURL" value={form.HeadShotURL} onChange={handleChange} />
+          <button type="button" className="author-form-headshot-btn" onClick={() => dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: true })}>
+            Choose Image
+          </button>
+          {form.showImageManager && (
+            <div className="author-form-image-manager">
+              <ImageManager
+                token={token}
+                onSelect={img => {
+                  dispatchForm({ type: "UPDATE_FIELD", payload: { name: "HeadShotURL", value: img.url } });
+                  dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: false });
+                }}
+              />
+              <button type="button" className="author-form-image-manager-close" onClick={() => dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: false })}>Close</button>
+            </div>
+          )}
+        </label>
+        <label>
+          Copyright Text:
+          <input name="CopyrightText" value={form.CopyrightText} onChange={handleChange} />
+        </label>
+        <label>
+          Top Level Domain:
+          <input name="TopLevelDomain" value={form.TopLevelDomain} readOnly />
+        </label>
+        <label>
+          Second Level Domain:
+          <input name="SecondLevelDomain" value={form.SecondLevelDomain} readOnly />
+        </label>
+        <h3>Articles</h3>
+        <ArticleList articles={form.Articles} onEdit={handleEditArticle} onAdd={handleAddArticle} />
+        <h3>Books</h3>
+        <BookList books={form.Books} onEdit={handleEditBook} onAdd={handleAddBook} />
+        <h3>Social Links</h3>
+        <SocialList socials={form.Socials} onEdit={handleEditSocial} onAdd={handleAddSocial} />
+        <div className="author-form-btn-row">
+          <button type="submit" className="app-btn">Save Author</button>
+          <button type="button" className="app-btn cancel" onClick={onCancel}>Cancel</button>
+        </div>
+      </fieldset>
     </form>
   );
 }
