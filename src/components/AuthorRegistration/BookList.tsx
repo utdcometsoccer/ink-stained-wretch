@@ -13,6 +13,11 @@ export const BookList: FC<BookListProps> = ({ books, onEdit, onAdd, onDelete }) 
     <ul className="book-list-ul">
       {books.map(book => (
         <li key={book.id} className="book-list-li">
+          <img
+            src={book.Cover || ''}
+            alt={book.Title + ' cover'}
+            className="book-list-cover"
+          />
           <span className="book-list-span"><strong>{book.Title}</strong></span>
           <span className="book-list-span">Description: {book.Description}</span>
           <span className="book-list-span">URL: {book.URL}</span>

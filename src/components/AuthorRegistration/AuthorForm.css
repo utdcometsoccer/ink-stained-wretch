@@ -1,3 +1,44 @@
+.author-form-headshot-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.author-form-headshot-thumb-wrapper {
+  position: relative;
+  display: inline-block;
+}
+.author-form-headshot-thumb {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #eee;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.author-form-headshot-thumb:hover + .author-form-headshot-preview,
+.author-form-headshot-preview:hover {
+  display: block;
+}
+.author-form-headshot-preview {
+  display: none;
+  position: absolute;
+  left: 40px;
+  top: -8px;
+  z-index: 10;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  padding: 4px;
+}
+.author-form-headshot-large {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #eee;
+}
 .author-form-fieldset {
   border: 2px solid #bbb;
   border-radius: 8px;
