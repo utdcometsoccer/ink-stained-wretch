@@ -79,8 +79,8 @@ export function AuthorRegistration({ state, dispatch }: AuthorRegistrationProps)
                     </li>
                 ))}
             </ul>
-            <button className="author-list-add-btn" onClick={handleAddAuthor}>Add Author</button>
-            <button className="author-list-validate-btn" onClick={handleValidateAuthors}>Continue</button>
+            <button className="author-list-add-btn app-btn" onClick={handleAddAuthor}>Add Author</button>
+            <button className="author-list-validate-btn app-btn" onClick={handleValidateAuthors}>Continue</button>
             {listState.authorWarning && <div className="author-list-warning">{listState.authorWarning}</div>}
             {listState.showForm && listState.newAuthor && (
                 <AuthorForm

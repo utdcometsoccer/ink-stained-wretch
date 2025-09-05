@@ -1,4 +1,4 @@
-import { CountryDropdown, cultureFromBrowser, type Language } from "@idahoedokpayi/react-country-state-selector";
+import { CountryDropdown, cultureFromBrowser, LanguageDropdown, type Language } from "@idahoedokpayi/react-country-state-selector";
 import type { FC } from "react";
 import { useReducer } from "react";
 import { authorFormReducer, initialAuthorFormState } from "../../reducers/authorFormReducer";
@@ -6,7 +6,7 @@ import type { Article } from "../../types/Article";
 import type { Book } from "../../types/Book";
 import type { Social } from "../../types/Social";
 import { ImageManager } from "../ImageManager";
-import { LanguageDropdown } from "../LanguageDropdown";
+
 import { ArticleForm } from "./ArticleForm";
 import { ArticleList } from "./ArticleList";
 import "./AuthorForm.css";
@@ -143,10 +143,9 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
       </label>
 
       <LanguageDropdown
-        name="LanguageName"
-        value={language as Language}
-        onChange={e => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "LanguageName", value: e.target.value } })}
-        required
+        Label="Language: "
+        selectedLanguage={language as Language}
+        onLanguageChange={(val: Language) => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "LanguageName", value: val } })}
       />
 
       <CountryDropdown
@@ -204,8 +203,8 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
       <BookList books={form.Books} onEdit={handleEditBook} onAdd={handleAddBook} />
       <h3>Social Links</h3>
       <SocialList socials={form.Socials} onEdit={handleEditSocial} onAdd={handleAddSocial} />
-      <button type="submit">Save Author</button>
-      <button type="button" onClick={onCancel}>Cancel</button>
+      <button type="submit" className="app-btn">Save Author</button>
+      <button type="button" className="app-btn cancel" onClick={onCancel}>Cancel</button>
     </form>
   );
 }

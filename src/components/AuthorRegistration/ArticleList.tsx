@@ -14,10 +14,10 @@ export const ArticleList: FC<ArticleListProps> = ({ articles, onEdit, onAdd }) =
           <span className="article-list-span">Date: {article.Date}</span>
           <span className="article-list-span">Publication: {article.Publication}</span>
           <span className="article-list-span">URL: {article.URL}</span>
-          <button className="article-list-edit-btn" onClick={() => onEdit(article.id)}>Edit</button>
+          <button className="article-list-edit-btn app-btn" onClick={() => onEdit(article.id)}>Edit</button>
         </li>
       ))}
     </ul>
-    <button className="article-list-add-btn" onClick={onAdd}>Add Article</button>
+  <button className="article-list-add-btn app-btn" onClick={onAdd}>Add Article</button>
   </div>
 );

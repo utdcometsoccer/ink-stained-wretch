@@ -54,8 +54,8 @@ export const BookForm: FC<BookFormProps & { token: string }> = ({ book, token, o
           </div>
         )}
       </label>
-      <button type="submit" className="book-form-btn">Save</button>
-      <button type="button" className="book-form-btn" onClick={onCancel}>Cancel</button>
+  <button type="submit" className="book-form-btn app-btn">Save</button>
+  <button type="button" className="book-form-btn app-btn cancel" onClick={onCancel}>Cancel</button>
     </form>
   );
 }
