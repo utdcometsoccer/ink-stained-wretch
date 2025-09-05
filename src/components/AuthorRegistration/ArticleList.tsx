@@ -3,6 +3,9 @@ import type { FC } from "react";
 import "./ArticleList.css";
 
 import type { ArticleListProps } from "./ArticleListProps";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 
 export const ArticleList: FC<ArticleListProps> = ({ articles, onEdit, onAdd, onDelete }) => (
   <div>
@@ -14,11 +17,22 @@ export const ArticleList: FC<ArticleListProps> = ({ articles, onEdit, onAdd, onD
           <span className="article-list-span">Date: {article.Date}</span>
           <span className="article-list-span">Publication: {article.Publication}</span>
           <span className="article-list-span">URL: {article.URL}</span>
-          <button className="article-list-edit-btn app-btn" onClick={() => onEdit(article.id)}>Edit</button>
-          <button className="article-list-delete-btn app-btn cancel" onClick={() => onDelete(article.id)}>Delete</button>
+          <span className="article-list-btn-row">
+            <button className="article-list-edit-btn icon-btn" title="Edit" onClick={() => onEdit(article.id)}>
+              <EditIcon fontSize="small" />
+              <span className="btn-label">Edit</span>
+            </button>
+            <button className="article-list-delete-btn icon-btn cancel" title="Delete" onClick={() => onDelete(article.id)}>
+              <DeleteIcon fontSize="small" />
+              <span className="btn-label">Delete</span>
+            </button>
+          </span>
         </li>
       ))}
     </ul>
-    <button className="article-list-add-btn app-btn" onClick={onAdd}>Add Article</button>
+    <button className="article-list-add-btn icon-btn" title="Add Article" onClick={onAdd}>
+      <AddIcon fontSize="small" />
+      <span className="btn-label">Add Article</span>
+    </button>
   </div>
 );
