@@ -156,6 +156,19 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
     if (form.editType === "social" && form.editIndex !== null) {
       cancelSocial();
     }
+    if (form.editType === "book" && form.editIndex !== null) {
+      // If canceling a newly added book (last index), remove it
+      if (
+        form.editIndex === form.Books.length - 1 &&
+        form.Books[form.editIndex].Title === "" &&
+        form.Books[form.editIndex].Description === "" &&
+        form.Books[form.editIndex].URL === "" &&
+        form.Books[form.editIndex].Cover === ""
+      ) {
+        const updated = form.Books.slice(0, -1);
+        dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Books", value: updated } });
+      }
+    }
     dispatchForm({ type: "SET_EDIT_TYPE", payload: null });
     dispatchForm({ type: "SET_EDIT_INDEX", payload: null });
   };
