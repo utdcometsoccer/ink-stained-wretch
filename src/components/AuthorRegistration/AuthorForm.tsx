@@ -72,6 +72,12 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
   };
   const defaultAuthorName = `${appState.domainRegistration?.contactInformation?.firstName} ${appState.domainRegistration?.contactInformation?.lastName}`.trim() || '';
   const defaultCopyrightText = appState.domainRegistration?.contactInformation?.firstName ? `© ${new Date().getFullYear()} ${appState.domainRegistration.contactInformation.firstName} ${appState.domainRegistration.contactInformation.lastName}. All rights reserved.` : '';
+  const { authToken, cultureInfo, domainRegistration } = appState;
+  const token = authToken ?? '';
+  const browserCulture = cultureFromBrowser()
+  const language = cultureInfo?.Language || browserCulture.Language || "en";
+  const country = cultureInfo?.Country || browserCulture.Country || "US";
+  const emailAddress = domainRegistration?.contactInformation?.emailAddress || appState.userProfile?.emailAddress || '';
   // If domain is provided, update TopLevelDomain and SecondLevelDomain in initial state
   const initialState = {
     ...(author ?? initialAuthorFormState),
@@ -82,14 +88,12 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
     showImageManager: false,
     AuthorName: author?.AuthorName || defaultAuthorName || appState.userProfile?.displayName || '',
     CopyrightText: author?.CopyrightText || defaultCopyrightText || '',
+    LanguageName: language,
+    RegionName: country,
+    EmailAddress: emailAddress
   };
   const [form, dispatchForm] = useReducer(authorFormReducer, initialState);
-  const { authToken, cultureInfo, domainRegistration } = appState;
-  const token = authToken ?? '';
-  const browserCulture = cultureFromBrowser()
-  const language = form.LanguageName || cultureInfo?.Language || browserCulture.Language || "en";
-  const country = form.RegionName || cultureInfo?.Country || browserCulture.Country || "US";
-  const emailAddress = form.EmailAddress || domainRegistration?.contactInformation?.emailAddress || appState.userProfile?.emailAddress || '';
+  
 
   // Handlers for editing child objects
   const handleEditArticle = (id: string) => {
@@ -197,6 +201,8 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
     return <SocialForm social={form.Socials[form.editIndex]} onSave={handleSaveSocial} onCancel={handleCancelChild} />;
   }
 
+  const handleLanguageChange = (val: Language) => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "LanguageName", value: val } });
+  const handleCountryChange = (val: string) => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "RegionName", value: val } });
   // Main Author form
   return (
     <form onSubmit={handleSubmit}>
@@ -212,20 +218,20 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
           culture={cultureInfo}
           classNameSelect="input-fullwidth"
           Label="Language: "
-          selectedLanguage={language as Language}
-          onLanguageChange={(val: Language) => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "LanguageName", value: val } })}
+          selectedLanguage={form.LanguageName as Language}
+          onLanguageChange={handleLanguageChange}
         />
 
         <CountryDropdown
           culture={cultureInfo}
           classNameSelect="input-fullwidth"
-          selectedCountry={country}
+          selectedCountry={form.RegionName}
           Label="Country: "
-          onCountryChange={(val: string) => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "RegionName", value: val } })}
+          onCountryChange={handleCountryChange}
         />
         <label>
           Email:
-          <input name="EmailAddress" value={emailAddress} onChange={handleChange} />
+          <input name="EmailAddress" value={form.EmailAddress} onChange={handleChange} />
         </label>
         <label>
           Welcome Text:
