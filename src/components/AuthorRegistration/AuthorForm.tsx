@@ -18,6 +18,7 @@ import { SocialList } from "./SocialList";
 
 
 export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSave, onCancel }) => {
+  const defaultAuthorName = `${appState.domainRegistration?.contactInformation?.firstName} ${appState.domainRegistration?.contactInformation?.lastName}`.trim() || '';
   // If domain is provided, update TopLevelDomain and SecondLevelDomain in initial state
   const initialState = {
     ...(author ?? initialAuthorFormState),
@@ -25,7 +26,8 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
     SecondLevelDomain: domain?.secondLevelDomain || (author?.SecondLevelDomain ?? ""),
     editType: null,
     editIndex: null,
-    showImageManager: false
+    showImageManager: false,
+    AuthorName: author?.AuthorName || defaultAuthorName || appState.userProfile?.displayName || ''
   };
   const [form, dispatchForm] = useReducer(authorFormReducer, initialState);
   const { authToken, cultureInfo, domainRegistration } = appState;
