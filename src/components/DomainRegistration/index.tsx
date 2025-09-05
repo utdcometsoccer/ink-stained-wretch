@@ -1,4 +1,3 @@
-import { CountdownIndicator } from "../CountdownIndicator";
 import { ContactInfoForm } from "./ContactInfoForm";
 import { DomainInput } from "./DomainInput";
 import "./DomainRegistration.css";
@@ -8,7 +7,6 @@ import { useDomainRegistrationLogic } from "./domainRegistrationLogic";
 
 export function DomainRegistration({ state, dispatch }: DomainRegistrationProps) {
     const {
-        countdownRef,
         cityRef,
         domainInputValue,
         domainError,
@@ -34,13 +32,7 @@ export function DomainRegistration({ state, dispatch }: DomainRegistrationProps)
                     cityRef={cityRef as React.RefObject<HTMLInputElement>}
                     onChange={handleContactChange}
                 />
-                <button type="submit">Submit</button>
-                <CountdownIndicator
-                    showRedirect={state.showRedirect}
-                    countdown={state.countdown}
-                    countdownRef={countdownRef as React.RefObject<HTMLDivElement>}
-                    text={`Redirecting to Author Page in ${state.countdown} seconds...`}
-                />
+                <button type="submit">Submit</button>               
             </form>
         </div>
     );
