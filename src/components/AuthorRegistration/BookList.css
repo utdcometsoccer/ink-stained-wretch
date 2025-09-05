@@ -1,3 +1,12 @@
+.book-list-cover {
+  width: 48px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 12px;
+  background: #eee;
+  vertical-align: middle;
+}
 .add-btn-label {
   margin-left: 6px;
 }

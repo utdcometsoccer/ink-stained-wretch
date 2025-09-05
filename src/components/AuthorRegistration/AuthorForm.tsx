@@ -243,10 +243,28 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
         </label>
         <label>
           Headshot URL:
-          <input name="HeadShotURL" value={form.HeadShotURL} onChange={handleChange} />
-          <button type="button" className="author-form-headshot-btn" onClick={() => dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: true })}>
-            Choose Image
-          </button>
+          <div className="author-form-headshot-row">
+            <input name="HeadShotURL" value={form.HeadShotURL} onChange={handleChange} className="input-two-thirds-width" />
+            <button type="button" className="author-form-headshot-btn" onClick={() => dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: true })}>
+              Choose Image
+            </button>
+            {form.HeadShotURL && (
+              <span className="author-form-headshot-thumb-wrapper">
+                <img
+                  src={form.HeadShotURL}
+                  alt="Headshot thumbnail"
+                  className="author-form-headshot-thumb"
+                />
+                <span className="author-form-headshot-preview">
+                  <img
+                    src={form.HeadShotURL}
+                    alt="Headshot preview"
+                    className="author-form-headshot-large"
+                  />
+                </span>
+              </span>
+            )}
+          </div>
           {form.showImageManager && (
             <div className="author-form-image-manager">
               <ImageManager

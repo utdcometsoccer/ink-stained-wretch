@@ -80,10 +80,15 @@ export function AuthorRegistration({ state, dispatch }: AuthorRegistrationProps)
             <ul className="author-list-ul">
                 {listState.authorList.map(author => (
                     <li key={author.id} className="author-list-li">
+                        <img
+                            src={author.HeadShotURL || ''}
+                            alt={author.AuthorName + ' headshot'}
+                            className="author-list-thumb"
+                        />
                         <span className="author-list-author">{author.AuthorName}</span>
                         <span className="author-list-span">Language: {author.LanguageName}</span>
                         <span className="author-list-span">Region: {author.RegionName}</span>
-                        <span className="author-list-btn-row">
+                        <span className="author-list-btn-row author-list-inline-btns">
                             <button className="author-list-edit-btn icon-btn" title="Edit" onClick={() => handleEditAuthor(author.id)}>
                                 <EditIcon fontSize="small" />
                                 <span className="btn-label">Edit</span>

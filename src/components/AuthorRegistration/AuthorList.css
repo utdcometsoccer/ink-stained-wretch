@@ -1,3 +1,24 @@
+.author-list-li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1em;
+}
+.author-list-inline-btns {
+  margin-left: 12px;
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+}
+.author-list-thumb {
+  width: 32px;
+  height: 32px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 12px;
+  background: #eee;
+  vertical-align: middle;
+}
 .author-list-btn {
   display: inline-flex;
   align-items: center;
