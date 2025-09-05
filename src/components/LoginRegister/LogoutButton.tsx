@@ -1,9 +1,10 @@
 interface LogoutButtonProps {
   onSignOut: () => void;
+  className?: string;
 }
 
-export function LogoutButton({ onSignOut }: LogoutButtonProps) {
+export function LogoutButton({ onSignOut, className }: LogoutButtonProps) {
   return (
-    <button onClick={onSignOut}>Sign out</button>
+    <button onClick={onSignOut} className={className}>Sign out</button>
   );
 }

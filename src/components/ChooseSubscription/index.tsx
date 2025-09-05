@@ -105,7 +105,7 @@ export const ChooseSubscription: FC<ChooseSubscriptionProps> = ({ state, dispatc
         ))}
       </div>
       <button
-        className="choose-subscription-continue-btn"
+        className="app-btn"
         disabled={subState.selected === null}
         onClick={handleContinue}
       >
