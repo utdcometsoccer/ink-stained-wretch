@@ -1,19 +1,14 @@
 import type { UIStates } from "../types/UIStates";
 import type { State } from "../types/State";
-import { extractSelectedRegion } from "../services/extractSelectedRegion";
-import { getLanguageFromCulture } from "../services/getLanguageFromCulture";
 
 export interface Action {
   type:
     | 'SET_UI_STATE'
     | 'SET_ERROR'
     | 'CLEAR_ERROR'
-    | 'UPDATE_STATE'
-    | 'UPDATE_DOMAIN_INPUT_VALUE'
-    | 'UPDATE_DOMAIN_ERROR'
+  | 'UPDATE_STATE'    // isMenuOpen will be managed locally in Navbar
     | 'UPDATE_DOMAIN'
-    | 'UPDATE_DOMAIN_CONTACT_INFO'
-    | 'UPDATE_AUTHOR_ERROR';
+    | 'UPDATE_DOMAIN_CONTACT_INFO';
   payload?: any;
 }
 
@@ -31,7 +26,6 @@ export const initialState: AppState = {
 export function appReducer(state: AppState, action: Action): AppState {
   switch (action.type) {
     case 'SET_UI_STATE': {
-      // ...existing code...
       if (typeof action.payload === 'object' && action.payload !== null && 'uiState' in action.payload) {
         return {
           ...state,
@@ -71,49 +65,19 @@ export function appReducer(state: AppState, action: Action): AppState {
       };
     case 'UPDATE_STATE':
       {
-        // Merge new state
+        // Merge new state, but ignore isMenuOpen
+        const { ...restPayload } = action.payload || {};
         const newState = {
           ...state.state,
-          ...action.payload
+          ...restPayload
         };
-
-        // Dependency: selectedRegion and stateProvinceOptions depend on country and culture
-        const domainContactInfo = newState.domainContactInfo || newState.domainRegistration?.contactInformation;
-        const culture = newState.culture;
-        const selectedRegion = extractSelectedRegion(domainContactInfo, culture);
-     
-        // Dependency: selectedLanguage depends on culture
-        const selectedLanguage = culture ? getLanguageFromCulture(culture) : undefined;
-
-        // Ensure authToken is updated if present in payload
-        const authToken = 'authToken' in action.payload ? action.payload.authToken : newState.authToken;
-
         return {
           ...state,
           state: {
-            ...newState,
-            selectedRegion,
-            selectedLanguage,
-            authToken,
+            ...newState
           }
         };
       }
-    case 'UPDATE_DOMAIN_INPUT_VALUE':
-      return {
-        ...state,
-        state: {
-          ...state.state,
-          domainInputValue: action.payload
-        }
-      };
-    case 'UPDATE_DOMAIN_ERROR':
-      return {
-        ...state,
-        state: {
-          ...state.state,
-          domainError: action.payload
-        }
-      };
     case 'UPDATE_DOMAIN':
       return {
         ...state,
@@ -134,14 +98,6 @@ export function appReducer(state: AppState, action: Action): AppState {
             ...state.state.domainRegistration,
             contactInformation: action.payload
           }
-        }
-      };
-    case 'UPDATE_AUTHOR_ERROR':
-      return {
-        ...state,
-        state: {
-          ...state.state,
-          authorError: action.payload
         }
       };
     default:

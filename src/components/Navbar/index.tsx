@@ -1,21 +1,18 @@
+import { useMsal } from '@azure/msal-react';
+import { type FC, useEffect, useState } from 'react';
 import type { UIStates } from '../../types/UIStates';
 import './Navbar.css';
 import type { NavbarProps } from './NavbarProps';
-
-
 import { navItems } from './navItems';
-import React from 'react';
-import { useMsal } from '@azure/msal-react';
-// Removed AuthenticatedTemplate and UnauthenticatedTemplate
 
-export function Navbar({ currentState, dispatch, state }: NavbarProps) {
+export const Navbar: FC<NavbarProps> = ({ currentState, dispatch }) => {
     const { accounts } = useMsal();
 
     // Determine authentication state
     const isAuthenticated = accounts && accounts.length > 0;
 
     // Update reducer state if authentication changes
-    React.useEffect(() => {
+    useEffect(() => {
         dispatch({ type: 'UPDATE_STATE', payload: { isAuthenticated } });
     }, [isAuthenticated, dispatch]);
 
@@ -31,23 +28,23 @@ export function Navbar({ currentState, dispatch, state }: NavbarProps) {
         }
         return item;
     });
-    const isMenuOpen = state.isMenuOpen ?? false;
+    const [isMenuOpen, setMenuOpen] = useState(false);
 
-    const handleNavigation = (state: UIStates) => {
-        if (state === 'chooseCulture') {
+    const handleNavigation = (uiState: UIStates) => {
+        if (uiState === 'chooseCulture') {
             dispatch({ type: 'SET_UI_STATE', payload: { uiState: 'chooseCulture', autoDetect: false } });
         } else {
-            dispatch({ type: 'SET_UI_STATE', payload: state });
+            dispatch({ type: 'SET_UI_STATE', payload: uiState });
         }
-        dispatch({ type: 'UPDATE_STATE', payload: { isMenuOpen: false } });
-    }
+        setMenuOpen(false);
+    };
 
     const toggleMenu = () => {
-        dispatch({ type: 'UPDATE_STATE', payload: { isMenuOpen: !isMenuOpen } });
+        setMenuOpen((open) => !open);
     };
 
     const closeMenu = () => {
-        dispatch({ type: 'UPDATE_STATE', payload: { isMenuOpen: false } });
+        setMenuOpen(false);
     };
 
     return (

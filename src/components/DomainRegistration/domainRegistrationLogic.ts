@@ -8,32 +8,11 @@ import type { Dispatch } from "react";
 import type { Action } from "../../reducers/appReducer";
 import type { State } from "../../types/State";
 
-export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Action>) {
+export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Action>, domainInputValue: string, domainError: string | null, localDispatch?: (action: { type: string; payload: any }) => void) {
   const COUNTDOWN_SECONDS = Number(import.meta.env.VITE_COUNTDOWN_SECONDS) || 10;
   const countdownRef = useRef<HTMLDivElement>(null);
   const cityRef = useRef<HTMLInputElement>(null);
-  const stateRef = useRef<HTMLInputElement | HTMLSelectElement>(null);
-
-  // move this code into COuntDownIndicator
-  useEffect(() => {
-    if (countdownRef.current) {
-      const percent = `${(COUNTDOWN_SECONDS - (state.countdown ?? 0)) * (100 / COUNTDOWN_SECONDS)}%`;
-      countdownRef.current.style.setProperty('--countdown-width', percent);
-    }
-  }, [state.countdown, COUNTDOWN_SECONDS]);
-
-  useEffect(() => {
-    if (state.showRedirect && state.countdown !== null && (state.countdown ?? 0) > 0) {
-      const timer = setTimeout(() => {
-        dispatch({ type: 'UPDATE_STATE', payload: { countdown: (state.countdown ?? 1) - 1 } });
-      }, 1000);
-      return () => clearTimeout(timer);
-    } else if (state.showRedirect && state.countdown === 0) {
-      dispatch({ type: 'UPDATE_STATE', payload: { countdown: null } });
-      dispatch({ type: 'SET_UI_STATE', payload: 'authorPage' });
-    }
-  }, [state.showRedirect, state.countdown, dispatch]);
-
+  const stateRef = useRef<HTMLInputElement | HTMLSelectElement>(null);  
   const contactInfo = (state.domainRegistration ? state.domainRegistration.contactInformation : undefined) || {
     firstName: '',
     lastName: '',
@@ -46,8 +25,7 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
     emailAddress: '',
     telephoneNumber: '',
   };
-  const domainInputValue = state.domainInputValue || '';
-  const domainError = state.domainError || null;
+  // domainInputValue and domainError are now passed as arguments
   const isValid = domainValidate(domainInputValue) && !domainError && domainInputValue;
 
   function handleContactChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
@@ -64,17 +42,19 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const value = domainInputValue.trim();
-    dispatch({ type: "UPDATE_DOMAIN_INPUT_VALUE", payload: value });
+    if (localDispatch) {
+      localDispatch({ type: "SET_DOMAIN_INPUT_VALUE", payload: value });
+    }
     if (value === '') {
-      dispatch({ type: "UPDATE_DOMAIN_ERROR", payload: null });
+      if (localDispatch) localDispatch({ type: "SET_DOMAIN_ERROR", payload: null });
       dispatch({ type: "UPDATE_DOMAIN", payload: { topLevelDomain: '', secondLevelDomain: '' } });
       return;
     } else if (!domainValidate(value)) {
-      dispatch({ type: "UPDATE_DOMAIN_ERROR", payload: 'Please enter a valid domain (e.g., example.com)' });
+      if (localDispatch) localDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please enter a valid domain (e.g., example.com)' });
       dispatch({ type: "UPDATE_DOMAIN", payload: { topLevelDomain: '', secondLevelDomain: '' } });
       return;
     } else if (!(await validateDomainWhois(value))) {
-      dispatch({ type: "UPDATE_DOMAIN_ERROR", payload: 'Domain already exists. Please choose another.' });
+      if (localDispatch) localDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Domain already exists. Please choose another.' });
       dispatch({ type: "UPDATE_DOMAIN", payload: { topLevelDomain: '', secondLevelDomain: '' } });
       return;
     }
@@ -89,25 +69,25 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
       contactInfo.telephoneNumber
     ];
     if (requiredFields.some(f => !f || f.trim() === '')) {
-      dispatch({ type: "UPDATE_DOMAIN_ERROR", payload: 'Please fill out all required contact information.' });
+      if (localDispatch) localDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please fill out all required contact information.' });
       return;
     }
     if (!validateEmail(contactInfo.emailAddress ?? "")) {
-      dispatch({ type: "UPDATE_DOMAIN_ERROR", payload: 'Please enter a valid email address.' });
+      if (localDispatch) localDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please enter a valid email address.' });
       return;
     }
     if (!validatePhone(contactInfo.telephoneNumber ?? "")) {
-      dispatch({ type: "UPDATE_DOMAIN_ERROR", payload: 'Please enter a valid telephone number.' });
+      if (localDispatch) localDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please enter a valid telephone number.' });
       return;
     }
     const match = value.match(domainRegex);
     if (match) {
-      dispatch({ type: "UPDATE_DOMAIN_ERROR", payload: null });
+      if (localDispatch) localDispatch({ type: "SET_DOMAIN_ERROR", payload: null });
       dispatch({ type: "UPDATE_DOMAIN", payload: { secondLevelDomain: match[1], topLevelDomain: match[2] } });
       dispatch({ type: "UPDATE_DOMAIN_CONTACT_INFO", payload: { ...contactInfo } });
       dispatch({ type: 'SET_UI_STATE', payload: 'authorPage' });
     } else {
-      dispatch({ type: "UPDATE_DOMAIN_ERROR", payload: 'Please enter a valid domain (e.g., example.com)' });
+      if (localDispatch) localDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please enter a valid domain (e.g., example.com)' });
       dispatch({ type: "UPDATE_DOMAIN", payload: { topLevelDomain: '', secondLevelDomain: '' } });
     }
   }

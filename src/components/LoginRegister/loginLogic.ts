@@ -1,26 +1,15 @@
-import type { State } from "../../types/State";
 import type { Dispatch } from "react";
 import type { Action } from "../../reducers/appReducer";
 import type { LoginLogicResult } from "../../types/LoginLogicResult";
 import { useMsal } from "@azure/msal-react";
 
 
-export function useLoginLogic(
-  state: State,
-  dispatch: Dispatch<Action>,
-  countdownRef: React.RefObject<HTMLDivElement | null>
+export function useLoginLogic(  
+  dispatch: Dispatch<Action>,  
 ): LoginLogicResult {
-
-  const COUNTDOWN_SECONDS = Number(import.meta.env.VITE_COUNTDOWN_SECONDS) || 10;
   const { instance, accounts } = useMsal();
   const msalReady = typeof accounts !== 'undefined' && Array.isArray(accounts);
-
-  function updateCountdownWidth() {
-    if (countdownRef.current) {
-      const percent = `${(COUNTDOWN_SECONDS - (state.countdown ?? 0)) * (100 / COUNTDOWN_SECONDS)}%`;
-      countdownRef.current.style.setProperty('--countdown-width', percent);
-    }
-  }
+  
 
   function handleSignIn() {
     return async () => {
@@ -68,10 +57,8 @@ export function useLoginLogic(
     };
   }
 
-  return {
-    COUNTDOWN_SECONDS,
+  return {    
     msalReady,
-    updateCountdownWidth,
     handleSignIn: handleSignIn(),
     handleSignOut: handleSignOut()
   };

@@ -3,7 +3,7 @@ import "./ChooseCulture.css";
 import { type FC, useEffect, useReducer, useRef } from "react";
 import type { ChooseCultureProps } from "./ChooseCultureProps";
 import { cultureFromBrowser, LanguageDropdown, CountryDropdown } from '@idahoedokpayi/react-country-state-selector';
-import { chooseCultureReducer } from "../../reducers/appReducer/chooseCultureReducer";
+import { chooseCultureReducer } from "../../reducers/chooseCultureReducer";
 
 
 export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
