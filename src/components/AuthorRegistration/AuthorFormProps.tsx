@@ -1,3 +1,4 @@
+import type { Language } from "@idahoedokpayi/react-country-state-selector";
 import type { Author } from "../../types/Author";
 import type { Domain } from "../../types/Domain";
 import type { State } from "../../types/State";
