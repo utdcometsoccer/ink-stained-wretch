@@ -1,6 +1,6 @@
-import { CountryDropdown, cultureFromBrowser, CultureInfo, type Culture, type Language } from "@idahoedokpayi/react-country-state-selector";
+import { CountryDropdown, cultureFromBrowser, type Language } from "@idahoedokpayi/react-country-state-selector";
 import type { FC } from "react";
-import { useReducer, useState } from "react";
+import { useReducer } from "react";
 import { authorFormReducer, initialAuthorFormState } from "../../reducers/authorFormReducer";
 import type { Article } from "../../types/Article";
 import type { Book } from "../../types/Book";
@@ -19,88 +19,96 @@ import { SocialList } from "./SocialList";
 
 export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSave, onCancel }) => {
   // If domain is provided, update TopLevelDomain and SecondLevelDomain in initial state
-  const initialState = domain
-    ? {
-      ...author ?? initialAuthorFormState,
-      TopLevelDomain: domain.topLevelDomain || "",
-      SecondLevelDomain: domain.secondLevelDomain || ""
-    }
-    : author ?? initialAuthorFormState;
+  const initialState = {
+    ...(author ?? initialAuthorFormState),
+    TopLevelDomain: domain?.topLevelDomain || (author?.TopLevelDomain ?? ""),
+    SecondLevelDomain: domain?.secondLevelDomain || (author?.SecondLevelDomain ?? ""),
+    editType: null,
+    editIndex: null,
+    showImageManager: false
+  };
   const [form, dispatchForm] = useReducer(authorFormReducer, initialState);
-  const [editType, setEditType] = useState<"article" | "book" | "social" | null>(null);
-  const [editIndex, setEditIndex] = useState<number | null>(null);
-  const [showImageManager, setShowImageManager] = useState(false);
-  const { authToken, cultureInfo } = appState;
+  const { authToken, cultureInfo, domainRegistration } = appState;
   const token = authToken ?? '';
   const browserCulture = cultureFromBrowser()
   const language = form.LanguageName || cultureInfo?.Language || browserCulture.Language || "en";
-
+  const country = form.RegionName || cultureInfo?.Country || browserCulture.Country || "US";
+  const emailAddress = form.EmailAddress || domainRegistration?.contactInformation?.emailAddress || appState.userProfile?.emailAddress || '';
 
   // Handlers for editing child objects
   const handleEditArticle = (id: string) => {
     const idx = form.Articles.findIndex(a => a.id === id);
     if (idx !== -1) {
-      setEditType("article");
-      setEditIndex(idx);
+      dispatchForm({ type: "SET_EDIT_TYPE", payload: "article" });
+      dispatchForm({ type: "SET_EDIT_INDEX", payload: idx });
     }
   };
   const handleEditBook = (id: string) => {
     const idx = form.Books.findIndex(b => b.id === id);
     if (idx !== -1) {
-      setEditType("book");
-      setEditIndex(idx);
+      dispatchForm({ type: "SET_EDIT_TYPE", payload: "book" });
+      dispatchForm({ type: "SET_EDIT_INDEX", payload: idx });
     }
   };
   const handleEditSocial = (id: string) => {
     const idx = form.Socials.findIndex(s => s.id === id);
     if (idx !== -1) {
-      setEditType("social");
-      setEditIndex(idx);
+      dispatchForm({ type: "SET_EDIT_TYPE", payload: "social" });
+      dispatchForm({ type: "SET_EDIT_INDEX", payload: idx });
     }
   };
 
   // Handlers for saving child objects
   const handleSaveArticle = (article: Article) => {
-    if (editIndex !== null) {
-      const updated = form.Articles.map((a, i) => i === editIndex ? article : a);
+    if (form.editIndex !== null) {
+      const updated = form.Articles.map((a, i) => i === form.editIndex ? article : a);
       dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Articles", value: updated } });
     }
-    setEditType(null); setEditIndex(null);
+    dispatchForm({ type: "SET_EDIT_TYPE", payload: null });
+    dispatchForm({ type: "SET_EDIT_INDEX", payload: null });
   };
   const handleSaveBook = (book: Book) => {
-    if (editIndex !== null) {
-      const updated = form.Books.map((b, i) => i === editIndex ? book : b);
+    if (form.editIndex !== null) {
+      const updated = form.Books.map((b, i) => i === form.editIndex ? book : b);
       dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Books", value: updated } });
     }
-    setEditType(null); setEditIndex(null);
+    dispatchForm({ type: "SET_EDIT_TYPE", payload: null });
+    dispatchForm({ type: "SET_EDIT_INDEX", payload: null });
   };
   const handleSaveSocial = (social: Social) => {
-    if (editIndex !== null) {
-      const updated = form.Socials.map((s, i) => i === editIndex ? social : s);
+    if (form.editIndex !== null) {
+      const updated = form.Socials.map((s, i) => i === form.editIndex ? social : s);
       dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Socials", value: updated } });
     }
-    setEditType(null); setEditIndex(null);
+    dispatchForm({ type: "SET_EDIT_TYPE", payload: null });
+    dispatchForm({ type: "SET_EDIT_INDEX", payload: null });
   };
 
   // Add handlers
   const handleAddArticle = () => {
     const newArticle: Article = { id: crypto.randomUUID(), Title: "", Date: "", Publication: "", URL: "" };
     dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Articles", value: [...form.Articles, newArticle] } });
-    setEditType("article"); setEditIndex(form.Articles.length);
+    dispatchForm({ type: "SET_EDIT_TYPE", payload: "article" });
+    dispatchForm({ type: "SET_EDIT_INDEX", payload: form.Articles.length });
   };
   const handleAddBook = () => {
     const newBook: Book = { id: crypto.randomUUID(), Title: "", Description: "", URL: "", Cover: "" };
     dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Books", value: [...form.Books, newBook] } });
-    setEditType("book"); setEditIndex(form.Books.length);
+    dispatchForm({ type: "SET_EDIT_TYPE", payload: "book" });
+    dispatchForm({ type: "SET_EDIT_INDEX", payload: form.Books.length });
   };
   const handleAddSocial = () => {
     const newSocial: Social = { id: crypto.randomUUID(), Name: "", URL: "" };
     dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Socials", value: [...form.Socials, newSocial] } });
-    setEditType("social"); setEditIndex(form.Socials.length);
+    dispatchForm({ type: "SET_EDIT_TYPE", payload: "social" });
+    dispatchForm({ type: "SET_EDIT_INDEX", payload: form.Socials.length });
   };
 
   // Cancel child edit
-  const handleCancelChild = () => { setEditType(null); setEditIndex(null); };
+  const handleCancelChild = () => {
+    dispatchForm({ type: "SET_EDIT_TYPE", payload: null });
+    dispatchForm({ type: "SET_EDIT_INDEX", payload: null });
+  };
 
   // Main form change handler
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -113,14 +121,14 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
   };
 
   // Render only child form if editing
-  if (editType === "article" && editIndex !== null) {
-    return <ArticleForm article={form.Articles[editIndex]} onSave={handleSaveArticle} onCancel={handleCancelChild} />;
+  if (form.editType === "article" && form.editIndex !== null) {
+    return <ArticleForm article={form.Articles[form.editIndex]} onSave={handleSaveArticle} onCancel={handleCancelChild} />;
   }
-  if (editType === "book" && editIndex !== null) {
-    return <BookForm token={token} book={form.Books[editIndex]} onSave={handleSaveBook} onCancel={handleCancelChild} />;
+  if (form.editType === "book" && form.editIndex !== null) {
+    return <BookForm token={token} book={form.Books[form.editIndex]} onSave={handleSaveBook} onCancel={handleCancelChild} />;
   }
-  if (editType === "social" && editIndex !== null) {
-    return <SocialForm social={form.Socials[editIndex]} onSave={handleSaveSocial} onCancel={handleCancelChild} />;
+  if (form.editType === "social" && form.editIndex !== null) {
+    return <SocialForm social={form.Socials[form.editIndex]} onSave={handleSaveSocial} onCancel={handleCancelChild} />;
   }
 
   // Main Author form
@@ -131,24 +139,23 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
         Author Name:
         <input name="AuthorName" value={form.AuthorName} onChange={handleChange} />
       </label>
-      <label>
-        Language:
-        <LanguageDropdown
-          name="LanguageName"
-          value={language as Language}
-          onChange={e => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "LanguageName", value: e.target.value } })}
-          required
-        />
-      </label>
+
+      <LanguageDropdown
+        name="LanguageName"
+        value={language as Language}
+        onChange={e => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "LanguageName", value: e.target.value } })}
+        required
+      />
+
       <CountryDropdown
-        culture={new CultureInfo(`${form.LanguageName || "en"}-${form.RegionName || "US"}` as Culture)}
-        selectedCountry={form.RegionName}
+        culture={cultureInfo}
+        selectedCountry={country}
         Label="Country: "
         onCountryChange={(val: string) => dispatchForm({ type: "UPDATE_FIELD", payload: { name: "RegionName", value: val } })}
       />
       <label>
         Email:
-        <input name="EmailAddress" value={form.EmailAddress} onChange={handleChange} />
+        <input name="EmailAddress" value={emailAddress} onChange={handleChange} />
       </label>
       <label>
         Welcome Text:
@@ -161,19 +168,19 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
       <label>
         Headshot URL:
         <input name="HeadShotURL" value={form.HeadShotURL} onChange={handleChange} />
-        <button type="button" className="author-form-headshot-btn" onClick={() => setShowImageManager(true)}>
+        <button type="button" className="author-form-headshot-btn" onClick={() => dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: true })}>
           Choose Image
         </button>
-        {showImageManager && (
+        {form.showImageManager && (
           <div className="author-form-image-manager">
             <ImageManager
               token={token}
               onSelect={img => {
                 dispatchForm({ type: "UPDATE_FIELD", payload: { name: "HeadShotURL", value: img.url } });
-                setShowImageManager(false);
+                dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: false });
               }}
             />
-            <button type="button" className="author-form-image-manager-close" onClick={() => setShowImageManager(false)}>Close</button>
+            <button type="button" className="author-form-image-manager-close" onClick={() => dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: false })}>Close</button>
           </div>
         )}
       </label>
