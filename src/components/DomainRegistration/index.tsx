@@ -83,7 +83,7 @@ export function DomainRegistration({ state, dispatch }: DomainRegistrationProps)
                     cityRef={cityRef as React.RefObject<HTMLInputElement>}
                     onChange={handleContactChange}
                 />
-                <button type="submit">Submit</button>
+                <button type="submit" className="app-btn">Submit</button>
             </form>
         </div>
     );

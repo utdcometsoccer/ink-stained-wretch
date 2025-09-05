@@ -29,8 +29,8 @@ export const SocialForm: FC<SocialFormProps> = ({ social, onSave, onCancel }) =>
         URL:
         <input name="URL" value={form.URL} onChange={handleChange} />
       </label>
-  <button type="submit" className="social-form-btn">Save</button>
-  <button type="button" className="social-form-btn" onClick={onCancel}>Cancel</button>
+  <button type="submit" className="social-form-btn app-btn">Save</button>
+  <button type="button" className="social-form-btn app-btn cancel" onClick={onCancel}>Cancel</button>
     </form>
   );
 }

@@ -13,10 +13,10 @@ export const BookList: FC<BookListProps> = ({ books, onEdit, onAdd }) => (
           <span className="book-list-span"><strong>{book.Title}</strong></span>
           <span className="book-list-span">Description: {book.Description}</span>
           <span className="book-list-span">URL: {book.URL}</span>
-          <button className="book-list-edit-btn" onClick={() => onEdit(book.id)}>Edit</button>
+          <button className="book-list-edit-btn app-btn" onClick={() => onEdit(book.id)}>Edit</button>
         </li>
       ))}
     </ul>
-    <button className="book-list-add-btn" onClick={onAdd}>Add Book</button>
+  <button className="book-list-add-btn app-btn" onClick={onAdd}>Add Book</button>
   </div>
 );

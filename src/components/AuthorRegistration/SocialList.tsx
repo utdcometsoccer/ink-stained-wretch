@@ -12,10 +12,10 @@ export const SocialList: FC<SocialListProps> = ({ socials, onEdit, onAdd }) => (
         <li key={social.id} className="social-list-li">
           <span className="social-list-span"><strong>{social.Name}</strong></span>
           <span className="social-list-span">URL: {social.URL}</span>
-          <button className="social-list-edit-btn" onClick={() => onEdit(social.id)}>Edit</button>
+          <button className="social-list-edit-btn app-btn" onClick={() => onEdit(social.id)}>Edit</button>
         </li>
       ))}
     </ul>
-    <button className="social-list-add-btn" onClick={onAdd}>Add Social Link</button>
+  <button className="social-list-add-btn app-btn" onClick={onAdd}>Add Social Link</button>
   </div>
 );

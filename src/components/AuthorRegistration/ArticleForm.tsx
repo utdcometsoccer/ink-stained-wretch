@@ -37,8 +37,8 @@ export const ArticleForm: FC<ArticleFormProps> = ({ article, onSave, onCancel })
         URL:
         <input name="URL" value={form.URL} onChange={handleChange} />
       </label>
-  <button type="submit" className="article-form-btn">Save</button>
-  <button type="button" className="article-form-btn" onClick={onCancel}>Cancel</button>
+  <button type="submit" className="article-form-btn app-btn">Save</button>
+  <button type="button" className="article-form-btn app-btn cancel" onClick={onCancel}>Cancel</button>
     </form>
   );
 }
