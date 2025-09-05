@@ -19,6 +19,7 @@ import { SocialList } from "./SocialList";
 
 export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSave, onCancel }) => {
   const defaultAuthorName = `${appState.domainRegistration?.contactInformation?.firstName} ${appState.domainRegistration?.contactInformation?.lastName}`.trim() || '';
+  const defaultCopyrightText = appState.domainRegistration?.contactInformation?.firstName ? `© ${new Date().getFullYear()} ${appState.domainRegistration.contactInformation.firstName} ${appState.domainRegistration.contactInformation.lastName}. All rights reserved.` : '';
   // If domain is provided, update TopLevelDomain and SecondLevelDomain in initial state
   const initialState = {
     ...(author ?? initialAuthorFormState),
@@ -27,7 +28,8 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
     editType: null,
     editIndex: null,
     showImageManager: false,
-    AuthorName: author?.AuthorName || defaultAuthorName || appState.userProfile?.displayName || ''
+    AuthorName: author?.AuthorName || defaultAuthorName || appState.userProfile?.displayName || '',
+    CopyrightText: author?.CopyrightText || defaultCopyrightText || '',
   };
   const [form, dispatchForm] = useReducer(authorFormReducer, initialState);
   const { authToken, cultureInfo, domainRegistration } = appState;

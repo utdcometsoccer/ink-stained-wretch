@@ -55,6 +55,7 @@ export function AuthorRegistration({ state, dispatch }: AuthorRegistrationProps)
 
     const handleCancelAuthor = () => {
         dispatchList({ type: "HIDE_FORM" });
+        dispatchList({ type: "SET_NEW_AUTHOR_NULL" }); // Explicitly set newAuthor to null
     };
 
     const handleValidateAuthors = () => {

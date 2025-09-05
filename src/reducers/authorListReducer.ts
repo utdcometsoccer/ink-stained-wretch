@@ -19,10 +19,13 @@ export type AuthorListAction =
   | { type: "HIDE_FORM" }
   | { type: "SAVE_AUTHOR"; payload: Author }
   | { type: "INIT_LIST"; payload: Author[] }
-  | { type: "SET_WARNING"; payload: string };
+  | { type: "SET_WARNING"; payload: string }
+  | { type: "SET_NEW_AUTHOR_NULL" };
 
 export function authorListReducer(state: AuthorListState, action: AuthorListAction): AuthorListState {
-  switch (action.type) {
+      switch (action.type) {
+        case "SET_NEW_AUTHOR_NULL":
+          return { ...state, newAuthor: null };
     case "SHOW_FORM": {
       return { ...state, showForm: true, newAuthor: (action as { type: "SHOW_FORM"; payload: Author }).payload };
     }
