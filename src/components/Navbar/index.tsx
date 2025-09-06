@@ -4,6 +4,8 @@ import type { UIStates } from '../../types/UIStates';
 import './Navbar.css';
 import type { NavbarProps } from './NavbarProps';
 import { navItems } from './navItems';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export const Navbar: FC<NavbarProps> = ({ currentState, dispatch }) => {
     const { accounts } = useMsal();
@@ -22,7 +24,7 @@ export const Navbar: FC<NavbarProps> = ({ currentState, dispatch }) => {
             return {
                 ...item,
                 label: isAuthenticated ? 'Logout' : 'Login',
-                icon: isAuthenticated ? '🚪' : '🔑',
+                icon: isAuthenticated ? <LogoutIcon fontSize="small" /> : <LoginIcon fontSize="small" />,
                 description: isAuthenticated ? 'Sign Out' : 'Sign In / Sign Up'
             };
         }
