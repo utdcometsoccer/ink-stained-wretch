@@ -93,7 +93,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
     EmailAddress: emailAddress
   };
   const [form, dispatchForm] = useReducer(authorFormReducer, initialState);
-  
+
 
   // Handlers for editing child objects
   const handleEditArticle = (id: string) => {
@@ -163,6 +163,9 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
     dispatchForm({ type: "SET_EDIT_TYPE", payload: "social" });
     dispatchForm({ type: "SET_EDIT_INDEX", payload: form.Socials.length });
   };
+  const importBook = (newBook: Book) => {
+    dispatchForm({ type: "ADD_BOOK", payload: newBook });
+  };
 
   // Cancel child edit
   const handleCancelChild = () => {
@@ -175,7 +178,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
     if (form.editType === "social" && form.editIndex !== null) {
       cancelSocial();
     }
-   
+
     dispatchForm({ type: "SET_EDIT_TYPE", payload: null });
     dispatchForm({ type: "SET_EDIT_INDEX", payload: null });
   };
@@ -290,12 +293,19 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
           Second Level Domain:
           <input name="SecondLevelDomain" value={form.SecondLevelDomain} readOnly />
         </label>
-  <h3>Articles</h3>
-  <ArticleList articles={form.Articles} onEdit={handleEditArticle} onAdd={handleAddArticle} onDelete={handleDeleteArticle} />
-  <h3>Books</h3>
-  <BookList books={form.Books} onEdit={handleEditBook} onAdd={handleAddBook} onDelete={handleDeleteBook} />
-  <h3>Social Links</h3>
-  <SocialList socials={form.Socials} onEdit={handleEditSocial} onAdd={handleAddSocial} onDelete={handleDeleteSocial} />
+        <h3>Articles</h3>
+        <ArticleList articles={form.Articles} onEdit={handleEditArticle} onAdd={handleAddArticle} onDelete={handleDeleteArticle} />
+        <h3>Books</h3>
+        <BookList 
+          books={form.Books}
+          onEdit={handleEditBook}
+          onAdd={handleAddBook}
+          onDelete={handleDeleteBook}
+          authorName={form.AuthorName}
+          importBook={importBook}
+        />
+        <h3>Social Links</h3>
+        <SocialList socials={form.Socials} onEdit={handleEditSocial} onAdd={handleAddSocial} onDelete={handleDeleteSocial} />
         <div className="author-form-btn-row">
           <button type="submit" className="app-btn">Save Author</button>
           <button type="button" className="app-btn cancel" onClick={onCancel}>Cancel</button>
