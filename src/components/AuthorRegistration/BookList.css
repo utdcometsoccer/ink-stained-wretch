@@ -1,3 +1,10 @@
+.book-list-book-icon {
+  margin-right: 6px;
+}
+.amazon-logo{
+  height: 15px;
+  margin: 7px 6px 0 0;
+}
 .book-list-cover {
   width: 48px;
   height: 32px;
