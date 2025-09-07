@@ -2,11 +2,11 @@ import { CountryDropdown, cultureFromBrowser, LanguageDropdown, type Language } 
 import type { FC } from "react";
 import { useReducer } from "react";
 import { authorFormReducer, initialAuthorFormState } from "../../reducers/authorFormReducer";
+import { deleteImage, listUserImages } from '../../services/imageApi';
 import type { Article } from "../../types/Article";
 import type { Book } from "../../types/Book";
 import type { Social } from "../../types/Social";
 import { ImageManager } from "../ImageManager";
-
 import { ArticleForm } from "./ArticleForm";
 import { ArticleList } from "./ArticleList";
 import "./AuthorForm.css";
@@ -276,6 +276,8 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
                   dispatchForm({ type: "UPDATE_FIELD", payload: { name: "HeadShotURL", value: img.url } });
                   dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: false });
                 }}
+                listUserImages={listUserImages}
+                deleteImage={deleteImage}
               />
               <button type="button" className="author-form-image-manager-close" onClick={() => dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: false })}>Close</button>
             </div>

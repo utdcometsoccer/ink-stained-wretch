@@ -6,6 +6,7 @@ import { Checkout } from './components/Checkout'
 import { DomainRegistration } from './components/DomainRegistration'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { ErrorPage } from './components/ErrorPage'
+import { isDevelopment } from './services/isDevelopment';
 import { Login } from './components/LoginRegister'
 import { Navbar } from './components/Navbar'
 import { ThankYou } from './components/ThankYou'
@@ -79,9 +80,9 @@ function App() {
         case 'chooseCulture':
           return <ChooseCulture state={appState.state} dispatch={dispatch} />
         case 'login':
-          return <Login state={appState.state} dispatch={dispatch} />
+          return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} />
         case 'domainRegistration':
-          return <DomainRegistration state={appState.state} dispatch={dispatch} />
+          return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} />
         case 'authorPage':
           return <AuthorRegistration state={appState.state} dispatch={dispatch} />
         case 'chooseSubscription':
@@ -91,9 +92,9 @@ function App() {
         case 'thankYou':
           return <ThankYou />
         case 'error':
-          return <ErrorPage state={appState.state} dispatch={dispatch} />
+          return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} />
         default:
-          return <ErrorPage state={appState.state} dispatch={dispatch} />
+          return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} />
       }
     } catch (error) {
       const renderError = error instanceof Error ? error : new Error('An error occurred while rendering');
@@ -102,7 +103,7 @@ function App() {
         type: 'SET_ERROR',
         payload: renderError.message
       })
-      return <ErrorPage state={appState.state} dispatch={dispatch} />
+  return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} />
     }
   }
 

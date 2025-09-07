@@ -26,7 +26,14 @@ describe("useDomainRegistrationLogic", () => {
   };
 
   it("returns logic and handles contact change", () => {
-    const { result } = renderHook(() => useDomainRegistrationLogic(baseState, mockDispatch));
+    const { result } = renderHook(() =>
+      useDomainRegistrationLogic(
+        baseState,
+        mockDispatch,
+        baseState.domainInputValue,
+        baseState.domainError
+      )
+    );
     act(() => {
       result.current.handleContactChange({ target: { name: "firstName", value: "Jane" } } as any);
     });
@@ -34,7 +41,14 @@ describe("useDomainRegistrationLogic", () => {
   });
 
   it("handles submit with invalid domain", async () => {
-    const { result } = renderHook(() => useDomainRegistrationLogic(baseState, mockDispatch));
+    const { result } = renderHook(() =>
+      useDomainRegistrationLogic(
+        baseState,
+        mockDispatch,
+        baseState.domainInputValue,
+        baseState.domainError
+      )
+    );
     await act(async () => {
       await result.current.handleSubmit({ preventDefault: () => {} } as any);
     });
