@@ -7,10 +7,6 @@ import { vi } from "vitest";
 describe("DomainRegistration", () => {
   const mockDispatch = vi.fn();
   const baseState: State = {
-    domainInputValue: "example.com",
-    domainError: null,
-    showRedirect: false,
-    countdown: null,
     cultureInfo: undefined,
     domainRegistration: {
       contactInformation: {
@@ -26,10 +22,27 @@ describe("DomainRegistration", () => {
         telephoneNumber: "1234567890",
       },
     },
-  } as any;
+    error: undefined,
+    isAuthenticated: undefined,
+    Authors: undefined,
+    userProfile: undefined,
+    autoDetect: undefined,
+    authToken: undefined,
+    subscriptionPlans: undefined,
+    selectedSubscriptionPlan: undefined,
+  };
 
   it("renders the form and submits valid data", () => {
-    render(<DomainRegistration state={baseState} dispatch={mockDispatch} />);
+    const state = {
+      ...baseState,
+      domainRegistration: {
+        ...baseState.domainRegistration, domain: {
+          topLevelDomain: "com",
+          secondLevelDomain: "newdomain",
+        }
+      }
+    };
+    render(<DomainRegistration state={state} dispatch={mockDispatch} />);
     expect(screen.getByText(/Domain Registration/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/Domain:/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/First Name:/i)).toHaveValue("John");
@@ -39,15 +52,17 @@ describe("DomainRegistration", () => {
   });
 
   it("shows error for invalid domain", () => {
-    const state = { ...baseState, domainInputValue: "invalid_domain" };
+    const state = {
+      ...baseState,
+      domainRegistration: {
+        ...baseState.domainRegistration, domain: {
+          topLevelDomain: "",
+          secondLevelDomain: "invalid_domain",
+        }
+      }
+    };
     render(<DomainRegistration state={state} dispatch={mockDispatch} />);
     fireEvent.click(screen.getByText(/Submit/i));
     expect(mockDispatch).toHaveBeenCalled();
-  });
-
-  it("shows countdown indicator when redirecting", () => {
-    const state = { ...baseState, showRedirect: true, countdown: 5 };
-    render(<DomainRegistration state={state} dispatch={mockDispatch} />);
-    expect(screen.getByText(/Redirecting to Author Page/i)).toBeInTheDocument();
   });
 });

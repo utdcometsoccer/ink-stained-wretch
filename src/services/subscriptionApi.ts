@@ -24,21 +24,18 @@
  *   ...
  * ]
  */
-
-
-import axios from "axios";
 import type { SubscriptionPlan } from "../types/SubscriptionPlan";
 
 const SUBSCRIPTION_PLANS_API_URL = import.meta.env.VITE_SUBSCRIPTION_PLANS_API_URL;
 
 export async function fetchSubscriptionPlans(): Promise<SubscriptionPlan[]> {
-  const response = await axios.get<SubscriptionPlan[]>(SUBSCRIPTION_PLANS_API_URL);
-  if (
-    response.status !== 200 ||
-    !Array.isArray(response.data) ||
-    response.data.length === 0
-  ) {
+  const response = await fetch(SUBSCRIPTION_PLANS_API_URL);
+  if (response.status !== 200) {
     throw new Error(`Failed to fetch valid subscription plans: ${response.status} ${response.statusText}`);
   }
-  return response.data;
+  const data = await response.json();
+  if (!Array.isArray(data) || data.length === 0) {
+    throw new Error(`Failed to fetch valid subscription plans: ${response.status} ${response.statusText}`);
+  }
+  return data;
 }

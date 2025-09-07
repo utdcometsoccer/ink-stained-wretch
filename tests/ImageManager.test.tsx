@@ -1,0 +1,34 @@
+
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { ImageManager } from '../src/components/ImageManager';
+import { ManagedImage } from '../src/types/ManagedImage';
+
+const mockImages: ManagedImage[] = [
+  { id: '1', url: 'url1', name: 'img1.png', size: 2048, uploadedAt: '2023-10-01T12:00:00Z' },
+  { id: '2', url: 'url2', name: 'img2.png', size: 4096, uploadedAt: '2023-10-02T12:00:00Z' },
+];
+
+const mockListUserImages = vi.fn(async (token: string) => new Promise<Array<ManagedImage>>((resolve, reject) => resolve(mockImages)));
+const mockDeleteImage = vi.fn(async (id: string, token: string) => {});
+
+describe('ImageManager', () => {
+  it('renders images from mocked API', async () => {
+    const mockToken = 'mock-token';
+    const mockOnSelect = vi.fn();
+    render(
+      <ImageManager
+        token={mockToken}
+        onSelect={mockOnSelect}
+        listUserImages={mockListUserImages}
+        deleteImage={mockDeleteImage}
+      />
+    );
+    expect(mockListUserImages).toHaveBeenCalledWith(mockToken);
+    // Wait for images to appear
+    const image1 = await screen.findByRole('img', { name: /img1.png/i });
+    expect(image1).toHaveAttribute('src', 'url1');
+    const image2 = await screen.findByRole('img', { name: /img2.png/i });
+    expect(image2).toHaveAttribute('src', 'url2');
+  });
+});

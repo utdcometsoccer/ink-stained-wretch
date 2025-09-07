@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from 'vitest';
 import { isValidCulture } from "../src/services/isValidCulture";
 
 describe("isValidCulture", () => {
