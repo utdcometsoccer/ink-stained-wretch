@@ -1,11 +1,10 @@
+import type { ChangeEvent, FC, FormEvent } from "react";
 import { useState } from "react";
-import type { FC, ChangeEvent, FormEvent } from "react";
-
+import { deleteImage, listUserImages } from '../../services/imageApi';
 import type { Book } from "../../types/Book";
-
-import type { BookFormProps } from "./BookFormProps";
-import "./BookForm.css";
 import { ImageManager } from "../ImageManager";
+import "./BookForm.css";
+import type { BookFormProps } from "./BookFormProps";
 
 export const BookForm: FC<BookFormProps & { token: string }> = ({ book, token, onSave, onCancel }) => {
   const [form, setForm] = useState<Book>(book);
@@ -64,6 +63,8 @@ export const BookForm: FC<BookFormProps & { token: string }> = ({ book, token, o
                     setForm({ ...form, Cover: img.url });
                     setShowImageManager(false);
                   }}
+                  listUserImages={listUserImages}
+                  deleteImage={deleteImage}
                 />
                 <button type="button" className="book-form-image-manager-close" onClick={() => setShowImageManager(false)}>Close</button>
               </div>

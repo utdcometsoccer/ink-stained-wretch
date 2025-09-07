@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { domainRegex } from "../../services/domainRegex";
 import { domainValidate } from "../../services/domainValidate";
 import { validateDomainWhois } from "../../services/validateDomainWhois";
@@ -7,12 +7,11 @@ import { validatePhone } from "../../services/validatePhone";
 import type { Dispatch } from "react";
 import type { Action } from "../../reducers/appReducer";
 import type { State } from "../../types/State";
+import type { DomainRegistrationLogicReturn } from "../../types/DomainRegistrationLogicReturn";
 
-export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Action>, domainInputValue: string, domainError: string | null, localDispatch?: (action: { type: string; payload: any }) => void) {
-  const COUNTDOWN_SECONDS = Number(import.meta.env.VITE_COUNTDOWN_SECONDS) || 10;
-  const countdownRef = useRef<HTMLDivElement>(null);
+export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Action>, domainInputValue: string, domainError: string | null, localDispatch?: (action: { type: string; payload: any }) => void): DomainRegistrationLogicReturn {
   const cityRef = useRef<HTMLInputElement>(null);
-  const stateRef = useRef<HTMLInputElement | HTMLSelectElement>(null);  
+  const stateRef = useRef<HTMLInputElement | HTMLSelectElement>(null);
   const contactInfo = (state.domainRegistration ? state.domainRegistration.contactInformation : undefined) || {
     firstName: '',
     lastName: '',
@@ -26,7 +25,7 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
     telephoneNumber: '',
   };
   // domainInputValue and domainError are now passed as arguments
-  const isValid = domainValidate(domainInputValue) && !domainError && domainInputValue;
+  const isValid = !!(domainValidate(domainInputValue) && !domainError && domainInputValue);
 
   function handleContactChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
     const { name, value } = e.target;
@@ -93,8 +92,6 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
   }
 
   return {
-    COUNTDOWN_SECONDS,
-    countdownRef,
     cityRef,
     stateRef,
     contactInfo,

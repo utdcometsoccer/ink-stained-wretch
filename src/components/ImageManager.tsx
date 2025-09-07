@@ -1,28 +1,27 @@
-import { useEffect, useState } from "react";
-import { listUserImages, deleteImage } from "../services/imageApi";
+import { useEffect, useReducer } from "react";
+import { imageManagerReducer } from '../reducers/imageManagerReducer';
 import { getImageApiErrorMessage } from "../services/imageApiErrors";
+import type { ManagedImage } from "../types/ManagedImage";
 import "./ImageManager.css";
+import type { ImageManagerProps } from "./ImageManagerProps";
 
-interface ImageManagerProps {
-  token: string;
-  onSelect: (image: { id: string; url: string; name: string; size: number; uploadedAt: string }) => void;
-}
-
-export const ImageManager = ({ token, onSelect }: ImageManagerProps) => {
-  const [images, setImages] = useState<Array<{ id: string; url: string; name: string; size: number; uploadedAt: string }>>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export const ImageManager = ({ token, onSelect, listUserImages, deleteImage }: ImageManagerProps) => {
+  const [state, dispatch] = useReducer(imageManagerReducer, {
+    images: [],
+    loading: false,
+    error: null,
+  });
 
   const fetchImages = async () => {
-    setLoading(true);
-    setError(null);
+    dispatch({ type: 'SET_LOADING', payload: true });
+    dispatch({ type: 'SET_ERROR', payload: null });
     try {
       const imgs = await listUserImages(token);
-      setImages(imgs);
+      dispatch({ type: 'SET_IMAGES', payload: imgs });
     } catch (err) {
-      setError(getImageApiErrorMessage(err));
+      dispatch({ type: 'SET_ERROR', payload: getImageApiErrorMessage(err) });
     } finally {
-      setLoading(false);
+      dispatch({ type: 'SET_LOADING', payload: false });
     }
   };
 
@@ -32,25 +31,25 @@ export const ImageManager = ({ token, onSelect }: ImageManagerProps) => {
   }, [token]);
 
   const handleDelete = async (id: string) => {
-    setLoading(true);
-    setError(null);
+    dispatch({ type: 'SET_LOADING', payload: true });
+    dispatch({ type: 'SET_ERROR', payload: null });
     try {
       await deleteImage(id, token);
-      setImages(images.filter(img => img.id !== id));
+      dispatch({ type: 'DELETE_IMAGE', payload: id });
     } catch (err) {
-      setError(getImageApiErrorMessage(err));
+      dispatch({ type: 'SET_ERROR', payload: getImageApiErrorMessage(err) });
     } finally {
-      setLoading(false);
+      dispatch({ type: 'SET_LOADING', payload: false });
     }
   };
 
   return (
     <div>
       <h2>Your Uploaded Images</h2>
-      {loading && <div>Loading...</div>}
-      {error && <div className="image-manager-error">{error}</div>}
+      {state.loading && <div>Loading...</div>}
+      {state.error && <div className="image-manager-error">{state.error}</div>}
       <ul className="image-manager-list">
-        {images.map(img => (
+        {state.images.map((img: ManagedImage) => (
           <li key={img.id} className="image-manager-item">
             <img src={img.url} alt={img.name} className="image-manager-img" />
             <span className="image-manager-name">{img.name} ({(img.size / 1024).toFixed(1)} KB)</span>

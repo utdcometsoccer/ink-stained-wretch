@@ -1,13 +1,12 @@
+import type { FC } from 'react';
 import './ErrorPage.css';
 import type { ErrorPageProps } from "./ErrorPageProps";
 
-export function ErrorPage({ state, dispatch }: ErrorPageProps) {
-  const isDevelopment = import.meta.env.MODE === 'development';
-  
+export const ErrorPage: FC<ErrorPageProps> = ({ state, dispatch, isDevelopment }) => {
   return (
     <div className="error-page">
       <h1>Error</h1>
-      {isDevelopment ? (
+      {isDevelopment() ? (
         <>
           <p>Something went wrong during development.</p>
           {state.error && (
@@ -38,4 +37,4 @@ export function ErrorPage({ state, dispatch }: ErrorPageProps) {
       )}
     </div>
   );
-}
+};
