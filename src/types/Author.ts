@@ -17,4 +17,5 @@ export interface Author {
   Articles: Article[];
   Books: Book[];
   Socials: Social[];
+  OpenLibraryAuthorKeys?: string[];
 }

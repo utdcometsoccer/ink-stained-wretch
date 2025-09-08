@@ -80,15 +80,15 @@ function App() {
         case 'chooseCulture':
           return <ChooseCulture state={appState.state} dispatch={dispatch} />
         case 'login':
-          return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} />
+          return <Login state={appState.state} dispatch={dispatch} />
         case 'domainRegistration':
-          return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} />
+          return <DomainRegistration state={appState.state} dispatch={dispatch} />
         case 'authorPage':
           return <AuthorRegistration state={appState.state} dispatch={dispatch} />
         case 'chooseSubscription':
           return <ChooseSubscription state={appState.state} dispatch={dispatch} />
         case 'checkout':
-          return <Checkout state={appState.state} dispatch={dispatch} />
+          return import.meta.env.VITE_ENABLE_STRIPE_CHECKOUT ? <Checkout state={appState.state} dispatch={dispatch} /> : <h2>Stripe Checkout is disabled</h2>
         case 'thankYou':
           return <ThankYou />
         case 'error':

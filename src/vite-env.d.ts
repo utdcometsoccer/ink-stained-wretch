@@ -7,7 +7,17 @@ interface ImportMetaEnv {
   readonly VITE_ENTRA_POLICY: string;
   readonly VITE_ENTRA_AUTHORITY: string;
   readonly VITE_ENTRA_SCOPES: string;
-  readonly VITE_COUNTDOWN_SECONDS: number;
+  readonly VITE_COUNTDOWN_SECONDS: string;
+  readonly VITE_SUBSCRIPTION_PLANS_API_URL: string;
+  readonly VITE_APP_NAME: string;
+  readonly VITE_CONTACT_EMAIL: string;
+  readonly VITE_OPENLIBRARY_AUTHOR_SEARCH_URL: string;
+  readonly VITE_GOOGLE_BOOKS_API_URL: string;
+  readonly VITE_IMAGE_API_URL: string;
+  readonly VITE_STRIPE_PUBLISHABLE_KEY: string;
+  readonly VITE_STRIPE_CHECKOUT_API_URL: string;
+  readonly VITE_STRIPE_LOGO_URL: string;
+  readonly VITE_ENABLE_STRIPE_CHECKOUT: boolean;
 }
 
 interface ImportMeta {

@@ -1,0 +1,61 @@
+.author-doc-form-fieldset {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.author-doc-form-legend {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.author-doc-form-label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.author-doc-form-input,
+.author-doc-form-textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  border: 1px solid #bbb;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.author-doc-form-actions {
+  margin-top: 1em;
+}
+
+.author-doc-form-save-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-right: 1em;
+  transition: background 0.2s;
+}
+.author-doc-form-save-btn:hover {
+  background: #1565c0;
+}
+
+.author-doc-form-cancel-btn {
+  background: #eee;
+  color: #333;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.author-doc-form-cancel-btn:hover {
+  background: #ccc;
+}
