@@ -1,54 +1,16 @@
-import { useMsal } from '@azure/msal-react';
-import { type FC, useEffect, useState } from 'react';
-import type { UIStates } from '../../types/UIStates';
+import { type FC } from 'react';
+import { useNavbarLogic } from '../../hooks/useNavbar.tsx';
 import './Navbar.css';
 import type { NavbarProps } from './NavbarProps';
-import { navItems } from './navItems';
-import LoginIcon from '@mui/icons-material/Login';
-import LogoutIcon from '@mui/icons-material/Logout';
 
 export const Navbar: FC<NavbarProps> = ({ currentState, dispatch }) => {
-    const { accounts } = useMsal();
-
-    // Determine authentication state
-    const isAuthenticated = accounts && accounts.length > 0;
-
-    // Update reducer state if authentication changes
-    useEffect(() => {
-        dispatch({ type: 'UPDATE_STATE', payload: { isAuthenticated } });
-    }, [isAuthenticated, dispatch]);
-
-    // Clone navItems and update login navitem text/icon based on authentication
-    const dynamicNavItems = navItems.map(item => {
-        if (item.state === 'login') {
-            return {
-                ...item,
-                label: isAuthenticated ? 'Logout' : 'Login',
-                icon: isAuthenticated ? <LogoutIcon fontSize="small" /> : <LoginIcon fontSize="small" />,
-                description: isAuthenticated ? 'Sign Out' : 'Sign In / Sign Up'
-            };
-        }
-        return item;
-    });
-    const [isMenuOpen, setMenuOpen] = useState(false);
-
-    const handleNavigation = (uiState: UIStates) => {
-        if (uiState === 'chooseCulture') {
-            dispatch({ type: 'SET_UI_STATE', payload: { uiState: 'chooseCulture', autoDetect: false } });
-        } else {
-            dispatch({ type: 'SET_UI_STATE', payload: uiState });
-        }
-        setMenuOpen(false);
-    };
-
-    const toggleMenu = () => {
-        setMenuOpen((open) => !open);
-    };
-
-    const closeMenu = () => {
-        setMenuOpen(false);
-    };
-
+    const {
+        dynamicNavItems,
+        isMenuOpen,
+        handleNavigation,
+        toggleMenu,
+        closeMenu,
+    } = useNavbarLogic(dispatch);
     return (
         <nav className="navbar">
             <div className="navbar-container">

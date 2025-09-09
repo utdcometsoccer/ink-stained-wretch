@@ -1,100 +1,10 @@
-import { useReducer, useEffect } from "react";
-import type { FC } from "react";
-import type { State } from "../../types/State";
-import type { Dispatch } from "react";
-import type { Action } from "../../reducers/appReducer";
+
+import { useChooseSubscriptionLogic } from '../../hooks/useChooseSubscription';
+import type { State } from '../../types/State';
 import "./ChooseSubscription.css";
-import {
-  chooseSubscriptionReducer,
-  initialChooseSubscriptionState,
-} from "../../reducers/chooseSubscriptionReducer";
-import type { SubscriptionPlan } from "../../types/SubscriptionPlan";
-import { fetchSubscriptionPlans } from "../../services/subscriptionApi";
-import { trackException } from "../../services/applicationInsights";
 
-interface ChooseSubscriptionProps {
-  state: State;
-  dispatch: Dispatch<Action>;
-}
-
-const fallbackPlans: SubscriptionPlan[] = [
-  {
-    label: "1 Year Subscription",
-    price: 59,
-    duration: 1,
-    features: ["Image hosting for up to 20 images", "Full access to all features", "Priority support"],
-    stripePriceId: "",
-    name: "1 Year Subscription",
-    description: "Access to all features for 1 year",
-    currency: "USD"
-  },
-  {
-    label: "2 Year Subscription",
-    price: 99,
-    duration: 2,
-    features: ["Image hosting for up to 20 images", "Full access to all features", "Priority support"],
-    stripePriceId: "",
-    name: "2 Year Subscription",
-    description: "Access to all features for 2 years",
-    currency: "USD"
-  },
-  {
-    label: "3 Year Subscription",
-    price: 149,
-    duration: 3,
-    features: ["Image hosting for up to 20 images", "Full access to all features", "Priority support"],
-    stripePriceId: "",
-    name: "3 Year Subscription",
-    description: "Access to all features for 3 years",
-    currency: "USD"
-  },
-];
-
-export const ChooseSubscription: FC<ChooseSubscriptionProps> = ({ state, dispatch }) => {
-  const [subState, subDispatch] = useReducer(
-    chooseSubscriptionReducer,
-    initialChooseSubscriptionState
-  );
-
-  // Plans are stored in app state
-  const plans: SubscriptionPlan[] = state.subscriptionPlans || fallbackPlans;
-
-  useEffect(() => {
-    let isMounted = true;
-    async function getPlans() {
-      let tempPlans: SubscriptionPlan[] = fallbackPlans;
-      try {
-        const apiPlans = await fetchSubscriptionPlans();
-        if (isMounted && apiPlans.length > 0) {
-          tempPlans = apiPlans;
-        }
-      } catch (error) {
-        tempPlans = fallbackPlans;
-        if (trackException) {
-          trackException(error instanceof Error ? error : new Error(String(error)), 3);
-        }
-        isMounted = true;
-      } finally {
-        if (isMounted) {
-          dispatch({ type: "UPDATE_STATE", payload: { subscriptionPlans: tempPlans } });
-        }
-      }
-    }
-    getPlans();
-    return () => { isMounted = false; };
-  }, [dispatch, state.subscriptionPlans]);
-
-  const handleSelect = (idx: number) => {
-    subDispatch({ type: "SELECT_PLAN", payload: idx });
-    dispatch({ type: "UPDATE_STATE", payload: { selectedSubscriptionPlan: plans[idx] } });
-  };
-
-  const handleContinue = () => {
-    if (subState.selected !== null) {
-      dispatch({ type: "SET_UI_STATE", payload: "checkout" });
-    }
-  };
-
+const ChooseSubscription = (props: { state: State, dispatch: any }) => {
+  const { subState, plans, handleSelect, handleContinue } = useChooseSubscriptionLogic(props.state, props.dispatch);
   return (
     <div className="choose-subscription-page">
       <h1 className="choose-subscription-title">Choose Your Subscription</h1>
@@ -108,7 +18,7 @@ export const ChooseSubscription: FC<ChooseSubscriptionProps> = ({ state, dispatc
             <h2>{plan.label}</h2>
             <div className="choose-subscription-price">${plan.price}</div>
             <ul className="choose-subscription-features">
-              {plan.features.map((feature) => (
+              {plan.features.map((feature: string) => (
                 <li key={feature}>{feature}</li>
               ))}
             </ul>

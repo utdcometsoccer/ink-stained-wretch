@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { renderHook, act } from "@testing-library/react";
-import { useDomainRegistrationLogic } from "../src/components/DomainRegistration/domainRegistrationLogic";
+import { useDomainRegistrationLogic } from "../src/hooks/useDomainRegistrationLogic";
 describe("useDomainRegistrationLogic", () => {
   const mockDispatch = vi.fn();
   const baseState: any = {

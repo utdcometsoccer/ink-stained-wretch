@@ -88,7 +88,7 @@ function App() {
         case 'chooseSubscription':
           return <ChooseSubscription state={appState.state} dispatch={dispatch} />
         case 'checkout':
-          return import.meta.env.VITE_ENABLE_STRIPE_CHECKOUT ? <Checkout state={appState.state} dispatch={dispatch} /> : <h2>Stripe Checkout is disabled</h2>
+          return import.meta.env.VITE_ENABLE_STRIPE_CHECKOUT ? <Checkout state={appState.state} /> : <h2>Stripe Checkout is disabled</h2>
         case 'thankYou':
           return <ThankYou />
         case 'error':

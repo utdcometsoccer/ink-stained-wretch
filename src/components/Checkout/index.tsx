@@ -1,32 +1,12 @@
-import { useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import type { CheckoutProps } from "./CheckoutProps";
-import "./index.css";
+import type { FC } from 'react';
+import { useCheckoutLogic } from '../../hooks/useCheckout';
+import type { CheckoutProps } from './CheckoutProps';
+import "./Checkout.css";
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+export const Checkout: FC<CheckoutProps> = ({ state }) => {
+  const { loading, plan, handleCheckout } = useCheckoutLogic(state);
 
-export const Checkout: React.FC<CheckoutProps> = ({ state }) => {
-  const [loading, setLoading] = useState(false);
-  const plan = state.selectedSubscriptionPlan;
-
-  const handleCheckout = async () => {
-    if (!plan?.stripePriceId) return;
-    setLoading(true);
-  const endpoint = import.meta.env.VITE_STRIPE_CHECKOUT_API_URL || "/api/CreateCheckoutSession";
-  const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ priceId: plan.stripePriceId }),
-    });
-    const { url } = await response.json();
-    window.location.href = url;
-  };
-
-  if (!plan) {
-    return <div>Please select a subscription plan to continue.</div>;
-  }
-
-  return (
+  return plan ? (
     <div className="checkout-page">
       <h1>Checkout</h1>
       <div className="plan-details">
@@ -36,17 +16,21 @@ export const Checkout: React.FC<CheckoutProps> = ({ state }) => {
           <strong>Price:</strong> ${plan.price} {plan.currency}
         </p>
       </div>
-      <button
-        className="checkout-btn app-btn"
-        onClick={handleCheckout}
-        disabled={loading}
-      >
-        {loading ? "Redirecting..." : "Subscribe & Pay"}
-      </button>
+      <div className="checkout-btn-container">
+        <div className="checkout-btn-wrapper">
+          <button
+            className="checkout-btn app-btn"
+            onClick={handleCheckout}
+            disabled={loading}
+          >
+            {loading ? "Redirecting..." : "Subscribe & Pay"}
+          </button>
+        </div>
+      </div>
       <div className="checkout-trust">
-  <img src={import.meta.env.VITE_STRIPE_LOGO_URL || "https://stripe.com/img/v3/home/social.png"} alt="Stripe" className="checkout-stripe-logo" />
+        <img src={import.meta.env.VITE_STRIPE_LOGO_URL || "https://stripe.com/img/v3/home/social.png"} alt="Stripe" className="checkout-stripe-logo" />
         <span className="checkout-stripe-text">Payments secured by Stripe</span>
       </div>
     </div>
-  );
+  ) : <div>Please select a subscription plan to continue.</div>;
 };

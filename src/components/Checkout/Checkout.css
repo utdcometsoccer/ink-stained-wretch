@@ -1,0 +1,28 @@
+.checkout-stripe-logo {
+  height: 18px;
+  margin-top: 4px;
+  vertical-align: middle;
+}
+.checkout-stripe-text {
+  margin: 25px 0 0 8px;
+  color: #888;
+}
+.checkout-stripe-logo {
+  height: 32px;
+  margin-top: 16px;
+}
+.checkout-stripe-text {
+  margin-left: 8px;
+  color: #888;
+}
+.checkout-btn-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.checkout-btn-wrapper {
+  width: 50%;
+  min-width: 180px;
+  max-width: 320px;
+}
