@@ -11,8 +11,11 @@ export function DomainRegistration({ state, dispatch }: DomainRegistrationProps)
         domainInputValue: string;
         domainError: string | null;
     };
+    const domainString = state.domainRegistration?.domain?.topLevelDomain && state.domainRegistration?.domain?.secondLevelDomain
+        ? `${state.domainRegistration.domain.secondLevelDomain}.${state.domainRegistration.domain.topLevelDomain}`
+        : "";   
     const initialLocalState: LocalState = {       
-        domainInputValue: "",
+        domainInputValue: domainString ||"",
         domainError: null,
     };
     function reducer(state: LocalState, action: any): LocalState {
@@ -32,7 +35,8 @@ export function DomainRegistration({ state, dispatch }: DomainRegistrationProps)
         isValid,
         handleContactChange,
         handleSubmit: originalHandleSubmit,
-    } = useDomainRegistrationLogic(state, dispatch, local.domainInputValue, local.domainError);
+        handleDomainInputChange,
+    } = useDomainRegistrationLogic(state, dispatch, local.domainInputValue, local.domainError, localDispatch);
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -52,7 +56,7 @@ export function DomainRegistration({ state, dispatch }: DomainRegistrationProps)
                     value={local.domainInputValue}
                     error={local.domainError}
                     isValid={!!isValid}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => localDispatch({ type: "SET_DOMAIN_INPUT_VALUE", payload: e.target.value })}
+                    onChange={handleDomainInputChange}
                 />
                 <ContactInfoForm
                     state={state}

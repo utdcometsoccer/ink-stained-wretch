@@ -12,7 +12,8 @@ export interface Action {
     | 'UPDATE_DOMAIN_CONTACT_INFO'
     | 'SAVE_AUTHOR'
     | 'DELETE_AUTHOR'
-    | 'UPDATE_USE_COOKIES';  // Use Cookies preference
+    | 'UPDATE_USE_COOKIES'
+    | 'SET_DOMAIN_INPUT_VALUE';  // Use Cookies preference
   payload?: any;
 }
 
@@ -21,11 +22,7 @@ export interface AppState {
   state: State;
 }
 
-export const initialState: AppState = {
-  currentUIState: 'chooseCulture',
-  state: {
-  }
-};
+
 
 export function appReducer(state: AppState, action: Action): AppState {
   let nextState: AppState = state;
@@ -148,6 +145,23 @@ export function appReducer(state: AppState, action: Action): AppState {
         state: {
           ...state.state,
           useCookies: action.payload as boolean
+        }
+      };
+      break;
+    case 'SET_DOMAIN_INPUT_VALUE': 
+      nextState = {
+        ...state,
+        state: {
+          ...state.state,
+          domainRegistration: {
+            ...state.state.domainRegistration,
+            domain: {
+               id: action.payload.id,
+               authorID: action.payload.authorID,
+               topLevelDomain: action.payload.topLevelDomain,
+               secondLevelDomain: action.payload.secondLevelDomain
+            }
+          }
         }
       };
       break;

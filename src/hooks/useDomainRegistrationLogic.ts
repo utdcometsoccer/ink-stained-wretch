@@ -38,6 +38,25 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
     });
   }
 
+  function handleDomainInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (localDispatch) {
+      localDispatch({ type: "SET_DOMAIN_INPUT_VALUE", payload: e.target.value });
+    }
+    // Parse domain
+    const value = e.target.value.trim();
+    let topLevelDomain = '';
+    let secondLevelDomain = '';
+    const match = value.match(/^([^.]+)\.([^.]+)$/);
+    if (match) {
+      secondLevelDomain = match[1];
+      topLevelDomain = match[2];
+    }
+    dispatch({ type: "SET_DOMAIN_INPUT_VALUE", payload: {
+      topLevelDomain,
+      secondLevelDomain
+    } });
+  }
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const value = domainInputValue.trim();
@@ -94,11 +113,8 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
   return {
     cityRef,
     stateRef,
-    contactInfo,
-    domainInputValue,
-    domainError,
     isValid,
     handleContactChange,
     handleSubmit,
-  };
+    handleDomainInputChange  };
 }
