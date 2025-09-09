@@ -1,5 +1,7 @@
 import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 import type { FC } from "react";
+import { useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
 import { useLoginLogic } from "../../hooks/useLoginLogic";
 import { CountdownIndicator } from "../CountdownIndicator";
 import { LoginButton } from "./LoginButton";
@@ -10,6 +12,9 @@ import { LogoutButton } from "./LogoutButton";
 import { LogoutHeader } from "./LogoutHeader";
 
 export const Login: FC<LoginProps> = ({ state, dispatch }) => {
+  useEffect(() => {
+    trackComponent('Login', { state });
+  }, [state]);
 
   const {
     handleSignIn,

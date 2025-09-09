@@ -1,4 +1,6 @@
 import type { FC } from 'react';
+import { useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
 import ImportExportIcon from '@mui/icons-material/ImportExport';
 import './AuthorDocList.css';
 import type { AuthorDoc } from '../../types/OpenLibrary';
@@ -12,6 +14,9 @@ export interface AuthorDocListProps {
 }
 
 const AuthorDocList: FC<AuthorDocListProps> = ({ authors, onAuthorClick, onImport, onGoBack, importedKeys = [] }) => {
+    useEffect(() => {
+        trackComponent('AuthorDocList', { authors });
+    }, [authors]);
     return (
         <div className="author-doc-list-container">
             <ul className="author-doc-list">

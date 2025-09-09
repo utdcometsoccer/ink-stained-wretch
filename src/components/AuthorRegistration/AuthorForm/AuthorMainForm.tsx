@@ -1,4 +1,5 @@
-import {type FC } from "react";
+import {type FC, useEffect } from "react";
+import { trackComponent } from "../../../services/trackComponent";
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { CountryDropdown, LanguageDropdown, type Language } from "@idahoedokpayi/react-country-state-selector";
 import { ImageManager } from "../../ImageManager";
@@ -30,7 +31,11 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
   handleCancelClick,
   listUserImages,
   deleteImage,
-}) => (
+}) => {
+  useEffect(() => {
+    trackComponent('AuthorMainForm', {});
+  }, []);
+  return (
   <form onSubmit={handleSubmit}>
     <fieldset className="author-form-fieldset">
       <legend>Author Information</legend>
@@ -140,4 +145,5 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
       </div>
     </fieldset>
   </form>
-);
+  );
+}

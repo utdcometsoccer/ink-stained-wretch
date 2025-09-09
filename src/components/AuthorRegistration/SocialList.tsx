@@ -1,5 +1,7 @@
 
 import type { FC } from "react";
+import { useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
 import "./SocialList.css";
 
 import type { SocialListProps } from "./SocialListProps";
@@ -7,7 +9,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 
-export const SocialList: FC<SocialListProps> = ({ socials, onEdit, onAdd, onDelete }) => (
+export const SocialList: FC<SocialListProps> = ({ socials, onEdit, onAdd, onDelete }) => {
+  useEffect(() => {
+    trackComponent('SocialList', { socials });
+  }, [socials]);
+  return (
   <div>
     <h2 className="social-list-title">Social Links</h2>
     <ul className="social-list-ul">
@@ -33,4 +39,5 @@ export const SocialList: FC<SocialListProps> = ({ socials, onEdit, onAdd, onDele
       <span className="btn-label">Add Social Link</span>
     </button>
   </div>
-);
+  );
+}

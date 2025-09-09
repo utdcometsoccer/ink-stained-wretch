@@ -3,7 +3,13 @@ import { useChooseSubscriptionLogic } from '../../hooks/useChooseSubscription';
 import type { State } from '../../types/State';
 import "./ChooseSubscription.css";
 
+import { useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
+
 const ChooseSubscription = (props: { state: State, dispatch: any }) => {
+  useEffect(() => {
+    trackComponent('ChooseSubscription', { state: props.state });
+  }, [props.state]);
   const { subState, plans, handleSelect, handleContinue } = useChooseSubscriptionLogic(props.state, props.dispatch);
   return (
     <div className="choose-subscription-page">

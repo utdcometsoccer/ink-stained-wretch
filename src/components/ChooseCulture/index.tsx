@@ -3,10 +3,15 @@ import "./ChooseCulture.css";
 import { LanguageDropdown, CountryDropdown } from '@idahoedokpayi/react-country-state-selector';
 import { useChooseCultureLogic } from '../../hooks/useChooseCulture';
 import type { FC } from "react";
+import { useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
 import type { ChooseCultureProps } from "./ChooseCultureProps";
 
 
 export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
+  useEffect(() => {
+    trackComponent('ChooseCulture', { state });
+  }, [state]);
   const {
     localState,
     countdownRef,

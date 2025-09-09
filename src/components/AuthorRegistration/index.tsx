@@ -1,4 +1,5 @@
-import { useReducer } from "react";
+import { useReducer, useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
 import { authorListReducer, initialAuthorListState } from "../../reducers/authorListReducer";
 import type { Author } from "../../types/Author";
 import EditIcon from '@mui/icons-material/Edit';
@@ -11,6 +12,9 @@ import type { AuthorRegistrationProps } from "./AuthorRegistrationProps";
 
 
 export function AuthorRegistration({ state, dispatch }: AuthorRegistrationProps) {
+    useEffect(() => {
+        trackComponent('AuthorRegistration', { state });
+    }, [state]);
     const handleDeleteAuthor = (id: string) => {        
         dispatch({ type: "DELETE_AUTHOR", payload: id });
     };    

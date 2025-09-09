@@ -5,11 +5,18 @@ import EditIcon from '@mui/icons-material/Edit';
 import GoogleIcon from '@mui/icons-material/Google';
 import CircularProgress from "@mui/material/CircularProgress";
 import type { FC } from "react";
+import { useEffect } from "react";
+import { trackComponent } from "../../../services/trackComponent";
 import { useBookList } from "../../../hooks/useBookList";
 import "./BookList.css";
 import type { BookListProps } from "./BookListProps";
 
 export const BookList: FC<BookListProps> = (props) => {
+  useEffect(() => {
+    // Track BookList component load
+    // Only track books and author keys for privacy
+    trackComponent('BookList', { books: props.books, openLibraryAuthorKeys: props.openLibraryAuthorKeys });
+  }, [props.books, props.openLibraryAuthorKeys]);
   const { books } = props;
   const {
     state,

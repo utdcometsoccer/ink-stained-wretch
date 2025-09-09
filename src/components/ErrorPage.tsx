@@ -1,8 +1,13 @@
 import type { FC } from 'react';
+import { useEffect } from 'react';
+import { trackComponent } from "../services/trackComponent";
 import './ErrorPage.css';
 import type { ErrorPageProps } from "./ErrorPageProps";
 
 export const ErrorPage: FC<ErrorPageProps> = ({ state, dispatch, isDevelopment }) => {
+  useEffect(() => {
+    trackComponent('ErrorPage', { state, isDevelopment });
+  }, [state, isDevelopment]);
   const { error } = state;
   const detailedError = typeof error === 'string' ? error : error?.message || 'No additional error information available.';
   return (

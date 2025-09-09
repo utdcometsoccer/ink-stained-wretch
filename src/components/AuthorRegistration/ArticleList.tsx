@@ -1,5 +1,7 @@
 
 import type { FC } from "react";
+import { useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
 import "./ArticleList.css";
 
 import type { ArticleListProps } from "./ArticleListProps";
@@ -7,7 +9,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 
-export const ArticleList: FC<ArticleListProps> = ({ articles, onEdit, onAdd, onDelete }) => (
+export const ArticleList: FC<ArticleListProps> = ({ articles, onEdit, onAdd, onDelete }) => {
+  useEffect(() => {
+    trackComponent('ArticleList', { articles });
+  }, [articles]);
+  return (
   <div>
     <h2 className="article-list-title">Articles</h2>
     <ul className="article-list-ul">
@@ -35,4 +41,5 @@ export const ArticleList: FC<ArticleListProps> = ({ articles, onEdit, onAdd, onD
       <span className="btn-label">Add Article</span>
     </button>
   </div>
-);
+  );
+}

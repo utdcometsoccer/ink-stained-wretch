@@ -1,9 +1,13 @@
-import { type FC, useState } from "react";
+import { type FC, useState, useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
 import "./AuthorDocForm.css";
 import type { AuthorDoc } from "../../types/OpenLibrary";
 import type { AuthorDocFormProps } from "./AuthorDocFormProps";
 
 export const AuthorDocForm: FC<AuthorDocFormProps> = ({ initialAuthorDoc, onSave, onCancel }) => {
+  useEffect(() => {
+    trackComponent('AuthorDocForm', { initialAuthorDoc });
+  }, [initialAuthorDoc]);
   const [form, setForm] = useState<AuthorDoc>(initialAuthorDoc);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

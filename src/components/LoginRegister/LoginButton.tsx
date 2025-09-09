@@ -5,6 +5,14 @@ export interface ExtendedLoginButtonProps extends LoginButtonProps {
   className?: string;
 }
 
-export const LoginButton: FC<ExtendedLoginButtonProps> = ({ onSignIn, className }) => (
-  <button onClick={onSignIn} className={className}>Sign in with Microsoft</button>
-);
+import { useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
+
+export const LoginButton: FC<ExtendedLoginButtonProps> = ({ onSignIn, className }) => {
+  useEffect(() => {
+    trackComponent('LoginButton', {});
+  }, []);
+  return (
+    <button onClick={onSignIn} className={className}>Sign in with Microsoft</button>
+  );
+}

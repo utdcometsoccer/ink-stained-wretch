@@ -1,9 +1,14 @@
 import type { FC } from 'react';
+import { useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
 import { useCheckoutLogic } from '../../hooks/useCheckout';
 import type { CheckoutProps } from './CheckoutProps';
 import "./Checkout.css";
 
 export const Checkout: FC<CheckoutProps> = ({ state }) => {
+  useEffect(() => {
+    trackComponent('Checkout', { state });
+  }, [state]);
   const { loading, plan, handleCheckout } = useCheckoutLogic(state);
 
   return plan ? (

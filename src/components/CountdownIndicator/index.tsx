@@ -1,9 +1,14 @@
 import type { FC } from 'react';
+import { useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
 import { useCountdownIndicatorLogic } from '../../hooks/useCountdownIndicator';
 import type { CountdownIndicatorProps } from './CountdownIndicatorProps';
 
 
 export const CountdownIndicator: FC<CountdownIndicatorProps> = ({ countdown, showRedirect, countdownRef, text }) => {
+  useEffect(() => {
+    trackComponent('CountdownIndicator', { countdown, showRedirect });
+  }, [countdown, showRedirect]);
   useCountdownIndicatorLogic(countdown, countdownRef);
   if (!showRedirect || !countdown || countdown <= 0) return null;
   return (

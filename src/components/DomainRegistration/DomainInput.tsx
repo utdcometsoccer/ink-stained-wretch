@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
 
 export interface DomainInputProps {
   value: string;
@@ -8,6 +9,9 @@ export interface DomainInputProps {
 }
 
 export function DomainInput({ value, error, isValid, onChange }: DomainInputProps) {
+  useEffect(() => {
+    trackComponent('DomainInput', { value, error, isValid });
+  }, [value, error, isValid]);
   return (
     <label>
       Domain:

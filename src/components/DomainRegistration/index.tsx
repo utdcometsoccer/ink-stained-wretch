@@ -3,10 +3,14 @@ import { DomainInput } from "./DomainInput";
 import "./DomainRegistration.css";
 import type { DomainRegistrationProps } from "./DomainRegistrationProps";
 import { useDomainRegistrationLogic } from "../../hooks/useDomainRegistrationLogic";
-import { useReducer } from "react";
+import { useReducer, useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
 
 
 export function DomainRegistration({ state, dispatch }: DomainRegistrationProps) {    
+    useEffect(() => {
+        trackComponent('DomainRegistration', { state });
+    }, [state]);
     type LocalState = {
         domainInputValue: string;
         domainError: string | null;

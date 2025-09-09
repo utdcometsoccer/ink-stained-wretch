@@ -4,8 +4,13 @@ import { type FC } from "react";
 import { StateDropdown, CountryDropdown } from "@idahoedokpayi/react-country-state-selector";
 import type { ContactInfoFormProps } from "./ContactInfoFormProps";
 import "./DomainRegistration.css";
+import { useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
 
 export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cultureInfo, cityRef, onChange }) => {
+  useEffect(() => {
+    trackComponent('ContactInfoForm', { state, cultureInfo });
+  }, [state, cultureInfo]);
   const contactInfo = {
     ...state.domainRegistration?.contactInformation,
     country: state.domainRegistration?.contactInformation?.country || cultureInfo?.Country || "US"

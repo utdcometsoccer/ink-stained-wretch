@@ -77,6 +77,7 @@ export function useAuthorFormLogic(
       const updated = form.Articles.slice(0, -1);
       dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Articles", value: updated } });
     }
+    dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "default" });
   };
   const cancelBook = () => {
     if (
@@ -90,6 +91,7 @@ export function useAuthorFormLogic(
       const updated = form.Books.slice(0, -1);
       dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Books", value: updated } });
     }
+    dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "default" });
   };
   const cancelSocial = () => {
     if (
@@ -101,6 +103,7 @@ export function useAuthorFormLogic(
       const updated = form.Socials.slice(0, -1);
       dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Socials", value: updated } });
     }
+    dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "default" });
   };
 
   // Edit handlers

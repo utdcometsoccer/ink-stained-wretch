@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
 import type { FC, ChangeEvent, FormEvent } from "react";
 import type { Article } from "../../types/Article";
 import type { ArticleFormProps } from "./ArticleFormProps";
 import "./ArticleForm.css";
 
 export const ArticleForm: FC<ArticleFormProps> = ({ article, onSave, onCancel }) => {
+  useEffect(() => {
+    trackComponent('ArticleForm', { article });
+  }, [article]);
   const [form, setForm] = useState<Article>(article);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

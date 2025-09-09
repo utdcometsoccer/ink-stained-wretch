@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -15,6 +16,9 @@ import type { SocialFormProps } from "./SocialFormProps";
 import "./SocialForm.css";
 
 export const SocialForm: FC<SocialFormProps> = ({ social, onSave, onCancel }) => {
+  useEffect(() => {
+    trackComponent('SocialForm', { social });
+  }, [social]);
   const [form, setForm] = useState<Social>(social);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

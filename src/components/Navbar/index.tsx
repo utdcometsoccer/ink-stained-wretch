@@ -1,9 +1,13 @@
-import { type FC } from 'react';
+import { type FC, useEffect } from 'react';
+import { trackComponent } from "../../services/trackComponent";
 import { useNavbarLogic } from '../../hooks/useNavbar.tsx';
 import './Navbar.css';
 import type { NavbarProps } from './NavbarProps';
 
 export const Navbar: FC<NavbarProps> = ({ currentState, dispatch }) => {
+    useEffect(() => {
+        trackComponent('Navbar', { currentState });
+    }, [currentState]);
     const {
         dynamicNavItems,
         isMenuOpen,

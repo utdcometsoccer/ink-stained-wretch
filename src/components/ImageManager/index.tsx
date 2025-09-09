@@ -1,9 +1,14 @@
 import { useImageManager } from '../../hooks/useImageManager';
+import { useEffect } from 'react';
+import { trackComponent } from '../../services/trackComponent';
 import type { ManagedImage } from '../../types/ManagedImage';
 import './ImageManager.css';
 import type { ImageManagerProps } from './ImageManagerProps.tsx';
 
 export const ImageManager = ({ token, onSelect, listUserImages, deleteImage }: ImageManagerProps) => {
+  useEffect(() => {
+    trackComponent('ImageManager', { token });
+  }, [token]);
   const { state, fetchImages, handleDelete } = useImageManager({ token, listUserImages, deleteImage });
 
   return (

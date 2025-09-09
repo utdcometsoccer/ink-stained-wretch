@@ -1,5 +1,6 @@
 import type { ChangeEvent, FC, FormEvent } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { trackComponent } from "../../services/trackComponent";
 import { deleteImage, listUserImages } from '../../services/imageApi';
 import type { Book } from "../../types/Book";
 import { ImageManager } from "../ImageManager";
@@ -7,6 +8,9 @@ import "./BookForm.css";
 import type { BookFormProps } from "./BookFormProps";
 
 export const BookForm: FC<BookFormProps & { token: string }> = ({ book, token, onSave, onCancel }) => {
+  useEffect(() => {
+    trackComponent('BookForm', { book });
+  }, [book]);
   const [form, setForm] = useState<Book>(book);
   const [showImageManager, setShowImageManager] = useState(false);
 
