@@ -1,10 +1,10 @@
 # Subscription Plan API Documentation
 
 ## Endpoint
-`GET /api/subscription-plans`
+`GET /api/subscription-plans/{language}/{region}`
 
 ## Description
-Returns an array of available subscription plans. Each plan matches the following TypeScript interface:
+Returns an array of available subscription plans, filtered by language and region. Each plan matches the following TypeScript interface:
 
 ```typescript
 export interface SubscriptionPlan {
@@ -13,6 +13,17 @@ export interface SubscriptionPlan {
   duration: number;
   features: string[];
 }
+```
+
+## Query Parameters
+- `language` (string, optional, default: `'en'`): The user's preferred language (e.g., 'en', 'fr', 'es').
+- `region` (string, optional, default: `'US'`): The user's region or country code (e.g., 'US', 'FR', 'NG').
+
+> **Note:** If not provided, `language` defaults to `'en'` and `region` defaults to `'US'`.
+
+## Example Request
+```
+GET /api/subscription-plans?language=en&region=US
 ```
 
 ## Example Response
@@ -59,8 +70,8 @@ If the API request fails, the client should fallback to a local array of subscri
 import { fetchSubscriptionPlans } from "../services/subscriptionApi";
 import type { SubscriptionPlan } from "../types/SubscriptionPlan";
 
-async function getPlans(): Promise<SubscriptionPlan[]> {
-  const plans = await fetchSubscriptionPlans();
+async function getPlans(language: string, region: string): Promise<SubscriptionPlan[]> {
+  const plans = await fetchSubscriptionPlans(language, region);
   if (plans.length === 0) {
     // fallback to local array
   }
