@@ -110,6 +110,7 @@ export function useAuthorFormLogic(
       dispatchForm({ type: "SET_EDIT_TYPE", payload: "article" });
       dispatchForm({ type: "SET_EDIT_INDEX", payload: idx });
     }
+    dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "default" });
   };
   const handleEditBook = (id: string) => {
     const idx = form.Books.findIndex((b: Book) => b.id === id);
@@ -117,13 +118,15 @@ export function useAuthorFormLogic(
       dispatchForm({ type: "SET_EDIT_TYPE", payload: "book" });
       dispatchForm({ type: "SET_EDIT_INDEX", payload: idx });
     }
+    dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "default" });
   };
   const handleEditSocial = (id: string) => {
     const idx = form.Socials.findIndex((s: Social) => s.id === id);
     if (idx !== -1) {
       dispatchForm({ type: "SET_EDIT_TYPE", payload: "social" });
-      dispatchForm({ type: "SET_EDIT_INDEX", payload: idx });
+      dispatchForm({ type: "SET_EDIT_INDEX", payload: idx });      
     }
+    dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "default" });
   };
 
   // Save handlers
@@ -134,6 +137,7 @@ export function useAuthorFormLogic(
     }
     dispatchForm({ type: "SET_EDIT_TYPE", payload: null });
     dispatchForm({ type: "SET_EDIT_INDEX", payload: null });
+    dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "default" });
   };
   const handleSaveBook = (book: Book) => {
     if (typeof form.editIndex === 'number') {
@@ -142,6 +146,7 @@ export function useAuthorFormLogic(
     }
     dispatchForm({ type: "SET_EDIT_TYPE", payload: null });
     dispatchForm({ type: "SET_EDIT_INDEX", payload: null });
+    dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "default" });
   };
   const handleSaveSocial = (social: Social) => {
     if (typeof form.editIndex === 'number') {
@@ -150,25 +155,26 @@ export function useAuthorFormLogic(
     }
     dispatchForm({ type: "SET_EDIT_TYPE", payload: null });
     dispatchForm({ type: "SET_EDIT_INDEX", payload: null });
+    dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "default" });
   };
 
   // Add handlers
   const handleAddArticle = () => {
     const newArticle: Article = { id: crypto.randomUUID(), Title: "", Date: "", Publication: "", URL: "" };
     dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Articles", value: [...form.Articles, newArticle] } });
-    dispatchForm({ type: "SET_EDIT_TYPE", payload: "article" });
+    dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "ArticleForm" });
     dispatchForm({ type: "SET_EDIT_INDEX", payload: form.Articles.length });
   };
   const handleAddBook = () => {
     const newBook: Book = { id: crypto.randomUUID(), Title: "", Description: "", URL: "", Cover: "" };
     dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Books", value: [...form.Books, newBook] } });
-    dispatchForm({ type: "SET_EDIT_TYPE", payload: "book" });
+    dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "BookForm" });
     dispatchForm({ type: "SET_EDIT_INDEX", payload: form.Books.length });
   };
   const handleAddSocial = () => {
     const newSocial: Social = { id: crypto.randomUUID(), Name: "", URL: "" };
     dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Socials", value: [...form.Socials, newSocial] } });
-    dispatchForm({ type: "SET_EDIT_TYPE", payload: "social" });
+    dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "SocialForm" });
     dispatchForm({ type: "SET_EDIT_INDEX", payload: form.Socials.length });
   };
   const importBook = (newBook: Book) => {
