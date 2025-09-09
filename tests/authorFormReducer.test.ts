@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { authorFormReducer, initialAuthorFormState } from '../src/reducers/authorFormReducer';
-import type { AuthorFormAction } from '../src/reducers/authorFormReducer';
+import type { AuthorFormAction } from "../src/types/AuthorFormAction";
 
 describe('authorFormReducer', () => {
   it('should update a field', () => {

@@ -1,13 +1,13 @@
 import { useRef } from "react";
-import { domainRegex } from "../../services/domainRegex";
-import { domainValidate } from "../../services/domainValidate";
-import { validateDomainWhois } from "../../services/validateDomainWhois";
-import { validateEmail } from "../../services/validateEmail";
-import { validatePhone } from "../../services/validatePhone";
+import { domainRegex } from "../services/domainRegex";
+import { domainValidate } from "../services/domainValidate";
+import { validateDomainWhois } from "../services/validateDomainWhois";
+import { validateEmail } from "../services/validateEmail";
+import { validatePhone } from "../services/validatePhone";
 import type { Dispatch } from "react";
-import type { Action } from "../../reducers/appReducer";
-import type { State } from "../../types/State";
-import type { DomainRegistrationLogicReturn } from "../../types/DomainRegistrationLogicReturn";
+import type { Action } from "../reducers/appReducer";
+import type { State } from "../types/State";
+import type { DomainRegistrationLogicReturn } from "../types/DomainRegistrationLogicReturn";
 
 export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Action>, domainInputValue: string, domainError: string | null, localDispatch?: (action: { type: string; payload: any }) => void): DomainRegistrationLogicReturn {
   const cityRef = useRef<HTMLInputElement>(null);

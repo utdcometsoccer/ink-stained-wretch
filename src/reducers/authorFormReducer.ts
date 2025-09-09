@@ -1,16 +1,6 @@
-import type { Author } from "../types/Author";
-
-export interface AuthorFormUIState extends Author {
-  editType: "article" | "book" | "social" | null;
-  editIndex: number | null;
-  showImageManager: boolean;
-  authorDocs: AuthorDoc[];
-  showAuthorDocList: boolean;
-  showAuthorDocForm: boolean;
-  selectedAuthorDoc: AuthorDoc | null;
-}
-
-
+import type { AuthorForms } from "../types/AuthorForms";
+import type { AuthorFormUIState } from "../types/AuthorFormUIState";
+import type { AuthorFormAction } from "../types/AuthorFormAction";
 
 export const initialAuthorFormState: AuthorFormUIState = {
   id: "",
@@ -30,32 +20,10 @@ export const initialAuthorFormState: AuthorFormUIState = {
   editType: null,
   editIndex: null,
   showImageManager: false,
-  authorDocs: [],
-  showAuthorDocList: false,
-  showAuthorDocForm: false,
-  selectedAuthorDoc: null
+  authorDocs: [],  
+  selectedAuthorDoc: null,
+  authorFormState: "Default" as AuthorForms
 };
-
-import type { Domain } from "../types/Domain";
-import type { AuthorDoc } from "../types/OpenLibrary";
-
-export type AuthorFormAction =
-  | { type: "UPDATE_FIELD"; payload: { name: string; value: any } }
-  | { type: "ADD_ARTICLE"; payload: any }
-  | { type: "ADD_BOOK"; payload: any }
-  | { type: "ADD_SOCIAL"; payload: any }
-  | { type: "SET_DOMAIN"; payload: Domain }
-  | { type: "SET_EDIT_TYPE"; payload: "article" | "book" | "social" | null }
-  | { type: "SET_EDIT_INDEX"; payload: number | null }
-  | { type: "SET_SHOW_IMAGE_MANAGER"; payload: boolean }
-  | { type: "SET_AUTHOR_DOCS"; payload: AuthorDoc[] }
-  | { type: "SHOW_AUTHOR_DOC_LIST" }
-  | { type: "HIDE_AUTHOR_DOC_LIST" }
-  | { type: "SELECT_AUTHOR_DOC"; payload: AuthorDoc }
-  | { type: "SHOW_AUTHOR_DOC_FORM" }
-  | { type: "HIDE_AUTHOR_DOC_FORM" }
-  | { type: "IMPORT_AUTHOR_DOC_KEYS"; payload: AuthorDoc[] }
-  | { type: "SAVE_SELECTED_AUTHOR_DOC" };
 
 export function authorFormReducer(state: AuthorFormUIState, action: AuthorFormAction): AuthorFormUIState {
   switch (action.type) {
@@ -90,15 +58,15 @@ export function authorFormReducer(state: AuthorFormUIState, action: AuthorFormAc
       };
     }
     case "SHOW_AUTHOR_DOC_LIST":
-      return { ...state, showAuthorDocList: true, showAuthorDocForm: false };
+      return { ...state, authorFormState: "AuthorDocList" };
     case "HIDE_AUTHOR_DOC_LIST":
-      return { ...state, authorDocs: [], showAuthorDocList: false };
+      return { ...state, authorDocs: [], authorFormState: "default" };
     case "SELECT_AUTHOR_DOC":
       return { ...state, selectedAuthorDoc: action.payload };
     case "SHOW_AUTHOR_DOC_FORM":
-      return { ...state, showAuthorDocForm: true };
+      return { ...state, authorFormState: "AuthorDocForm" };
     case "HIDE_AUTHOR_DOC_FORM":
-      return { ...state, showAuthorDocForm: false };
+      return { ...state, authorFormState: "default" };
     case "IMPORT_AUTHOR_DOC_KEYS": {
       // Add all keys from payload AuthorDoc[] to OpenLibraryAuthorKeys, deduplicated
       const newKeys = action.payload.map(doc => doc.key);
@@ -114,6 +82,15 @@ export function authorFormReducer(state: AuthorFormUIState, action: AuthorFormAc
       const allKeys = existingKeys.includes(key) ? existingKeys : [...existingKeys, key];
       return { ...state, OpenLibraryAuthorKeys: allKeys };
     }
+    case "SET_BUTTON_STATE":
+      return { ...state, buttonState: action.payload };
+    case "RESET_FORM":
+      return initialAuthorFormState;
+    case "SET_AUTHOR_FORM_STATE":
+      return {
+        ...state,
+        authorFormState: action.payload
+      };
     default:
       return state;
   }

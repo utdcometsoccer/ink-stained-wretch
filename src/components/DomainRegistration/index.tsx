@@ -2,7 +2,7 @@ import { ContactInfoForm } from "./ContactInfoForm";
 import { DomainInput } from "./DomainInput";
 import "./DomainRegistration.css";
 import type { DomainRegistrationProps } from "./DomainRegistrationProps";
-import { useDomainRegistrationLogic } from "./domainRegistrationLogic";
+import { useDomainRegistrationLogic } from "../../hooks/useDomainRegistrationLogic";
 import { useReducer } from "react";
 
 
