@@ -10,6 +10,7 @@ import { fallbackPlans } from "../components/ChooseSubscription/fallbackPlans";
 import type { State } from "../types/State";
 
 export function useChooseSubscriptionLogic(state: State, dispatch: React.Dispatch<any>) {
+  const { cultureInfo } = state;
   const [subState, subDispatch] = useReducer(
     chooseSubscriptionReducer,
     initialChooseSubscriptionState
@@ -22,7 +23,7 @@ export function useChooseSubscriptionLogic(state: State, dispatch: React.Dispatc
     async function getPlans() {
       let tempPlans: SubscriptionPlan[] = fallbackPlans;
       try {
-        const apiPlans = await fetchSubscriptionPlans();
+        const apiPlans = await fetchSubscriptionPlans(cultureInfo?.Language, cultureInfo?.Country);
         if (isMounted && apiPlans.length > 0) {
           tempPlans = apiPlans;
         }

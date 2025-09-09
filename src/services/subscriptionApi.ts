@@ -28,8 +28,10 @@ import type { SubscriptionPlan } from "../types/SubscriptionPlan";
 
 const SUBSCRIPTION_PLANS_API_URL = import.meta.env.VITE_SUBSCRIPTION_PLANS_API_URL;
 
-export async function fetchSubscriptionPlans(): Promise<SubscriptionPlan[]> {
-  const response = await fetch(SUBSCRIPTION_PLANS_API_URL);
+export async function fetchSubscriptionPlans(language: string = 'en', region: string = 'US'): Promise<SubscriptionPlan[]> {
+  // Build the API URL according to documentation: /api/subscription-plans/{language}/{region}
+  const url = `${SUBSCRIPTION_PLANS_API_URL}/${language}/${region}`;
+  const response = await fetch(url);
   if (response.status !== 200) {
     throw new Error(`Failed to fetch valid subscription plans: ${response.status} ${response.statusText}`);
   }
