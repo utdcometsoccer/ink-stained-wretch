@@ -104,17 +104,17 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
         />
       );
     case "ArticleForm":
-      if (form.editType === "article" && form.editIndex !== null) {
+      if (form.editIndex !== null) {
         return <ArticleForm article={form.Articles[form.editIndex]} onSave={handleSaveArticle} onCancel={handleCancelChild} />;
       }
       break;
     case "BookForm":
-      if (form.editType === "book" && form.editIndex !== null) {
+      if (form.editIndex !== null) {
         return <BookForm token={token} book={form.Books[form.editIndex]} onSave={handleSaveBook} onCancel={handleCancelChild} />;
       }
       break;
     case "SocialForm":
-      if (form.editType === "social" && form.editIndex !== null) {
+      if (form.editIndex !== null) {
         return <SocialForm social={form.Socials[form.editIndex]} onSave={handleSaveSocial} onCancel={handleCancelChild} />;
       }
       break;
