@@ -8,41 +8,44 @@ export interface OpenLibraryAuthorWorks {
 export interface OpenLibraryAuthorWorksLinks {
   self: string;
   author: string;
+  prev?: string;
   next?: string;
 }
 
 export interface OpenLibraryWorkEntry {
-  type?: OpenLibraryType;
   title?: string;
-  authors?: OpenLibraryWorkAuthor[];
-  key?: string;
-  latest_revision?: number;
-  revision?: number;
-  created?: OpenLibraryDateTimeOnly;
-  last_modified?: OpenLibraryDateTimeOnly;
   covers?: number[];
-  description?: string | OpenLibraryDescription;
-  subtitle?: string;
+  key?: string;
+  authors?: OpenLibraryWorkAuthor[];
+  type?: OpenLibraryKey;
   subjects?: string[];
+  description?: string | OpenLibraryTypeValue;
   subject_places?: string[];
   subject_people?: string[];
   subject_times?: string[];
+  latest_revision?: number;
+  revision?: number;
+  created?: OpenLibraryValue;
+  last_modified?: OpenLibraryValue;
+  subtitle?: string;
   first_publish_date?: string;
-  excerpts?: any[];
-  links?: any[];
+  excerpts?: OpenLibraryExcerpt[];
+  links?: OpenLibraryLink[];
 }
 
 export interface OpenLibraryWorkAuthor {
-  // Structure is not detailed in sample, so left as empty
+  author: {
+    key: string;
+  };
+  type: {
+    key: string;
+  };
 }
 
-export interface OpenLibraryDateTimeOnly {
+export interface OpenLibraryValue {
   value: string;
 }
 
-export interface OpenLibraryDescription {
-  value: string;
-}
 // Types for OpenLibrary author search result
 export interface OpenLibraryAuthorSearchResult {
   numFound: number;
@@ -67,7 +70,7 @@ export interface AuthorDoc {
 // Types for OpenLibrary single author sample
 export interface OpenLibrarySingleAuthor {
   name: string;
-  bio?: OpenLibraryBio;
+  bio?: OpenLibraryValue;
   remote_ids?: OpenLibraryRemoteIds;
   photos?: number[];
   alternate_names?: string[];
@@ -77,16 +80,16 @@ export interface OpenLibrarySingleAuthor {
   birth_date?: string;
   fuller_name?: string;
   title?: string;
-  type?: OpenLibraryType;
+  type?: OpenLibraryKey;
   personal_name?: string;
   key?: string;
   latest_revision?: number;
   revision?: number;
-  created?: OpenLibraryDateTime;
-  last_modified?: OpenLibraryDateTime;
+  created?: OpenLibraryValue;
+  last_modified?: OpenLibraryValue;
 }
 
-export interface OpenLibraryBio {
+export interface OpenLibraryTypeValue {
   type: string;
   value: string;
 }
@@ -108,14 +111,15 @@ export interface OpenLibraryRemoteIds {
 export interface OpenLibraryLink {
   title: string;
   url: string;
-  type: OpenLibraryType;
+  type: OpenLibraryKey;
 }
 
-export interface OpenLibraryType {
+export interface OpenLibraryKey {
   key: string;
 }
 
-export interface OpenLibraryDateTime {
-  type: string;
-  value: string;
+export interface OpenLibraryExcerpt {
+  excerpt: string;
+  comment: string;
+  author: OpenLibraryKey;
 }

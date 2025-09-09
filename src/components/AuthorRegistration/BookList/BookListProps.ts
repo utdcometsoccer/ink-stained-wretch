@@ -1,4 +1,4 @@
-import type { Book } from "../../types/Book";
+import type { Book } from "../../../types/Book";
 
 export interface BookListProps {
   authorName?: string;
@@ -7,4 +7,5 @@ export interface BookListProps {
   onEdit: (id: string) => void;
   onAdd: () => void;
   onDelete: (id: string) => void;
+  openLibraryAuthorKeys?: string[];
 }

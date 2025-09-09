@@ -362,6 +362,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
           onDelete={handleDeleteBook}
           authorName={form.AuthorName}
           importBook={importBook}
+          openLibraryAuthorKeys={form.OpenLibraryAuthorKeys}
         />
         <h3>Social Links</h3>
         <SocialList socials={form.Socials} onEdit={handleEditSocial} onAdd={handleAddSocial} onDelete={handleDeleteSocial} />
