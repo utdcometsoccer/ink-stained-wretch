@@ -7,10 +7,9 @@ import type { UserProfile } from "./UserProfile";
 
 export interface State {  
   Authors?: Author[];
-  // isMenuOpen removed; now managed locally in Navbar
   isAuthenticated?: boolean;  
   cultureInfo?: CultureInfo;
-  error?: string;
+  error?: Error | string;
   userProfile?: UserProfile;
   domainRegistration?: {
     domain?: Domain;
@@ -20,4 +19,5 @@ export interface State {
   authToken?: string | null;
   subscriptionPlans?: SubscriptionPlan[];
   selectedSubscriptionPlan?: SubscriptionPlan;
+  useCookies?: boolean;
 }

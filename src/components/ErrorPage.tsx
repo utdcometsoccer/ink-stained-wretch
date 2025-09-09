@@ -3,6 +3,8 @@ import './ErrorPage.css';
 import type { ErrorPageProps } from "./ErrorPageProps";
 
 export const ErrorPage: FC<ErrorPageProps> = ({ state, dispatch, isDevelopment }) => {
+  const { error } = state;
+  const detailedError = typeof error === 'string' ? error : error?.message || 'No additional error information available.';
   return (
     <div className="error-page">
       <h1>Error</h1>
@@ -13,7 +15,7 @@ export const ErrorPage: FC<ErrorPageProps> = ({ state, dispatch, isDevelopment }
             <div className="error-details">
               <h3>Detailed Error Information:</h3>
               <pre>
-                {state.error}
+                {detailedError}
               </pre>
             </div>
           )}

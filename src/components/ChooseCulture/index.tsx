@@ -2,9 +2,11 @@ import { CountdownIndicator } from "../CountdownIndicator";
 import "./ChooseCulture.css";
 import { LanguageDropdown, CountryDropdown } from '@idahoedokpayi/react-country-state-selector';
 import { useChooseCultureLogic } from '../../hooks/useChooseCulture';
+import type { FC } from "react";
+import type { ChooseCultureProps } from "./ChooseCultureProps";
 
 
-export const ChooseCulture = (props: any) => {
+export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
   const {
     localState,
     countdownRef,
@@ -12,8 +14,9 @@ export const ChooseCulture = (props: any) => {
     handleCountryChange,
     handleSubmit,
     handleCancel,
-  } = useChooseCultureLogic(props.state, props.dispatch);
-
+    handleCookieConsentChange,
+  } = useChooseCultureLogic(state, dispatch);
+const { useCookies } = state;
   return (
     <div className="choose-culture-container">
       <CountdownIndicator
@@ -35,13 +38,13 @@ export const ChooseCulture = (props: any) => {
                   selectedLanguage={localState.language as any}
                   onLanguageChange={handleLanguageChange}
                   Label="Language: "
-                  culture={props.state.cultureInfo}
+                  culture={state.cultureInfo}
             />
           </div>
           <div className="choose-culture-dropdown-group">
                 <CountryDropdown
                   selectedCountry={localState.country}
-                  culture={props.state.cultureInfo}
+                  culture={state.cultureInfo}
                   Label="Country:"
                   onCountryChange={handleCountryChange}
             />
@@ -65,6 +68,15 @@ export const ChooseCulture = (props: any) => {
           </button>
         </div>
       </form>
+      <div className="choose-culture-cookies">
+        <input type="checkbox" id="cookieConsent" name="cookieConsent" checked={useCookies} onChange={handleCookieConsentChange} />
+        <label htmlFor="cookieConsent">I consent to the use of cookies for improving my experience.</label>
+      </div>
+      <div className="choose-culture-cookies-info">
+        <p>
+          We use cookies to store your language and region preferences as well as other settings, ensuring a personalized experience each time you visit our site. By consenting, you help us enhance your interaction with our platform.
+        </p>
+      </div>
     </div>
   );
 }

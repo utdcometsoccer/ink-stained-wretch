@@ -10,14 +10,15 @@ import { isDevelopment } from './services/isDevelopment';
 import { Login } from './components/LoginRegister'
 import { Navbar } from './components/Navbar'
 import { ThankYou } from './components/ThankYou'
-import { appReducer, initialState } from './reducers/appReducer'
+import { appReducer } from './reducers/appReducer'
 import { initializeAppInsights, trackEvent, trackException, trackPageView } from './services/applicationInsights'
 import { msalInstance } from "./services/msalConfig"
 import { ChooseCulture } from "./components/ChooseCulture"
 import ChooseSubscription from "./components/ChooseSubscription"
+import { loadStateFromCookie } from './services/loadStateFromCookie';
 
 function App() {
-  const [appState, dispatch] = useReducer(appReducer, initialState)
+  const [appState, dispatch] = useReducer(appReducer, loadStateFromCookie())
 
   // Initialize Application Insights
   useEffect(() => {

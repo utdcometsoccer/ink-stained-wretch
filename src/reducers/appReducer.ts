@@ -1,5 +1,6 @@
 import type { UIStates } from "../types/UIStates";
 import type { State } from "../types/State";
+import { saveStateToCookie } from '../services/saveStateToCookie';
 
 export interface Action {
   type:
@@ -10,11 +11,12 @@ export interface Action {
     | 'UPDATE_DOMAIN'
     | 'UPDATE_DOMAIN_CONTACT_INFO'
     | 'SAVE_AUTHOR'
-    | 'DELETE_AUTHOR';
+    | 'DELETE_AUTHOR'
+    | 'UPDATE_USE_COOKIES';  // Use Cookies preference
   payload?: any;
 }
 
-interface AppState {
+export interface AppState {
   currentUIState: UIStates;
   state: State;
 }
@@ -26,10 +28,11 @@ export const initialState: AppState = {
 };
 
 export function appReducer(state: AppState, action: Action): AppState {
+  let nextState: AppState = state;
   switch (action.type) {
     case 'SET_UI_STATE': {
       if (typeof action.payload === 'object' && action.payload !== null && 'uiState' in action.payload) {
-        return {
+        nextState = {
           ...state,
           currentUIState: action.payload.uiState,
           state: {
@@ -38,7 +41,7 @@ export function appReducer(state: AppState, action: Action): AppState {
           }
         };
       } else {
-        return {
+        nextState = {
           ...state,
           currentUIState: action.payload as UIStates,
           state: {
@@ -47,9 +50,10 @@ export function appReducer(state: AppState, action: Action): AppState {
           }
         };
       }
+      break;
     }
     case 'SET_ERROR':
-      return {
+      nextState = {
         ...state,
         currentUIState: 'error',
         state: {
@@ -57,30 +61,32 @@ export function appReducer(state: AppState, action: Action): AppState {
           error: action.payload as string
         }
       };
+      break;
     case 'CLEAR_ERROR':
-      return {
+      nextState = {
         ...state,
         state: {
           ...state.state,
           error: undefined
         }
       };
+      break;
     case 'UPDATE_STATE': {
-      // Merge new state, but ignore isMenuOpen
       const { ...restPayload } = action.payload || {};
       const newState = {
         ...state.state,
         ...restPayload
       };
-      return {
+      nextState = {
         ...state,
         state: {
           ...newState
         }
       };
+      break;
     }
     case 'UPDATE_DOMAIN':
-      return {
+      nextState = {
         ...state,
         state: {
           ...state.state,
@@ -90,8 +96,9 @@ export function appReducer(state: AppState, action: Action): AppState {
           }
         }
       };
+      break;
     case 'UPDATE_DOMAIN_CONTACT_INFO':
-      return {
+      nextState = {
         ...state,
         state: {
           ...state.state,
@@ -101,6 +108,7 @@ export function appReducer(state: AppState, action: Action): AppState {
           }
         }
       };
+      break;
     case 'SAVE_AUTHOR': {
       const author = action.payload;
       const authors = Array.isArray(state.state.Authors) ? state.state.Authors : [];
@@ -112,27 +120,41 @@ export function appReducer(state: AppState, action: Action): AppState {
       } else {
         newAuthors = [...authors, author];
       }
-      return {
+      nextState = {
         ...state,
         state: {
           ...state.state,
           Authors: newAuthors
         }
       };
+      break;
     }
     case 'DELETE_AUTHOR': {
       const id = action.payload;
       const authors = Array.isArray(state.state.Authors) ? state.state.Authors : [];
       const newAuthors = authors.filter((a: any) => a.id !== id);
-      return {
+      nextState = {
         ...state,
         state: {
           ...state.state,
           Authors: newAuthors
         }
       };
+      break;
     }
+    case 'UPDATE_USE_COOKIES': 
+      nextState = {
+        ...state,
+        state: {
+          ...state.state,
+          useCookies: action.payload as boolean
+        }
+      };
+      break;
     default:
-      return state;
+      nextState = state;
+      break;
   }
+  saveStateToCookie(nextState.state);
+  return nextState;
 }
