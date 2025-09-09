@@ -66,13 +66,18 @@ export function useChooseCultureLogic(state: State, dispatch: Dispatch<Action>) 
     localDispatch({ type: "CANCEL_COUNTDOWN" });
   };
 
+  // Handler for cookie consent checkbox
+  function handleCookieConsentChange(e: React.ChangeEvent<HTMLInputElement>) {
+    dispatch({ type: "UPDATE_USE_COOKIES", payload: e.target.checked });
+  }
+
   return {
     localState,
-    localDispatch,
     countdownRef,
     handleLanguageChange,
     handleCountryChange,
     handleSubmit,
     handleCancel,
+    handleCookieConsentChange,
   };
 }
