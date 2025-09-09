@@ -18,8 +18,8 @@ export const BookList: FC<BookListProps> = (props) => {
     onEditClick,
     onDeleteClick,
   } = useBookList(props);
-  const { disableGoogleImport, loading} = state;
-
+  const { disableGoogleImport, loading, openLibraryAuthorKeys} = state;
+  const disableImport = openLibraryAuthorKeys.length === 0 || loading;
   return loading ? <CircularProgress /> : (
     <div>
       <h2 className="book-list-title">Books</h2>
@@ -58,11 +58,11 @@ export const BookList: FC<BookListProps> = (props) => {
         <AddIcon fontSize="small" />
         <span className="btn-label">Add Book</span>
       </button>
-      <button type="button" className={`article-form-btn app-btn`} onClick={importBooksFromOpenLibrary} disabled={state.loading}>
-        <AccountBalanceIcon fontSize="large" />
+      <button type="button" className={disableImport ? 'book-list-cancel-btn icon-btn': 'book-list-add-btn icon-btn'} onClick={importBooksFromOpenLibrary} disabled={disableImport}>
+        <AccountBalanceIcon fontSize="small" />
         Import Books Open Library
       </button>
-      <button disabled={disableGoogleImport || state.loading} className="book-list-add-btn icon-btn" title="Import Books" onClick={onGoogleImportClick}>
+      <button disabled={disableGoogleImport} className={disableGoogleImport ? "book-list-cancel-btn icon-btn" : "book-list-add-btn icon-btn"} title="Import Books" onClick={onGoogleImportClick}>
         <GoogleIcon fontSize="small" className="book-list-book-icon" />
         <span className="btn-label">Import Google Books</span>
       </button>
