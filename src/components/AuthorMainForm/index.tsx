@@ -1,13 +1,13 @@
 import { type FC } from "react";
-import { useGetLocalizedText } from "../../../hooks/useGetLocalizedText";
+import { useGetLocalizedText } from "../../hooks/useGetLocalizedText";
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { CountryDropdown, LanguageDropdown, type Language } from "@idahoedokpayi/react-country-state-selector";
-import { ImageManager } from "../../ImageManager";
-import { ArticleList } from "../ArticleList";
-import { BookList } from "../BookList";
-import { SocialList } from "../SocialList";
+import { ImageManager } from "../ImageManager/index";
+import { ArticleList } from "../AuthorRegistration/ArticleList";
+import { BookList } from "../BookList/index";
+import { SocialList } from "../AuthorRegistration/SocialList";
 import type { AuthorMainFormProps } from "./AuthorMainFormProps";
-import { useTrackComponent } from "../../../hooks/useTrackComponent";
+import { useTrackComponent } from "../../hooks/useTrackComponent";
 
 export const AuthorMainForm: FC<AuthorMainFormProps> = ({
     form,

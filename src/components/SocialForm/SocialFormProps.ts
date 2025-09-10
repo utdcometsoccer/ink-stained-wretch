@@ -1,4 +1,4 @@
-import type { Social } from "../../../types/Social";
+import type { Social } from "../../types/Social";
 
 export interface SocialFormProps {
   social: Social;

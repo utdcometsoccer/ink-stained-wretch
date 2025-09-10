@@ -1,5 +1,5 @@
 // Removed unused useReducer import
-import React from "react";
+import { useState, type FC } from "react";
 import { useDomainRegistrationLogic } from "../../hooks/useDomainRegistrationLogic";
 import { useGetLocalizedText } from "../../hooks/useGetLocalizedText";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
@@ -10,16 +10,18 @@ import type { DomainRegistrationProps } from "./DomainRegistrationProps";
 
 
 
-export function DomainRegistration({ state, dispatch }: DomainRegistrationProps) {
+export const DomainRegistration:FC<DomainRegistrationProps> =({ state, dispatch }: DomainRegistrationProps)=> {
     const culture = state.cultureInfo?.Culture || 'en-us';
     const localized = useGetLocalizedText(culture)?.DomainRegistration;
     useTrackComponent('DomainRegistration', { state, dispatch, culture });
-
-    const domainString = state.domainRegistration?.domain?.topLevelDomain && state.domainRegistration?.domain?.secondLevelDomain
-        ? `${state.domainRegistration.domain.secondLevelDomain}.${state.domainRegistration.domain.topLevelDomain}`
+    const { domainRegistration } = state;
+    const { domain } = domainRegistration || {};
+    const { topLevelDomain, secondLevelDomain } = domain || {};
+    const domainString = secondLevelDomain && topLevelDomain
+        ? `${secondLevelDomain}.${topLevelDomain}`
         : "";
-    const [domainInputValue, setDomainInputValue] = React.useState(domainString || "");
-    const [domainError, setDomainError] = React.useState<string | null>(null);
+    const [domainInputValue, setDomainInputValue] = useState(domainString || "");
+    const [domainError, setDomainError] = useState<string | null>(null);
     // Local dispatch for compatibility with hook
     const localDispatch = (action: { type: string; payload: any }) => {
         switch (action.type) {

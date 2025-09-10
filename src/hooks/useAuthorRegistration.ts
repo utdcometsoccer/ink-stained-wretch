@@ -5,7 +5,7 @@ import { authorListReducer, initialAuthorListState } from "../reducers/authorLis
 import type { Author } from "../types/Author";
 import type { AuthorRegistrationProps } from "../components/AuthorRegistration/AuthorRegistrationProps";
 
-export function useAuthorRegistration({ state, dispatch, culture }: AuthorRegistrationProps & { culture?: string }) {
+export function useAuthorRegistration({ state, dispatch, culture }: AuthorRegistrationProps) {
     const text = useGetLocalizedText(culture ?? 'en-us')?.AuthorRegistration || {
         authorListTitle: "Author Information",
         languageLabel: "Language: ",

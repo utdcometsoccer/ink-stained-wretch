@@ -79,23 +79,23 @@ function App() {
     try {
       switch (appState.currentUIState) {
         case 'chooseCulture':
-          return <ChooseCulture state={appState.state} dispatch={dispatch} />
+          return <ChooseCulture state={appState.state} dispatch={dispatch}  />
         case 'login':
-          return <Login state={appState.state} dispatch={dispatch} />
+          return <Login state={appState.state} dispatch={dispatch}  />
         case 'domainRegistration':
           return <DomainRegistration state={appState.state} dispatch={dispatch} />
         case 'authorPage':
-          return <AuthorRegistration state={appState.state} dispatch={dispatch} />
+          return <AuthorRegistration state={appState.state} dispatch={dispatch} culture={appState.state.cultureInfo?.Culture} />
         case 'chooseSubscription':
-          return <ChooseSubscription state={appState.state} dispatch={dispatch} />
+          return <ChooseSubscription state={appState.state} dispatch={dispatch} culture={appState.state.cultureInfo?.Culture} />
         case 'checkout':
           return import.meta.env.VITE_ENABLE_STRIPE_CHECKOUT ? <Checkout state={appState.state} /> : <h2>Stripe Checkout is disabled</h2>
         case 'thankYou':
           return <ThankYou />
         case 'error':
-          return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} />
+          return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} culture={appState.state.cultureInfo?.Culture} />
         default:
-          return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} />
+          return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} culture={appState.state.cultureInfo?.Culture} />
       }
     } catch (error) {
       const renderError = error instanceof Error ? error : new Error('An error occurred while rendering');
@@ -104,7 +104,7 @@ function App() {
         type: 'SET_ERROR',
         payload: renderError.message
       })
-  return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} />
+  return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} culture={appState.state.cultureInfo?.Culture} />
     }
   }
 

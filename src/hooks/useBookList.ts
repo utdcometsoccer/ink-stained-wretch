@@ -4,7 +4,7 @@ import { useEffect, useReducer } from "react";
 import { googleBooksvolumesAPI } from "../services/googleBooksvolumesAPI";
 import { fetchOpenLibraryWorksByAuthorKey } from "../services/openLibraryApi";
 import type { Book } from "../types/Book";
-import type { BookListProps } from "../components/AuthorRegistration/BookList/BookListProps";
+import type { BookListProps } from "../components/BookList/BookListProps";
 import type { OpenLibraryTypeValue } from "../types/OpenLibrary";
 
 export function useBookList({ authorName, importBook, onEdit, onDelete, openLibraryAuthorKeys }: BookListProps) {

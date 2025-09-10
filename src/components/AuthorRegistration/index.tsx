@@ -2,15 +2,13 @@ import AddIcon from '@mui/icons-material/Add';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-// Removed unused imports
-import { AuthorForm } from "./AuthorForm";
+import { AuthorForm } from "../AuthorForm/index";
 import "./AuthorList.css";
 import type { AuthorRegistrationProps } from "./AuthorRegistrationProps";
-
-
 import { useAuthorRegistration } from '../../hooks/useAuthorRegistration';
+import type { FC } from 'react';
 
-export function AuthorRegistration(props: AuthorRegistrationProps & { culture?: string }) {
+export const AuthorRegistration: FC<AuthorRegistrationProps> = (props: AuthorRegistrationProps) => {
     const {
         text,
         authorsList,
@@ -21,7 +19,7 @@ export function AuthorRegistration(props: AuthorRegistrationProps & { culture?: 
         handleSaveAuthor,
         handleCancelAuthor,
         handleValidateAuthors,
-    state,
+        state,
     } = useAuthorRegistration(props);
     return (
         <div className="author-list">

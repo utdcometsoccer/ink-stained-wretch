@@ -5,9 +5,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import GoogleIcon from '@mui/icons-material/Google';
 import CircularProgress from "@mui/material/CircularProgress";
 import type { FC } from "react";
-import { useBookList } from "../../../hooks/useBookList";
-import { useGetLocalizedText } from '../../../hooks/useGetLocalizedText';
-import { useTrackComponent } from '../../../hooks/useTrackComponent';
+import { useBookList } from "../../hooks/useBookList";
+import { useGetLocalizedText } from '../../hooks/useGetLocalizedText';
+import { useTrackComponent } from '../../hooks/useTrackComponent';
 import "./BookList.css";
 import type { BookListProps } from "./BookListProps";
 

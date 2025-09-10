@@ -8,6 +8,7 @@ import type { Dispatch } from "react";
 import type { Action } from "../reducers/appReducer";
 import type { State } from "../types/State";
 import type { DomainRegistrationLogicReturn } from "../types/DomainRegistrationLogicReturn";
+import { parseDomain } from "../services/parseDomain";
 
 export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Action>, domainInputValue: string, domainError: string | null, localDispatch?: (action: { type: string; payload: any }) => void): DomainRegistrationLogicReturn {
   const cityRef = useRef<HTMLInputElement>(null);
@@ -42,27 +43,22 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
     if (localDispatch) {
       localDispatch({ type: "SET_DOMAIN_INPUT_VALUE", payload: e.target.value });
     }
-    // Parse domain
-    const value = e.target.value.trim();
-    let topLevelDomain = '';
-    let secondLevelDomain = '';
-    const match = value.match(/^([^.]+)\.([^.]+)$/);
-    if (match) {
-      secondLevelDomain = match[1];
-      topLevelDomain = match[2];
-    }
-    dispatch({ type: "SET_DOMAIN_INPUT_VALUE", payload: {
-      topLevelDomain,
-      secondLevelDomain
-    } });
+    const { secondLevelDomain, topLevelDomain } = parseDomain(e.target.value);
+    dispatch({
+      type: "SET_DOMAIN_INPUT_VALUE", payload: {
+        topLevelDomain,
+        secondLevelDomain
+      }
+    });
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const value = domainInputValue.trim();
-    if (localDispatch) {
-      localDispatch({ type: "SET_DOMAIN_INPUT_VALUE", payload: value });
-    }
+    const { secondLevelDomain, topLevelDomain } = parseDomain(domainInputValue);
+    dispatch({
+      type: "SET_DOMAIN_INPUT_VALUE", payload: value
+    });
     if (value === '') {
       if (localDispatch) localDispatch({ type: "SET_DOMAIN_ERROR", payload: null });
       dispatch({ type: "UPDATE_DOMAIN", payload: { topLevelDomain: '', secondLevelDomain: '' } });
@@ -101,7 +97,7 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
     const match = value.match(domainRegex);
     if (match) {
       if (localDispatch) localDispatch({ type: "SET_DOMAIN_ERROR", payload: null });
-      dispatch({ type: "UPDATE_DOMAIN", payload: { secondLevelDomain: match[1], topLevelDomain: match[2] } });
+      dispatch({ type: "UPDATE_DOMAIN", payload: { secondLevelDomain: secondLevelDomain, topLevelDomain: topLevelDomain } });
       dispatch({ type: "UPDATE_DOMAIN_CONTACT_INFO", payload: { ...contactInfo } });
       dispatch({ type: 'SET_UI_STATE', payload: 'authorPage' });
     } else {
@@ -116,5 +112,6 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
     isValid,
     handleContactChange,
     handleSubmit,
-    handleDomainInputChange  };
+    handleDomainInputChange
+  };
 }

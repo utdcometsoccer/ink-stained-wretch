@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import type { SocialFormProps } from "./SocialFormProps";
 import "./SocialForm.css";
-import { useSocialForm } from '../../../hooks/useSocialForm';
+import { useSocialForm } from '../../hooks/useSocialForm';
 
 export const SocialForm: FC<SocialFormProps> = (props) => {
   const {
