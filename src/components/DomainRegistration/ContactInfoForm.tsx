@@ -1,5 +1,3 @@
-
-
 import { type FC } from "react";
 import { StateDropdown, CountryDropdown } from "@idahoedokpayi/react-country-state-selector";
 import type { ContactInfoFormProps } from "./ContactInfoFormProps";
