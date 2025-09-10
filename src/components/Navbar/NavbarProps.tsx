@@ -7,4 +7,5 @@ export interface NavbarProps {
     currentState: UIStates;
     dispatch: Dispatch<Action>;
     state: State;
+    culture?: string;
 }

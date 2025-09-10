@@ -1,0 +1,69 @@
+import type { ChangeEvent, FormEvent } from "react";
+import { useState } from "react";
+import { useGetLocalizedText } from "../hooks/useGetLocalizedText";
+import { useTrackComponent } from "../hooks/useTrackComponent";
+import { deleteImage, listUserImages } from '../services/imageApi';
+import type { Book } from "../types/Book";
+
+export interface UseBookFormProps {
+  book: Book;
+  token: string;
+  onSave: (book: Book) => void;
+  onCancel: () => void;
+  culture?: string;
+}
+
+export function useBookForm({ book, token, onSave, onCancel, culture }: UseBookFormProps) {
+  const text = useGetLocalizedText(culture ?? 'en-us')?.BookForm || {
+    legend: 'Book Details',
+    title: 'Title:',
+    description: 'Description:',
+    url: 'URL:',
+    cover: 'Cover:',
+    chooseImage: 'Choose Image',
+    close: 'Close',
+    save: 'Save',
+    cancel: 'Cancel'
+  };
+  useTrackComponent('BookForm', { book, token, onSave, onCancel, culture });
+  const [form, setForm] = useState<Book>(book);
+  const [showImageManager, setShowImageManager] = useState(false);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSave(form);
+  };
+
+  const handleDescriptionChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setForm({ ...form, Description: e.target.value });
+  };
+
+  const handleShowImageManager = () => setShowImageManager(true);
+  const handleHideImageManager = () => setShowImageManager(false);
+  const handleSelectImage = (img: { url: string }) => {
+    setForm({ ...form, Cover: img.url });
+    setShowImageManager(false);
+  };
+
+  return {
+    text,
+    form,
+    setForm,
+    showImageManager,
+    setShowImageManager,
+    handleChange,
+    handleSubmit,
+    handleDescriptionChange,
+    handleShowImageManager,
+    handleHideImageManager,
+    handleSelectImage,
+    listUserImages,
+    deleteImage,
+    token,
+    onCancel,
+  };
+}

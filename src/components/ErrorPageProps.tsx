@@ -6,4 +6,5 @@ export interface ErrorPageProps {
   state: State;
   dispatch: Dispatch<Action>;
   isDevelopment: () => boolean;
+  culture?: string;
 }

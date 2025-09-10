@@ -1,26 +1,27 @@
-import React, { useEffect } from "react";
-import { trackComponent } from "../../services/trackComponent";
+import React from "react";
+import { useTrackComponent } from "../../hooks/useTrackComponent";
+import { useGetLocalizedText } from "../../hooks/useGetLocalizedText";
 
 export interface DomainInputProps {
   value: string;
   error: string | null;
   isValid: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  culture?: string;
 }
 
-export function DomainInput({ value, error, isValid, onChange }: DomainInputProps) {
-  useEffect(() => {
-    trackComponent('DomainInput', { value, error, isValid });
-  }, [value, error, isValid]);
+export function DomainInput({ value, error, isValid, onChange, culture = 'en-us' }: DomainInputProps) {
+  useTrackComponent('DomainInput', { value, error, isValid, onChange, culture });
+  const localized = useGetLocalizedText(culture)?.DomainInput;
   return (
     <label>
-      Domain:
+      {localized?.label ?? 'Domain:'}
       <input
         type="text"
         name="domain"
         value={value}
         onChange={onChange}
-        placeholder="example.com"
+        placeholder={localized?.placeholder ?? 'example.com'}
         required
         className={
           error
@@ -30,8 +31,8 @@ export function DomainInput({ value, error, isValid, onChange }: DomainInputProp
               : undefined
         }
       />
-      {error && <div className="error-message">{error}</div>}
-      {!error && isValid && <div className="domain-success-message">Domain format is valid and available!</div>}
+      {error && <div className="error-message">{localized?.error ?? error}</div>}
+      {!error && isValid && <div className="domain-success-message">{localized?.success ?? 'Domain format is valid and available!'}</div>}
     </label>
   );
 }

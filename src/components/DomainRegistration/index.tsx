@@ -1,74 +1,66 @@
+// Removed unused useReducer import
+import React from "react";
+import { useDomainRegistrationLogic } from "../../hooks/useDomainRegistrationLogic";
+import { useGetLocalizedText } from "../../hooks/useGetLocalizedText";
+import { useTrackComponent } from "../../hooks/useTrackComponent";
 import { ContactInfoForm } from "./ContactInfoForm";
 import { DomainInput } from "./DomainInput";
 import "./DomainRegistration.css";
 import type { DomainRegistrationProps } from "./DomainRegistrationProps";
-import { useDomainRegistrationLogic } from "../../hooks/useDomainRegistrationLogic";
-import { useReducer, useEffect } from "react";
-import { trackComponent } from "../../services/trackComponent";
 
 
-export function DomainRegistration({ state, dispatch }: DomainRegistrationProps) {    
-    useEffect(() => {
-        trackComponent('DomainRegistration', { state });
-    }, [state]);
-    type LocalState = {
-        domainInputValue: string;
-        domainError: string | null;
-    };
+
+export function DomainRegistration({ state, dispatch }: DomainRegistrationProps) {
+    const culture = state.cultureInfo?.Culture || 'en-us';
+    const localized = useGetLocalizedText(culture)?.DomainRegistration;
+    useTrackComponent('DomainRegistration', { state, dispatch, culture });
+
     const domainString = state.domainRegistration?.domain?.topLevelDomain && state.domainRegistration?.domain?.secondLevelDomain
         ? `${state.domainRegistration.domain.secondLevelDomain}.${state.domainRegistration.domain.topLevelDomain}`
-        : "";   
-    const initialLocalState: LocalState = {       
-        domainInputValue: domainString ||"",
-        domainError: null,
-    };
-    function reducer(state: LocalState, action: any): LocalState {
+        : "";
+    const [domainInputValue, setDomainInputValue] = React.useState(domainString || "");
+    const [domainError, setDomainError] = React.useState<string | null>(null);
+    // Local dispatch for compatibility with hook
+    const localDispatch = (action: { type: string; payload: any }) => {
         switch (action.type) {
             case "SET_DOMAIN_INPUT_VALUE":
-                return { ...state, domainInputValue: action.payload };
+                setDomainInputValue(action.payload);
+                break;
             case "SET_DOMAIN_ERROR":
-                return { ...state, domainError: action.payload };
+                setDomainError(action.payload);
+                break;
             default:
-                return state;
+                break;
         }
-    }
-    const [local, localDispatch] = useReducer(reducer, initialLocalState);
-
+    };
     const {
         cityRef,
         isValid,
         handleContactChange,
-        handleSubmit: originalHandleSubmit,
+        handleSubmit,
         handleDomainInputChange,
-    } = useDomainRegistrationLogic(state, dispatch, local.domainInputValue, local.domainError, localDispatch);
-
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        originalHandleSubmit(e);
-        // If valid, start redirect
-        if (isValid) {
-            dispatch({ type: 'SET_UI_STATE', payload: 'authorPage' });
-        }
-    }
+    } = useDomainRegistrationLogic(state, dispatch, domainInputValue, domainError, localDispatch);
 
     return (
         <div>
-            <h1>Domain Registration</h1>
-            <p>Register your domain and contact information.</p>
+            <h1>{localized?.title ?? 'Domain Registration'}</h1>
+            <p>{localized?.subtitle ?? 'Register your domain and contact information.'}</p>
             <form onSubmit={handleSubmit}>
                 <DomainInput
-                    value={local.domainInputValue}
-                    error={local.domainError}
+                    value={domainInputValue}
+                    error={domainError}
                     isValid={!!isValid}
                     onChange={handleDomainInputChange}
+                    culture={culture}
                 />
                 <ContactInfoForm
                     state={state}
                     cultureInfo={state.cultureInfo}
                     cityRef={cityRef as React.RefObject<HTMLInputElement>}
                     onChange={handleContactChange}
+                    culture={culture}
                 />
-                <button type="submit" className="app-btn">Submit</button>
+                <button type="submit" className="app-btn">{localized?.submit ?? 'Submit'}</button>
             </form>
         </div>
     );
