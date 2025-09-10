@@ -1,23 +1,19 @@
+import CircularProgress from "@mui/material/CircularProgress";
 import type { FC } from "react";
-import { useEffect } from "react";
-import { trackComponent } from "../../../services/trackComponent";
 import { useAuthorFormLogic } from '../../../hooks/useAuthorForm';
 import { ArticleForm } from "../ArticleForm";
 import { AuthorDocForm } from "../AuthorDocForm";
 import AuthorDocList from "../AuthorDocList";
 import { BookForm } from "../BookForm";
 import { SocialForm } from "../SocialForm";
-import { AuthorMainForm } from "./AuthorMainForm";
 import "./AuthorForm.css";
 import type { AuthorFormProps } from "./AuthorFormProps";
-import CircularProgress from "@mui/material/CircularProgress";
-import { trackComponent } from "../../../services/trackComponent";
+import { AuthorMainForm } from "./AuthorMainForm";
+import { useTrackComponent } from "../../../hooks/useTrackComponent";
 
 
 export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSave, onCancel }) => {
-  useEffect(() => {
-    trackComponent('AuthorForm', { appState, author, domain });
-  }, [appState, author, domain]);
+  useTrackComponent('AuthorForm', { appState, author, domain });
   // Use custom hook for all logic and handlers
   const {
     form,

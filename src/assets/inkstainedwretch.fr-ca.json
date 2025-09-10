@@ -1,0 +1,190 @@
+{
+    "LoginRegister": {
+        "loginHeader": {
+            "title": "Connexion",
+            "subtitle": "Connectez-vous à votre compte."
+        },
+        "loginButton": {
+            "label": "Se connecter avec Microsoft"
+        },
+        "logoutButton": {
+            "label": "Se déconnecter"
+        },
+        "countdownIndicator": {
+            "text": "Redirection vers l'enregistrement de domaine dans {countdown} secondes..."
+        }
+    },
+    "ThankYou": {
+        "title": "Merci",
+        "message": "Merci pour votre achat !"
+    },
+    "Navbar": {
+        "brand": "Taché d'encre",
+        "navigation": "Navigation",
+        "close": "Fermer",
+        "navItems": {
+            "chooseCulture": { "label": "Culture", "description": "Choisir la langue et la région" },
+            "login": { "label": "Connexion", "description": "Se connecter / S'inscrire" },
+            "domainRegistration": { "label": "Domaine", "description": "Enregistrer le domaine" },
+            "authorPage": { "label": "Auteur", "description": "Page de l'auteur" },
+            "chooseSubscription": { "label": "Forfaits", "description": "Choisir un forfait" },
+            "checkout": { "label": "Paiement", "description": "Compléter l'achat" },
+            "thankYou": { "label": "Succès", "description": "Merci" }
+        }
+    },
+    "DomainRegistration": {
+        "title": "Enregistrement de domaine",
+        "subtitle": "Enregistrez votre domaine et vos informations de contact.",
+        "submit": "Soumettre",
+        "firstName": "Prénom",
+        "lastName": "Nom de famille",
+        "address": "Adresse",
+        "address2": "Adresse 2",
+        "city": "Ville",
+        "state": "Province / État :",
+        "country": "Pays :",
+        "zipCode": "Code postal",
+        "emailAddress": "Adresse courriel",
+        "telephoneNumber": "Numéro de téléphone"
+    },
+    "ErrorPage": {
+        "title": "Erreur",
+        "devMessage": "Une erreur s'est produite pendant le développement.",
+        "details": "Informations détaillées sur l'erreur :",
+        "tryAgain": "Réessayer",
+        "userMessage": "Nous sommes désolés, une erreur s'est produite. Veuillez réessayer plus tard.",
+        "return": "Retour à l'application"
+    },
+    "ImageManager": {
+        "title": "Vos images téléchargées",
+        "loading": "Chargement...",
+        "select": "Sélectionner",
+        "delete": "Supprimer",
+        "refresh": "Actualiser"
+    },
+    "Checkout": {
+        "title": "Paiement",
+        "planDetails": "Détails du forfait",
+        "price": "Prix :",
+        "subscribePay": "S'abonner et payer",
+        "redirecting": "Redirection...",
+        "trustText": "Paiements sécurisés par Stripe",
+        "selectPlan": "Veuillez sélectionner un forfait d'abonnement pour continuer."
+    },
+    "DomainInput": {
+        "label": "Domaine :",
+        "placeholder": "exemple.com",
+        "error": "Format de domaine invalide.",
+        "success": "Le format du domaine est valide et disponible !"
+    },
+    "SocialList": {
+        "title": "Réseaux sociaux",
+        "url": "URL :",
+        "edit": "Modifier",
+        "delete": "Supprimer",
+        "addSocial": "Ajouter un réseau social"
+    },
+    "CountdownIndicator": {
+        "redirecting": "Redirection dans {countdown} secondes..."
+    },
+    "ChooseCulture": {
+        "title": "Choisissez votre langue et votre région",
+        "subtitle": "Sélectionnez votre langue et votre région préférées pour une meilleure expérience.",
+        "legend": "Sélectionner la langue et le pays",
+        "languageLabel": "Langue : ",
+        "countryLabel": "Pays :",
+        "continue": "Continuer",
+        "cancel": "Annuler",
+        "cookieConsent": "J'accepte l'utilisation de cookies pour améliorer mon expérience.",
+        "cookiesInfo": "Nous utilisons des cookies pour stocker vos préférences de langue et de région ainsi que d'autres paramètres, assurant une expérience personnalisée à chaque visite sur notre site. En acceptant, vous nous aidez à améliorer votre interaction avec notre plateforme."
+    },
+    "BookList": {
+        "title": "Livres",
+        "description": "Description :",
+        "url": "URL :",
+        "edit": "Modifier",
+        "delete": "Supprimer",
+        "addBook": "Ajouter un livre",
+        "importOpenLibrary": "Importer des livres d'Open Library",
+        "importGoogleBooks": "Importer des livres de Google Books"
+    },
+    "ArticleForm": {
+        "legend": "Modifier l'article",
+        "title": "Titre :",
+        "date": "Date :",
+        "publication": "Publication :",
+        "url": "URL :",
+        "save": "Enregistrer",
+        "cancel": "Annuler"
+    },
+    "ArticleList": {
+        "title": "Articles",
+        "date": "Date :",
+        "publication": "Publication :",
+        "url": "URL :",
+        "edit": "Modifier",
+        "delete": "Supprimer",
+        "addArticle": "Ajouter un article"
+    },
+    "AuthorDocForm": {
+        "legend": "Modifier l'auteur",
+        "key": "Clé :",
+        "text": "Texte :",
+        "type": "Type :",
+        "name": "Nom :",
+        "alternateNames": "Noms alternatifs :",
+        "birthDate": "Date de naissance :",
+        "topWork": "Œuvre principale :",
+        "workCount": "Nombre d'œuvres :",
+        "topSubjects": "Sujets principaux :",
+        "version": "Version :",
+        "save": "Enregistrer",
+        "cancel": "Annuler"
+    },
+    "AuthorDocList": {
+        "title": "Auteurs",
+        "topWork": "Œuvre principale :",
+        "birthDate": "Date de naissance :",
+        "import": "Importer",
+        "importTitle": "Importer AuthorDoc",
+        "goBack": "Retourner"
+    },
+    "BookForm": {
+        "legend": "Détails du livre",
+        "title": "Titre :",
+        "description": "Description :",
+        "url": "URL :",
+        "cover": "Couverture :",
+        "chooseImage": "Choisir une image",
+        "close": "Fermer",
+        "save": "Enregistrer",
+        "cancel": "Annuler"
+    },
+    "AuthorMainForm": {
+        "legend": "Informations sur l'auteur",
+        "authorName": "Nom de l'auteur :",
+        "language": "Langue :",
+        "country": "Pays :",
+        "email": "Courriel :",
+        "welcomeText": "Texte de bienvenue :",
+        "aboutText": "À propos de l'auteur :",
+        "headshotUrl": "URL de la photo :",
+        "chooseImage": "Choisir une image",
+        "close": "Fermer",
+        "copyrightText": "Texte de copyright :",
+        "topLevelDomain": "Domaine de premier niveau :",
+        "secondLevelDomain": "Domaine de second niveau :",
+        "articles": "Articles",
+        "books": "Livres",
+        "socialLinks": "Liens sociaux",
+        "importAuthor": "Importer l'auteur depuis Open Library",
+        "save": "Enregistrer l'auteur",
+        "cancel": "Annuler"
+    },
+    "ChooseSubscription": {
+        "title": "Choisissez votre forfait",
+        "selected": "Sélectionné",
+        "continue": "Continuer au paiement",
+        "note": "Tous les forfaits incluent l'hébergement d'images pour jusqu'à 20 images."
+    }
+}

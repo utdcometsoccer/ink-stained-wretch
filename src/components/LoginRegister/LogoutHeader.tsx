@@ -1,14 +1,12 @@
-import { useEffect } from "react";
-import { trackComponent } from "../../services/trackComponent";
+import { useTrackComponent } from "../../hooks/useTrackComponent";
 
-export function LogoutHeader() {
-  useEffect(() => {
-    trackComponent('LogoutHeader', {});
-  }, []);
+interface LogoutHeaderProps {
+  label: string;
+}
+
+export function LogoutHeader({ label }: LogoutHeaderProps) {
+  useTrackComponent('LogoutHeader', { label });
   return (
-    <>
-      <h1>Logout</h1>
-      <p>You are signed in.</p>
-    </>
+    <h1>{label}</h1>
   );
 }

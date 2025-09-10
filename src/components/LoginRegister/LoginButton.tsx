@@ -1,18 +1,15 @@
 import type { FC } from "react";
-import type { LoginButtonProps } from "./LoginButtonProps";
+import { useTrackComponent } from "../../hooks/useTrackComponent";
 
-export interface ExtendedLoginButtonProps extends LoginButtonProps {
+export interface LoginButtonProps {
+  onSignIn: () => void;
   className?: string;
+  label: string;
 }
 
-import { useEffect } from "react";
-import { trackComponent } from "../../services/trackComponent";
-
-export const LoginButton: FC<ExtendedLoginButtonProps> = ({ onSignIn, className }) => {
-  useEffect(() => {
-    trackComponent('LoginButton', {});
-  }, []);
+export const LoginButton: FC<LoginButtonProps> = ({ onSignIn, className, label }) => {
+  useTrackComponent('LoginButton', { onSignIn, className, label });
   return (
-    <button onClick={onSignIn} className={className}>Sign in with Microsoft</button>
+    <button onClick={onSignIn} className={className}>{label}</button>
   );
 }

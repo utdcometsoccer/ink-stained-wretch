@@ -1,15 +1,15 @@
-import { useState, useEffect } from "react";
-import { trackComponent } from "../../services/trackComponent";
-import type { FC, ChangeEvent, FormEvent } from "react";
+import type { ChangeEvent, FC, FormEvent } from "react";
+import { useState } from "react";
+import { useGetLocalizedText } from "../../hooks/useGetLocalizedText";
+import { useTrackComponent } from "../../hooks/useTrackComponent";
 import type { Article } from "../../types/Article";
-import type { ArticleFormProps } from "./ArticleFormProps";
 import "./ArticleForm.css";
+import type { ArticleFormProps } from "./ArticleFormProps";
 
-export const ArticleForm: FC<ArticleFormProps> = ({ article, onSave, onCancel }) => {
-  useEffect(() => {
-    trackComponent('ArticleForm', { article });
-  }, [article]);
+export const ArticleForm: FC<ArticleFormProps> = ({ article, onSave, onCancel, culture = 'en-us' }) => {
+  useTrackComponent('ArticleForm', { article, onSave, onCancel, culture});
   const [form, setForm] = useState<Article>(article);
+  const localized = useGetLocalizedText(culture)?.ArticleForm;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -23,36 +23,36 @@ export const ArticleForm: FC<ArticleFormProps> = ({ article, onSave, onCancel })
   return (
     <form onSubmit={handleSubmit}>
       <fieldset className="article-form-fieldset">
-        <legend className="article-form-legend">Edit Article</legend>
+        <legend className="article-form-legend">{localized?.legend ?? 'Edit Article'}</legend>
 
         <input name="id" value={form.id} readOnly hidden />
         <div className="article-form-row">
           <label className="article-form-label">
-            Title:
+            {localized?.title ?? 'Title:'}
             <input name="Title" value={form.Title} onChange={handleChange} className="article-form-input" />
           </label>
         </div>
         <div className="article-form-row">
           <label className="article-form-label">
-            Date:
+            {localized?.date ?? 'Date:'}
             <input name="Date" value={form.Date} onChange={handleChange} className="article-form-input" />
           </label>
         </div>
         <div className="article-form-row">
           <label className="article-form-label">
-            Publication:
+            {localized?.publication ?? 'Publication:'}
             <input name="Publication" value={form.Publication} onChange={handleChange} className="article-form-input" />
           </label>
         </div>
         <div className="article-form-row">
           <label className="article-form-label">
-            URL:
+            {localized?.url ?? 'URL:'}
             <input name="URL" value={form.URL} onChange={handleChange} className="article-form-input" />
           </label>
         </div>
-        <div className="article-form-actions">          
-          <button type="submit" className="article-form-btn app-btn">Save</button>
-          <button type="button" className="article-form-btn app-btn cancel" onClick={onCancel}>Cancel</button>
+        <div className="article-form-actions">
+          <button type="submit" className="article-form-btn app-btn">{localized?.save ?? 'Save'}</button>
+          <button type="button" className="article-form-btn app-btn cancel" onClick={onCancel}>{localized?.cancel ?? 'Cancel'}</button>
         </div>
       </fieldset>
     </form>

@@ -1,19 +1,23 @@
-
 import { useChooseSubscriptionLogic } from '../../hooks/useChooseSubscription';
 import type { State } from '../../types/State';
 import "./ChooseSubscription.css";
+import { useTrackComponent } from '../../hooks/useTrackComponent';
+import { useGetLocalizedText } from '../../hooks/useGetLocalizedText';
 
-import { useEffect } from "react";
-import { trackComponent } from "../../services/trackComponent";
-
-const ChooseSubscription = (props: { state: State, dispatch: any }) => {
-  useEffect(() => {
-    trackComponent('ChooseSubscription', { state: props.state });
-  }, [props.state]);
+const ChooseSubscription = (props: { state: State, dispatch: any, culture?: string }) => {
+  useTrackComponent('ChooseSubscription', props);
   const { subState, plans, handleSelect, handleContinue } = useChooseSubscriptionLogic(props.state, props.dispatch);
+  const culture = props.culture || "en-US";
+  const localized = useGetLocalizedText(culture)?.ChooseSubscription || {
+    title: 'Choose Your Subscription Plan',
+    selected: 'Selected',
+    continue: 'Continue',
+    note: 'You can change or cancel your subscription at any time.'
+  };
+  if (!localized) return null;
   return (
     <div className="choose-subscription-page">
-      <h1 className="choose-subscription-title">Choose Your Subscription</h1>
+      <h1 className="choose-subscription-title">{localized.title}</h1>
       <div className="choose-subscription-options">
         {plans.map((plan, idx) => (
           <div
@@ -28,7 +32,7 @@ const ChooseSubscription = (props: { state: State, dispatch: any }) => {
                 <li key={feature}>{feature}</li>
               ))}
             </ul>
-            {subState.selected === idx && <div className="choose-subscription-selected">Selected</div>}
+            {subState.selected === idx && <div className="choose-subscription-selected">{localized.selected}</div>}
           </div>
         ))}
       </div>
@@ -37,10 +41,10 @@ const ChooseSubscription = (props: { state: State, dispatch: any }) => {
         disabled={subState.selected === null}
         onClick={handleContinue}
       >
-        Continue to Checkout
+        {localized.continue}
       </button>
       <div className="choose-subscription-note">
-        <strong>All plans include image hosting for up to 20 images.</strong>
+        <strong>{localized.note}</strong>
       </div>
     </div>
   );

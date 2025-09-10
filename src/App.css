@@ -9,7 +9,7 @@
 /* Shared button styles for the entire app */
 .app-btn {
   width: 100%;
-  padding: 12px 0;
+  padding: 12px 5px;
   font-size: 1.1rem;
   font-weight: 600;
   background: #0078d4;

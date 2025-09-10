@@ -1,4 +1,4 @@
-import type { Language } from "@idahoedokpayi/react-country-state-selector";
+import type { CultureInfo, Language } from "@idahoedokpayi/react-country-state-selector";
 import type { Dispatch } from "react";
 import type { AuthorFormAction } from "../../../types/AuthorFormAction";
 import type { AuthorFormUIState } from "../../../types/AuthorFormUIState";
@@ -8,7 +8,7 @@ export interface AuthorMainFormProps {
     form: AuthorFormUIState;
     dispatchForm: Dispatch<AuthorFormAction>;
     token: string;
-    cultureInfo: any;
+    cultureInfo?: CultureInfo;
     handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     handleLanguageChange: (val: Language) => void;
     handleCountryChange: (val: string) => void;

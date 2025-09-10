@@ -5,4 +5,5 @@ export interface ArticleListProps {
   onEdit: (id: string) => void;
   onAdd: () => void;
   onDelete: (id: string) => void;
+  culture?: string;
 }

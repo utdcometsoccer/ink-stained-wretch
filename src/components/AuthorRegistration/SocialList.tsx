@@ -1,43 +1,49 @@
 
-import type { FC } from "react";
-import { useEffect } from "react";
-import { trackComponent } from "../../services/trackComponent";
-import "./SocialList.css";
 
-import type { SocialListProps } from "./SocialListProps";
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import type { FC } from "react";
+import { useGetLocalizedText } from "../../hooks/useGetLocalizedText";
+import { useTrackComponent } from "../../hooks/useTrackComponent";
+import "./SocialList.css";
+import type { SocialListProps } from "./SocialListProps";
 
-export const SocialList: FC<SocialListProps> = ({ socials, onEdit, onAdd, onDelete }) => {
-  useEffect(() => {
-    trackComponent('SocialList', { socials });
-  }, [socials]);
+export const SocialList: FC<SocialListProps> = ({ socials, onEdit, onAdd, onDelete, culture = "en-US" }) => {
+  useTrackComponent('SocialList', { socials, onEdit, onAdd, onDelete, culture });
+  const localized = useGetLocalizedText(culture)?.SocialList || {
+    title: "Social Links",
+    url: "URL:",
+    edit: "Edit",
+    delete: "Delete",
+    addSocial: "Add Social Link",
+  };
+  if (!localized) return null;
   return (
-  <div>
-    <h2 className="social-list-title">Social Links</h2>
-    <ul className="social-list-ul">
-      {socials.map(social => (
-        <li key={social.id} className="social-list-li">
-          <span className="social-list-span"><strong>{social.Name}</strong></span>
-          <span className="social-list-span">URL: {social.URL}</span>
-          <span className="social-list-btn-row">
-            <button className="social-list-edit-btn icon-btn" title="Edit" onClick={() => onEdit(social.id)}>
-              <EditIcon fontSize="small" />
-              <span className="btn-label">Edit</span>
-            </button>
-            <button className="social-list-delete-btn icon-btn cancel" title="Delete" onClick={() => onDelete(social.id)}>
-              <DeleteIcon fontSize="small" />
-              <span className="btn-label">Delete</span>
-            </button>
-          </span>
-        </li>
-      ))}
-    </ul>
-    <button className="social-list-add-btn icon-btn" title="Add Social Link" onClick={onAdd}>
-      <AddIcon fontSize="small" />
-      <span className="btn-label">Add Social Link</span>
-    </button>
-  </div>
+    <div>
+      <h2 className="social-list-title">{localized?.title}</h2>
+      <ul className="social-list-ul">
+        {socials.map(social => (
+          <li key={social.id} className="social-list-li">
+            <span className="social-list-span"><strong>{social.Name}</strong></span>
+            <span className="social-list-span">{localized?.url} {social.URL}</span>
+            <span className="social-list-btn-row">
+              <button className="social-list-edit-btn icon-btn" title={localized?.edit} onClick={() => onEdit(social.id)}>
+                <EditIcon fontSize="small" />
+                <span className="btn-label">{localized?.edit}</span>
+              </button>
+              <button className="social-list-delete-btn icon-btn cancel" title={localized?.delete} onClick={() => onDelete(social.id)}>
+                <DeleteIcon fontSize="small" />
+                <span className="btn-label">{localized?.delete}</span>
+              </button>
+            </span>
+          </li>
+        ))}
+      </ul>
+      <button className="social-list-add-btn icon-btn" title={localized.addSocial} onClick={onAdd}>
+        <AddIcon fontSize="small" />
+        <span className="btn-label">{localized.addSocial}</span>
+      </button>
+    </div>
   );
 }

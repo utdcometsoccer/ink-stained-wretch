@@ -1,20 +1,21 @@
-import { type FC, useEffect } from 'react';
-import { trackComponent } from "../../services/trackComponent";
+import { type FC } from 'react';
 import { useNavbarLogic } from '../../hooks/useNavbar.tsx';
+import { useTrackComponent } from '../../hooks/useTrackComponent.ts';
 import './Navbar.css';
 import type { NavbarProps } from './NavbarProps';
+import { useGetLocalizedText } from '../../hooks/useGetLocalizedText.ts';
 
-export const Navbar: FC<NavbarProps> = ({ currentState, dispatch }) => {
-    useEffect(() => {
-        trackComponent('Navbar', { currentState });
-    }, [currentState]);
+export const Navbar: FC<NavbarProps> = ({ currentState, dispatch, state, culture = 'en-us' }) => {
+    const localizedNavbar = useGetLocalizedText(culture)?.Navbar;
+    useTrackComponent('Navbar', { currentState, dispatch, state, culture });
     const {
         dynamicNavItems,
         isMenuOpen,
         handleNavigation,
         toggleMenu,
         closeMenu,
-    } = useNavbarLogic(dispatch);
+    } = useNavbarLogic(state, dispatch);
+    
     return (
         <nav className="navbar">
             <div className="navbar-container">
@@ -23,7 +24,7 @@ export const Navbar: FC<NavbarProps> = ({ currentState, dispatch }) => {
                         className="brand-button"
                         onClick={() => handleNavigation('chooseCulture')}
                     >
-                        📚 Ink Stained Wretches
+                        📚 {localizedNavbar?.brand ?? 'Ink Stained Wretches'}
                     </button>
                 </div>
                 <div className="navbar-menu">
@@ -53,9 +54,9 @@ export const Navbar: FC<NavbarProps> = ({ currentState, dispatch }) => {
                 <div className="mobile-overlay" onClick={closeMenu}>
                     <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
                         <div className="mobile-menu-header">
-                            <h3>Navigation</h3>
+                            <h3>{localizedNavbar?.navigation ?? 'Navigation'}</h3>
                             <button className="close-button" onClick={closeMenu}>
-                                ✕
+                                {localizedNavbar?.close ?? '✕'}
                             </button>
                         </div>
                         <div className="mobile-menu-items">

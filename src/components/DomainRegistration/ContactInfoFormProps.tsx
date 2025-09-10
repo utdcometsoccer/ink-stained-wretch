@@ -8,4 +8,5 @@ export interface ContactInfoFormProps {
     cultureInfo?: CultureInfo;
     cityRef: React.RefObject<HTMLInputElement>;
     onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+    culture?: string;
 }

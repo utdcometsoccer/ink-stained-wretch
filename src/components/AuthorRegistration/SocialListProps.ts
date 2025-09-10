@@ -5,4 +5,5 @@ export interface SocialListProps {
   onEdit: (id: string) => void;
   onAdd: () => void;
   onDelete: (id: string) => void;
+  culture?: string;
 }

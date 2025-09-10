@@ -1,15 +1,17 @@
 import type { FC } from "react";
-import { useEffect } from "react";
-import { trackComponent } from "../../services/trackComponent";
+import { useTrackComponent } from "../../hooks/useTrackComponent";
 
-export const LoginHeader: FC = () => {
-  useEffect(() => {
-    trackComponent('LoginHeader', {});
-  }, []);
+interface LoginHeaderProps {
+  title: string;
+  subtitle: string;
+}
+
+export const LoginHeader: FC<LoginHeaderProps> = ({ title, subtitle }) => {
+  useTrackComponent('LoginHeader', { title, subtitle });
   return (
-  <>
-    <h1>Login</h1>
-    <p>Sign in to your account.</p>
-  </>
+    <>
+      <h1>{title}</h1>
+      <p>{subtitle}</p>
+    </>
   );
 }
