@@ -1,7 +1,12 @@
 import { describe, it, expect } from "vitest";
-import { appReducer, initialState } from '../src/reducers/appReducer';
-import type { Action } from '../src/reducers/appReducer';
+import { appReducer } from '../src/reducers/appReducer';
+import type { Action, AppState } from '../src/reducers/appReducer';
 
+const initialState: AppState = {
+        currentUIState: 'chooseCulture',
+        state: {
+        }
+    };
 describe('appReducer', () => {
   it('should set UI state', () => {
     const action: Action = { type: 'SET_UI_STATE', payload: 'authorPage' };
