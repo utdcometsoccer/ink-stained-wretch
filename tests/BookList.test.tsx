@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { BookList } from "../src/components/AuthorRegistration/BookList";
+import { BookList } from "../src/components/BookList/index";
 import type { Book } from "../src/types/Book";
 
 const mockBooks: Book[] = [

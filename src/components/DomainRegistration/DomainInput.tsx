@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
 import { useGetLocalizedText } from "../../hooks/useGetLocalizedText";
 
@@ -10,7 +10,7 @@ export interface DomainInputProps {
   culture?: string;
 }
 
-export function DomainInput({ value, error, isValid, onChange, culture = 'en-us' }: DomainInputProps) {
+export const DomainInput:FC<DomainInputProps> = ({ value, error, isValid, onChange, culture = 'en-us' }: DomainInputProps) => {
   useTrackComponent('DomainInput', { value, error, isValid, onChange, culture });
   const localized = useGetLocalizedText(culture)?.DomainInput;
   return (

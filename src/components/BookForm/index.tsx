@@ -1,6 +1,6 @@
 import { type FC } from "react";
-import { useBookForm } from '../../../hooks/useBookForm';
-import { ImageManager } from "../../ImageManager";
+import { useBookForm } from '../../hooks/useBookForm';
+import { ImageManager } from "../ImageManager/index";
 import "./BookForm.css";
 import type { BookFormProps } from "./BookFormProps";
 

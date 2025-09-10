@@ -1,4 +1,4 @@
-import type { Book } from "../../../types/Book";
+import type { Book } from "../../types/Book";
 
 export interface BookFormProps {
   book: Book;

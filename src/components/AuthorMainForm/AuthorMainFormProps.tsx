@@ -1,8 +1,8 @@
 import type { CultureInfo, Language } from "@idahoedokpayi/react-country-state-selector";
 import type { Dispatch } from "react";
-import type { AuthorFormAction } from "../../../types/AuthorFormAction";
-import type { AuthorFormUIState } from "../../../types/AuthorFormUIState";
-import type { Book } from "../../../types/Book";
+import type { AuthorFormAction } from "../../types/AuthorFormAction";
+import type { AuthorFormUIState } from "../../types/AuthorFormUIState";
+import type { Book } from "../../types/Book";
 
 export interface AuthorMainFormProps {
     form: AuthorFormUIState;

@@ -1,15 +1,15 @@
 import CircularProgress from "@mui/material/CircularProgress";
 import type { FC } from "react";
-import { useAuthorFormLogic } from '../../../hooks/useAuthorForm';
-import { ArticleForm } from "../ArticleForm";
-import { AuthorDocForm } from "../AuthorDocForm";
-import AuthorDocList from "../AuthorDocList";
-import { BookForm } from "../BookForm";
-import { SocialForm } from "../SocialForm";
+import { useAuthorFormLogic } from '../../hooks/useAuthorForm';
+import { ArticleForm } from "../AuthorRegistration/ArticleForm";
+import { AuthorDocForm } from "../AuthorRegistration/AuthorDocForm";
+import AuthorDocList from "../AuthorRegistration/AuthorDocList";
 import "./AuthorForm.css";
 import type { AuthorFormProps } from "./AuthorFormProps";
-import { AuthorMainForm } from "./AuthorMainForm";
-import { useTrackComponent } from "../../../hooks/useTrackComponent";
+import { AuthorMainForm } from "../AuthorMainForm";
+import { useTrackComponent } from "../../hooks/useTrackComponent";
+import { BookForm } from "../BookForm";
+import { SocialForm } from "../SocialForm";
 
 
 export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSave, onCancel }) => {

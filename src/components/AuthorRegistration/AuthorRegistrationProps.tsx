@@ -5,4 +5,5 @@ import type { State } from "../../types/State";
 export interface AuthorRegistrationProps {
     state: State;
     dispatch: Dispatch<Action>;
+    culture?: string
 }

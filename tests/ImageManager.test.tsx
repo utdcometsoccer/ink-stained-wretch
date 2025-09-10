@@ -1,8 +1,8 @@
 
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { ImageManager } from '../src/components/ImageManager';
 import { ManagedImage } from '../src/types/ManagedImage';
+import { ImageManager } from '../src/components/ImageManager/index.tsx';
 
 const mockImages: ManagedImage[] = [
   { id: '1', url: 'url1', name: 'img1.png', size: 2048, uploadedAt: '2023-10-01T12:00:00Z' },
