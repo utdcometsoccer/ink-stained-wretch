@@ -1,12 +1,9 @@
-import type { FC } from 'react';
-import { useEffect } from "react";
-import { trackComponent } from "../../services/trackComponent";
 import ImportExportIcon from '@mui/icons-material/ImportExport';
-import type { AuthorDocListText } from "../../types/AuthorDocListText";
-import './AuthorDocList.css';
-import type { AuthorDoc } from '../../types/OpenLibrary';
+import type { FC } from 'react';
 import { useGetLocalizedText } from '../../hooks/useGetLocalizedText';
 import { useTrackComponent } from '../../hooks/useTrackComponent';
+import type { AuthorDoc } from '../../types/OpenLibrary';
+import './AuthorDocList.css';
 
 export interface AuthorDocListProps {
     authors: AuthorDoc[];
