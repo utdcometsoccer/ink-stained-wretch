@@ -54,7 +54,9 @@ export async function getLocalizedText(culture: string): Promise<LocalizedText |
  * @returns Promise<LocalizedText | null>
  */
 export async function fetchLocalizedText(language: string, region: string): Promise<LocalizedText | null> {
-  const url = `/api/localization/${language}/${region}`;
+  const baseUrl = import.meta.env.VITE_LOCALIZATION_API_URL || "";
+  if (!baseUrl) throw new Error("Localization API URL is not defined in VITE_LOCALIZATION_API_URL environment variable");
+  const url = `${baseUrl}${language}/${region}`;
   try {
     const response = await fetch(url);
     if (!response.ok) return null;
