@@ -1,9 +1,8 @@
-
-import enUS from '../assets/inkstainedwretch.en-us.json';
-import esMX from '../assets/inkstainedwretch.es-mx.json';
-import frCA from '../assets/inkstainedwretch.fr-ca.json';
-import arEG from '../assets/inkstainedwretch.ar-eg.json';
-import zhTW from '../assets/inkstainedwretch.zh-tw.json';
+import enUS from '../locales/inkstainedwretch.en-us.json';
+import esMX from '../locales/inkstainedwretch.es-mx.json';
+import frCA from '../locales/inkstainedwretch.fr-ca.json';
+import arEG from '../locales/inkstainedwretch.ar-eg.json';
+import zhTW from '../locales/inkstainedwretch.zh-tw.json';
 import type { LocalizedText } from '../types/LocalizedText';
 
 /**

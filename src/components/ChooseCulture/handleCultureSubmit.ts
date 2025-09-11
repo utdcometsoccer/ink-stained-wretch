@@ -1,5 +1,5 @@
 import type { Dispatch } from "react";
-import type { Action } from "../../reducers/appReducer";
+import type { Action } from "../../types/Action";
 import type { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
 
 export function handleCultureSubmit(

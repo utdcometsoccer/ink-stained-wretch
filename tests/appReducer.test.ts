@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { appReducer } from '../src/reducers/appReducer';
-import type { Action, AppState } from '../src/reducers/appReducer';
+import type { Action } from "../src/types/Action";
+import type { AppState } from "../src/types/AppState";
 
 const initialState: AppState = {
         currentUIState: 'chooseCulture',

@@ -186,5 +186,11 @@
         "selected": "Sélectionné",
         "continue": "Continuer au paiement",
         "note": "Tous les forfaits incluent l'hébergement d'images pour jusqu'à 20 images."
-    }
+    },
+    "DomainRegistrationsList": {
+    "title": "Inscriptions de domaine",
+    "error": "Échec du chargement des inscriptions de domaine.",
+    "loading": "Chargement des inscriptions de domaine...",
+    "empty": "Aucune inscription de domaine trouvée."
+  }
 }

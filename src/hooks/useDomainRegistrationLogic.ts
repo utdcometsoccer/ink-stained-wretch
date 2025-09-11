@@ -5,7 +5,7 @@ import { validateDomainWhois } from "../services/validateDomainWhois";
 import { validateEmail } from "../services/validateEmail";
 import { validatePhone } from "../services/validatePhone";
 import type { Dispatch } from "react";
-import type { Action } from "../reducers/appReducer";
+import type { Action } from "../types/Action";
 import type { State } from "../types/State";
 import type { DomainRegistrationLogicReturn } from "../types/DomainRegistrationLogicReturn";
 import { parseDomain } from "../services/parseDomain";

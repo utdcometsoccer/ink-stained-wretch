@@ -1,5 +1,5 @@
 import type { State } from "../types/State";
-import type { Action } from "../reducers/appReducer";
+import type { Action } from "../types/Action";
 import type { Dispatch } from "react";
 
 export interface ErrorPageProps {
