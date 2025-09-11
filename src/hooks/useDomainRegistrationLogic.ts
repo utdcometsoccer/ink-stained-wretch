@@ -1,20 +1,33 @@
-import { useRef, useReducer } from "react";
+import type { Dispatch } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import { domainRegex } from "../services/domainRegex";
 import { domainValidate } from "../services/domainValidate";
+import { parseDomain } from "../services/parseDomain";
 import { validateDomainWhois } from "../services/validateDomainWhois";
 import { validateEmail } from "../services/validateEmail";
 import { validatePhone } from "../services/validatePhone";
-import type { Dispatch } from "react";
 import type { Action } from "../types/Action";
-import type { State } from "../types/State";
 import type { DomainRegistrationLogicReturn } from "../types/DomainRegistrationLogicReturn";
-import { parseDomain } from "../services/parseDomain";
+import type { DomainRegistrationsFetcher } from "../types/DomainRegistrationsFetcher";
+import type { State } from "../types/State";
+import { useDomainRegistrations } from "./useDomainRegistrations";
 import { useGetLocalizedText } from "./useGetLocalizedText";
+import { useTrackComponent } from "./useTrackComponent";
+import { domainRegistrationReducer } from "../reducers/domainRegistrationReducer";
 
-export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Action>): DomainRegistrationLogicReturn {
 
-  const culture = state.cultureInfo?.Culture || 'en-us';
-  const domainRegistrationText = useGetLocalizedText(culture)?.DomainRegistration || {
+export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Action>, domainRegistrationsFetcher: DomainRegistrationsFetcher = useDomainRegistrations): DomainRegistrationLogicReturn {
+  const { authToken, cultureInfo} = state;
+  const { data, error, loading } = domainRegistrationsFetcher(authToken || '');
+  useEffect(() => {
+          if (data) {
+              dispatch({ type: "SET_DOMAIN_REGISTRATIONS", payload: data });
+          }
+      }, [data, dispatch]);
+  
+  const culture = cultureInfo?.Culture || 'en-us';
+  const localizedText = useGetLocalizedText(culture);
+  const domainRegistrationText = localizedText?.DomainRegistration || {
         title: "Domain Registration",
         subtitle: "Register your domain and contact information.",
         submit: "Submit",
@@ -29,6 +42,14 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
         emailAddress: "Email Address",
         telephoneNumber: "Telephone Number"
     };
+  const domainRegistrationsListText = localizedText?.DomainRegistrationsList || {
+        title: "Domain Registrations",
+        error: "Error loading domain registrations.",
+        loading: "Loading...",
+        empty: "No domain registrations found.",
+        select: "Select",
+        selected: "Selected"
+    };
   useTrackComponent('DomainRegistration', { state, dispatch, culture });
   const { domainRegistration } = state;
   const { domain } = domainRegistration || {};
@@ -36,26 +57,18 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
   const domainString = secondLevelDomain && topLevelDomain
     ? `${secondLevelDomain}.${topLevelDomain}`
     : "";
-  type LocalState = { domainInputValue: string; domainError: string | null };
-  type LocalAction = { type: "SET_DOMAIN_INPUT_VALUE"; payload: string } | { type: "SET_DOMAIN_ERROR"; payload: string | null };
-  const localReducer = (localState: LocalState, action: LocalAction): LocalState => {
-    switch (action.type) {
-      case "SET_DOMAIN_INPUT_VALUE":
-        return { ...localState, domainInputValue: action.payload };
-      case "SET_DOMAIN_ERROR":
-        return { ...localState, domainError: action.payload };
-      default:
-        return localState;
-    }
-  };
-  const [localState, localDispatch] = useReducer(localReducer, {
+  const [domainRegistrationState, domainRegistrationDispatch] = useReducer(domainRegistrationReducer, {
     domainInputValue: domainString || "",
-    domainError: null
+    domainError: null,
+    APICallFailed: false
   });
-  const domainInputValue = localState.domainInputValue;
-  const domainError = localState.domainError;
   const cityRef = useRef<HTMLInputElement>(null);
-  const stateRef = useRef<HTMLInputElement | HTMLSelectElement>(null);
+  useEffect(() => {
+    if (error) {
+      domainRegistrationDispatch({ type: "SET_API_CALL_FAILED", payload: true });
+    }
+  }, [error, domainRegistrationDispatch]);
+  const { APICallFailed, domainError, domainInputValue } = domainRegistrationState;  
   const contactInfo = (state.domainRegistration ? state.domainRegistration.contactInformation : undefined) || {
     firstName: '',
     lastName: '',
@@ -83,7 +96,7 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
   }
 
   function handleDomainInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    localDispatch({ type: "SET_DOMAIN_INPUT_VALUE", payload: e.target.value });
+    domainRegistrationDispatch({ type: "SET_DOMAIN_INPUT_VALUE", payload: e.target.value });
     const { secondLevelDomain, topLevelDomain } = parseDomain(e.target.value);
     dispatch({
       type: "SET_DOMAIN_INPUT_VALUE", payload: {
@@ -101,15 +114,15 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
       type: "SET_DOMAIN_INPUT_VALUE", payload: value
     });
     if (value === '') {
-      localDispatch({ type: "SET_DOMAIN_ERROR", payload: null });
+      domainRegistrationDispatch({ type: "SET_DOMAIN_ERROR", payload: null });
       dispatch({ type: "UPDATE_DOMAIN", payload: { topLevelDomain: '', secondLevelDomain: '' } });
       return;
     } else if (!domainValidate(value)) {
-      localDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please enter a valid domain (e.g., example.com)' });
+      domainRegistrationDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please enter a valid domain (e.g., example.com)' });
       dispatch({ type: "UPDATE_DOMAIN", payload: { topLevelDomain: '', secondLevelDomain: '' } });
       return;
     } else if (!(await validateDomainWhois(value))) {
-      localDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Domain already exists. Please choose another.' });
+      domainRegistrationDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Domain already exists. Please choose another.' });
       dispatch({ type: "UPDATE_DOMAIN", payload: { topLevelDomain: '', secondLevelDomain: '' } });
       return;
     }
@@ -124,32 +137,31 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
       contactInfo.telephoneNumber
     ];
     if (requiredFields.some(f => !f || f.trim() === '')) {
-      localDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please fill out all required contact information.' });
+      domainRegistrationDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please fill out all required contact information.' });
       return;
     }
     if (!validateEmail(contactInfo.emailAddress ?? "")) {
-      localDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please enter a valid email address.' });
+      domainRegistrationDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please enter a valid email address.' });
       return;
     }
     if (!validatePhone(contactInfo.telephoneNumber ?? "")) {
-      localDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please enter a valid telephone number.' });
+      domainRegistrationDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please enter a valid telephone number.' });
       return;
     }
     const match = value.match(domainRegex);
     if (match) {
-      localDispatch({ type: "SET_DOMAIN_ERROR", payload: null });
+      domainRegistrationDispatch({ type: "SET_DOMAIN_ERROR", payload: null });
       dispatch({ type: "UPDATE_DOMAIN", payload: { secondLevelDomain: secondLevelDomain, topLevelDomain: topLevelDomain } });
       dispatch({ type: "UPDATE_DOMAIN_CONTACT_INFO", payload: { ...contactInfo } });
       dispatch({ type: 'SET_UI_STATE', payload: 'authorPage' });
     } else {
-      localDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please enter a valid domain (e.g., example.com)' });
+      domainRegistrationDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please enter a valid domain (e.g., example.com)' });
       dispatch({ type: "UPDATE_DOMAIN", payload: { topLevelDomain: '', secondLevelDomain: '' } });
     }
   }
 
   return {
     cityRef,
-    stateRef,
     isValid,
     handleContactChange,
     handleSubmit,
@@ -157,6 +169,9 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
     domainRegistrationText,
     domainInputValue,
     domainError,
-    culture
+    culture,
+    domainRegistrationsListText,
+    loading,
+    APICallFailed
   };
 }

@@ -1,9 +1,8 @@
 import type { RefObject } from "react";
-import type { DomainRegistrationText } from "./LocalizedText";
+import type { DomainRegistrationsListText, DomainRegistrationText } from "./LocalizedText";
 
 export interface DomainRegistrationLogicReturn {
   cityRef: RefObject<HTMLInputElement|null>;
-  stateRef: RefObject<HTMLInputElement | HTMLSelectElement|null>;
   isValid: boolean;
   handleContactChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => Promise<void>;
@@ -12,4 +11,7 @@ export interface DomainRegistrationLogicReturn {
   domainInputValue: string;
   domainError: string | null;
   culture?: string;
+  domainRegistrationsListText: DomainRegistrationsListText;
+  loading: boolean;
+  APICallFailed: boolean;
 }

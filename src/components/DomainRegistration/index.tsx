@@ -5,9 +5,11 @@ import { ContactInfoForm } from "./ContactInfoForm";
 import { DomainInput } from "./DomainInput";
 import "./DomainRegistration.css";
 import type { DomainRegistrationProps } from "./DomainRegistrationProps";
+import CircularProgress from "@mui/material/CircularProgress";
+import { DomainRegistrationsList } from "../DomainRegistrationsList";
 
-export const DomainRegistration:FC<DomainRegistrationProps> =({ state, dispatch }: DomainRegistrationProps)=> {
-    
+export const DomainRegistration: FC<DomainRegistrationProps> = ({ state, dispatch }: DomainRegistrationProps) => {
+    const { domainRegistrations } = state
     const {
         cityRef,
         isValid,
@@ -17,30 +19,43 @@ export const DomainRegistration:FC<DomainRegistrationProps> =({ state, dispatch 
         domainRegistrationText,
         domainInputValue,
         domainError,
-        culture
+        culture,
+        loading,
+        domainRegistrationsListText,
+        APICallFailed
     } = useDomainRegistrationLogic(state, dispatch);
 
     return (
-        <div>
-            <h1>{domainRegistrationText.title}</h1>
-            <p>{domainRegistrationText.subtitle}</p>
-            <form onSubmit={handleSubmit}>
-                <DomainInput
-                    value={domainInputValue}
-                    error={domainError}
-                    isValid={!!isValid}
-                    onChange={handleDomainInputChange}
-                    culture={culture}
-                />
-                <ContactInfoForm
-                    state={state}
-                    cultureInfo={state.cultureInfo}
-                    cityRef={cityRef as React.RefObject<HTMLInputElement>}
-                    onChange={handleContactChange}
-                    culture={culture}
-                />
-                <button type="submit" className="app-btn">{domainRegistrationText.submit}</button>
-            </form>
-        </div>
-    );
+        <>
+            {!loading ? (
+                <div>
+                    <h1>{domainRegistrationText?.title}</h1>
+                    <p>{domainRegistrationText?.subtitle}</p>
+                    {
+                        (APICallFailed && !!(domainRegistrations) && domainRegistrations.length > 0) ? null : <DomainRegistrationsList domainRegistrationData={domainRegistrations || []} localizedText={domainRegistrationsListText} onClickSelect={(domainReg) => { dispatch({ type: "SELECT_DOMAIN_REGISTRATION", payload: domainReg }) }} />
+                    }
+                    <form onSubmit={handleSubmit}></form>
+                    <div>
+                        <form onSubmit={handleSubmit}>
+                            <DomainInput
+                                value={domainInputValue}
+                                error={domainError}
+                                isValid={!!isValid}
+                                onChange={handleDomainInputChange}
+                                culture={culture}
+                            />
+                            <ContactInfoForm
+                                cityRef={cityRef}
+                                state={state}
+                                cultureInfo={state.cultureInfo}
+                                onChange={handleContactChange}
+                                culture={culture}
+                            />
+                            <button type="submit" className="app-btn">{domainRegistrationText.submit}</button>
+                        </form>
+                    </div>
+                </div>
+            ) : (<CircularProgress />)
+            }
+        </>);
 }

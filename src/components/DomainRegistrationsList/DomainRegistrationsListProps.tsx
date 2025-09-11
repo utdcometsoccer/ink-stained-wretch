@@ -1,10 +1,8 @@
-import type { DomainRegistrationsFetcher } from "../../types/DomainRegistrationsFetcher";
+import type { DomainRegistration } from "../../types/DomainRegistration";
+import type { DomainRegistrationsListText } from "../../types/LocalizedText";
 
 export interface DomainRegistrationsListProps {
-    accessToken: string;
-    state: any;
-    dispatch: (action: any) => void;
-    culture?: string;
-    domainRegistrationsFetcher?: DomainRegistrationsFetcher;
-    onError?: (error: Error | string | undefined) => void;
+    domainRegistrationData: DomainRegistration[];
+    localizedText: DomainRegistrationsListText;
+    onClickSelect: (domain: DomainRegistration) => void;
 }

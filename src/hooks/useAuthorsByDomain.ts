@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { fetchAuthorsByDomain } from "../services/fetchAuthorsByDomain";
 import { type Author } from "../types/Author";
+import type { UseAuthorsByDomainResult } from "../types/UseAuthorsByDomainResult";
 
-export function useAuthorsByDomain(accessToken: string, secondLevelDomain: string, topLevelDomain: string) {
-  const [data, setData] = useState<Author[] | null>(null);
+export function useAuthorsByDomain(accessToken: string, secondLevelDomain: string, topLevelDomain: string): UseAuthorsByDomainResult {
+  const [authorInformation, setData] = useState<Author[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -20,5 +21,5 @@ export function useAuthorsByDomain(accessToken: string, secondLevelDomain: strin
       .finally(() => setLoading(false));
   }, [accessToken, secondLevelDomain, topLevelDomain]);
 
-  return { data, error, loading };
+  return { authorInformation, error, loading };
 }
