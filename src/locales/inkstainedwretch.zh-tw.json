@@ -186,5 +186,11 @@
         "selected": "已選擇",
         "continue": "繼續到結帳",
         "note": "所有方案皆包含最多 20 張圖片的圖像託管。"
-    }
+    },
+    "DomainRegistrationsList": {
+    "title": "網域註冊",
+    "error": "載入網域註冊失敗。",
+    "loading": "正在載入網域註冊...",
+    "empty": "未找到網域註冊。"
+  }
 }

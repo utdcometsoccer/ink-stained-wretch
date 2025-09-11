@@ -2,7 +2,7 @@ import { useEffect, useReducer, useRef, type Dispatch, type FormEvent } from "re
 import { cultureFromBrowser } from '@idahoedokpayi/react-country-state-selector';
 import type { State } from "../types/State";
 import { chooseCultureReducer } from "../reducers/chooseCultureReducer";
-import type { Action } from "../reducers/appReducer";
+import type { Action } from "../types/Action";
 
 
 export function useChooseCultureLogic(state: State, dispatch: Dispatch<Action>) {

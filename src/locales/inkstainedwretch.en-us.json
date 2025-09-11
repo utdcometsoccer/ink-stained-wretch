@@ -212,9 +212,15 @@
         "cancel": "Cancel"
     },
     "ChooseSubscription": {
-    "title": "Choose Your Subscription",
-    "selected": "Selected",
-    "continue": "Continue to Checkout",
-    "note": "All plans include image hosting for up to 20 images."
-}
+        "title": "Choose Your Subscription",
+        "selected": "Selected",
+        "continue": "Continue to Checkout",
+        "note": "All plans include image hosting for up to 20 images."
+    },
+    "DomainRegistrationsList": {
+        "title": "Domain Registrations",
+        "error": "Failed to load domain registrations.",
+        "loading": "Loading domain registrations...",
+        "empty": "No domain registrations found."
+    }
 }

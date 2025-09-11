@@ -1,4 +1,4 @@
-import type { Action } from "../../reducers/appReducer";
+import type { Action } from "../../types/Action";
 import type { UIStates } from '../../types/UIStates';
 import type { Dispatch } from "react";
 import type { State } from '../../types/State';
