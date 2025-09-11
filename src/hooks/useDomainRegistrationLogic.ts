@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { domainRegex } from "../services/domainRegex";
 import { domainValidate } from "../services/domainValidate";
 import { validateDomainWhois } from "../services/validateDomainWhois";
@@ -9,8 +9,48 @@ import type { Action } from "../types/Action";
 import type { State } from "../types/State";
 import type { DomainRegistrationLogicReturn } from "../types/DomainRegistrationLogicReturn";
 import { parseDomain } from "../services/parseDomain";
+import { useGetLocalizedText } from "./useGetLocalizedText";
+import { useTrackComponent } from "./useTrackComponent";
 
-export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Action>, domainInputValue: string, domainError: string | null, localDispatch?: (action: { type: string; payload: any }) => void): DomainRegistrationLogicReturn {
+export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Action> ): DomainRegistrationLogicReturn {
+  const [culture] = useState(state.cultureInfo?.Culture || 'en-us');
+  const domainRegistrationText = useGetLocalizedText(culture)?.DomainRegistration || {
+        title: "Domain Registration",
+        subtitle: "Register your domain and contact information.",
+        submit: "Submit",
+        firstName: "First Name",
+        lastName: "Last Name",
+        address: "Address",
+        address2: "Address 2",
+        city: "City",
+        state: "State / Province:",
+        country: "Country:",
+        zipCode: "Zip Code",
+        emailAddress: "Email Address",
+        telephoneNumber: "Telephone Number"
+    };
+  useTrackComponent('DomainRegistration', { state, dispatch, culture });
+  const { domainRegistration } = state;
+  const { domain } = domainRegistration || {};
+  const { topLevelDomain, secondLevelDomain } = domain || {};
+  const domainString = secondLevelDomain && topLevelDomain
+    ? `${secondLevelDomain}.${topLevelDomain}`
+    : "";
+  const [domainInputValue, setDomainInputValue] = useState(domainString || "");
+  const [domainError, setDomainError] = useState<string | null>(null);
+  // Local dispatch for compatibility with hook
+  const localDispatch = (action: { type: string; payload: any }) => {
+    switch (action.type) {
+      case "SET_DOMAIN_INPUT_VALUE":
+        setDomainInputValue(action.payload);
+        break;
+      case "SET_DOMAIN_ERROR":
+        setDomainError(action.payload);
+        break;
+      default:
+        break;
+    }
+  };
   const cityRef = useRef<HTMLInputElement>(null);
   const stateRef = useRef<HTMLInputElement | HTMLSelectElement>(null);
   const contactInfo = (state.domainRegistration ? state.domainRegistration.contactInformation : undefined) || {
@@ -112,6 +152,10 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
     isValid,
     handleContactChange,
     handleSubmit,
-    handleDomainInputChange
+    handleDomainInputChange,
+    domainRegistrationText,
+    domainInputValue,
+    domainError,
+    culture
   };
 }
