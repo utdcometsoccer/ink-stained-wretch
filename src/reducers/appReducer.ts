@@ -1,32 +1,44 @@
 import type { UIStates } from "../types/UIStates";
-import type { State } from "../types/State";
 import { saveStateToCookie } from '../services/saveStateToCookie';
-
-export interface Action {
-  type:
-    | 'SET_UI_STATE'
-    | 'SET_ERROR'
-    | 'CLEAR_ERROR'
-    | 'UPDATE_STATE'    // isMenuOpen will be managed locally in Navbar
-    | 'UPDATE_DOMAIN'
-    | 'UPDATE_DOMAIN_CONTACT_INFO'
-    | 'SAVE_AUTHOR'
-    | 'DELETE_AUTHOR'
-    | 'UPDATE_USE_COOKIES'
-    | 'SET_DOMAIN_INPUT_VALUE';  // Use Cookies preference
-  payload?: any;
-}
-
-export interface AppState {
-  currentUIState: UIStates;
-  state: State;
-}
+import type { AppState } from "../types/AppState";
+import type { Action } from "../types/Action";
 
 
+export type ActionType =
+  'SET_UI_STATE'
+  | 'SET_ERROR'
+  | 'CLEAR_ERROR'
+  | 'UPDATE_STATE'
+  | 'UPDATE_DOMAIN'
+  | 'UPDATE_DOMAIN_CONTACT_INFO'
+  | 'SAVE_AUTHOR'
+  | 'DELETE_AUTHOR'
+  | 'UPDATE_USE_COOKIES'
+  | 'SET_DOMAIN_INPUT_VALUE'
+  | 'SELECT_DOMAIN_REGISTRATION'  // New action type for selecting a domain registration
+  | 'SET_DOMAIN_REGISTRATIONS';  // New action for updating domainRegistrations
 
 export function appReducer(state: AppState, action: Action): AppState {
   let nextState: AppState = state;
   switch (action.type) {
+    case 'SELECT_DOMAIN_REGISTRATION':
+      nextState = {
+        currentUIState: state.currentUIState,
+        state: {
+          ...state.state,
+          domainRegistration: action.payload  // Set the selected domain registration
+        }
+      };
+      break;
+    case 'SET_DOMAIN_REGISTRATIONS':
+      nextState = {
+        currentUIState: state.currentUIState,
+        state: {
+          ...state.state,
+          domainRegistrations: Array.isArray(action.payload) ? action.payload : []
+        }
+      };
+      break;
     case 'SET_UI_STATE': {
       if (typeof action.payload === 'object' && action.payload !== null && 'uiState' in action.payload) {
         nextState = {
@@ -75,7 +87,7 @@ export function appReducer(state: AppState, action: Action): AppState {
         ...restPayload
       };
       nextState = {
-        ...state,
+        currentUIState: state.currentUIState,
         state: {
           ...newState
         }
@@ -139,7 +151,7 @@ export function appReducer(state: AppState, action: Action): AppState {
       };
       break;
     }
-    case 'UPDATE_USE_COOKIES': 
+    case 'UPDATE_USE_COOKIES':
       nextState = {
         ...state,
         state: {
@@ -148,7 +160,7 @@ export function appReducer(state: AppState, action: Action): AppState {
         }
       };
       break;
-    case 'SET_DOMAIN_INPUT_VALUE': 
+    case 'SET_DOMAIN_INPUT_VALUE':
       nextState = {
         ...state,
         state: {
@@ -156,10 +168,10 @@ export function appReducer(state: AppState, action: Action): AppState {
           domainRegistration: {
             ...state.state.domainRegistration,
             domain: {
-               id: action.payload.id,
-               authorID: action.payload.authorID,
-               topLevelDomain: action.payload.topLevelDomain,
-               secondLevelDomain: action.payload.secondLevelDomain
+              id: action.payload.id,
+              authorID: action.payload.authorID,
+              topLevelDomain: action.payload.topLevelDomain,
+              secondLevelDomain: action.payload.secondLevelDomain
             }
           }
         }

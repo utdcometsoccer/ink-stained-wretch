@@ -1,6 +1,6 @@
 import type { Region } from "../../types/Region";
 import type { Dispatch } from "react";
-import type { Action } from "../../reducers/appReducer";
+import type { Action } from "../../types/Action";
 
 export function handleRegionSelect(dispatch: Dispatch<Action>) {
   return (e: React.ChangeEvent<HTMLSelectElement>) => {

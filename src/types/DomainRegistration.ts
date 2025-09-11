@@ -1,4 +1,9 @@
+import type { ContactInformation } from "./ContactInformation";
+import type { Domain } from "./Domain";
+
 export type DomainRegistration = {
-  domainId: string;
-  contactInformationId: string;
-};
+    id?: string;
+    authorID?: string;
+    domain?: Domain;
+    contactInformation?: ContactInformation;
+  };

@@ -3,7 +3,7 @@ import { useEffect, useState, type Dispatch } from 'react';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import type { UIStates } from '../types/UIStates';
-import type { Action } from '../reducers/appReducer';
+import type { Action } from "../types/Action";
 import type { State } from '../types/State';
 import { getNavItems } from '../components/Navbar/navItems';
 import type { NavItem } from '../types/NavItem';

@@ -1,0 +1,28 @@
+.domain-registration-item {
+    padding: 8px;
+    margin-bottom: 6px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f9f9f9;
+    transition: background 0.2s;
+}
+.domain-registration-item.selected {
+    background: #d0ebff;
+    border: 2px solid #228be6;
+}
+.select-domain-btn {
+    padding: 4px 12px;
+    border-radius: 4px;
+    border: none;
+    background: #228be6;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+.select-domain-btn:disabled {
+    background: #adb5bd;
+    cursor: not-allowed;
+}

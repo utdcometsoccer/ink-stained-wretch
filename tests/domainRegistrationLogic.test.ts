@@ -3,6 +3,11 @@ import { renderHook, act } from "@testing-library/react";
 import { useDomainRegistrationLogic } from "../src/hooks/useDomainRegistrationLogic";
 describe("useDomainRegistrationLogic", () => {
   const mockDispatch = vi.fn();
+  const mockDomainRegistrationsFetcher = vi.fn(() => ({
+    data: [],
+    error: null,
+    loading: false
+  }));
   const baseState: any = {
     domainInputValue: "example.com",
     domainError: null,
@@ -30,8 +35,7 @@ describe("useDomainRegistrationLogic", () => {
       useDomainRegistrationLogic(
         baseState,
         mockDispatch,
-        baseState.domainInputValue,
-        baseState.domainError
+        mockDomainRegistrationsFetcher
       )
     );
     act(() => {
@@ -45,8 +49,7 @@ describe("useDomainRegistrationLogic", () => {
       useDomainRegistrationLogic(
         baseState,
         mockDispatch,
-        baseState.domainInputValue,
-        baseState.domainError
+        mockDomainRegistrationsFetcher
       )
     );
     await act(async () => {

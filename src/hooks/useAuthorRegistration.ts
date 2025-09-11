@@ -1,11 +1,17 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import { useGetLocalizedText } from './useGetLocalizedText';
 import { useTrackComponent } from './useTrackComponent';
 import { authorListReducer, initialAuthorListState } from "../reducers/authorListReducer";
 import type { Author } from "../types/Author";
 import type { AuthorRegistrationProps } from "../components/AuthorRegistration/AuthorRegistrationProps";
+import type { UseAuthorRegistrationReturn } from "../types/UseAuthorRegistrationReturn";
+import { useAuthorsByDomain } from "./useAuthorsByDomain";
+import { normalizeArray } from "../services/normalizeArray";
 
-export function useAuthorRegistration({ state, dispatch, culture }: AuthorRegistrationProps) {
+export function useAuthorRegistration({ state, dispatch, culture }: AuthorRegistrationProps): UseAuthorRegistrationReturn {
+    const { authToken, Authors, domainRegistration } = state;
+    const { domain } = domainRegistration || {};
+    const { secondLevelDomain, topLevelDomain } = domain || {};
     const text = useGetLocalizedText(culture ?? 'en-us')?.AuthorRegistration || {
         authorListTitle: "Author Information",
         languageLabel: "Language: ",
@@ -19,6 +25,14 @@ export function useAuthorRegistration({ state, dispatch, culture }: AuthorRegist
     const handleDeleteAuthor = (id: string) => {
         dispatch({ type: "DELETE_AUTHOR", payload: id });
     };
+    const { authorInformation, error, loading } = useAuthorsByDomain(authToken ?? "", secondLevelDomain || "", topLevelDomain || "");
+    useEffect(() => {
+        if (!error && authorInformation && authorInformation.length > 0) {
+            authorInformation.forEach(author => {
+                dispatch({ type: "SAVE_AUTHOR", payload: author });
+            });
+        }
+    }, [authorInformation, error, loading]);
     const [listState, dispatchList] = useReducer(authorListReducer, {
         ...initialAuthorListState
     });
@@ -44,8 +58,8 @@ export function useAuthorRegistration({ state, dispatch, culture }: AuthorRegist
         });
     };
     const handleEditAuthor = (id: string) => {
-        const authors = Array.isArray(state.Authors) ? state.Authors : [];
-        const found = authors.find(a => a.id === id);
+        const localAuthors = normalizeArray(Authors);
+        const found = localAuthors.find(a => a.id === id);
         if (found) {
             dispatchList({ type: "SHOW_FORM", payload: found });
         }
@@ -60,7 +74,7 @@ export function useAuthorRegistration({ state, dispatch, culture }: AuthorRegist
         dispatch({ type: "DELETE_AUTHOR", payload: listState.newAuthor?.id || "" });
     };
     const handleValidateAuthors = () => {
-        const authors = Array.isArray(state.Authors) ? state.Authors : [];
+        const authors = normalizeArray(Authors);
         if (authors.length < 1) {
             dispatchList({ type: "SET_WARNING", payload: "You must add at least one author record before continuing." });
         } else {
@@ -68,7 +82,7 @@ export function useAuthorRegistration({ state, dispatch, culture }: AuthorRegist
             dispatch({ type: "SET_UI_STATE", payload: "chooseSubscription" });
         }
     };
-    const authorsList = Array.isArray(state.Authors) ? state.Authors : [];
+    const authorsList = normalizeArray(Authors);
     return {
         text,
         authorsList,
@@ -82,5 +96,6 @@ export function useAuthorRegistration({ state, dispatch, culture }: AuthorRegist
         handleValidateAuthors,
         state,
         dispatch,
+        loading
     };
 }

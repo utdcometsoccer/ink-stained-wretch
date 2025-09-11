@@ -1,4 +1,4 @@
-import type { AppState } from '../reducers/appReducer';
+import type { AppState } from "../types/AppState";
 
 
 export function loadStateFromCookie(): AppState {

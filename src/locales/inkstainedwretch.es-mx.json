@@ -23,13 +23,34 @@
         "navigation": "Navegación",
         "close": "Cerrar",
         "navItems": {
-            "chooseCulture": { "label": "Cultura", "description": "Elegir idioma y región" },
-            "login": { "label": "Iniciar sesión", "description": "Acceder / Registrarse" },
-            "domainRegistration": { "label": "Dominio", "description": "Registrar dominio" },
-            "authorPage": { "label": "Autor", "description": "Página del autor" },
-            "chooseSubscription": { "label": "Planes", "description": "Elegir plan" },
-            "checkout": { "label": "Pago", "description": "Completar compra" },
-            "thankYou": { "label": "Éxito", "description": "Gracias" }
+            "chooseCulture": {
+                "label": "Cultura",
+                "description": "Elegir idioma y región"
+            },
+            "login": {
+                "label": "Iniciar sesión",
+                "description": "Acceder / Registrarse"
+            },
+            "domainRegistration": {
+                "label": "Dominio",
+                "description": "Registrar dominio"
+            },
+            "authorPage": {
+                "label": "Autor",
+                "description": "Página del autor"
+            },
+            "chooseSubscription": {
+                "label": "Planes",
+                "description": "Elegir plan"
+            },
+            "checkout": {
+                "label": "Pago",
+                "description": "Completar compra"
+            },
+            "thankYou": {
+                "label": "Éxito",
+                "description": "Gracias"
+            }
         }
     },
     "DomainRegistration": {
@@ -186,5 +207,11 @@
         "selected": "Seleccionado",
         "continue": "Continuar al pago",
         "note": "Todos los planes incluyen alojamiento de imágenes para hasta 20 imágenes."
+    },
+    "DomainRegistrationsList": {
+        "title": "Registros de dominio",
+        "error": "No se pudieron cargar los registros de dominio.",
+        "loading": "Cargando registros de dominio...",
+        "empty": "No se encontraron registros de dominio."
     }
 }

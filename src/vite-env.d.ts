@@ -18,6 +18,10 @@ interface ImportMetaEnv {
   readonly VITE_STRIPE_CHECKOUT_API_URL: string;
   readonly VITE_STRIPE_LOGO_URL: string;
   readonly VITE_ENABLE_STRIPE_CHECKOUT: boolean;
+  readonly VITE_API_URL: string;
+  readonly VITE_USER_DOMAIN_REGISTRATIONS_API_URL: string;
+  readonly VITE_LOCALIZATION_API_URL: string;
+  readonly VITE_WHOIS_API_URL: string;
 }
 
 interface ImportMeta {

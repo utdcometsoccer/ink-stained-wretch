@@ -18,4 +18,5 @@ export interface Author {
   Books: Book[];
   Socials: Social[];
   OpenLibraryAuthorKeys?: string[];
+  PenguinAuthorID?: string[];
 }

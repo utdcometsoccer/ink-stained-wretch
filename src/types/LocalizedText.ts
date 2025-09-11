@@ -1,3 +1,11 @@
+export interface DomainRegistrationsListText {
+    title: string;
+    error: string;
+    loading: string;
+    empty: string;
+    select: string;
+    selected: string;
+}
 import type { AuthorDocFormText } from "./AuthorDocFormText";
 import type { AuthorDocListText } from "./AuthorDocListText";
 import type { BookFormText } from "./BookFormText";
@@ -166,6 +174,7 @@ export interface LocalizedText {
     ThankYou: ThankYouText;
     Navbar: NavbarText;
     DomainRegistration: DomainRegistrationText;
+    DomainRegistrationsList?: DomainRegistrationsListText;
     ErrorPage: ErrorPageText;
     ImageManager: ImageManagerText;
     Checkout: CheckoutText;

@@ -7,6 +7,7 @@ import "./AuthorList.css";
 import type { AuthorRegistrationProps } from "./AuthorRegistrationProps";
 import { useAuthorRegistration } from '../../hooks/useAuthorRegistration';
 import type { FC } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export const AuthorRegistration: FC<AuthorRegistrationProps> = (props: AuthorRegistrationProps) => {
     const {
@@ -20,8 +21,11 @@ export const AuthorRegistration: FC<AuthorRegistrationProps> = (props: AuthorReg
         handleCancelAuthor,
         handleValidateAuthors,
         state,
+        loading
     } = useAuthorRegistration(props);
-    return (
+    return loading ? (
+        <CircularProgress />
+    ) : (
         <div className="author-list">
             <h2 className="author-list-title">{text?.authorListTitle}</h2>
             <ul className="author-list-ul">

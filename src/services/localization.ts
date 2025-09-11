@@ -1,9 +1,8 @@
-
-import enUS from '../assets/inkstainedwretch.en-us.json';
-import esMX from '../assets/inkstainedwretch.es-mx.json';
-import frCA from '../assets/inkstainedwretch.fr-ca.json';
-import arEG from '../assets/inkstainedwretch.ar-eg.json';
-import zhTW from '../assets/inkstainedwretch.zh-tw.json';
+import enUS from '../locales/inkstainedwretch.en-us.json';
+import esMX from '../locales/inkstainedwretch.es-mx.json';
+import frCA from '../locales/inkstainedwretch.fr-ca.json';
+import arEG from '../locales/inkstainedwretch.ar-eg.json';
+import zhTW from '../locales/inkstainedwretch.zh-tw.json';
 import type { LocalizedText } from '../types/LocalizedText';
 
 /**
@@ -54,7 +53,9 @@ export async function getLocalizedText(culture: string): Promise<LocalizedText |
  * @returns Promise<LocalizedText | null>
  */
 export async function fetchLocalizedText(language: string, region: string): Promise<LocalizedText | null> {
-  const url = `/api/localization/${language}/${region}`;
+  const baseUrl = import.meta.env.VITE_LOCALIZATION_API_URL || "";
+  if (!baseUrl) throw new Error("Localization API URL is not defined in VITE_LOCALIZATION_API_URL environment variable");
+  const url = `${baseUrl}${language}/${region}`;
   try {
     const response = await fetch(url);
     if (!response.ok) return null;
