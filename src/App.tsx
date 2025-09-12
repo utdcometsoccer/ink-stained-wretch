@@ -1,21 +1,24 @@
-import { MsalProvider } from "@azure/msal-react"
-import { useEffect, useReducer } from 'react'
-import './App.css'
-import { AuthorRegistration } from './components/AuthorRegistration'
-import { Checkout } from './components/Checkout'
-import { DomainRegistration } from './components/DomainRegistration'
-import { ErrorBoundary } from './components/ErrorBoundary'
-import { ErrorPage } from './components/ErrorPage'
+import { MsalProvider } from "@azure/msal-react";
+import { useEffect, useReducer } from 'react';
+import './App.css';
+import { AuthorRegistration } from './components/AuthorRegistration';
+import { Checkout } from './components/Checkout';
+import { ChooseCulture } from "./components/ChooseCulture";
+import ChooseSubscription from "./components/ChooseSubscription";
+import { DomainRegistration } from './components/DomainRegistration';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { ErrorPage } from './components/ErrorPage';
+import { Login } from './components/LoginRegister';
+import { Navbar } from './components/Navbar';
+import { ThankYou } from './components/ThankYou';
+import { useGetLocalizedText } from "./hooks/useGetLocalizedText";
+import { LocalizationContext } from "./LocalizationContext";
+import { appReducer } from './reducers/appReducer';
+import { initializeAppInsights, trackEvent, trackException, trackPageView } from './services/applicationInsights';
+import { getDefaultLocale } from "./services/getDefaultLocale";
 import { isDevelopment } from './services/isDevelopment';
-import { Login } from './components/LoginRegister'
-import { Navbar } from './components/Navbar'
-import { ThankYou } from './components/ThankYou'
-import { appReducer } from './reducers/appReducer'
-import { initializeAppInsights, trackEvent, trackException, trackPageView } from './services/applicationInsights'
-import { msalInstance } from "./services/msalConfig"
-import { ChooseCulture } from "./components/ChooseCulture"
-import ChooseSubscription from "./components/ChooseSubscription"
 import { loadStateFromCookie } from './services/loadStateFromCookie';
+import { msalInstance } from "./services/msalConfig";
 
 function App() {
   const [appState, dispatch] = useReducer(appReducer, loadStateFromCookie())
@@ -23,7 +26,7 @@ function App() {
   // Initialize Application Insights
   useEffect(() => {
     initializeAppInsights();
-    trackEvent('App_Initialized', { 
+    trackEvent('App_Initialized', {
       initialState: appState.currentUIState,
       timestamp: new Date().toISOString()
     });
@@ -32,7 +35,7 @@ function App() {
   // Track UI state changes
   useEffect(() => {
     trackPageView(`${appState.currentUIState}`, window.location.href);
-    trackEvent('UI_State_Changed', { 
+    trackEvent('UI_State_Changed', {
       newState: appState.currentUIState,
       timestamp: new Date().toISOString()
     });
@@ -65,7 +68,10 @@ function App() {
       window.removeEventListener('error', handleError)
       window.removeEventListener('unhandledrejection', handleUnhandledRejection)
     }
-  }, [])
+  }, []);
+
+  const culture = appState.state.cultureInfo?.Culture || 'en-us';
+  const localized = useGetLocalizedText(culture) || getDefaultLocale();  
 
   const handleReactError = (error: Error) => {
     trackException(error, 3); // Error severity level
@@ -79,9 +85,9 @@ function App() {
     try {
       switch (appState.currentUIState) {
         case 'chooseCulture':
-          return <ChooseCulture state={appState.state} dispatch={dispatch}  />
+          return <ChooseCulture state={appState.state} dispatch={dispatch} />
         case 'login':
-          return <Login state={appState.state} dispatch={dispatch}  />
+          return <Login state={appState.state} dispatch={dispatch} />
         case 'domainRegistration':
           return <DomainRegistration state={appState.state} dispatch={dispatch} />
         case 'authorPage':
@@ -104,19 +110,21 @@ function App() {
         type: 'SET_ERROR',
         payload: renderError.message
       })
-  return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} culture={appState.state.cultureInfo?.Culture} />
+      return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} culture={appState.state.cultureInfo?.Culture} />
     }
   }
 
   return (
     <MsalProvider instance={msalInstance}>
       <ErrorBoundary onError={handleReactError}>
-        <div className="app">
-          <Navbar currentState={appState.currentUIState} dispatch={dispatch} state={appState.state} />
-          <main className="app-content">
-            {renderCurrentComponent()}
-          </main>
-        </div>
+        <LocalizationContext value={localized}>
+          <div className="app">
+            <Navbar currentState={appState.currentUIState} dispatch={dispatch} state={appState.state} />
+            <main className="app-content">
+              {renderCurrentComponent()}
+            </main>
+          </div>
+        </LocalizationContext>
       </ErrorBoundary>
     </MsalProvider>
   )

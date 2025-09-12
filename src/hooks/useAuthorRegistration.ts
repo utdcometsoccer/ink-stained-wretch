@@ -1,26 +1,19 @@
 import { useEffect, useReducer } from "react";
-import { useGetLocalizedText } from './useGetLocalizedText';
-import { useTrackComponent } from './useTrackComponent';
-import { authorListReducer, initialAuthorListState } from "../reducers/authorListReducer";
-import type { Author } from "../types/Author";
 import type { AuthorRegistrationProps } from "../components/AuthorRegistration/AuthorRegistrationProps";
+import { authorListReducer, initialAuthorListState } from "../reducers/authorListReducer";
+import { normalizeArray } from "../services/normalizeArray";
+import type { Author } from "../types/Author";
 import type { UseAuthorRegistrationReturn } from "../types/UseAuthorRegistrationReturn";
 import { useAuthorsByDomain } from "./useAuthorsByDomain";
-import { normalizeArray } from "../services/normalizeArray";
+import { useLocalizationContext } from "./useLocalizationContext";
+import { useTrackComponent } from './useTrackComponent';
 
 export function useAuthorRegistration({ state, dispatch, culture }: AuthorRegistrationProps): UseAuthorRegistrationReturn {
     const { authToken, Authors, domainRegistration } = state;
     const { domain } = domainRegistration || {};
     const { secondLevelDomain, topLevelDomain } = domain || {};
-    const text = useGetLocalizedText(culture ?? 'en-us')?.AuthorRegistration || {
-        authorListTitle: "Author Information",
-        languageLabel: "Language: ",
-        regionLabel: "Region: ",
-        editAuthor: "Edit",
-        deleteAuthor: "Delete",
-        addAuthor: "Add Author",
-        continue: "Continue"
-    };
+    const localization = useLocalizationContext();
+    const text = localization.AuthorRegistration;
     useTrackComponent('AuthorRegistration', { state, dispatch, culture });
     const handleDeleteAuthor = (id: string) => {
         dispatch({ type: "DELETE_AUTHOR", payload: id });

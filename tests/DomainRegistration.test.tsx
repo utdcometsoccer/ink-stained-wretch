@@ -43,7 +43,7 @@ describe("DomainRegistration", () => {
       }
     };
     render(<DomainRegistration state={state} dispatch={mockDispatch} />);
-    expect(screen.getByText(/Domain Registration/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: /Domain Registration/i, level: 1 })).toBeInTheDocument();
     expect(screen.getByLabelText(/Domain:/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/First Name:/i)).toHaveValue("John");
     fireEvent.change(screen.getByLabelText(/Domain:/i), { target: { value: "newdomain.com" } });

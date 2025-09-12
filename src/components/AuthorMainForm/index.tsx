@@ -1,15 +1,15 @@
-import { type FC } from "react";
-import { useGetLocalizedText } from "../../hooks/useGetLocalizedText";
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { CountryDropdown, LanguageDropdown, type Language } from "@idahoedokpayi/react-country-state-selector";
-import { ImageManager } from "../ImageManager/index";
-import { ArticleList } from "../AuthorRegistration/ArticleList";
-import { BookList } from "../BookList/index";
-import { SocialList } from "../AuthorRegistration/SocialList";
-import type { AuthorMainFormProps } from "./AuthorMainFormProps";
-import { useTrackComponent } from "../../hooks/useTrackComponent";
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import { type FC } from "react";
 import penguinLogo from '../../assets/penguin-vector.png';
+import { useLocalizationContext } from "../../hooks/useLocalizationContext";
+import { useTrackComponent } from "../../hooks/useTrackComponent";
+import { ArticleList } from "../AuthorRegistration/ArticleList";
+import { SocialList } from "../AuthorRegistration/SocialList";
+import { BookList } from "../BookList/index";
+import { ImageManager } from "../ImageManager/index";
 import './AuthorMainForm.css';
+import type { AuthorMainFormProps } from "./AuthorMainFormProps";
 export const AuthorMainForm: FC<AuthorMainFormProps> = ({
     form,
     dispatchForm,
@@ -35,28 +35,7 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
     listUserImages,
     deleteImage,
 }) => {
-    const localized = useGetLocalizedText(cultureInfo ? cultureInfo.Culture :'en-us')?.AuthorMainForm || {
-        legend: 'Author Information',
-        authorName: 'Author Name:',
-        language: 'Language:',
-        country: 'Country:',
-        email: 'Email:',
-        welcomeText: 'Welcome Text:',
-        aboutText: 'About Text:',
-        headshotUrl: 'Headshot URL:',
-        chooseImage: 'Choose Image',
-        close: 'Close',
-        copyrightText: 'Copyright Text:',
-        topLevelDomain: 'Top Level Domain:',
-        secondLevelDomain: 'Second Level Domain:',
-        articles: 'Articles',
-        books: 'Books',
-        socialLinks: 'Social Links',
-        importAuthor: 'Import Author From Open Library',
-        importPenguinAuthor: 'Import Author From Penguin Random House',
-        save: 'Save Author',
-        cancel: 'Cancel',
-    };
+    const localized = useLocalizationContext().AuthorMainForm;
     useTrackComponent('AuthorMainForm', {
         form,
         dispatchForm,

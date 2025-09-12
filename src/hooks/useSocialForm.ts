@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { useGetLocalizedText } from "./useGetLocalizedText";
-import { useTrackComponent } from "./useTrackComponent";
 import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-import RedditIcon from '@mui/icons-material/Reddit';
-import PinterestIcon from '@mui/icons-material/Pinterest';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import GoogleIcon from '@mui/icons-material/Google';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import PinterestIcon from '@mui/icons-material/Pinterest';
+import RedditIcon from '@mui/icons-material/Reddit';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import { useState } from "react";
 import type { Social } from "../types/Social";
+import { useLocalizationContext } from "./useLocalizationContext";
+import { useTrackComponent } from "./useTrackComponent";
 
 export interface UseSocialFormProps {
   social: Social;
@@ -20,13 +20,8 @@ export interface UseSocialFormProps {
 }
 
 export function useSocialForm({ social, onSave, onCancel, culture }: UseSocialFormProps) {
-  const text = useGetLocalizedText(culture ?? 'en-us')?.SocialForm || {
-    legend: 'Edit Social Link',
-    name: 'Name:',
-    url: 'URL:',
-    save: 'Save',
-    cancel: 'Cancel'
-  };
+  const localization = useLocalizationContext();
+  const text = localization.SocialForm;
   useTrackComponent('SocialForm', { social, onSave, onCancel, culture });
   const [form, setForm] = useState<Social>(social);
 

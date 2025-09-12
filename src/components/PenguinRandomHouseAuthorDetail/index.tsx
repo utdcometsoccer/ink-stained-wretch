@@ -1,35 +1,11 @@
-import type { FC } from 'react';
-import type { AuthorResult } from '../../types/PenguinRandomHouse';
-import { useGetLocalizedText } from '../../hooks/useGetLocalizedText';
+import { type FC } from 'react';
+import { useLocalizationContext } from '../../hooks/useLocalizationContext';
 import './PenguinRandomHouseAuthorDetail.css';
+import type { PenguinRandomHouseAuthorDetailProps } from './PenguinRandomHouseAuthorDetailProps';
 
-export interface PenguinRandomHouseAuthorDetailProps {
-  author: AuthorResult;
-  onSave: (author: AuthorResult) => void;
-  onCancel: () => void;
-  culture?: string;
-}
-
-const PenguinRandomHouseAuthorDetail: FC<PenguinRandomHouseAuthorDetailProps> = ({ author, onSave, onCancel, culture }) => {
-  const text = useGetLocalizedText(culture ?? 'en-us')?.PenguinRandomHouseAuthorDetail || {
-    title: 'Penguin Random House Author Details',
-    name: 'Name',
-    score: 'Score',
-    url: 'URL',
-    domain: 'Domain',
-    titleField: 'Title',
-    description: 'Description',
-    authorFirst: 'First Name',
-    authorLast: 'Last Name',
-    photoCredit: 'Photo Credit',
-    onTour: 'On Tour',
-    seriesAuthor: 'Series Author',
-    seriesIsbn: 'Series ISBN',
-    seriesCount: 'Series Count',
-    keywordId: 'Keyword ID',
-    save: 'Save',
-    cancel: 'Cancel',
-  };
+const PenguinRandomHouseAuthorDetail: FC<PenguinRandomHouseAuthorDetailProps> = ({ author, onSave, onCancel }) => {
+  const localization = useLocalizationContext();
+  const text = localization.PenguinRandomHouseAuthorDetail;
   const penguinUrl = import.meta.env.VITE_PENGUIN_RANDOM_HOUSE_URL || 'https://www.penguinrandomhouse.com/';
   return (
     <div className="prh-author-detail-container">
@@ -59,3 +35,4 @@ const PenguinRandomHouseAuthorDetail: FC<PenguinRandomHouseAuthorDetailProps> = 
 };
 
 export { PenguinRandomHouseAuthorDetail };
+

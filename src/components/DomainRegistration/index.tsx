@@ -42,7 +42,6 @@ export const DomainRegistration: FC<DomainRegistrationProps> = ({ state, dispatc
                                 error={domainError}
                                 isValid={!!isValid}
                                 onChange={handleDomainInputChange}
-                                culture={culture}
                             />
                             <ContactInfoForm
                                 cityRef={cityRef}

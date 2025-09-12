@@ -2,16 +2,18 @@ import type { FC } from 'react';
 import { useCountdownIndicatorLogic } from '../../hooks/useCountdownIndicator';
 import type { CountdownIndicatorProps } from './CountdownIndicatorProps';
 import { useTrackComponent } from '../../hooks/useTrackComponent';
-import { useGetLocalizedText } from '../../hooks/useGetLocalizedText';
+import { useContext } from 'react';
+import { LocalizationContext } from '../../LocalizationContext';
 
 
 export const CountdownIndicator: FC<CountdownIndicatorProps> = ({ countdown, showRedirect, countdownRef, text, culture = 'en-us' }) => {
   useTrackComponent('CountdownIndicator', { countdown, showRedirect, countdownRef, text, culture });
-  const localized = useGetLocalizedText(culture)?.CountdownIndicator;
+  const localization = useContext(LocalizationContext);
+  const localized = localization.CountdownIndicator;
   useCountdownIndicatorLogic(countdown, countdownRef);
   if (!showRedirect || !countdown || countdown <= 0) return null;
 
-  const message = text ?? (localized?.redirecting?.replace('{countdown}', String(countdown)) ?? `Redirecting in ${countdown} seconds...`);
+  const message = text ?? localized.redirecting.replace('{countdown}', String(countdown));
   return (
     <div className="countdown-indicator" ref={countdownRef}>
       <div className="countdown-text">

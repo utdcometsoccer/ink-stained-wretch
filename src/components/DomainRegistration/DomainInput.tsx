@@ -1,27 +1,27 @@
 import { type FC } from "react";
+import { useLocalizationContext } from "../../hooks/useLocalizationContext";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
-import { useGetLocalizedText } from "../../hooks/useGetLocalizedText";
 
 export interface DomainInputProps {
   value: string;
   error: string | null;
   isValid: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  culture?: string;
 }
 
-export const DomainInput:FC<DomainInputProps> = ({ value, error, isValid, onChange, culture = 'en-us' }: DomainInputProps) => {
-  useTrackComponent('DomainInput', { value, error, isValid, onChange, culture });
-  const localized = useGetLocalizedText(culture)?.DomainInput;
+export const DomainInput:FC<DomainInputProps> = ({ value, error, isValid, onChange}: DomainInputProps) => {
+  useTrackComponent('DomainInput', { value, error, isValid, onChange});
+
+  const localized = useLocalizationContext().DomainInput;
   return (
     <label>
-      {localized?.label ?? 'Domain:'}
+      {localized.label}
       <input
         type="text"
         name="domain"
         value={value}
         onChange={onChange}
-        placeholder={localized?.placeholder ?? 'example.com'}
+        placeholder={localized.placeholder}
         required
         className={
           error
@@ -31,8 +31,8 @@ export const DomainInput:FC<DomainInputProps> = ({ value, error, isValid, onChan
               : undefined
         }
       />
-      {error && <div className="error-message">{localized?.error ?? error}</div>}
-      {!error && isValid && <div className="domain-success-message">{localized?.success ?? 'Domain format is valid and available!'}</div>}
+      {error && <div className="error-message">{localized.error ?? error}</div>}
+      {!error && isValid && <div className="domain-success-message">{localized.success}</div>}
     </label>
   );
 }

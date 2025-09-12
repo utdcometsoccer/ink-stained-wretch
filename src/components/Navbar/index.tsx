@@ -1,12 +1,12 @@
 import { type FC } from 'react';
+import { useLocalizationContext } from '../../hooks/useLocalizationContext.ts';
 import { useNavbarLogic } from '../../hooks/useNavbar.tsx';
 import { useTrackComponent } from '../../hooks/useTrackComponent.ts';
 import './Navbar.css';
 import type { NavbarProps } from './NavbarProps';
-import { useGetLocalizedText } from '../../hooks/useGetLocalizedText.ts';
 
-export const Navbar: FC<NavbarProps> = ({ currentState, dispatch, state, culture = 'en-us' }) => {
-    const localizedNavbar = useGetLocalizedText(culture)?.Navbar;
+export const Navbar: FC<NavbarProps> = ({ currentState, dispatch, state, culture = 'en-us' }) => {    
+    const localizedNavbar = useLocalizationContext().Navbar;
     useTrackComponent('Navbar', { currentState, dispatch, state, culture });
     const {
         dynamicNavItems,

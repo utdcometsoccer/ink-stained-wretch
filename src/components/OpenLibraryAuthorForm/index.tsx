@@ -1,5 +1,5 @@
 import { type FC, useState } from "react";
-import { useGetLocalizedText } from "../../hooks/useGetLocalizedText";
+import { useLocalizationContext } from "../../hooks/useLocalizationContext";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
 import type { AuthorDoc } from "../../types/OpenLibrary";
 import "./OpenLibraryAuthorForm.css";
@@ -8,22 +8,8 @@ import type { OpenLibraryAuthorFormProps } from "./OpenLibraryAuthorFormProps";
 export const OpenLibraryAuthorForm: FC<OpenLibraryAuthorFormProps> = ({ initialAuthorDoc, onSave, onCancel, culture }) => {
   useTrackComponent('OpenLibraryAuthorForm', { initialAuthorDoc, onSave, onCancel, culture });
   const [form, setForm] = useState<AuthorDoc>(initialAuthorDoc);
-  const text = useGetLocalizedText(culture ?? 'en-us')?.OpenLibraryAuthorForm ?? {
-    legend: 'Edit Author',
-    key: 'Key:',
-    text: 'Text:',
-    type: 'Type:',
-    name: 'Name:',
-    alternateNames: 'Alternate Names:',
-    birthDate: 'Birth Date:',
-    topWork: 'Top Work:',
-    workCount: 'Work Count:',
-    topSubjects: 'Top Subjects:',
-    version: 'Version:', // Add missing property
-    save: 'Save',        // Add missing property
-    cancel: 'Cancel',    // Add missing property
-  };
-
+  const localization = useLocalizationContext();
+  const text = localization.OpenLibraryAuthorForm;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
