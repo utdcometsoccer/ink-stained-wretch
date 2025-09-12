@@ -2,14 +2,15 @@ import CircularProgress from "@mui/material/CircularProgress";
 import type { FC } from "react";
 import { useAuthorFormLogic } from '../../hooks/useAuthorForm';
 import { ArticleForm } from "../AuthorRegistration/ArticleForm";
-import { AuthorDocForm } from "../AuthorRegistration/AuthorDocForm";
-import AuthorDocList from "../AuthorRegistration/AuthorDocList";
 import "./AuthorForm.css";
 import type { AuthorFormProps } from "./AuthorFormProps";
 import { AuthorMainForm } from "../AuthorMainForm";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
 import { BookForm } from "../BookForm";
 import { SocialForm } from "../SocialForm";
+import { OpenLibraryAuthorImport } from "../OpenLibraryAuthorImport";
+import { OpenLibraryAuthorForm } from "../OpenLibraryAuthorForm";
+import { PenguinRandomHouseAuthorImport } from "../PenguinRandomHouseAuthorImport";
 
 
 export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSave, onCancel }) => {
@@ -35,6 +36,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
     handleDeleteSocial,
     importBook,
     importAuthorFromOpenLibrary,
+    importAuthorFromPenguinRandomHouse,
     handleCancelClick,
     listUserImages,
     deleteImage,
@@ -50,7 +52,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
       return <CircularProgress />;
     case "AuthorDocForm":
       return form.selectedAuthorDoc ? (
-        <AuthorDocForm
+        <OpenLibraryAuthorForm
           initialAuthorDoc={form.selectedAuthorDoc}
           onSave={() => {
             dispatchForm({ type: "SAVE_SELECTED_AUTHOR_DOC" });
@@ -78,13 +80,14 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
         handleDeleteSocial={handleDeleteSocial}
         importBook={importBook}
         importAuthorFromOpenLibrary={importAuthorFromOpenLibrary}
+        importAuthorFromPenguinRandomHouse={importAuthorFromPenguinRandomHouse}
         handleCancelClick={handleCancelClick}
         listUserImages={listUserImages}
         deleteImage={deleteImage}
       />;
     case "AuthorDocList":
       return (
-        <AuthorDocList
+        <OpenLibraryAuthorImport
           authors={form.authorDocs}
           importedKeys={form.OpenLibraryAuthorKeys || []}
           onAuthorClick={authorDoc => {
@@ -100,6 +103,28 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
             dispatchForm({ type: "SET_EDIT_INDEX", payload: null });
             dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: false });
             dispatchForm({ type: "HIDE_AUTHOR_DOC_LIST" });
+          }}
+        />
+      );
+      case "PenguinAuthorForm":
+      return (
+        <PenguinRandomHouseAuthorImport
+          query={form.AuthorName}
+          importedKeys={form.PenguinAuthorID || []}
+          culture={cultureInfo?.Culture || 'en-us'}
+          onAuthorClick={author => {
+            dispatchForm({ type: "SELECT_PENGUIN_AUTHOR", payload: author });
+            dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "PenguinAuthorForm" });
+          }}
+          onImport={author => {
+            dispatchForm({ type: "IMPORT_PENGUIN_AUTHOR_ID", payload: [author.key] });
+          }}
+          onGoBack={() => {
+            dispatchForm({ type: "SET_PENGUIN_AUTHORS", payload: [] });
+            dispatchForm({ type: "SET_EDIT_TYPE", payload: null });
+            dispatchForm({ type: "SET_EDIT_INDEX", payload: null });
+            dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: false });
+            dispatchForm({ type: "HIDE_PENGUIN_AUTHOR_LIST" });
           }}
         />
       );
@@ -140,6 +165,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
           handleDeleteSocial={handleDeleteSocial}
           importBook={importBook}
           importAuthorFromOpenLibrary={importAuthorFromOpenLibrary}
+          importAuthorFromPenguinRandomHouse={importAuthorFromPenguinRandomHouse}
           handleCancelClick={handleCancelClick}
           listUserImages={listUserImages}
           deleteImage={deleteImage}

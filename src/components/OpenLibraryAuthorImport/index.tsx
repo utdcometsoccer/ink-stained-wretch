@@ -2,19 +2,11 @@ import ImportExportIcon from '@mui/icons-material/ImportExport';
 import type { FC } from 'react';
 import { useGetLocalizedText } from '../../hooks/useGetLocalizedText';
 import { useTrackComponent } from '../../hooks/useTrackComponent';
-import type { AuthorDoc } from '../../types/OpenLibrary';
-import './AuthorDocList.css';
+import './OpenLibraryAuthorImport.css';
+import type { OpenLibraryAuthorImportProps } from './OpenLibraryAuthorImportProps';
 
-export interface AuthorDocListProps {
-    authors: AuthorDoc[];
-    onAuthorClick: (author: AuthorDoc) => void;
-    onImport: (author: AuthorDoc) => void;
-    onGoBack: () => void;
-    importedKeys?: string[];
-    culture?: string;
-}
 
-const AuthorDocList: FC<AuthorDocListProps> = ({ authors, onAuthorClick, onImport, onGoBack, importedKeys = [], culture }) => {
+const OpenLibraryAuthorImport: FC<OpenLibraryAuthorImportProps> = ({ authors, onAuthorClick, onImport, onGoBack, importedKeys = [], culture }) => {
     const text = useGetLocalizedText(culture ?? 'en-us')?.AuthorDocList || {
         title: 'Authors',
         topWork: 'Top Work:',
@@ -62,4 +54,4 @@ const AuthorDocList: FC<AuthorDocListProps> = ({ authors, onAuthorClick, onImpor
     );
 };
 
-export default AuthorDocList;
+export { OpenLibraryAuthorImport };

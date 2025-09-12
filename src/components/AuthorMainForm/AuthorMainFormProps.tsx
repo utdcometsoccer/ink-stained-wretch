@@ -24,6 +24,7 @@ export interface AuthorMainFormProps {
     handleDeleteSocial: (id: string) => void;
     importBook: (newBook: Book) => void;
     importAuthorFromOpenLibrary: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    importAuthorFromPenguinRandomHouse: (e: React.MouseEvent<HTMLButtonElement>) => void;
     handleCancelClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
     listUserImages: any;
     deleteImage: any;

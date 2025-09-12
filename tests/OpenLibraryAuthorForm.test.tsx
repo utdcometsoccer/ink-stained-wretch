@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { AuthorDocForm } from '../src/components/AuthorRegistration/AuthorDocForm';
+import { OpenLibraryAuthorForm } from '../src/components/OpenLibraryAuthorForm';
 import type { AuthorDoc } from '../src/types/OpenLibrary';
 
-describe('AuthorDocForm', () => {
+describe('OpenLibraryAuthorForm', () => {
   const authorDoc: AuthorDoc = {
     key: 'A1',
     text: ['foo'],
@@ -19,7 +19,7 @@ describe('AuthorDocForm', () => {
 
   it('renders all fields', () => {
     render(
-      <AuthorDocForm
+      <OpenLibraryAuthorForm
         initialAuthorDoc={authorDoc}
         onSave={vi.fn()}
         onCancel={vi.fn()}
@@ -37,7 +37,7 @@ describe('AuthorDocForm', () => {
     const onSave = vi.fn();
     const onCancel = vi.fn();
     render(
-      <AuthorDocForm
+      <OpenLibraryAuthorForm
         initialAuthorDoc={authorDoc}
         onSave={onSave}
         onCancel={onCancel}

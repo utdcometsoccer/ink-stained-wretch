@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import AuthorDocList from '../src/components/AuthorRegistration/AuthorDocList';
+import { OpenLibraryAuthorImport } from '../src/components/OpenLibraryAuthorImport';
 import type { AuthorDoc } from '../src/types/OpenLibrary';
 
-describe('AuthorDocList', () => {
+describe('OpenLibraryAuthorImport', () => {
   const authors: AuthorDoc[] = [
     {
       key: 'A1',
@@ -36,7 +36,7 @@ describe('AuthorDocList', () => {
     const onImport = vi.fn();
     const onGoBack = vi.fn();
     render(
-      <AuthorDocList
+      <OpenLibraryAuthorImport
         authors={authors}
         importedKeys={['A2']}
         onAuthorClick={onAuthorClick}
@@ -55,7 +55,7 @@ describe('AuthorDocList', () => {
     const onImport = vi.fn();
     const onGoBack = vi.fn();
     render(
-      <AuthorDocList
+      <OpenLibraryAuthorImport
         authors={authors}
         importedKeys={[]}
         onAuthorClick={onAuthorClick}
@@ -74,7 +74,7 @@ describe('AuthorDocList', () => {
     const onImport = vi.fn();
     const onGoBack = vi.fn();
     render(
-      <AuthorDocList
+      <OpenLibraryAuthorImport
         authors={authors}
         importedKeys={[]}
         onAuthorClick={onAuthorClick}

@@ -2,7 +2,7 @@ import type { AuthorResult, PenguinRandomHouseSearchResult } from "../types/Peng
 import { normalizeArray } from "./normalizeArray";
 
 export async function fetchPenguinRandomHouseAuthors(authorName: string): Promise<AuthorResult[]> {
-    const baseUrl = import.meta.env.VITE_PENGUIN_RANDOM_HOUSE_SEARCH_API;
+    const baseUrl = import.meta.env.VITE_PENGUIN_RANDOM_HOUSE_API_URL;
     const apiKey = import.meta.env.VITE_PENGUIN_RANDOM_HOUSE_API_KEY;
     const domain = import.meta.env.VITE_PENGUIN_RANDOM_HOUSE_API_DOMAIN;
     const searchAPI = import.meta.env.VITE_PENGUIN_RANDOM_HOUSE_SEARCH_API;

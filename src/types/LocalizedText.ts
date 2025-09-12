@@ -1,3 +1,9 @@
+import type { AuthorDocListText } from "./AuthorDocListText";
+import type { BookFormText } from "./BookFormText";
+import type { ChooseSubscriptionText } from "./ChooseSubscriptionText";
+import type { SocialFormText } from "./SocialFormText";
+import type { SocialListText } from "./SocialListText";
+
 export interface DomainRegistrationsListText {
     title: string;
     error: string;
@@ -6,12 +12,6 @@ export interface DomainRegistrationsListText {
     select: string;
     selected: string;
 }
-import type { AuthorDocFormText } from "./AuthorDocFormText";
-import type { AuthorDocListText } from "./AuthorDocListText";
-import type { BookFormText } from "./BookFormText";
-import type { SocialFormText } from "./SocialFormText";
-import type { SocialListText } from "./SocialListText";
-import type { ChooseSubscriptionText } from "./ChooseSubscriptionText";
 
 export interface AuthorRegistrationText {
     authorListTitle: string;
@@ -148,26 +148,44 @@ export interface ImageManagerText {
     refresh: string;
 }
 export interface AuthorMainFormText {
-        legend: string;
-        authorName: string;
-        language: string;
-        country: string;
-        email: string;
-        welcomeText: string;
-        aboutText: string;
-        headshotUrl: string;
-        chooseImage: string;
-        close: string;
-        copyrightText: string;
-        topLevelDomain: string;
-        secondLevelDomain: string;
-        articles: string;
-        books: string;
-        socialLinks: string;
-        importAuthor: string;
-        save: string;
-        cancel: string;
-    };
+    legend: string;
+    authorName: string;
+    language: string;
+    country: string;
+    email: string;
+    welcomeText: string;
+    aboutText: string;
+    headshotUrl: string;
+    chooseImage: string;
+    close: string;
+    copyrightText: string;
+    topLevelDomain: string;
+    secondLevelDomain: string;
+    articles: string;
+    books: string;
+    socialLinks: string;
+    importAuthor: string;
+    importPenguinAuthor: string;
+    save: string;
+    cancel: string;
+};
+
+export interface OpenLibraryAuthorFormText {
+    legend: string;
+    key: string;
+    text: string;
+    type: string;
+    name: string;
+    alternateNames: string;
+    birthDate: string;
+    topWork: string;
+    workCount: string;
+    topSubjects: string;
+    version: string;
+    save: string;
+    cancel: string;
+}
+
 
 export interface LocalizedText {
     LoginRegister: LoginRegisterText;
@@ -185,11 +203,19 @@ export interface LocalizedText {
     BookList: BookListText;
     ArticleForm: ArticleFormText;
     ArticleList: ArticleListText;
-    AuthorDocForm: AuthorDocFormText;
+    OpenLibraryAuthorForm: OpenLibraryAuthorFormText;
     AuthorDocList: AuthorDocListText;
     BookForm: BookFormText;
     SocialForm: SocialFormText;
     SocialList: SocialListText;
     ChooseSubscription: ChooseSubscriptionText;
     AuthorRegistration: AuthorRegistrationText;
+    PenguinRandomHouseAuthorList?: PenguinRandomHouseAuthorListText;
+}
+export interface PenguinRandomHouseAuthorListText {
+    title: string;
+    import: string;
+    importTitle: string;
+    goBack: string;
+    noResults: string;
 }

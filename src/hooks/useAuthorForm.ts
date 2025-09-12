@@ -44,7 +44,8 @@ export function useAuthorFormLogic(
     showAuthorDocForm: false,
     selectedAuthorDoc: null,
     buttonState: "Default" as AuthorFormButtonState,
-    authorFormState: "Default" as AuthorForms
+    authorFormState: "Default" as AuthorForms,
+    penguinAuthors: [],
   };
 
   const [form, dispatchForm] = useReducer(authorFormReducer, initialState);
@@ -221,6 +222,11 @@ export function useAuthorFormLogic(
     dispatchForm({ type: 'SET_BUTTON_STATE', payload: "ImportAuthor" });
     dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "Loading" });
   };
+  const importAuthorFromPenguinRandomHouse = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    dispatchForm({ type: 'SET_BUTTON_STATE', payload: "PenguinRandomHouse" });
+    dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "PenguinAuthorForm" });
+  }
 
   useEffect(() => {
     const openLibraryFetchAuthorInformation = async () => {
@@ -270,6 +276,7 @@ export function useAuthorFormLogic(
     handleDeleteSocial,
     importBook,
     importAuthorFromOpenLibrary,
+    importAuthorFromPenguinRandomHouse,
     handleCancelClick,
     listUserImages,
     deleteImage,

@@ -126,7 +126,7 @@
         "delete": "حذف",
         "addArticle": "إضافة مقال"
     },
-    "AuthorDocForm": {
+    "OpenLibraryAuthorForm": {
         "legend": "تعديل المؤلف",
         "key": "المفتاح:",
         "text": "النص:",
@@ -178,6 +178,7 @@
         "books": "كتب",
         "socialLinks": "روابط اجتماعية",
         "importAuthor": "استيراد المؤلف من Open Library",
+        "importPenguinAuthor": "استيراد المؤلف من Penguin Random House",
         "save": "حفظ المؤلف",
         "cancel": "إلغاء"
     },
@@ -192,5 +193,12 @@
     "error": "فشل تحميل تسجيلات النطاقات.",
     "loading": "جارٍ تحميل تسجيلات النطاقات...",
     "empty": "لم يتم العثور على تسجيلات النطاقات."
-  }
+  },
+    "PenguinRandomHouseAuthorList": {
+        "title": "مؤلفو Penguin Random House",
+        "import": "استيراد",
+        "importTitle": "استيراد مؤلف من Penguin Random House",
+        "goBack": "العودة",
+        "noResults": "لم يتم العثور على مؤلفين."
+    }
 }

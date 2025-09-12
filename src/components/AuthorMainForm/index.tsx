@@ -8,7 +8,8 @@ import { BookList } from "../BookList/index";
 import { SocialList } from "../AuthorRegistration/SocialList";
 import type { AuthorMainFormProps } from "./AuthorMainFormProps";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
-
+import penguinLogo from '../../assets/penguin-vector.png';
+import './AuthorMainForm.css';
 export const AuthorMainForm: FC<AuthorMainFormProps> = ({
     form,
     dispatchForm,
@@ -29,6 +30,7 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
     handleDeleteSocial,
     importBook,
     importAuthorFromOpenLibrary,
+    importAuthorFromPenguinRandomHouse,
     handleCancelClick,
     listUserImages,
     deleteImage,
@@ -51,6 +53,7 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
         books: 'Books',
         socialLinks: 'Social Links',
         importAuthor: 'Import Author From Open Library',
+        importPenguinAuthor: 'Import Author From Penguin Random House',
         save: 'Save Author',
         cancel: 'Cancel',
     };
@@ -179,8 +182,12 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
                 <h3>{localized.socialLinks}</h3>
                 <SocialList socials={form.Socials} onEdit={handleEditSocial} onAdd={handleAddSocial} onDelete={handleDeleteSocial} />
                 <div className="author-form-btn-row">
+                    <button type="button" className={`article-form-btn app-btn`} onClick={importAuthorFromPenguinRandomHouse}>
+                        <img src={penguinLogo} alt="Penguin Random House Logo" className="penguin-logo" />
+                        {localized.importPenguinAuthor}
+                    </button>
                     <button type="button" className={`article-form-btn app-btn`} onClick={importAuthorFromOpenLibrary}>
-                        <AccountBalanceIcon fontSize="large" />
+                        <AccountBalanceIcon fontSize="small" />
                         {localized.importAuthor}
                     </button>
                     <button type="submit" className="app-btn">{localized.save}</button>

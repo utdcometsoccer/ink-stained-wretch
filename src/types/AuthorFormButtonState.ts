@@ -1,1 +1,1 @@
-export type AuthorFormButtonState = "Default"| "ImportAuthor"|"Save"|"Cancel";
+export type AuthorFormButtonState = "Default"| "ImportAuthor"|"Save"|"Cancel" | "PenguinRandomHouse";

@@ -2,13 +2,13 @@ import { type FC, useState } from "react";
 import { useGetLocalizedText } from "../../hooks/useGetLocalizedText";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
 import type { AuthorDoc } from "../../types/OpenLibrary";
-import "./AuthorDocForm.css";
-import type { AuthorDocFormProps } from "./AuthorDocFormProps";
+import "./OpenLibraryAuthorForm.css";
+import type { OpenLibraryAuthorFormProps } from "./OpenLibraryAuthorFormProps";
 
-export const AuthorDocForm: FC<AuthorDocFormProps> = ({ initialAuthorDoc, onSave, onCancel, culture }) => {
-  useTrackComponent('AuthorDocForm', { initialAuthorDoc, onSave, onCancel, culture });
+export const OpenLibraryAuthorForm: FC<OpenLibraryAuthorFormProps> = ({ initialAuthorDoc, onSave, onCancel, culture }) => {
+  useTrackComponent('OpenLibraryAuthorForm', { initialAuthorDoc, onSave, onCancel, culture });
   const [form, setForm] = useState<AuthorDoc>(initialAuthorDoc);
-  const text = useGetLocalizedText(culture ?? 'en-us')?.AuthorDocForm ?? {
+  const text = useGetLocalizedText(culture ?? 'en-us')?.OpenLibraryAuthorForm ?? {
     legend: 'Edit Author',
     key: 'Key:',
     text: 'Text:',

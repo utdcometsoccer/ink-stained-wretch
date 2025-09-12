@@ -126,7 +126,7 @@
         "delete": "Supprimer",
         "addArticle": "Ajouter un article"
     },
-    "AuthorDocForm": {
+    "OpenLibraryAuthorForm": {
         "legend": "Modifier l'auteur",
         "key": "Clé :",
         "text": "Texte :",
@@ -178,6 +178,7 @@
         "books": "Livres",
         "socialLinks": "Liens sociaux",
         "importAuthor": "Importer l'auteur depuis Open Library",
+        "importPenguinAuthor": "Importer l'auteur depuis Penguin Random House",
         "save": "Enregistrer l'auteur",
         "cancel": "Annuler"
     },
@@ -192,5 +193,12 @@
     "error": "Échec du chargement des inscriptions de domaine.",
     "loading": "Chargement des inscriptions de domaine...",
     "empty": "Aucune inscription de domaine trouvée."
-  }
+  },
+    "PenguinRandomHouseAuthorList": {
+        "title": "M auteurs de Penguin Random House",
+        "import": "Importer",
+        "importTitle": "Importer un auteur de Penguin Random House",
+        "goBack": "Retourner",
+        "noResults": "Aucun auteur trouvé."
+    }
 }
