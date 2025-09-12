@@ -127,7 +127,8 @@
         "delete": "Eliminar",
         "addBook": "Agregar libro",
         "importOpenLibrary": "Importar libros de Open Library",
-        "importGoogleBooks": "Importar libros de Google Books"
+        "importGoogleBooks": "Importar libros de Google Books",
+        "importPenguinBooks": "Importar libros de Penguin Random House"
     },
     "ArticleForm": {
         "legend": "Editar artículo",

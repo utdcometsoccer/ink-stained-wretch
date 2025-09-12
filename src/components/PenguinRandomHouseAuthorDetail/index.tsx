@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import type { AuthorResult } from '../../types/PenguinRandomHouseSearchResult';
+import type { AuthorResult } from '../../types/PenguinRandomHouse';
 import { useGetLocalizedText } from '../../hooks/useGetLocalizedText';
 import './PenguinRandomHouseAuthorDetail.css';
 

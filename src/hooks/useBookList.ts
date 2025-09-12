@@ -6,11 +6,13 @@ import { fetchOpenLibraryWorksByAuthorKey } from "../services/openLibraryApi";
 import type { Book } from "../types/Book";
 import type { BookListProps } from "../components/BookList/BookListProps";
 import type { OpenLibraryTypeValue } from "../types/OpenLibrary";
+import { fetchPenguinTitlesByAuthorKey } from "../services/fetchPenguinTitlesByAuthorKey";
 
-export function useBookList({ authorName, importBook, onEdit, onDelete, openLibraryAuthorKeys }: BookListProps) {
+export function useBookList({ authorName, importBook, onEdit, onDelete, openLibraryAuthorKeys, penguinAuthorKeys }: BookListProps) {
   const initialState = {
     disableGoogleImport: !authorName || !importBook,
     openLibraryAuthorKeys: openLibraryAuthorKeys || [],
+    penguinAuthorKeys: penguinAuthorKeys || [],
     loading: false,
     buttonState: "default" as BookListButtonState,
     bookId: undefined,
@@ -92,7 +94,45 @@ export function useBookList({ authorName, importBook, onEdit, onDelete, openLibr
         resetState();
       }
     }
+    const penguinImport = async () => {
+      try {
+        if (state.penguinAuthorKeys.length === 0) { return; }
+        const penguinURL = import.meta.env.VITE_PENGUIN_RANDOM_HOUSE_URL || "https://www.penguinrandomhouse.com/";
+        for (const authorKey of state.penguinAuthorKeys) {
+          let continueFetching = true;
+          const rows = 10;
+          let start = 0;
+          do {
+            const titles = await fetchPenguinTitlesByAuthorKey(authorKey, rows, start > 0 ? start : undefined);
+            const nextLink = titles.data._links.filter(l => l.rel === 'next');
+            continueFetching = nextLink.length > 0;
+            start += rows;
+            titles.data.titles.forEach(penguinBook => {
+              const iconLinks = penguinBook._links.filter(l => l.rel === 'icon');
+              const coverURL = iconLinks.length > 0 ? iconLinks[0].href : "";
+              
+              
+              importBook && importBook({
+                id: crypto.randomUUID(),
+                Title: penguinBook.title || "",
+                Description: "",
+                URL: `${penguinURL}${penguinBook.seoFriendlyUrl}` || "",
+                Cover: coverURL
+              });
+            });
+          } while (continueFetching);
+        }
+      }
+      catch (err) {
+        console.error("Failed to import books from Penguin Random House", err);
+      } finally {
+        resetState();
+      }
+    };
     switch (buttonState) {
+      case "PenguinImporting":
+        penguinImport();
+        break;
       case "OpenLibraryImporting":
         openLibraryImport();
         break;
@@ -129,6 +169,13 @@ export function useBookList({ authorName, importBook, onEdit, onDelete, openLibr
     dispatch({ type: "BUTTON_CLICK", value: "OpenLibraryImporting" });
   }
 
+  function importBooksFromPenguin(event: React.MouseEvent<HTMLButtonElement>): void {
+    event.preventDefault();
+    if (!authorName || !importBook) return;
+    dispatch({ type: "SET_LOADING", value: true });
+    dispatch({ type: "BUTTON_CLICK", value: "PenguinImporting" });
+  }
+
   function onEditClick(event: React.MouseEvent<HTMLButtonElement>, book: Book): void {
     event.preventDefault();
     dispatch({ type: "SET_BOOK_ID", value: book.id });
@@ -148,6 +195,7 @@ export function useBookList({ authorName, importBook, onEdit, onDelete, openLibr
     dispatch,
     onGoogleImportClick,
     importBooksFromOpenLibrary,
+    importBooksFromPenguin,
     onEditClick,
     onDeleteClick,
     resetState,

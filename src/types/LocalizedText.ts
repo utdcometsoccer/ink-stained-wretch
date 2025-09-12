@@ -67,6 +67,7 @@ export interface BookListText {
     addBook: string;
     importOpenLibrary: string;
     importGoogleBooks: string;
+    importPenguinBooks: string;
 }
 
 export interface CheckoutText {

@@ -106,7 +106,8 @@
         "delete": "حذف",
         "addBook": "إضافة كتاب",
         "importOpenLibrary": "استيراد كتب من Open Library",
-        "importGoogleBooks": "استيراد كتب من Google Books"
+        "importGoogleBooks": "استيراد كتب من Google Books",
+        "importPenguinBooks": "استيراد كتب من Penguin Random House"
     },
     "ArticleForm": {
         "legend": "تعديل المقال",

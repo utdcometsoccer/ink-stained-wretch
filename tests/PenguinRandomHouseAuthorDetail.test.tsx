@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { vi, describe, it, expect } from "vitest";
 import { PenguinRandomHouseAuthorDetail } from "../src/components/PenguinRandomHouseAuthorDetail";
-import type { AuthorResult } from "../src/types/PenguinRandomHouseSearchResult";
+import type { AuthorResult } from "../src/types/PenguinRandomHouse";
 import type { PenguinRandomHouseAuthorDetailText } from "../src/types/LocalizedText";
 
 describe("PenguinRandomHouseAuthorDetail", () => {

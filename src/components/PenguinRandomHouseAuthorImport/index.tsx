@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { useGetLocalizedText } from '../../hooks/useGetLocalizedText';
 import { useTrackComponent } from '../../hooks/useTrackComponent';
 import { usePenguinRandomHouseAuthorSearch } from '../../hooks/usePenguinRandomHouseAuthorSearch';
-import type { AuthorResult } from '../../types/PenguinRandomHouseSearchResult';
+import type { AuthorResult } from '../../types/PenguinRandomHouse';
 import './PenguinRandomHouseAuthorImport.css';
 import CircularProgress from '@mui/material/CircularProgress';
 
