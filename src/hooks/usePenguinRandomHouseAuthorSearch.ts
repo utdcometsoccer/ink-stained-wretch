@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import type { AuthorResult } from "../types/PenguinRandomHouseSearchResult";
+import type { AuthorResult } from "../types/PenguinRandomHouse";
 import { fetchPenguinRandomHouseAuthors } from "../services/fetchPenguinRandomHouseAuthors";
 
 export interface UsePenguinRandomHouseAuthorSearchResult {

@@ -5,6 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import GoogleIcon from '@mui/icons-material/Google';
 import CircularProgress from "@mui/material/CircularProgress";
 import type { FC } from "react";
+import penguinLogo from "../../assets/penguin-vector.png"
 import { useBookList } from "../../hooks/useBookList";
 import { useGetLocalizedText } from '../../hooks/useGetLocalizedText';
 import { useTrackComponent } from '../../hooks/useTrackComponent';
@@ -18,11 +19,13 @@ export const BookList: FC<BookListProps> = (props) => {
     state,
     onGoogleImportClick,
     importBooksFromOpenLibrary,
+    importBooksFromPenguin,
     onEditClick,
     onDeleteClick,
   } = useBookList(props);
-  const { disableGoogleImport, loading, openLibraryAuthorKeys} = state;
+  const { disableGoogleImport, loading, openLibraryAuthorKeys, penguinAuthorKeys } = state;
   const disableImport = openLibraryAuthorKeys.length === 0 || loading;
+  const disablePenguinImport = penguinAuthorKeys.length === 0 || loading;
   const culture = props.culture || 'en-us';
   const localized = useGetLocalizedText(culture)?.BookList || {
     title: 'Books',
@@ -32,7 +35,8 @@ export const BookList: FC<BookListProps> = (props) => {
     delete: 'Delete',
     addBook: 'Add Book',
     importOpenLibrary: 'Import Books Open Library',
-    importGoogleBooks: 'Import Google Books'
+    importGoogleBooks: 'Import Google Books',
+    importPenguinBooks: 'Import Books Penguin Random House'
   };
   return loading ? <CircularProgress /> : (
     <div>
@@ -71,6 +75,10 @@ export const BookList: FC<BookListProps> = (props) => {
         <AddIcon fontSize="small" />
         <span className="btn-label">{localized?.addBook}</span>
       </button>
+      <button type="button" className={disablePenguinImport ? 'book-list-cancel-btn icon-btn': 'book-list-add-btn icon-btn'} onClick={importBooksFromPenguin} disabled={disablePenguinImport}>
+        <img src={penguinLogo} alt="Penguin Random House" className="book-list-penguin-logo" />
+        {localized?.importPenguinBooks}
+      </button>
       <button type="button" className={disableImport ? 'book-list-cancel-btn icon-btn': 'book-list-add-btn icon-btn'} onClick={importBooksFromOpenLibrary} disabled={disableImport}>
         <AccountBalanceIcon fontSize="small" />
         {localized?.importOpenLibrary}
@@ -79,6 +87,7 @@ export const BookList: FC<BookListProps> = (props) => {
         <GoogleIcon fontSize="small" className="book-list-book-icon" />
         <span className="btn-label">{localized?.importGoogleBooks}</span>
       </button>
+
     </div>
   );
 };

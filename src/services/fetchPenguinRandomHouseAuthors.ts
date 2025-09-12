@@ -1,4 +1,4 @@
-import type { AuthorResult, PenguinRandomHouseSearchResult } from "../types/PenguinRandomHouseSearchResult";
+import type { AuthorResult, PenguinRandomHouseSearchResult } from "../types/PenguinRandomHouse";
 import { normalizeArray } from "./normalizeArray";
 
 export async function fetchPenguinRandomHouseAuthors(authorName: string): Promise<AuthorResult[]> {

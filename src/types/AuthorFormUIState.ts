@@ -2,7 +2,7 @@ import type { Author } from "./Author";
 import type { AuthorFormButtonState } from "./AuthorFormButtonState";
 import type { AuthorForms } from "./AuthorForms";
 import type { AuthorDoc } from "./OpenLibrary";
-import type { AuthorResult } from "./PenguinRandomHouseSearchResult";
+import type { AuthorResult } from "./PenguinRandomHouse";
 
 
 export interface AuthorFormUIState extends Author {

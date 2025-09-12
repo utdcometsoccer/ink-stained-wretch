@@ -2,7 +2,7 @@ import type { AuthorFormButtonState } from "./AuthorFormButtonState";
 import type { AuthorForms } from "./AuthorForms";
 import type { Domain } from "./Domain";
 import type { AuthorDoc } from "./OpenLibrary";
-import type { AuthorResult } from "./PenguinRandomHouseSearchResult";
+import type { AuthorResult } from "./PenguinRandomHouse";
 
 
 export type AuthorFormAction = { type: "UPDATE_FIELD"; payload: { name: string; value: any; }; } |

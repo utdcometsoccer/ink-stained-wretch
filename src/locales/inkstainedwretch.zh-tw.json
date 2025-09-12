@@ -127,7 +127,8 @@
         "delete": "刪除",
         "addBook": "新增書籍",
         "importOpenLibrary": "從 Open Library 匯入書籍",
-        "importGoogleBooks": "從 Google Books 匯入書籍"
+        "importGoogleBooks": "從 Google Books 匯入書籍",
+        "importPenguinBooks": "從 Penguin Random House 匯入書籍"
     },
     "ArticleForm": {
         "legend": "編輯文章",

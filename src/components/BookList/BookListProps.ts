@@ -8,5 +8,6 @@ export interface BookListProps {
   onAdd: () => void;
   onDelete: (id: string) => void;
   openLibraryAuthorKeys?: string[];
+  penguinAuthorKeys?: string[];
   culture?: string;
 }

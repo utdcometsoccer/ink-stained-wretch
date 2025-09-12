@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { PenguinRandomHouseAuthorImport } from '../src/components/PenguinRandomHouseAuthorImport';
-import type { AuthorResult } from '../src/types/PenguinRandomHouseSearchResult';
+import type { AuthorResult } from '../src/types/PenguinRandomHouse';
 
 describe('PenguinRandomHouseAuthorImport', () => {
   const authors: AuthorResult[] = [
