@@ -11,6 +11,7 @@ import { SocialForm } from "../SocialForm";
 import { OpenLibraryAuthorImport } from "../OpenLibraryAuthorImport";
 import { OpenLibraryAuthorForm } from "../OpenLibraryAuthorForm";
 import { PenguinRandomHouseAuthorImport } from "../PenguinRandomHouseAuthorImport";
+import { PenguinRandomHouseAuthorDetail } from "../PenguinRandomHouseAuthorDetail";
 
 
 export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSave, onCancel }) => {
@@ -50,6 +51,41 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
   switch (form.authorFormState) {
     case "Loading":
       return <CircularProgress />;
+    case "ImportPenguinAuthor":
+      return form.selectedPenguinAuthor ? (
+        <PenguinRandomHouseAuthorDetail
+          author={form.selectedPenguinAuthor}
+          onSave={author => {
+            dispatchForm({ type: "IMPORT_PENGUIN_AUTHOR_ID", payload: author.key ? [author.key] : [] });
+            dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "default" });
+          }}
+          onCancel={() => dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "default" })}
+        />
+      ): <AuthorMainForm
+        form={form}
+        dispatchForm={dispatchForm}
+        token={token}
+        cultureInfo={cultureInfo}
+        handleChange={handleChange}
+        handleLanguageChange={handleLanguageChange}
+        handleCountryChange={handleCountryChange}
+        handleSubmit={handleSubmit}
+        handleEditArticle={handleEditArticle}
+        handleAddArticle={handleAddArticle}
+        handleDeleteArticle={handleDeleteArticle}
+        handleEditBook={handleEditBook}
+        handleAddBook={handleAddBook}
+        handleDeleteBook={handleDeleteBook}
+        handleEditSocial={handleEditSocial}
+        handleAddSocial={handleAddSocial}
+        handleDeleteSocial={handleDeleteSocial}
+        importBook={importBook}
+        importAuthorFromOpenLibrary={importAuthorFromOpenLibrary}
+        importAuthorFromPenguinRandomHouse={importAuthorFromPenguinRandomHouse}
+        handleCancelClick={handleCancelClick}
+        listUserImages={listUserImages}
+        deleteImage={deleteImage}
+      />;
     case "AuthorDocForm":
       return form.selectedAuthorDoc ? (
         <OpenLibraryAuthorForm

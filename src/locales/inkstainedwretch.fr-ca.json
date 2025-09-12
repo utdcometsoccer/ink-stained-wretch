@@ -23,13 +23,34 @@
         "navigation": "Navigation",
         "close": "Fermer",
         "navItems": {
-            "chooseCulture": { "label": "Culture", "description": "Choisir la langue et la région" },
-            "login": { "label": "Connexion", "description": "Se connecter / S'inscrire" },
-            "domainRegistration": { "label": "Domaine", "description": "Enregistrer le domaine" },
-            "authorPage": { "label": "Auteur", "description": "Page de l'auteur" },
-            "chooseSubscription": { "label": "Forfaits", "description": "Choisir un forfait" },
-            "checkout": { "label": "Paiement", "description": "Compléter l'achat" },
-            "thankYou": { "label": "Succès", "description": "Merci" }
+            "chooseCulture": {
+                "label": "Culture",
+                "description": "Choisir la langue et la région"
+            },
+            "login": {
+                "label": "Connexion",
+                "description": "Se connecter / S'inscrire"
+            },
+            "domainRegistration": {
+                "label": "Domaine",
+                "description": "Enregistrer le domaine"
+            },
+            "authorPage": {
+                "label": "Auteur",
+                "description": "Page de l'auteur"
+            },
+            "chooseSubscription": {
+                "label": "Forfaits",
+                "description": "Choisir un forfait"
+            },
+            "checkout": {
+                "label": "Paiement",
+                "description": "Compléter l'achat"
+            },
+            "thankYou": {
+                "label": "Succès",
+                "description": "Merci"
+            }
         }
     },
     "DomainRegistration": {
@@ -189,16 +210,35 @@
         "note": "Tous les forfaits incluent l'hébergement d'images pour jusqu'à 20 images."
     },
     "DomainRegistrationsList": {
-    "title": "Inscriptions de domaine",
-    "error": "Échec du chargement des inscriptions de domaine.",
-    "loading": "Chargement des inscriptions de domaine...",
-    "empty": "Aucune inscription de domaine trouvée."
-  },
+        "title": "Inscriptions de domaine",
+        "error": "Échec du chargement des inscriptions de domaine.",
+        "loading": "Chargement des inscriptions de domaine...",
+        "empty": "Aucune inscription de domaine trouvée."
+    },
     "PenguinRandomHouseAuthorList": {
         "title": "M auteurs de Penguin Random House",
         "import": "Importer",
         "importTitle": "Importer un auteur de Penguin Random House",
         "goBack": "Retourner",
         "noResults": "Aucun auteur trouvé."
+    },
+    "PenguinRandomHouseAuthorDetail": {
+        "title": "Détails de l'auteur de Penguin Random House",
+        "name": "Nom",
+        "score": "Score",
+        "url": "URL",
+        "domain": "Domaine",
+        "titleField": "Titre",
+    "description": "Description",
+        "authorFirst": "Prénom",
+        "authorLast": "Nom de famille",
+        "photoCredit": "Crédit photo",
+        "onTour": "En tournée",
+        "seriesAuthor": "Auteur de la série",
+        "seriesIsbn": "ISBN de la série",
+        "seriesCount": "Nombre de livres de la série",
+        "keywordId": "ID de mot-clé",
+        "save": "Enregistrer",
+        "cancel": "Annuler"
     }
 }

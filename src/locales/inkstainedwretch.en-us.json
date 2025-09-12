@@ -230,5 +230,24 @@
         "importTitle": "Import Author from Penguin Random House",
         "goBack": "Go Back",
         "noResults": "No authors found."
+    },
+    "PenguinRandomHouseAuthorDetail": {
+        "title": "Penguin Random House Author Details",
+        "name": "Name",
+        "score": "Score",
+        "url": "URL",
+        "domain": "Domain",
+        "titleField": "Title",
+        "description": "Description",
+        "authorFirst": "First Name",
+        "authorLast": "Last Name",
+        "photoCredit": "Photo Credit",
+        "onTour": "On Tour",
+        "seriesAuthor": "Series Author",
+        "seriesIsbn": "Series ISBN",
+        "seriesCount": "Series Count",
+        "keywordId": "Keyword ID",
+        "save": "Save",
+        "cancel": "Cancel"
     }
 }

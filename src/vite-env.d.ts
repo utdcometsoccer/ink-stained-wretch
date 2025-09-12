@@ -26,6 +26,7 @@ interface ImportMetaEnv {
   readonly VITE_PENGUIN_RANDOM_HOUSE_API_KEY: string;
   readonly VITE_PENGUIN_RANDOM_HOUSE_API_DOMAIN: string;
   readonly VITE_PENGUIN_RANDOM_HOUSE_SEARCH_API: string;
+  readonly VITE_PENGUIN_RANDOM_HOUSE_URL: string;
 }
 
 interface ImportMeta {

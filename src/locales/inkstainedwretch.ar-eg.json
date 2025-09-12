@@ -200,5 +200,24 @@
         "importTitle": "استيراد مؤلف من Penguin Random House",
         "goBack": "العودة",
         "noResults": "لم يتم العثور على مؤلفين."
+    },
+    "PenguinRandomHouseAuthorDetail": {
+        "title": "تفاصيل مؤلف Penguin Random House",
+        "name": "الاسم",
+        "score": "الدرجة",
+        "url": "الرابط",
+        "domain": "النطاق",
+        "titleField": "العنوان",
+        "description": "الوصف",
+        "authorFirst": "الاسم الأول",
+        "authorLast": "الاسم الأخير",
+        "photoCredit": "حقوق الصورة",
+        "onTour": "في جولة",
+        "seriesAuthor": "مؤلف السلسلة",
+        "seriesIsbn": "ISBN السلسلة",
+        "seriesCount": "عدد السلاسل",
+        "keywordId": "معرف الكلمة الرئيسية",
+        "save": "حفظ",
+        "cancel": "إلغاء"
     }
 }

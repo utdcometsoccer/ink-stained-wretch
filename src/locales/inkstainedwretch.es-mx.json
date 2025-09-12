@@ -221,5 +221,24 @@
         "importTitle": "Importar autor de Penguin Random House",
         "goBack": "Regresar",
         "noResults": "No se encontraron autores."
+    },
+    "PenguinRandomHouseAuthorDetail": {
+        "title": "Detalles del autor de Penguin Random House",
+        "name": "Nombre",
+        "score": "Puntuación",
+        "url": "URL",
+        "domain": "Dominio",
+        "titleField": "Título",
+        "description": "Descripción",
+        "authorFirst": "Nombre de pila",
+        "authorLast": "Apellido",
+        "photoCredit": "Créditos de la foto",
+        "onTour": "En gira",
+        "seriesAuthor": "Autor de la serie",
+        "seriesIsbn": "ISBN de la serie",
+        "seriesCount": "Número de series",
+        "keywordId": "ID de palabra clave",
+        "save": "Guardar",
+        "cancel": "Cancelar"
     }
 }

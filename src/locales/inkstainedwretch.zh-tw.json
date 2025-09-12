@@ -221,5 +221,24 @@
         "importTitle": "從 Penguin Random House 匯入作者",
         "goBack": "返回",
         "noResults": "未找到作者。"
+    },
+    "PenguinRandomHouseAuthorDetail": {
+        "title": "Penguin Random House 作者詳細資訊",
+        "name": "姓名",
+        "score": "分數",
+        "url": "網址",
+        "domain": "領域",
+        "titleField": "標題",
+        "description": "描述",
+        "authorFirst": "名字",
+        "authorLast": "姓氏",
+        "photoCredit": "照片來源",
+        "onTour": "巡迴中",
+        "seriesAuthor": "系列作者",
+        "seriesIsbn": "系列 ISBN",
+        "seriesCount": "系列數量",
+        "keywordId": "關鍵字 ID",
+        "save": "儲存",
+        "cancel": "取消"
     }
 }

@@ -1,0 +1,47 @@
+.prh-author-detail-container {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  max-width: 480px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+}
+
+.prh-author-detail-fields {
+  margin-bottom: 1.5rem;
+}
+
+.prh-author-detail-fields > div {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.prh-author-detail-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.prh-author-detail-actions .app-btn {
+  padding: 0.4rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: none;
+  background: #0070f3;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.prh-author-detail-actions .app-btn.cancel {
+  background: #eee;
+  color: #333;
+}
+
+.prh-author-detail-actions .app-btn:hover:not(.cancel) {
+  background: #005bb5;
+}
+
+.prh-author-detail-actions .app-btn.cancel:hover {
+  background: #ddd;
+}

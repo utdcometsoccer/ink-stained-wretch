@@ -1,36 +1,10 @@
+
 import type { AuthorDocListText } from "./AuthorDocListText";
 import type { BookFormText } from "./BookFormText";
 import type { ChooseSubscriptionText } from "./ChooseSubscriptionText";
 import type { SocialFormText } from "./SocialFormText";
 import type { SocialListText } from "./SocialListText";
 
-export interface DomainRegistrationsListText {
-    title: string;
-    error: string;
-    loading: string;
-    empty: string;
-    select: string;
-    selected: string;
-}
-
-export interface AuthorRegistrationText {
-    authorListTitle: string;
-    languageLabel: string;
-    regionLabel: string;
-    editAuthor: string;
-    deleteAuthor: string;
-    addAuthor: string;
-    continue: string;
-}
-export interface ArticleListText {
-    title: string;
-    date: string;
-    publication: string;
-    url: string;
-    edit: string;
-    delete: string;
-    addArticle: string;
-}
 export interface ArticleFormText {
     legend: string;
     title: string;
@@ -40,113 +14,17 @@ export interface ArticleFormText {
     save: string;
     cancel: string;
 }
-export interface BookListText {
+
+export interface ArticleListText {
     title: string;
-    description: string;
+    date: string;
+    publication: string;
     url: string;
     edit: string;
     delete: string;
-    addBook: string;
-    importOpenLibrary: string;
-    importGoogleBooks: string;
-}
-export interface ChooseCultureText {
-    title: string;
-    subtitle: string;
-    legend: string;
-    languageLabel: string;
-    countryLabel: string;
-    continue: string;
-    cancel: string;
-    cookieConsent: string;
-    cookiesInfo: string;
-}
-export interface CountdownIndicatorText {
-    redirecting: string;
-}
-export interface DomainInputText {
-    label: string;
-    placeholder: string;
-    error: string;
-    success: string;
-}
-export interface CheckoutText {
-    title: string;
-    planDetails: string;
-    price: string;
-    subscribePay: string;
-    redirecting: string;
-    trustText: string;
-    selectPlan: string;
-}
-export interface LoginRegisterText {
-    loginHeader: {
-        title: string;
-        subtitle: string;
-    };
-    loginButton: {
-        label: string;
-    };
-    logoutButton: {
-        label: string;
-    };
-    countdownIndicator: {
-        text: string;
-    }
+    addArticle: string;
 }
 
-export interface ThankYouText {
-    title: string;
-    message: string;
-}
-
-export interface NavbarText {
-    brand: string;
-    navigation: string;
-    close: string;
-    navItems: {
-        chooseCulture: { label: string; description: string };
-        login: { label: string; description: string };
-        domainRegistration: { label: string; description: string };
-        authorPage: { label: string; description: string };
-        chooseSubscription: { label: string; description: string };
-        checkout: { label: string; description: string };
-        thankYou: { label: string; description: string };
-    };
-}
-
-export interface DomainRegistrationText {
-    title: string;
-    subtitle: string;
-    submit: string;
-    firstName: string;
-    lastName: string;
-    address: string;
-    address2: string;
-    city: string;
-    state: string;
-    country: string;
-    zipCode: string;
-    emailAddress: string;
-    telephoneNumber: string;
-}
-
-export interface ErrorPageText {
-    title: string;
-    devMessage: string;
-    details: string;
-    tryAgain: string;
-    userMessage: string;
-    return: string;
-}
-
-export interface ImageManagerText {
-    title: string;
-    loading: string;
-    select: string;
-    delete: string;
-    refresh: string;
-}
 export interface AuthorMainFormText {
     legend: string;
     authorName: string;
@@ -170,6 +48,135 @@ export interface AuthorMainFormText {
     cancel: string;
 };
 
+export interface AuthorRegistrationText {
+    authorListTitle: string;
+    languageLabel: string;
+    regionLabel: string;
+    editAuthor: string;
+    deleteAuthor: string;
+    addAuthor: string;
+    continue: string;
+}
+
+export interface BookListText {
+    title: string;
+    description: string;
+    url: string;
+    edit: string;
+    delete: string;
+    addBook: string;
+    importOpenLibrary: string;
+    importGoogleBooks: string;
+}
+
+export interface CheckoutText {
+    title: string;
+    planDetails: string;
+    price: string;
+    subscribePay: string;
+    redirecting: string;
+    trustText: string;
+    selectPlan: string;
+}
+
+export interface ChooseCultureText {
+    title: string;
+    subtitle: string;
+    legend: string;
+    languageLabel: string;
+    countryLabel: string;
+    continue: string;
+    cancel: string;
+    cookieConsent: string;
+    cookiesInfo: string;
+}
+
+// ...interface imported above...
+
+export interface CountdownIndicatorText {
+    redirecting: string;
+}
+
+export interface DomainInputText {
+    label: string;
+    placeholder: string;
+    error: string;
+    success: string;
+}
+
+export interface DomainRegistrationText {
+    title: string;
+    subtitle: string;
+    submit: string;
+    firstName: string;
+    lastName: string;
+    address: string;
+    address2: string;
+    city: string;
+    state: string;
+    country: string;
+    zipCode: string;
+    emailAddress: string;
+    telephoneNumber: string;
+}
+
+export interface DomainRegistrationsListText {
+    title: string;
+    error: string;
+    loading: string;
+    empty: string;
+    select: string;
+    selected: string;
+}
+
+export interface ErrorPageText {
+    title: string;
+    devMessage: string;
+    details: string;
+    tryAgain: string;
+    userMessage: string;
+    return: string;
+}
+
+export interface ImageManagerText {
+    title: string;
+    loading: string;
+    select: string;
+    delete: string;
+    refresh: string;
+}
+
+export interface LoginRegisterText {
+    loginHeader: {
+        title: string;
+        subtitle: string;
+    };
+    loginButton: {
+        label: string;
+    };
+    logoutButton: {
+        label: string;
+    };
+    countdownIndicator: {
+        text: string;
+    }
+}
+
+export interface NavbarText {
+    brand: string;
+    navigation: string;
+    close: string;
+    navItems: {
+        chooseCulture: { label: string; description: string };
+        login: { label: string; description: string };
+        domainRegistration: { label: string; description: string };
+        authorPage: { label: string; description: string };
+        chooseSubscription: { label: string; description: string };
+        checkout: { label: string; description: string };
+        thankYou: { label: string; description: string };
+    };
+}
+
 export interface OpenLibraryAuthorFormText {
     legend: string;
     key: string;
@@ -186,6 +193,38 @@ export interface OpenLibraryAuthorFormText {
     cancel: string;
 }
 
+export interface PenguinRandomHouseAuthorDetailText {
+    title: string;
+    name: string;
+    score: string;
+    url: string;
+    domain: string;
+    titleField: string;
+    description: string;
+    authorFirst: string;
+    authorLast: string;
+    photoCredit: string;
+    onTour: string;
+    seriesAuthor: string;
+    seriesIsbn: string;
+    seriesCount: string;
+    keywordId: string;
+    save: string;
+    cancel: string;
+}
+
+export interface PenguinRandomHouseAuthorListText {
+    title: string;
+    import: string;
+    importTitle: string;
+    goBack: string;
+    noResults: string;
+}
+
+export interface ThankYouText {
+    title: string;
+    message: string;
+}
 
 export interface LocalizedText {
     LoginRegister: LoginRegisterText;
@@ -211,11 +250,5 @@ export interface LocalizedText {
     ChooseSubscription: ChooseSubscriptionText;
     AuthorRegistration: AuthorRegistrationText;
     PenguinRandomHouseAuthorList?: PenguinRandomHouseAuthorListText;
-}
-export interface PenguinRandomHouseAuthorListText {
-    title: string;
-    import: string;
-    importTitle: string;
-    goBack: string;
-    noResults: string;
+    PenguinRandomHouseAuthorDetail?: PenguinRandomHouseAuthorDetailText;
 }
