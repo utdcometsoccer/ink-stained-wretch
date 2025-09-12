@@ -1,20 +1,14 @@
-import { useChooseSubscriptionLogic } from '../../hooks/useChooseSubscription';
-import "./ChooseSubscription.css";
-import { useTrackComponent } from '../../hooks/useTrackComponent';
-import { useGetLocalizedText } from '../../hooks/useGetLocalizedText';
-import type { ChooseCultureProps } from '../ChooseCulture/ChooseCultureProps';
 import type { FC } from 'react';
+import { useChooseSubscriptionLogic } from '../../hooks/useChooseSubscription';
+import { useLocalizationContext } from '../../hooks/useLocalizationContext';
+import { useTrackComponent } from '../../hooks/useTrackComponent';
+import type { ChooseCultureProps } from '../ChooseCulture/ChooseCultureProps';
+import "./ChooseSubscription.css";
 
 const ChooseSubscription:FC<ChooseCultureProps> = (props) => {
   useTrackComponent('ChooseSubscription', props);
   const { subState, plans, handleSelect, handleContinue } = useChooseSubscriptionLogic(props.state, props.dispatch);
-  const culture = props.culture || "en-US";
-  const localized = useGetLocalizedText(culture)?.ChooseSubscription || {
-    title: 'Choose Your Subscription Plan',
-    selected: 'Selected',
-    continue: 'Continue',
-    note: 'You can change or cancel your subscription at any time.'
-  };
+  const localized = useLocalizationContext().ChooseSubscription;
   
   return (
     <div className="choose-subscription-page">

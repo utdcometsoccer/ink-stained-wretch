@@ -1,5 +1,6 @@
 import type { Dispatch } from "react";
 import { useEffect, useReducer, useRef } from "react";
+import { domainRegistrationReducer } from "../reducers/domainRegistrationReducer";
 import { domainRegex } from "../services/domainRegex";
 import { domainValidate } from "../services/domainValidate";
 import { parseDomain } from "../services/parseDomain";
@@ -11,9 +12,8 @@ import type { DomainRegistrationLogicReturn } from "../types/DomainRegistrationL
 import type { DomainRegistrationsFetcher } from "../types/DomainRegistrationsFetcher";
 import type { State } from "../types/State";
 import { useDomainRegistrations } from "./useDomainRegistrations";
-import { useGetLocalizedText } from "./useGetLocalizedText";
+import { useLocalizationContext } from "./useLocalizationContext";
 import { useTrackComponent } from "./useTrackComponent";
-import { domainRegistrationReducer } from "../reducers/domainRegistrationReducer";
 
 
 export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Action>, domainRegistrationsFetcher: DomainRegistrationsFetcher = useDomainRegistrations): DomainRegistrationLogicReturn {
@@ -26,30 +26,9 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
       }, [data, dispatch]);
   
   const culture = cultureInfo?.Culture || 'en-us';
-  const localizedText = useGetLocalizedText(culture);
-  const domainRegistrationText = localizedText?.DomainRegistration || {
-        title: "Domain Registration",
-        subtitle: "Register your domain and contact information.",
-        submit: "Submit",
-        firstName: "First Name",
-        lastName: "Last Name",
-        address: "Address",
-        address2: "Address 2",
-        city: "City",
-        state: "State / Province:",
-        country: "Country:",
-        zipCode: "Zip Code",
-        emailAddress: "Email Address",
-        telephoneNumber: "Telephone Number"
-    };
-  const domainRegistrationsListText = localizedText?.DomainRegistrationsList || {
-        title: "Domain Registrations",
-        error: "Error loading domain registrations.",
-        loading: "Loading...",
-        empty: "No domain registrations found.",
-        select: "Select",
-        selected: "Selected"
-    };
+  const localizedText = useLocalizationContext();
+  const domainRegistrationText = localizedText.DomainRegistration;
+  const domainRegistrationsListText = localizedText.DomainRegistrationsList;
   useTrackComponent('DomainRegistration', { state, dispatch, culture });
   const { domainRegistration } = state;
   const { domain } = domainRegistration || {};

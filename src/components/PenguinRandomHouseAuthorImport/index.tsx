@@ -1,25 +1,12 @@
 import ImportExportIcon from '@mui/icons-material/ImportExport';
-import type { FC } from 'react';
-import { useGetLocalizedText } from '../../hooks/useGetLocalizedText';
-import { useTrackComponent } from '../../hooks/useTrackComponent';
+import CircularProgress from '@mui/material/CircularProgress';
+import { type FC } from 'react';
+import { useLocalizationContext } from '../../hooks/useLocalizationContext';
 import { usePenguinRandomHouseAuthorSearch } from '../../hooks/usePenguinRandomHouseAuthorSearch';
+import { useTrackComponent } from '../../hooks/useTrackComponent';
 import type { AuthorResult } from '../../types/PenguinRandomHouse';
 import './PenguinRandomHouseAuthorImport.css';
-import CircularProgress from '@mui/material/CircularProgress';
-
-export interface PenguinRandomHouseAuthorImportProps {
-  query: string;
-  onAuthorClick: (author: AuthorResult) => void;
-  onImport: (author: AuthorResult) => void;
-  onGoBack: () => void;
-  importedKeys?: string[];
-  culture?: string;
-  authorSearchHook?: (query: string) => {
-    penguinAuthors: AuthorResult[] | null;
-    error: string | null;
-    loading: boolean;
-  };
-}
+import type { PenguinRandomHouseAuthorImportProps } from './PenguinRandomHouseAuthorImportProps';
 
 const PenguinRandomHouseAuthorImport: FC<PenguinRandomHouseAuthorImportProps> = ({
   query,
@@ -27,17 +14,11 @@ const PenguinRandomHouseAuthorImport: FC<PenguinRandomHouseAuthorImportProps> = 
   onImport,
   onGoBack,
   importedKeys = [],
-  culture,
   authorSearchHook = usePenguinRandomHouseAuthorSearch
 }) => {
-  const text = useGetLocalizedText(culture ?? 'en-us')?.PenguinRandomHouseAuthorList || {
-    title: 'Penguin Random House Authors',
-    import: 'Import',
-    importTitle: 'Import Author',
-    goBack: 'Go Back',
-    noResults: 'No authors found.',
-  };
-  useTrackComponent('PenguinRandomHouseAuthorImport', { query, importedKeys, culture });
+  const localization = useLocalizationContext();
+  const text = localization.PenguinRandomHouseAuthorList;
+  useTrackComponent('PenguinRandomHouseAuthorImport', { query, importedKeys });
   const { penguinAuthors, error, loading } = authorSearchHook(query);
 
   return (
@@ -81,3 +62,4 @@ const PenguinRandomHouseAuthorImport: FC<PenguinRandomHouseAuthorImportProps> = 
 };
 
 export { PenguinRandomHouseAuthorImport };
+

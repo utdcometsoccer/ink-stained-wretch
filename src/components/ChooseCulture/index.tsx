@@ -1,11 +1,11 @@
+import { CountryDropdown, LanguageDropdown, type Language } from '@idahoedokpayi/react-country-state-selector';
+import type { FC } from "react";
+import { useChooseCultureLogic } from '../../hooks/useChooseCulture';
+import { useLocalizationContext } from "../../hooks/useLocalizationContext";
+import { useTrackComponent } from '../../hooks/useTrackComponent';
 import { CountdownIndicator } from "../CountdownIndicator";
 import "./ChooseCulture.css";
-import { LanguageDropdown, CountryDropdown, type Language } from '@idahoedokpayi/react-country-state-selector';
-import { useChooseCultureLogic } from '../../hooks/useChooseCulture';
-import type { FC } from "react";
 import type { ChooseCultureProps } from "./ChooseCultureProps";
-import { useTrackComponent } from '../../hooks/useTrackComponent';
-import { useGetLocalizedText } from '../../hooks/useGetLocalizedText';
 
 
 export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
@@ -21,17 +21,7 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
   } = useChooseCultureLogic(state, dispatch);
   const { useCookies } = state;
   const culture = state.cultureInfo?.Culture || 'en-us';
-  const localized = useGetLocalizedText(culture)?.ChooseCulture || {
-    title: 'Choose Your Language and Region',
-    subtitle: 'Select your preferred language and region for the best experience.',
-    legend: 'Select Language and Country',
-    languageLabel: 'Language:',
-    countryLabel: 'Country:',
-    continue: 'Continue',
-    cancel: 'Cancel',
-    cookieConsent: 'I consent to the use of cookies for improving my experience.',
-    cookiesInfo: 'We use cookies to store your language and region preferences as well as other settings, ensuring a personalized experience each time you visit our site. By consenting, you help us enhance your interaction with our platform.'
-  };
+  const localized = useLocalizationContext().ChooseCulture;
   return (
     <div className="choose-culture-container">
       <CountdownIndicator
@@ -40,19 +30,19 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
         culture={culture}
         countdownRef={countdownRef}
       />
-      <h1>{localized?.title}</h1>
-      <p>{localized?.subtitle}</p>
+      <h1>{localized.title}</h1>
+      <p>{localized.subtitle}</p>
       <form
         className="choose-culture-form"
         onSubmit={handleSubmit}
       >
         <fieldset className="choose-culture-fieldset">
-          <legend className="choose-culture-legend">{localized?.legend}</legend>
+          <legend className="choose-culture-legend">{localized.legend}</legend>
           <div className="choose-culture-dropdown-group">
             <LanguageDropdown
               selectedLanguage={localState.language as Language}
               onLanguageChange={handleLanguageChange}
-              Label={localized?.languageLabel}
+              Label={localized.languageLabel}
               culture={state.cultureInfo}
             />
           </div>
@@ -60,7 +50,7 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
             <CountryDropdown
               selectedCountry={localState.country}
               culture={state.cultureInfo}
-              Label={localized?.countryLabel}
+              Label={localized.countryLabel}
               onCountryChange={handleCountryChange}
             />
           </div>
@@ -71,7 +61,7 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
             className={`app-btn${typeof localState.countdown === "number" && localState.countdown > 0 ? " cancel" : ""}`}
             disabled={typeof localState.countdown === "number" && localState.countdown > 0}
           >
-            {localized?.continue}
+            {localized.continue}
           </button>
           <button
             type="button"
@@ -79,17 +69,17 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
             onClick={handleCancel}
             disabled={typeof localState.countdown !== "number" || localState.countdown <= 0}
           >
-            {localized?.cancel ?? 'Cancel'}
+            {localized.cancel}
           </button>
         </div>
       </form>
       <div className="choose-culture-cookies">
         <input type="checkbox" id="cookieConsent" name="cookieConsent" checked={useCookies} onChange={handleCookieConsentChange} />
-        <label htmlFor="cookieConsent">{localized?.cookieConsent}</label>
+        <label htmlFor="cookieConsent">{localized.cookieConsent}</label>
       </div>
       <div className="choose-culture-cookies-info">
         <p>
-          {localized?.cookiesInfo}
+          {localized.cookiesInfo}
         </p>
       </div>
     </div>

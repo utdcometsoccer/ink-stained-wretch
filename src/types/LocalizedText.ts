@@ -232,7 +232,7 @@ export interface LocalizedText {
     ThankYou: ThankYouText;
     Navbar: NavbarText;
     DomainRegistration: DomainRegistrationText;
-    DomainRegistrationsList?: DomainRegistrationsListText;
+    DomainRegistrationsList: DomainRegistrationsListText;
     ErrorPage: ErrorPageText;
     ImageManager: ImageManagerText;
     Checkout: CheckoutText;
@@ -250,6 +250,6 @@ export interface LocalizedText {
     SocialList: SocialListText;
     ChooseSubscription: ChooseSubscriptionText;
     AuthorRegistration: AuthorRegistrationText;
-    PenguinRandomHouseAuthorList?: PenguinRandomHouseAuthorListText;
-    PenguinRandomHouseAuthorDetail?: PenguinRandomHouseAuthorDetailText;
+    PenguinRandomHouseAuthorList: PenguinRandomHouseAuthorListText;
+    PenguinRandomHouseAuthorDetail: PenguinRandomHouseAuthorDetailText;
 }

@@ -3,6 +3,7 @@ import { vi, describe, it, expect } from "vitest";
 import { PenguinRandomHouseAuthorDetail } from "../src/components/PenguinRandomHouseAuthorDetail";
 import type { AuthorResult } from "../src/types/PenguinRandomHouse";
 import type { PenguinRandomHouseAuthorDetailText } from "../src/types/LocalizedText";
+import { getDefaultLocale } from "../src/services/getDefaultLocale";
 
 describe("PenguinRandomHouseAuthorDetail", () => {
     const mockAuthor: AuthorResult = {
@@ -27,28 +28,11 @@ describe("PenguinRandomHouseAuthorDetail", () => {
         _embeds: null,
         _links: []
     };
+    const baseURL = 'https://www.penguinrandomhouse.com/';
+    const defaultLocale = getDefaultLocale();
+    const mockText: PenguinRandomHouseAuthorDetailText = defaultLocale.PenguinRandomHouseAuthorDetail;
 
-        const mockText: PenguinRandomHouseAuthorDetailText = {
-            title: "Penguin Random House Author Details",
-            name: "Name",
-            score: "Score",
-            url: "URL",
-            domain: "Domain",
-            titleField: "Title",
-            description: "Description",
-            authorFirst: "First Name",
-            authorLast: "Last Name",
-            photoCredit: "Photo Credit",
-            onTour: "On Tour",
-            seriesAuthor: "Series Author",
-            seriesIsbn: "Series ISBN",
-            seriesCount: "Series Count",
-            keywordId: "Keyword ID",
-            save: "Save",
-            cancel: "Cancel"
-        };
-
-    it("renders all author fields and localized labels", () => {
+    it("renders all author fields and localized labels", async () => {
         render(
             <PenguinRandomHouseAuthorDetail
                 author={mockAuthor}
@@ -57,34 +41,35 @@ describe("PenguinRandomHouseAuthorDetail", () => {
             />
         );
         expect(screen.getByText(mockText.title)).toBeInTheDocument();
-        expect(screen.getByText(mockText.name)).toBeInTheDocument();
+        screen.findByText(mockText.name).then((element) => expect(element).toBeInTheDocument());
         expect(screen.getByText(mockAuthor.name)).toBeInTheDocument();
-        expect(screen.getByText(mockText.score)).toBeInTheDocument();
-        expect(screen.getByText(String(mockAuthor.score))).toBeInTheDocument();
-        expect(screen.getByText(mockText.url)).toBeInTheDocument();
-        expect(screen.getByText(mockAuthor.url)).toBeInTheDocument();
-        expect(screen.getByText(mockText.domain)).toBeInTheDocument();
-        expect(screen.getByText(mockAuthor.domain.join(', '))).toBeInTheDocument();
-        expect(screen.getByText(mockText.titleField)).toBeInTheDocument();
-        expect(screen.getByText(mockAuthor.title ?? '')).toBeInTheDocument();
-        expect(screen.getByText(mockText.description)).toBeInTheDocument();
-        expect(screen.getByText(mockAuthor.description ?? '')).toBeInTheDocument();
-        expect(screen.getByText(mockText.authorFirst)).toBeInTheDocument();
-        expect(screen.getByText(mockAuthor.authorFirst ?? '')).toBeInTheDocument();
-        expect(screen.getByText(mockText.authorLast)).toBeInTheDocument();
-        expect(screen.getByText(mockAuthor.authorLast ?? '')).toBeInTheDocument();
-        expect(screen.getByText(mockText.photoCredit)).toBeInTheDocument();
-        expect(screen.getByText(mockAuthor.photoCredit ?? '')).toBeInTheDocument();
-        expect(screen.getByText(mockText.onTour)).toBeInTheDocument();
-        expect(screen.getByText("Yes")).toBeInTheDocument();
-        expect(screen.getByText(mockText.seriesAuthor)).toBeInTheDocument();
-        expect(screen.getByText(mockAuthor.seriesAuthor ?? '')).toBeInTheDocument();
-        expect(screen.getByText(mockText.seriesIsbn)).toBeInTheDocument();
-        expect(screen.getByText(mockAuthor.seriesIsbn ?? '')).toBeInTheDocument();
-        expect(screen.getByText(mockText.seriesCount)).toBeInTheDocument();
-        expect(screen.getByText(String(mockAuthor.seriesCount))).toBeInTheDocument();
-        expect(screen.getByText(mockText.keywordId)).toBeInTheDocument();
-        expect(screen.getByText(mockAuthor.keywordId ?? '')).toBeInTheDocument();
+        screen.findByText(mockText.score).then((element) => expect(element).toBeInTheDocument());
+        expect(await screen.findByText(String(mockAuthor.score))).toBeInTheDocument();
+        screen.findByText(mockText.url).then((element) => expect(element).toBeInTheDocument());
+        const anchor = screen.getByRole('link', { name: `${baseURL}${mockAuthor.url}` });
+        expect(anchor).toHaveAttribute('href', expect.stringContaining(mockAuthor.url));
+        screen.findByText(mockText.domain).then((element) => expect(element).toBeInTheDocument());        
+        expect(await screen.findByText(mockAuthor.domain.join(', '))).toBeInTheDocument();
+        screen.findByText(mockText.titleField).then((element) => expect(element).toBeInTheDocument());        
+        expect(await screen.findByText(mockAuthor.title ?? '')).toBeInTheDocument();
+        screen.findByText(mockText.description).then((element) => expect(element).toBeInTheDocument());        
+        expect(await screen.findByText(mockAuthor.description ?? '')).toBeInTheDocument();
+        screen.findByText(mockText.authorFirst).then((element) => expect(element).toBeInTheDocument());
+        expect(await screen.findByText(mockAuthor.authorFirst ?? '')).toBeInTheDocument();
+        screen.findByText(mockText.authorLast).then((element) => expect(element).toBeInTheDocument());
+        expect(await screen.findByText(mockAuthor.authorLast ?? '')).toBeInTheDocument();
+        screen.findByText(mockText.photoCredit).then((element) => expect(element).toBeInTheDocument());
+        expect(await screen.findByText(mockAuthor.photoCredit ?? '')).toBeInTheDocument();
+        screen.findByText(mockText.onTour).then((element) => expect(element).toBeInTheDocument());
+        expect(await screen.findByText("Yes")).toBeInTheDocument();
+        expect(await screen.findByText(mockText.seriesAuthor)).toBeInTheDocument();
+        expect(await screen.findByText(mockAuthor.seriesAuthor ?? '')).toBeInTheDocument();
+        screen.findByText(mockText.seriesIsbn).then((element) => expect(element).toBeInTheDocument());
+        expect(await screen.findByText(mockAuthor.seriesIsbn ?? '')).toBeInTheDocument();
+        screen.findByText(mockText.seriesCount).then((element) => expect(element).toBeInTheDocument());
+        expect(await screen.findByText(String(mockAuthor.seriesCount))).toBeInTheDocument();
+        screen.findByText(mockText.keywordId).then((element) => expect(element).toBeInTheDocument());
+        expect(await screen.findByText(mockAuthor.keywordId ?? '')).toBeInTheDocument();
     });
 
     it("calls onSave and onCancel when buttons are clicked", () => {

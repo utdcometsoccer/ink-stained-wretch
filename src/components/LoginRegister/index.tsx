@@ -1,6 +1,6 @@
 import { AuthenticatedTemplate, UnauthenticatedTemplate } from "@azure/msal-react";
 import type { FC } from "react";
-import { useGetLocalizedText } from "../../hooks/useGetLocalizedText";
+import { useLocalizationContext } from "../../hooks/useLocalizationContext";
 import { useLoginLogic } from "../../hooks/useLoginLogic";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
 import { CountdownIndicator } from "../CountdownIndicator";
@@ -12,8 +12,9 @@ import { LogoutButton } from "./LogoutButton";
 import { LogoutHeader } from "./LogoutHeader";
 
 export const Login: FC<LoginProps> = ({ state, dispatch }) => {
-  const culture = state.cultureInfo?.Culture|| 'en-us';  
-  const loginRegisterText = useGetLocalizedText(culture)?.LoginRegister;
+  
+  const localization = useLocalizationContext();
+  const loginRegisterText = localization.LoginRegister;
   useTrackComponent('Login', { state, dispatch });
 
   const {
@@ -27,18 +28,18 @@ export const Login: FC<LoginProps> = ({ state, dispatch }) => {
   return (
     <div>
       <UnauthenticatedTemplate>
-        <LoginHeader title={loginRegisterText?.loginHeader.title ?? 'Login'} subtitle={loginRegisterText?.loginHeader.subtitle ?? 'Sign in to your account.'} />
-        <LoginButton onSignIn={handleSignIn} className="app-btn" label={loginRegisterText?.loginButton.label ?? 'Sign in with Microsoft'} />
+        <LoginHeader title={loginRegisterText?.loginHeader.title} subtitle={loginRegisterText?.loginHeader.subtitle} />
+        <LoginButton onSignIn={handleSignIn} className="app-btn" label={loginRegisterText?.loginButton.label} />
       </UnauthenticatedTemplate>
       <AuthenticatedTemplate>
         <CountdownIndicator
           countdown={countdown ?? undefined}
           showRedirect={showRedirect}
           countdownRef={countdownRef}
-          text={loginRegisterText ? loginRegisterText.countdownIndicator.text.replace('{countdown}', `${countdown ?? 0}`) : `Redirecting to Domain Registration in ${countdown ?? 0} seconds...`}
+          text={loginRegisterText.countdownIndicator.text.replace('{countdown}', `${countdown ?? 0}`)}
         />
-        <LogoutHeader label={loginRegisterText?.logoutButton.label ?? 'Sign out'} />
-        <LogoutButton onSignOut={handleSignOut} className="app-btn cancel" label={loginRegisterText?.logoutButton.label ?? 'Sign out'} />
+        <LogoutHeader label={loginRegisterText.logoutButton.label} />
+        <LogoutButton onSignOut={handleSignOut} className="app-btn cancel" label={loginRegisterText.logoutButton.label} />
       </AuthenticatedTemplate>
     </div>
   );

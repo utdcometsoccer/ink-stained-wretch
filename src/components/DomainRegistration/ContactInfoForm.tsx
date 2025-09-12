@@ -1,13 +1,14 @@
+import { CountryDropdown, StateDropdown } from "@idahoedokpayi/react-country-state-selector";
 import { type FC } from "react";
-import { StateDropdown, CountryDropdown } from "@idahoedokpayi/react-country-state-selector";
+import { useLocalizationContext } from "../../hooks/useLocalizationContext";
+import { useTrackComponent } from "../../hooks/useTrackComponent";
 import type { ContactInfoFormProps } from "./ContactInfoFormProps";
 import "./DomainRegistration.css";
-import { useTrackComponent } from "../../hooks/useTrackComponent";
-import { useGetLocalizedText } from "../../hooks/useGetLocalizedText";
 
-export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cultureInfo, cityRef, onChange, culture = 'en-us' }) => {
-  useTrackComponent('ContactInfoForm', { state, cultureInfo, cityRef, onChange, culture });
-  const localized = useGetLocalizedText(culture)?.DomainRegistration;
+export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cultureInfo, cityRef, onChange }) => {
+  useTrackComponent('ContactInfoForm', { state, cultureInfo, cityRef, onChange });
+  const localization = useLocalizationContext();
+  const localized = localization.DomainRegistration;
   const contactInfo = {
     ...state.domainRegistration?.contactInformation,
     country: state.domainRegistration?.contactInformation?.country || cultureInfo?.Country || "US"
@@ -15,29 +16,29 @@ export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cultureInfo, 
   
   return (
     <fieldset className="domain-contact-fieldset">
-      <legend>{localized?.title ?? 'Contact Information'}</legend>
+  <legend>{localized.title}</legend>
       <label>
-        {localized?.firstName ?? 'First Name'}:
+        {localized.firstName}:
         <input type="text" name="firstName" value={contactInfo.firstName ?? ""} onChange={onChange} required />
       </label>
       <br />
       <label>
-        {localized?.lastName ?? 'Last Name'}:
+        {localized.lastName}:
         <input type="text" name="lastName" value={contactInfo.lastName ?? ""} onChange={onChange} required />
       </label>
       <br />
       <label>
-        {localized?.address ?? 'Address'}:
+        {localized.address}:
         <input type="text" name="address" value={contactInfo.address ?? ""} onChange={onChange} required />
       </label>
       <br />
       <label>
-        {localized?.address2 ?? 'Address 2'}:
+        {localized.address2}:
         <input type="text" name="address2" value={contactInfo.address2 ?? ""} onChange={onChange} />
       </label>
       <br />
       <label>
-        {localized?.city ?? 'City'}:
+        {localized.city}:
         <input type="text" name="city" value={contactInfo.city ?? ""} onChange={onChange} required ref={cityRef} />
       </label>
       <br />
@@ -50,13 +51,13 @@ export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cultureInfo, 
           } as React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
           onChange(event);
         }}
-        Label={localized?.state ?? "State / Province:"}
+        Label={localized.state}
       />
       <br />
       <CountryDropdown
         selectedCountry={contactInfo.country ?? ""}
         culture={cultureInfo}
-        Label={localized?.country ?? "Country:"}
+        Label={localized.country}
         onCountryChange={country => {
           const event = {
             target: { name: "country", value: country }
@@ -66,17 +67,17 @@ export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cultureInfo, 
       />
       <br />
       <label>
-        {localized?.zipCode ?? "Zip Code"}:
+        {localized.zipCode}:
         <input type="text" name="zipCode" value={contactInfo.zipCode ?? ""} onChange={onChange} required />
       </label>
       <br />
       <label>
-        {localized?.emailAddress ?? "Email Address"}:
+        {localized.emailAddress}:
         <input type="email" name="emailAddress" value={contactInfo.emailAddress ?? ""} onChange={onChange} required />
       </label>
       <br />
       <label>
-        {localized?.telephoneNumber ?? "Telephone Number"}:
+        {localized.telephoneNumber}:
         <input type="tel" name="telephoneNumber" value={contactInfo.telephoneNumber ?? ""} onChange={onChange} required />
       </label>
     </fieldset>

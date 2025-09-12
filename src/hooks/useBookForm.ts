@@ -1,9 +1,9 @@
 import type { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
-import { useGetLocalizedText } from "../hooks/useGetLocalizedText";
 import { useTrackComponent } from "../hooks/useTrackComponent";
 import { deleteImage, listUserImages } from '../services/imageApi';
 import type { Book } from "../types/Book";
+import { useLocalizationContext } from "./useLocalizationContext";
 
 export interface UseBookFormProps {
   book: Book;
@@ -14,17 +14,8 @@ export interface UseBookFormProps {
 }
 
 export function useBookForm({ book, token, onSave, onCancel, culture }: UseBookFormProps) {
-  const text = useGetLocalizedText(culture ?? 'en-us')?.BookForm || {
-    legend: 'Book Details',
-    title: 'Title:',
-    description: 'Description:',
-    url: 'URL:',
-    cover: 'Cover:',
-    chooseImage: 'Choose Image',
-    close: 'Close',
-    save: 'Save',
-    cancel: 'Cancel'
-  };
+  const localization = useLocalizationContext();
+  const text = localization.BookForm;
   useTrackComponent('BookForm', { book, token, onSave, onCancel, culture });
   const [form, setForm] = useState<Book>(book);
   const [showImageManager, setShowImageManager] = useState(false);

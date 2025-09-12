@@ -9,5 +9,4 @@ export interface BookListProps {
   onDelete: (id: string) => void;
   openLibraryAuthorKeys?: string[];
   penguinAuthorKeys?: string[];
-  culture?: string;
 }
