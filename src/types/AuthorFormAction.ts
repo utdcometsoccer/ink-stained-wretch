@@ -2,6 +2,7 @@ import type { AuthorFormButtonState } from "./AuthorFormButtonState";
 import type { AuthorForms } from "./AuthorForms";
 import type { Domain } from "./Domain";
 import type { AuthorDoc } from "./OpenLibrary";
+import type { AuthorResult } from "./PenguinRandomHouseSearchResult";
 
 
 export type AuthorFormAction = { type: "UPDATE_FIELD"; payload: { name: string; value: any; }; } |
@@ -22,4 +23,9 @@ export type AuthorFormAction = { type: "UPDATE_FIELD"; payload: { name: string; 
 { type: "SAVE_SELECTED_AUTHOR_DOC"; } |
 { type: "SET_BUTTON_STATE"; payload: AuthorFormButtonState; } |
 { type: "SET_AUTHOR_FORM_STATE"; payload: AuthorForms; } |
-{ type: "RESET_FORM"; };
+{ type: "RESET_FORM"; }|
+{ type: "SELECT_PENGUIN_AUTHOR"; payload: AuthorResult; } |
+{ type: "SHOW_PENGUIN_AUTHOR_FORM"; } |
+{ type: "IMPORT_PENGUIN_AUTHOR_ID"; payload: string[]; } |
+{ type: "SET_PENGUIN_AUTHORS"; payload: AuthorResult[]; } |
+{ type: "HIDE_PENGUIN_AUTHOR_LIST"; };

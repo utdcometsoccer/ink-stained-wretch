@@ -20,9 +20,11 @@ export const initialAuthorFormState: AuthorFormUIState = {
   editType: null,
   editIndex: null,
   showImageManager: false,
-  authorDocs: [],  
+  authorDocs: [],
+  PenguinAuthorID: [],
   selectedAuthorDoc: null,
-  authorFormState: "Default" as AuthorForms
+  authorFormState: "Default" as AuthorForms,
+  penguinAuthors: []
 };
 
 export function authorFormReducer(state: AuthorFormUIState, action: AuthorFormAction): AuthorFormUIState {
@@ -34,6 +36,26 @@ export function authorFormReducer(state: AuthorFormUIState, action: AuthorFormAc
       return { ...state, [action.payload.name]: action.payload.value };
     case "ADD_ARTICLE":
       return { ...state, Articles: [...state.Articles, action.payload] };
+    case "SELECT_PENGUIN_AUTHOR":
+      // Set the selected Penguin author for editing or import
+      return { ...state, selectedPenguinAuthor: action.payload };
+    case "SHOW_PENGUIN_AUTHOR_FORM":
+      // Switch UI state to show Penguin author form
+      return { ...state, authorFormState: "PenguinAuthorForm" };
+    case "IMPORT_PENGUIN_AUTHOR_ID": {
+      // Add all Penguin author IDs from payload to PenguinAuthorID, deduplicated
+      const newIds = action.payload;
+      const existingIds = state.PenguinAuthorID || [];
+      const allIds = Array.from(new Set([...existingIds, ...newIds]));
+      return { ...state, PenguinAuthorID: allIds };
+    }
+    case "SET_PENGUIN_AUTHORS": {
+      // Set the list of Penguin authors available for import
+      return { ...state, penguinAuthors: action.payload };
+    }
+    case "HIDE_PENGUIN_AUTHOR_LIST":
+      // Hide the Penguin author list and clear it
+      return { ...state, penguinAuthors: [], authorFormState: "default" };
     case "ADD_BOOK":
       return { ...state, Books: [...state.Books, action.payload] };
     case "ADD_SOCIAL":

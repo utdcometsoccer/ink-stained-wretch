@@ -1,6 +1,6 @@
 import type { AuthorDoc } from "../../types/OpenLibrary";
 
-export interface AuthorDocFormProps {
+export interface OpenLibraryAuthorFormProps {
   initialAuthorDoc: AuthorDoc;
   onSave: (doc: AuthorDoc) => void;
   onCancel: () => void;

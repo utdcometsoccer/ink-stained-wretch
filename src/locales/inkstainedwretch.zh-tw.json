@@ -23,13 +23,34 @@
         "navigation": "導覽",
         "close": "關閉",
         "navItems": {
-            "chooseCulture": { "label": "文化", "description": "選擇語言與地區" },
-            "login": { "label": "登入", "description": "登入 / 註冊" },
-            "domainRegistration": { "label": "網域", "description": "註冊網域" },
-            "authorPage": { "label": "作者", "description": "作者頁面" },
-            "chooseSubscription": { "label": "方案", "description": "選擇方案" },
-            "checkout": { "label": "結帳", "description": "完成購買" },
-            "thankYou": { "label": "成功", "description": "感謝您" }
+            "chooseCulture": {
+                "label": "文化",
+                "description": "選擇語言與地區"
+            },
+            "login": {
+                "label": "登入",
+                "description": "登入 / 註冊"
+            },
+            "domainRegistration": {
+                "label": "網域",
+                "description": "註冊網域"
+            },
+            "authorPage": {
+                "label": "作者",
+                "description": "作者頁面"
+            },
+            "chooseSubscription": {
+                "label": "方案",
+                "description": "選擇方案"
+            },
+            "checkout": {
+                "label": "結帳",
+                "description": "完成購買"
+            },
+            "thankYou": {
+                "label": "成功",
+                "description": "感謝您"
+            }
         }
     },
     "DomainRegistration": {
@@ -126,7 +147,7 @@
         "delete": "刪除",
         "addArticle": "新增文章"
     },
-    "AuthorDocForm": {
+    "OpenLibraryAuthorForm": {
         "legend": "編輯作者",
         "key": "鍵值：",
         "text": "文字：",
@@ -178,6 +199,7 @@
         "books": "書籍",
         "socialLinks": "社群連結",
         "importAuthor": "從 Open Library 匯入作者",
+        "importPenguinAuthor": "從 Penguin Random House 匯入作者",
         "save": "儲存作者",
         "cancel": "取消"
     },
@@ -188,9 +210,35 @@
         "note": "所有方案皆包含最多 20 張圖片的圖像託管。"
     },
     "DomainRegistrationsList": {
-    "title": "網域註冊",
-    "error": "載入網域註冊失敗。",
-    "loading": "正在載入網域註冊...",
-    "empty": "未找到網域註冊。"
-  }
+        "title": "網域註冊",
+        "error": "載入網域註冊失敗。",
+        "loading": "正在載入網域註冊...",
+        "empty": "未找到網域註冊。"
+    },
+    "PenguinRandomHouseAuthorList": {
+        "title": "Penguin Random House 作者",
+        "import": "匯入",
+        "importTitle": "從 Penguin Random House 匯入作者",
+        "goBack": "返回",
+        "noResults": "未找到作者。"
+    },
+    "PenguinRandomHouseAuthorDetail": {
+        "title": "Penguin Random House 作者詳細資訊",
+        "name": "姓名",
+        "score": "分數",
+        "url": "網址",
+        "domain": "領域",
+        "titleField": "標題",
+        "description": "描述",
+        "authorFirst": "名字",
+        "authorLast": "姓氏",
+        "photoCredit": "照片來源",
+        "onTour": "巡迴中",
+        "seriesAuthor": "系列作者",
+        "seriesIsbn": "系列 ISBN",
+        "seriesCount": "系列數量",
+        "keywordId": "關鍵字 ID",
+        "save": "儲存",
+        "cancel": "取消"
+    }
 }

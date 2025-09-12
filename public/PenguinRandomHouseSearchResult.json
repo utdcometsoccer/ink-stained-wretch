@@ -1,0 +1,996 @@
+{
+    "status": "ok",
+    "recordCount": 335,
+    "startTimestamp": "2025-09-11T23:29:03Z",
+    "endTimestamp": "2025-09-11T23:29:03Z",
+    "timeTaken": 66,
+    "data": {
+        "results": [
+            {
+                "docType": "author",
+                "id": "US-author-2308616-2843864304",
+                "key": "2308616",
+                "name": "Mónica Salmón",
+                "score": 1401.4651,
+                "url": "/authors/2308616/monica-salmon",
+                "domain": [
+                    "ACM.CA",
+                    "ACMART",
+                    "BC.CA",
+                    "BIZ",
+                    "CA",
+                    "CAN",
+                    "NARRATIVE",
+                    "PRH.NA",
+                    "PRH.US",
+                    "PRH.US_EREADER",
+                    "SALESPLATFORM",
+                    "USA3PD"
+                ],
+                "title": null,
+                "description": null,
+                "author": null,
+                "authorFirst": "Mónica",
+                "authorLast": "Salmón",
+                "photoCredit": null,
+                "onTour": false,
+                "seriesAuthor": null,
+                "seriesIsbn": null,
+                "seriesCount": null,
+                "keywordId": null,
+                "_embeds": null,
+                "_links": [
+                    {
+                        "rel": "self",
+                        "href": "https://api.penguinrandomhouse.com/title/client/Public/domains/PRH.US/authors/2308616?sort=score&api_key=zqjkb3q6d9qgbjf44xmzn5c3",
+                        "method": "GET",
+                        "parameters": null
+                    }
+                ]
+            },
+            {
+                "docType": "work",
+                "id": "US-work-771018-310091486",
+                "key": "771018",
+                "name": "Debajo de mi piel / Under My Skin",
+                "score": 159.42987,
+                "url": "/books/771018/debajo-de-mi-piel-under-my-skin-by-monica-salmon",
+                "domain": [
+                    "ACM.CA",
+                    "ACMART",
+                    "BC.CA",
+                    "BIZ",
+                    "CA",
+                    "CAN",
+                    "NARRATIVE",
+                    "PRH.NA",
+                    "PRH.US",
+                    "PRH.US_EREADER",
+                    "SALESPLATFORM",
+                    "USA3PD"
+                ],
+                "title": null,
+                "description": [
+                    "<b>&laquo;M&oacute;nica Salm&oacute;n acompa&ntilde;a a su madre en la batalla contra el c&aacute;ncer y, al compartirla en palabras, dignifica la p&eacute;rdida y nos muestra la grandeza del amor filial.&raquo; M&Oacute;NICA LAV&Iacute;N</b><br> <b> </b><br> &laquo;Un entra&ntilde;able y solidario testimonio que nos ense&ntilde;a p&aacute;gina a p&aacute;gina que el c&aacute;ncer es m&aacute;s un sin&oacute;nimo de vida que de muerte. M&oacute;nica Salm&oacute;n logra levantar el velo de la enfermedad m&aacute;s temida para mostrarnos el inagotable amor y valent&iacute;a que realmente inspira.&raquo; BLAS VALDEZ<br> &#160;<br> &laquo;Debajo de mi piel es una experiencia que nos expone a la fragilidad de la vida, pero tambi&eacute;n nos recuerda la incre&iacute;ble fuerza del amor que yace en todos nosotros para dejarnos la importante lecci&oacute;n de vivir y de nunca dejar de amar.&raquo; ERIC MANCEBO<br><br><b>ENGLISH DESCRIPTION</b><br><br><b>&ldquo;Monica Salmon stands by her mother during her battle against cancer, and by putting it into words, she dignifies loss and shows us the greatness of filial love.&rdquo; &mdash;MONICA LAVIN</b><br> <b> </b><br> &ldquo;An intimate and solidary testimony to teach us, page by page, that cancer is more a synonym of life than of death. Monica Salmon lifts the veil of the most feared disease to portray the never-ending love and bravery it actually inspires.&rdquo; &mdash;BLAS VALDEZ<br> &#160;<br> &ldquo;<i>Under My Skin</i> is an experience that leaves us laid open to the fragility of life and reminds us of the incredible power of love within us, drawing an important lesson: to live and never stop loving.&rdquo; &mdash;ERIC MANCEBO"
+                ],
+                "author": [
+                    "2308616|Mónica Salmón"
+                ],
+                "authorFirst": null,
+                "authorLast": null,
+                "photoCredit": null,
+                "onTour": null,
+                "seriesAuthor": null,
+                "seriesIsbn": null,
+                "seriesCount": null,
+                "keywordId": null,
+                "_embeds": null,
+                "_links": [
+                    {
+                        "rel": "self",
+                        "href": "https://api.penguinrandomhouse.com/title/client/Public/domains/PRH.US/works/771018?sort=score&api_key=zqjkb3q6d9qgbjf44xmzn5c3",
+                        "method": "GET",
+                        "parameters": null
+                    }
+                ]
+            },
+            {
+                "docType": "work",
+                "id": "US-work-768447-1092792619",
+                "key": "768447",
+                "name": "Olvidaré tu nombre / I Will Forget Your Name",
+                "score": 159.42987,
+                "url": "/books/768447/olvidare-tu-nombre-i-will-forget-your-name-by-monica-salmon",
+                "domain": [
+                    "ACM.CA",
+                    "ACMART",
+                    "BC.CA",
+                    "BIZ",
+                    "CA",
+                    "CAN",
+                    "NARRATIVE",
+                    "PRH.NA",
+                    "PRH.US",
+                    "PRH.US_EREADER",
+                    "SALESPLATFORM",
+                    "USA3PD"
+                ],
+                "title": null,
+                "description": [
+                    "<b>&iquest;Alguien a quien amas te ha dejado de amar?<br></b><br> <b>&iquest;Sientes que ese dolor en el pecho nunca desaparecer&aacute;?<br></b><br> <b>&iquest;Te preguntas c&oacute;mo dejar a tu pareja cuando a&uacute;n sientes amor en la relaci&oacute;n?<br></b><br> <b>&iquest;Crees que nunca volver&aacute;s a ser la misma persona despu&eacute;s de haber amado y no ser correspondido? &iquest;C&oacute;mo puedes alejarte de la vida de esa persona sin causarle da&ntilde;o?</b><br> <b> </b><br> En la m&aacute;s reciente novela de M&oacute;nica Salm&oacute;n, Ofelia vive el desaf&iacute;o del desamor, enfrentando aquello que muchas personas temen: Despedirse cuando ya no tienes un lugar en la vida de la persona que amas. La autora nos muestra el &uacute;ltimo hilo que queda antes de romper el v&iacute;nculo con el otro o la esperanza de despertarlo. A trav&eacute;s de una serie de correos electr&oacute;nicos, Ofelia expresa su dolor y frustraci&oacute;n por la p&eacute;rdida de un amor, Comienza a explorar su interior, enfrentando sus miedos e inseguridades. Llega a un punto de inflexi&oacute;n.<br> &#160;<br> En Olvidar&eacute; tu nombre somos testigos de la lucha interna de Ofelia y su b&uacute;squeda de respuesta. Nos identificamos con su dolor y frustraci&oacute;n, pero tambi&eacute;n encontramos inspiraci&oacute;n en su valent&iacute;a y determinaci&oacute;n para seguir adelante. As&iacute;, el desamor se convierte en un catalizador de cambio y crecimiento personal. Nos invita a abrazar la incertidumbre y a confiar en el proceso de amores que terminan. <br> &#160;<br> M&oacute;nica Salm&oacute;n autora de la celebrada Cu&iacute;dame de ti nos ofrece en esta novela una visi&oacute;n esperanzadora y necesaria del desamor. Nos recuerda que este proceso puede ser una oportunidad para crecer como personas y encontrar un amor m&aacute;s aut&eacute;ntico y profundo<b>.<br><br>ENGLISH DESCRIPTION</b><br><br><b>Someone you love has stopped loving you?<br></b><br> <b>Do you feel as if that pain inside your chest will never subside?<br> </b><br> <b>Are you wondering how to leave your partner when there is still love in the relationship?<br> </b><br> <b>Do you believe that you will never be the same person after experiencing an unrequited love? How can you walk away from that person&rsquo;s life without harming them?</b><br> <b> </b><br> In M&oacute;nica Salm&oacute;n&rsquo;s latest novel, Ofelia experiences the challenge of heartbreak, facing that which many people fear: saying goodbye when you no longer have a place in the life of the person you love. The author shows us the last thread left before breaking the bond with the other person, or the hope of rekindling it. Through a series of emails, Ofelia expresses her grief and frustration over losing her love. She begins exploring her inner self, facing her fears and insecurities. She reaches a turning point. <br> &#160;<br> In <i>I Will Forget Your Name</i>, we witness Ofelia&rsquo;s inner struggle and "
+                ],
+                "author": [
+                    "2308616|Mónica Salmón"
+                ],
+                "authorFirst": null,
+                "authorLast": null,
+                "photoCredit": null,
+                "onTour": null,
+                "seriesAuthor": null,
+                "seriesIsbn": null,
+                "seriesCount": null,
+                "keywordId": null,
+                "_embeds": null,
+                "_links": [
+                    {
+                        "rel": "self",
+                        "href": "https://api.penguinrandomhouse.com/title/client/Public/domains/PRH.US/works/768447?sort=score&api_key=zqjkb3q6d9qgbjf44xmzn5c3",
+                        "method": "GET",
+                        "parameters": null
+                    }
+                ]
+            },
+            {
+                "docType": "work",
+                "id": "US-work-667467-3342282744",
+                "key": "667467",
+                "name": "Cómo viajar con un salmón / How to Travel with a Salmon",
+                "score": 116.882996,
+                "url": "/books/667467/como-viajar-con-un-salmon-how-to-travel-with-a-salmon-by-umberto-eco",
+                "domain": [
+                    "ACM.CA",
+                    "ACMART",
+                    "BC.CA",
+                    "BIZ",
+                    "CA",
+                    "CAN",
+                    "NARRATIVE",
+                    "PRH.NA",
+                    "PRH.US",
+                    "PRH.US_EREADER",
+                    "SALESPLATFORM",
+                    "USA3PD"
+                ],
+                "title": null,
+                "description": [
+                    "<b>Un manual de uso para los peque&ntilde;os desaf&iacute;os cotidianos, seg&uacute;n &laquo;el escritor que cambi&oacute; la cultura&raquo; -<i>Corriere della Sera</i></b><br> <b>&#160;</b><br> <b>&#160;&laquo;El m&aacute;s vers&aacute;til de los intelectuales italianos combina la cultura de un gran erudito con la ligereza y la iron&iacute;a. Esta compilaci&oacute;n in&eacute;dita a manos del autor ofrece lo mejor de su estilo divulgativo.&raquo; -</b><i><b>La Repubblica</b></i><br> <b>&#160;</b><br> <i>C&oacute;mo viajar con un salm&oacute;n</i> es un manual de instrucciones sui g&eacute;neris a cargo de un maestro excepcional: Umberto Eco. C&oacute;mo sobrevivir a la burocracia, evitar enfermedades contagiosas, no usar el tel&eacute;fono m&oacute;vil, salir en la televisi&oacute;n, aunque no seamos nadie, no hablar de f&uacute;tbol, comer un helado o evitar caer en los complots son algunas de las muchas situaciones de nuestro d&iacute;a a d&iacute;a en las que el autor nos gu&iacute;a con su caracter&iacute;stico sentido del humor. Preparada por &eacute;l mismo, esta selecci&oacute;n de art&iacute;culos, que incluye los que se publicaron en Segundo diario m&iacute;nimo y otros in&eacute;ditos y se ha convertido en Italia en un fen&oacute;meno de ventas, nos anima a tomar conciencia de que la vida sucede en las peque&ntilde;as cosas, los encuentros azarosos y los problemas menores, y no en los dilemas dial&eacute;cticos o los grandes interrogantes sobre la existencia que ocupan una &iacute;nfima porci&oacute;n de nuestro tiempo.<br><br><b>ENGLISH DESCRIPTION</b><br><br><b>A user manual for small, everyday challenges, according to \"the writer who changed culture\" -<i>Corriere della Sera</i></b><br><b>&#160;</b><br> <b>\"The most versatile of Italian intellectuals takes the philosophy of a great scholar and combines it with lightness and irony. This unpublished compilation by the author offers the best of his informative style.\" -<i>La</i></b><i><b>&#160;Repubblica</b></i><br> &#160;<br> <i>How to Travel with a Salmon</i> is an instruction manual sui generis by an exceptional teacher: Umberto Eco. How to survive bureaucracy, avoid contagious diseases, not use a cell phone, appear on television, even if we are nobody, avoid talking about soccer, eat ice cream, or avoid falling for scams are some of the many situations in our daily lives in which the author guides us with his characteristic sense of humor. Prepared by himself, this selection of articles, which includes those published in the Second Minimal Journal and other unpublished articles and has become a sales phenomenon in Italy, encourages us to become aware that life is in the details, random encounters, and minor problems, and not in dialectical dilemmas or the great questions about existence that occupy a tiny portion of our time."
+                ],
+                "author": [
+                    "2172210|Umberto Eco"
+                ],
+                "authorFirst": null,
+                "authorLast": null,
+                "photoCredit": null,
+                "onTour": null,
+                "seriesAuthor": null,
+                "seriesIsbn": null,
+                "seriesCount": null,
+                "keywordId": null,
+                "_embeds": null,
+                "_links": [
+                    {
+                        "rel": "self",
+                        "href": "https://api.penguinrandomhouse.com/title/client/Public/domains/PRH.US/works/667467?sort=score&api_key=zqjkb3q6d9qgbjf44xmzn5c3",
+                        "method": "GET",
+                        "parameters": null
+                    }
+                ]
+            },
+            {
+                "docType": "work",
+                "id": "US-work-776456-222275113",
+                "key": "776456",
+                "name": "Dear Monica Lewinsky",
+                "score": 104.250885,
+                "url": "/books/776456/dear-monica-lewinsky-by-julia-langbein",
+                "domain": [
+                    "BC.CA",
+                    "CA",
+                    "CAN",
+                    "PRH.CA",
+                    "PRH.NA",
+                    "PRH.US",
+                    "PRH.US_EREADER",
+                    "USA3PD"
+                ],
+                "title": null,
+                "description": null,
+                "author": [
+                    "2276418|Julia Langbein"
+                ],
+                "authorFirst": null,
+                "authorLast": null,
+                "photoCredit": null,
+                "onTour": null,
+                "seriesAuthor": null,
+                "seriesIsbn": null,
+                "seriesCount": null,
+                "keywordId": null,
+                "_embeds": null,
+                "_links": [
+                    {
+                        "rel": "self",
+                        "href": "https://api.penguinrandomhouse.com/title/client/Public/domains/PRH.US/works/776456?sort=score&api_key=zqjkb3q6d9qgbjf44xmzn5c3",
+                        "method": "GET",
+                        "parameters": null
+                    }
+                ]
+            },
+            {
+                "docType": "work",
+                "id": "US-work-726342-3458606523",
+                "key": "726342",
+                "name": "Monica Rambeau: Photon",
+                "score": 104.250885,
+                "url": "/books/726342/monica-rambeau-photon-by-eve-l-ewing",
+                "domain": [
+                    "ACM.CA",
+                    "ACMART",
+                    "BIZ",
+                    "NARRATIVE",
+                    "PRH.NA",
+                    "PRH.US",
+                    "SALESINTERNATIONAL",
+                    "SALESPLATFORM"
+                ],
+                "title": null,
+                "description": [
+                    "It's up to Photon to put the universe back together! From the New Orleans Harbor Patrol to the Avengers, the Ultimates and beyond - Monica Rambeau, the hero known as Photon, has been a leader and team player her entire life. Now, as Monica faces a reality-shattering crisis in her first-ever solo series, readers will explore the outer reaches and wildest vagaries of the Marvel Universe through the eyes of one of its most powerful heroes! Charged with making a very special, very cosmic delivery, this should be light work (get it?) for Monica - if family drama doesn't hold her back! But when she runs into someone from her past who she really can't stand, it'll lead to an unexpected - make that impossible - Avengers reunion. Collecting MONICA RAMBEAU: PHOTON #1-5."
+                ],
+                "author": [
+                    "2259735|Luca Maresca",
+                    "2262212|Lucas Werneck",
+                    "2267543|Ivan Fiorelli",
+                    "2284005|Eve L. Ewing"
+                ],
+                "authorFirst": null,
+                "authorLast": null,
+                "photoCredit": null,
+                "onTour": null,
+                "seriesAuthor": null,
+                "seriesIsbn": null,
+                "seriesCount": null,
+                "keywordId": null,
+                "_embeds": null,
+                "_links": [
+                    {
+                        "rel": "self",
+                        "href": "https://api.penguinrandomhouse.com/title/client/Public/domains/PRH.US/works/726342?sort=score&api_key=zqjkb3q6d9qgbjf44xmzn5c3",
+                        "method": "GET",
+                        "parameters": null
+                    }
+                ]
+            },
+            {
+                "docType": "work",
+                "id": "US-work-726549-2469938181",
+                "key": "726549",
+                "name": "Marvel-Verse: Monica Rambeau - Photon",
+                "score": 104.250885,
+                "url": "/books/726549/marvel-verse-monica-rambeau---photon-by-roger-stern",
+                "domain": [
+                    "ACM.CA",
+                    "ACMART",
+                    "BIZ",
+                    "NARRATIVE",
+                    "PRH.NA",
+                    "PRH.US",
+                    "SALESINTERNATIONAL",
+                    "SALESPLATFORM"
+                ],
+                "title": null,
+                "description": [
+                    "Monica Rambeau has called herself Captain Marvel, Spectrum, Photon and more - but no matter the name, she's one of the most powerful heroes in the Marvel-Verse! And in Monica's first appearance, Spider-Man will learn that fact the hard way! As Monica struggles to keep her awesome energy abilities in check, will she find salvation - and a new home - with the Avengers? Monica flies solo with a new job as a ship's captain - but when hijackers target her vessel, she'll have to suit up to face their incendiary super-villain boss, Powderkeg! Then, when Carol Danvers takes on the Captain Marvel name, how does Monica feel about it? There may be trouble on the high seas for this pair of mighty Marvels! Collecting AMAZING SPIDER-MAN ANNUAL (1964) #16, CAPTAIN MARVEL (1989) #1 and CAPTAIN MARVEL (2012) #7-8."
+                ],
+                "author": [
+                    "2259755|Marvel Various",
+                    "2260142|Roger Stern",
+                    "2260334|Mark Bright",
+                    "2268706|John Romita Jr"
+                ],
+                "authorFirst": null,
+                "authorLast": null,
+                "photoCredit": null,
+                "onTour": null,
+                "seriesAuthor": null,
+                "seriesIsbn": null,
+                "seriesCount": null,
+                "keywordId": null,
+                "_embeds": null,
+                "_links": [
+                    {
+                        "rel": "self",
+                        "href": "https://api.penguinrandomhouse.com/title/client/Public/domains/PRH.US/works/726549?sort=score&api_key=zqjkb3q6d9qgbjf44xmzn5c3",
+                        "method": "GET",
+                        "parameters": null
+                    }
+                ]
+            },
+            {
+                "docType": "work",
+                "id": "US-work-725086-1980110826",
+                "key": "725086",
+                "name": "Captain Marvel: The Saga Of Monica Rambeau",
+                "score": 104.250885,
+                "url": "/books/725086/captain-marvel-the-saga-of-monica-rambeau-by-roger-stern",
+                "domain": [
+                    "ACM.CA",
+                    "ACMART",
+                    "BIZ",
+                    "NARRATIVE",
+                    "PRH.NA",
+                    "PRH.US",
+                    "SALESPLATFORM"
+                ],
+                "title": null,
+                "description": [
+                    "Before Carol Danvers took the name Captain Marvel, Monica Rambeau held the mantle! A police lieutenant with the remarkable power to transform into energy, Monica began as a reluctant super hero but soon rose through the ranks to become the Avengers' field leader! Now, witness Monica's debut, her earliest encounters with Spider-Man and the Avengers, and an interdimensional team-up with Thanos' brother, Starfox! Monica clashes with Powderkeg and the Sons of the Serpent in little-seen solo tales, but what prompts her to give up the name of Captain Marvel and evolve into the next phase of her heroic career? Collecting AMAZING SPIDER-MAN ANNUAL (1964) #16; AVENGERS (1963) #227 and #279; MARVEL TEAM-UP (1972) #142-143; CAPTAIN MARVEL (1989) #1; CAPTAIN MARVEL (1994) #1; AVENGERS UNPLUGGED #5; and material from SOLO AVENGERS #2, and MARVEL FANFARE (1982) #42 and #57."
+                ],
+                "author": [
+                    "2259755|Marvel Various",
+                    "2259939|Rod Reis",
+                    "2260142|Roger Stern",
+                    "2268706|John Romita Jr"
+                ],
+                "authorFirst": null,
+                "authorLast": null,
+                "photoCredit": null,
+                "onTour": null,
+                "seriesAuthor": null,
+                "seriesIsbn": null,
+                "seriesCount": null,
+                "keywordId": null,
+                "_embeds": null,
+                "_links": [
+                    {
+                        "rel": "self",
+                        "href": "https://api.penguinrandomhouse.com/title/client/Public/domains/PRH.US/works/725086?sort=score&api_key=zqjkb3q6d9qgbjf44xmzn5c3",
+                        "method": "GET",
+                        "parameters": null
+                    }
+                ]
+            },
+            {
+                "docType": "work",
+                "id": "US-work-808931-274246190",
+                "key": "808931",
+                "name": "Working Boats: Salmon Troller (board book)",
+                "score": 96.36384,
+                "url": "/books/808931/working-boats-salmon-troller-board-book-by-tom-crestodina",
+                "domain": [
+                    "BC.CA",
+                    "BIZ",
+                    "CA",
+                    "CAN",
+                    "PRH.CA",
+                    "PRH.NA",
+                    "PRH.US",
+                    "PRH.US_EREADER",
+                    "SALESINTERNATIONAL",
+                    "SALESPLATFORM",
+                    "USA3PD"
+                ],
+                "title": null,
+                "description": null,
+                "author": [
+                    "2317034|Tom Crestodina"
+                ],
+                "authorFirst": null,
+                "authorLast": null,
+                "photoCredit": null,
+                "onTour": null,
+                "seriesAuthor": null,
+                "seriesIsbn": null,
+                "seriesCount": null,
+                "keywordId": null,
+                "_embeds": null,
+                "_links": [
+                    {
+                        "rel": "self",
+                        "href": "https://api.penguinrandomhouse.com/title/client/Public/domains/PRH.US/works/808931?sort=score&api_key=zqjkb3q6d9qgbjf44xmzn5c3",
+                        "method": "GET",
+                        "parameters": null
+                    }
+                ]
+            },
+            {
+                "docType": "work",
+                "id": "US-work-708237-1244814290",
+                "key": "708237",
+                "name": "The Salmon Sisters: Harvest & Heritage",
+                "score": 96.36384,
+                "url": "/books/708237/the-salmon-sisters-harvest-and-heritage-by-laukitis-emma-teal",
+                "domain": [
+                    "BC.CA",
+                    "CA",
+                    "CAN",
+                    "NARRATIVE",
+                    "PRH.CA",
+                    "PRH.NA",
+                    "PRH.US",
+                    "PRH.US_EREADER",
+                    "SALESPLATFORM",
+                    "USA3PD"
+                ],
+                "title": null,
+                "description": [
+                    "<b>2024 IACP Nominee for Best American Cookbook</b><br><br>\"A cookbook that celebrates abundance, and pays tribute to precious landscapes that offer us such satisfying meals.\"<b><br><i>Food &amp; Wine magazine</i><br><br></b>Follow the Salmon Sisters as they celebrate the seasons through the food, traditions, and rituals of their Alaskan home. Lush photography, charming illustrations, 60 comforting recipes, and 35 traditions showcase and honor the untamed spirit, natural bounty, and seasonal rhythms of land and sea.<br><br>Open up the rich pages of <i>Harvest &amp; Heritage</i> and step into another world. A landscape dotted with berries, wildflowers, and moose, an ocean rich with salmon, seafood, and kelp. A place of resilience and cherished traditions. While the landscape is vast, the community is tight-knit. This is the world of the Salmon Sisters and they are inviting you to join them through a year of changing seasons and comforting rituals. And yes, deeply satisfying food.<br><br>The cookbook is organized by season. In each section, readers will find:<br> <ul><li>Recipes ideal for the home cook</li></ul><ul><li>Illustrated rituals and traditions</li></ul><ul><li>Stories from Alaskan women on living and eating well&#160;</li></ul><ul><li>A Solstice or Equinox menu to celebrate the seasonal harvest</li><li>Expansive and intimate photography&#160;</li></ul><br>The recipes and projects are delicious and satisfying. For example, forage spruce tips and make Spruce Tip Ice Cream. Jig for a halibut and then make Halibut Burgers with Wild Chimichurri.&#160;<br><br><b>Emma Teal Laukitis and Claire Neaton, aka the Salmon Sisters</b>, grew up on a homestead in Alaska's remote Aleutian Islands, and they make their livelihood harvesting wild seafood from the pristine, bountiful waters around them. This luxe hardcover reflects their values and vision, with delicious recipes and lovely traditions that is seasonal eating and living at its best."
+                ],
+                "author": [
+                    "2317204|Emma Teal Laukitis",
+                    "2317282|Claire Neaton"
+                ],
+                "authorFirst": null,
+                "authorLast": null,
+                "photoCredit": null,
+                "onTour": null,
+                "seriesAuthor": null,
+                "seriesIsbn": null,
+                "seriesCount": null,
+                "keywordId": null,
+                "_embeds": null,
+                "_links": [
+                    {
+                        "rel": "self",
+                        "href": "https://api.penguinrandomhouse.com/title/client/Public/domains/PRH.US/works/708237?sort=score&api_key=zqjkb3q6d9qgbjf44xmzn5c3",
+                        "method": "GET",
+                        "parameters": null
+                    }
+                ]
+            }
+        ],
+        "correctlySpelled": true,
+        "suggestions": {},
+        "facets": [
+            {
+                "name": "categoryLabel",
+                "values": {
+                    "Arts & Entertainment": 14,
+                    "Biography & Memoir": 16,
+                    "Children's Books": 102,
+                    "Classics": 3,
+                    "Cookbooks": 16,
+                    "Fantasy": 3,
+                    "Fiction": 116,
+                    "Graphic Novels & Manga": 9,
+                    "Historical Fiction": 12,
+                    "History": 8,
+                    "Mystery & Thriller": 24,
+                    "Nonfiction": 105,
+                    "Politics": 9,
+                    "Reference": 4,
+                    "Romance": 36,
+                    "Science & Technology": 12,
+                    "Science Fiction": 3,
+                    "Travel": 3,
+                    "Young Adult": 7
+                }
+            },
+            {
+                "name": "catSetId",
+                "values": {
+                    "BI": 330,
+                    "CN": 330,
+                    "CR": 5,
+                    "EE": 100,
+                    "S1": 330,
+                    "SE": 29
+                }
+            },
+            {
+                "name": "awardWinner",
+                "values": {
+                    "false": 232
+                }
+            },
+            {
+                "name": "companyCode",
+                "values": {
+                    "D3": 1,
+                    "D8": 3,
+                    "DD": 2,
+                    "DG": 2,
+                    "DM": 1,
+                    "DQ": 1,
+                    "DT": 1,
+                    "E3": 1,
+                    "E5": 1,
+                    "E9": 1,
+                    "EG": 3,
+                    "EK": 2,
+                    "EP": 2,
+                    "EX": 1,
+                    "EZ": 1,
+                    "FI": 21,
+                    "FU": 1,
+                    "FV": 1,
+                    "FZ": 4,
+                    "H1": 2,
+                    "R_H": 46
+                }
+            },
+            {
+                "name": "comingSoon",
+                "values": {
+                    "false": 232
+                }
+            },
+            {
+                "name": "formatCode",
+                "values": {
+                    "BR": 4,
+                    "DG": 3,
+                    "DN": 27,
+                    "EL": 157,
+                    "HC": 55,
+                    "MM": 35,
+                    "NT": 1,
+                    "TR": 118
+                }
+            },
+            {
+                "name": "authorLastInitial",
+                "values": {
+                    "a": 4,
+                    "b": 4,
+                    "c": 5,
+                    "d": 2,
+                    "e": 3,
+                    "f": 5,
+                    "g": 7,
+                    "h": 2,
+                    "k": 5,
+                    "l": 5,
+                    "m": 10,
+                    "o": 2,
+                    "p": 3,
+                    "r": 8,
+                    "s": 22,
+                    "t": 1,
+                    "v": 3,
+                    "w": 7
+                }
+            },
+            {
+                "name": "eventCityState",
+                "values": {
+                    "BROOKLYN NY": 1,
+                    "GREENWICH CT": 1,
+                    "MENDHAM NJ": 1
+                }
+            },
+            {
+                "name": "imprint",
+                "values": {
+                    "Aguilar": 1,
+                    "Alfaguara Infantil": 1,
+                    "Anchor": 1,
+                    "Astra House": 2,
+                    "Astra Young Readers": 4,
+                    "Avery": 2,
+                    "B de Bolsillo": 1,
+                    "Ballantine Books": 27,
+                    "Bantam": 10,
+                    "Beacon Press": 3,
+                    "Berkley": 31,
+                    "Berrett-Koehler Publishers": 1,
+                    "Calkins Creek": 1,
+                    "Candlewick": 2,
+                    "Celestial Arts": 1,
+                    "Clarkson Potter": 2,
+                    "Crown": 2,
+                    "Crown Books for Young Readers": 3,
+                    "Crown Currency": 2,
+                    "DK Travel": 1,
+                    "Dafina": 2,
+                    "Dark Horse Books": 3,
+                    "Debolsillo": 2,
+                    "Del Rey": 1,
+                    "Dell": 2,
+                    "Dial Books for Young Readers": 5,
+                    "Dial Press Trade Paperback": 1,
+                    "Doubleday": 1,
+                    "Dragonfly Books": 1,
+                    "Dutton Children's Books": 7,
+                    "Ediciones B": 5,
+                    "Grijalbo": 6,
+                    "Grosset & Dunlap": 3,
+                    "Hatherleigh Press": 7,
+                    "Hogarth": 1,
+                    "Holiday House": 2,
+                    "IDW Publishing": 2,
+                    "Knopf": 1,
+                    "Knopf Books for Young Readers": 2,
+                    "Kokila": 2,
+                    "Listening Library": 8,
+                    "Literatura Random House": 1,
+                    "Little Bigfoot": 3,
+                    "Lumen": 1,
+                    "Marvel Universe": 2,
+                    "Molino": 6,
+                    "Nancy Paulsen Books": 9,
+                    "North Atlantic Books": 2,
+                    "Nube de Tinta": 2,
+                    "Other Press": 1,
+                    "Outreach/New Reader": 1,
+                    "Paige Tate & Co": 2,
+                    "Penguin Audio": 2,
+                    "Penguin Books": 4,
+                    "Penguin Classics": 3,
+                    "Philomel": 3,
+                    "Plume": 2,
+                    "Portfolio": 2,
+                    "Prestel": 1,
+                    "Puffin": 3,
+                    "Random House": 2,
+                    "Random House Audio": 15,
+                    "Random House Books for Young Readers": 11,
+                    "Random House Canada": 1,
+                    "Random House Trade Paperbacks": 2,
+                    "Random House Worlds": 1,
+                    "Random House/Marvel": 1,
+                    "Sasquatch Books": 2,
+                    "Search Press": 4,
+                    "Shambhala": 1,
+                    "TarcherPerigee": 4,
+                    "The Dial Press": 1,
+                    "Tiger Tales": 1,
+                    "Titan Books": 1,
+                    "Tricycle Press": 1,
+                    "Tundra Books": 13,
+                    "Urban Renaissance": 3,
+                    "Vergara": 1,
+                    "Verso": 2,
+                    "Vintage Canada": 1,
+                    "Vintage Espanol": 1,
+                    "Vintage Español": 2,
+                    "WaterBrook Press": 2
+                }
+            },
+            {
+                "name": "subformat",
+                "values": {
+                    "001": 113,
+                    "044": 1,
+                    "046": 43,
+                    "PD": 1,
+                    "POB": 1
+                }
+            },
+            {
+                "name": "bestseller",
+                "values": {
+                    "false": 222,
+                    "true": 10
+                }
+            },
+            {
+                "name": "ageRange",
+                "values": {
+                    "2-5": 31,
+                    "3-6": 31,
+                    "6-9": 43,
+                    "Baby-3": 3,
+                    "Middle Grade (10 and up)": 3,
+                    "Middle Grade (8-12)": 5,
+                    "Young Adult": 3
+                }
+            },
+            {
+                "name": "author",
+                "values": {
+                    "111810|Monica Furlong": 1,
+                    "114|Douglas Adams": 1,
+                    "119207|Monica Brown": 4,
+                    "120412|Freeman House": 1,
+                    "121975|Steven Hawley": 1,
+                    "126986|Monica Musetti-Carlin": 7,
+                    "126987|Mary Elizabeth Roarke": 4,
+                    "127087|John Parra": 1,
+                    "151930|Monica Drake": 1,
+                    "158269|Langdon Cook": 1,
+                    "162166|Josh Holtsclaw": 1,
+                    "16357|Monica Kulling": 23,
+                    "16389|Mark Kurlansky": 1,
+                    "165934|Richard Rudnicki": 1,
+                    "178089|Monica Edinger": 1,
+                    "183753|Christian Salmon": 1,
+                    "184168|Monica Byrne": 1,
+                    "185909|Monica Murphy": 10,
+                    "18763|Tucker Malarkey": 1,
+                    "2000645|Philip Lee Miller, M.D.": 1,
+                    "2013028|Monica L. Smith": 1,
+                    "2019657|Monica Edinger": 1,
+                    "2030940|Mônica Carnesi": 3,
+                    "2069215|Marc Benioff": 1,
+                    "2133468|Chelsea Clinton": 2,
+                    "2133955|Valerio Fabbretti": 2,
+                    "2135879|Will Buckingham": 1,
+                    "21371|Alexandra Morton": 1,
+                    "2138524|Monica Murphy": 2,
+                    "2143246|Julianna Swaney": 1,
+                    "2144234|Monica Arnaldo": 4,
+                    "2147777|Arvind Ethan David": 2,
+                    "2147842|Ilias Kyriazis": 2,
+                    "2148644|Monica Sharma": 1,
+                    "2152105|Monica Potts": 1,
+                    "2159379|Gillian Flint": 2,
+                    "2160262|Santa Monica Studios": 1,
+                    "2160276|Sony Interactive Entertainment": 1,
+                    "2168216|DK Travel": 1,
+                    "2169306|Monica Russel": 4,
+                    "2170551|Monica C. Worline": 1,
+                    "2170689|Jane E. Dutton": 1,
+                    "2172210|Umberto Eco": 1,
+                    "2172564|Monica Gagliano": 1,
+                    "2173972|Monica Hesse": 2,
+                    "2174721|J.M. Barrie": 1,
+                    "2175621|Monica Swanson": 1,
+                    "2195890|Maike Plenzke": 1,
+                    "2201072|Monica Rodden": 1,
+                    "2202149|Monica Langley": 1,
+                    "2204099|Olivia Abtahi": 2,
+                    "2204745|Monica Katz": 1,
+                    "2205565|Monica Holtsclaw": 1,
+                    "2205857|Henry Wadsworth Longfellow": 1,
+                    "2205946|Pegi Deitz Shea": 1,
+                    "2206011|Ken Condon": 1,
+                    "2206122|Monica Gunning": 1,
+                    "2206124|Monica Vachula": 2,
+                    "2210129|Jerome Pumphrey": 1,
+                    "2212583|Christian Salmon": 1,
+                    "2213684|Peter Salmon": 1,
+                    "221655|Monica Valentinelli": 1,
+                    "2240313|Kathy Iandoli": 1,
+                    "2240340|Monica Wesolowska": 1,
+                    "2243977|George Kambadais": 2,
+                    "2244007|Alex Segura": 2,
+                    "2244030|Monica Gallagher": 2,
+                    "2244093|Ellie Wright": 1,
+                    "2244101|Marco Finnegan": 1,
+                    "2244623|Esperança Melo": 2,
+                    "2244641|Renné Benoit": 1,
+                    "2245517|Monica Gutierrez": 2,
+                    "2247745|Monica Ahanonu": 1,
+                    "2249792|Monica Khemsurov": 1,
+                    "2249793|Jill Singer": 1,
+                    "2257888|Monica Walters": 3,
+                    "2259735|Luca Maresca": 1,
+                    "2259755|Marvel Various": 2,
+                    "2259939|Rod Reis": 1,
+                    "2260142|Roger Stern": 2,
+                    "2260334|Mark Bright": 1,
+                    "2261506|Monica Castellanos": 1,
+                    "2262212|Lucas Werneck": 1,
+                    "2266049|Alma Gomez": 1,
+                    "2266157|Gina Jaramillo": 1,
+                    "2266158|Isabel Salmones": 1,
+                    "2267543|Ivan Fiorelli": 1,
+                    "2267595|Monica Mikai": 4,
+                    "2267960|Mónica Vicente": 2,
+                    "2268327|Mónica Mancillas": 2,
+                    "2268355|Tere Díaz": 1,
+                    "2268706|John Romita Jr": 2,
+                    "226990|Monica Wellington": 8,
+                    "2273584|Rhiannon Giddens": 1,
+                    "2273611|Monica Mikai": 1,
+                    "2276318|Mónica Castellanos": 1,
+                    "2276418|Julia Langbein": 1,
+                    "2276464|Monica Brown": 1,
+                    "2276493|Alexandra Boiger": 1,
+                    "2278806|Monica Foggia": 1,
+                    "2278838|Olivia de Castro": 1,
+                    "2278863|Valeria Quattrocchi": 1,
+                    "2281507|Monica C. Parker": 1,
+                    "2281925|Mónica Rojas": 1,
+                    "2283268|Monica González": 1,
+                    "2283351|Luis Muiño": 1,
+                    "2283356|Mónica Paola Rodriguez": 1,
+                    "2283376|Mariel Jungkunz": 2,
+                    "2283385|Mónica Paola Rodriguez": 2,
+                    "2283712|Monica Steffensen": 1,
+                    "2284005|Eve L. Ewing": 1,
+                    "2284155|Allan Mutuku Kortbaek": 1,
+                    "2284758|Mónica Cencerrado": 6,
+                    "2288743|Simen Saetre": 1,
+                    "2288744|Kjetil Ostli": 1,
+                    "2289175|Mónica Gutiérrez": 4,
+                    "2290285|Mónica Armiño": 1,
+                    "2291208|Lesley Younge": 1,
+                    "229134|Bill Wasik": 2,
+                    "2294274|Monica Datta": 2,
+                    "2299318|Abeeha Tariq": 1,
+                    "229939|Katrin Schumann": 1,
+                    "2300088|Molo Cebrián": 1,
+                    "2303897|Monica León": 1,
+                    "2304731|Monica Saigal": 1,
+                    "2305989|Mónica Mancillas": 1,
+                    "2306717|Mónica Ojeda": 1,
+                    "2307603|Sister Monica Clare": 3,
+                    "2308483|Monica Garner": 2,
+                    "2308616|Mónica Salmón": 2,
+                    "2310557|A. C. Paolini": 1,
+                    "2311188|Monica Stoltzfus": 2,
+                    "2313271|Iguazel Serón": 1,
+                    "231656|Denene Millner": 1,
+                    "2317034|Tom Crestodina": 1,
+                    "2317062|Mindy Dwyer": 1,
+                    "2317204|Emma Teal Laukitis": 2,
+                    "2317282|Claire Neaton": 2,
+                    "2317442|Hannah Viano": 1,
+                    "2319659|Monica Sanz": 1,
+                    "2336766|Monica Wellington": 2,
+                    "2347175|Monica L. Wang": 1,
+                    "2348892|Monica Sweeney": 1,
+                    "241306|Monica Beyer": 1,
+                    "241311|Monica Ferris": 21,
+                    "241313|Monica Seles": 1,
+                    "242252|Paul La Monica": 1,
+                    "25200|Elwood Reid": 1,
+                    "263277|Catherine Salmon Ph.D.": 1,
+                    "303618|Treasure Hernandez": 1,
+                    "309190|Jamie Oliver": 1,
+                    "32403|Richard Walz": 3,
+                    "33665|Monica Wood": 1,
+                    "33705|Jacqueline Woodson": 1,
+                    "36118|Kevin Young": 1,
+                    "39104|Gene Barretta": 1,
+                    "44472|Bill Slavin": 3,
+                    "45145|Betina Ogden": 1,
+                    "45212|Anne Reas": 1,
+                    "45274|Teresa Flavin": 1,
+                    "45361|David Parkins": 4,
+                    "55126|Monica Reinagel": 1,
+                    "57512|New Yorker Magazine Inc": 1,
+                    "57677|Helene Siegel": 1,
+                    "59882|Monica McInerney": 10,
+                    "60569|Monica Pradhan": 1,
+                    "67789|Monica Samuels": 1,
+                    "67790|J.C. Conklin": 1,
+                    "68719|Monica Ferrell": 1,
+                    "70423|Robert Byrd": 1,
+                    "72812|Monica McCarty": 20,
+                    "79167|Alexandra Boiger": 2
+                }
+            },
+            {
+                "name": "format",
+                "values": {
+                    "Audio": 27,
+                    "Board Book": 4,
+                    "Ebook": 157,
+                    "Hardcover": 55,
+                    "Merchandise": 1,
+                    "Paperback": 154
+                }
+            },
+            {
+                "name": "newRelease",
+                "values": {
+                    "false": 231,
+                    "true": 1
+                }
+            },
+            {
+                "name": "series",
+                "values": {
+                    "A Needlecraft Mystery": 21,
+                    "A Stepping Stone Book": 1,
+                    "Alaska Books": 1,
+                    "All New 20 to Make": 1,
+                    "Campbell Trilogy": 4,
+                    "Country Comfort": 7,
+                    "Dirk Gently": 2,
+                    "Ella Persistio": 1,
+                    "Great Idea Series": 9,
+                    "Highland Guard": 9,
+                    "Hitchhiker's Guide to the Galaxy": 1,
+                    "Local Travel Guide": 1,
+                    "MAGIC STARS.": 1,
+                    "MONICA RAMBEAU: PHOTON": 1,
+                    "Macleods of Skye": 4,
+                    "Minecraft": 1,
+                    "NICA CANICA": 2,
+                    "Never": 2,
+                    "Nica Canica": 1,
+                    "One Week Girlfriend Quartet": 5,
+                    "Patagonia": 2,
+                    "Pictureback": 1,
+                    "Salmon Sisters": 1,
+                    "She Persisted": 2,
+                    "Step into Reading": 9,
+                    "The Fowler Sisters": 3,
+                    "The Lost Platoon": 3,
+                    "Totally Cookbooks Series": 1,
+                    "Working Boats": 1
+                }
+            },
+            {
+                "name": "division",
+                "values": {
+                    "Astra Publishing House": 11,
+                    "Audio": 39,
+                    "Ballantine Group": 31,
+                    "Bantam Dell": 15,
+                    "Beacon Press": 4,
+                    "Berkley / NAL": 31,
+                    "Berrett-Koehler": 2,
+                    "Blue Star": 9,
+                    "Candlewick": 7,
+                    "Clarkson Potter/Ten Speed": 6,
+                    "Crown": 8,
+                    "DK.": 2,
+                    "Dark Horse Comics": 5,
+                    "Disney - RHCB": 2,
+                    "Doubleday Publishing": 1,
+                    "Hatherleigh Books": 8,
+                    "IDW Publishing": 2,
+                    "Kensington": 7,
+                    "Knopf": 4,
+                    "Marvel": 4,
+                    "North Atlantic Books": 4,
+                    "Other Press": 2,
+                    "PRH Christian Publishing": 2,
+                    "PRH Grupo Editorial": 51,
+                    "Penguin Adult HC/TR": 17,
+                    "Penguin Young Readers": 29,
+                    "Prestel Publishing": 3,
+                    "RH Canadian Publishing": 1,
+                    "RH Childrens Books": 22,
+                    "Random House Group": 7,
+                    "Random House Worlds": 3,
+                    "Search Press": 5,
+                    "Seven Stories Press": 1,
+                    "Shambhala": 2,
+                    "Smithsonian": 1,
+                    "The MIT Press": 2,
+                    "Tiger Tales": 2,
+                    "Titan": 2,
+                    "Tundra": 13,
+                    "Tundra Book Group": 2,
+                    "Verso Books": 5
+                }
+            },
+            {
+                "name": "award",
+                "values": {}
+            },
+            {
+                "name": "docType",
+                "values": {
+                    "author": 98,
+                    "event": 3,
+                    "series": 2,
+                    "work": 232
+                }
+            }
+        ],
+        "_embeds": null,
+        "_links": [
+            {
+                "rel": "next",
+                "href": "https://api.penguinrandomhouse.com/title/domains/PRH.US/search?q=Monica+Salmon&api_key=zqjkb3q6d9qgbjf44xmzn5c3&start=10",
+                "method": "GET",
+                "parameters": null
+            }
+        ]
+    },
+    "error": null,
+    "params": {
+        "q": "Monica Salmon",
+        "sort": "score",
+        "clientGroup": "Public",
+        "domain": "PRH.US"
+    },
+    "requestedMethod": "listSearchResults"
+}

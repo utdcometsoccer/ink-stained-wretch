@@ -147,7 +147,7 @@
         "delete": "Eliminar",
         "addArticle": "Agregar artículo"
     },
-    "AuthorDocForm": {
+    "OpenLibraryAuthorForm": {
         "legend": "Editar autor",
         "key": "Clave:",
         "text": "Texto:",
@@ -199,6 +199,7 @@
         "books": "Libros",
         "socialLinks": "Redes sociales",
         "importAuthor": "Importar autor de Open Library",
+        "importPenguinAuthor": "Importar autor de Penguin Random House",
         "save": "Guardar autor",
         "cancel": "Cancelar"
     },
@@ -213,5 +214,31 @@
         "error": "No se pudieron cargar los registros de dominio.",
         "loading": "Cargando registros de dominio...",
         "empty": "No se encontraron registros de dominio."
+    },
+    "PenguinRandomHouseAuthorList": {
+        "title": "M autores de Penguin Random House",
+        "import": "Importar",
+        "importTitle": "Importar autor de Penguin Random House",
+        "goBack": "Regresar",
+        "noResults": "No se encontraron autores."
+    },
+    "PenguinRandomHouseAuthorDetail": {
+        "title": "Detalles del autor de Penguin Random House",
+        "name": "Nombre",
+        "score": "Puntuación",
+        "url": "URL",
+        "domain": "Dominio",
+        "titleField": "Título",
+        "description": "Descripción",
+        "authorFirst": "Nombre de pila",
+        "authorLast": "Apellido",
+        "photoCredit": "Créditos de la foto",
+        "onTour": "En gira",
+        "seriesAuthor": "Autor de la serie",
+        "seriesIsbn": "ISBN de la serie",
+        "seriesCount": "Número de series",
+        "keywordId": "ID de palabra clave",
+        "save": "Guardar",
+        "cancel": "Cancelar"
     }
 }
