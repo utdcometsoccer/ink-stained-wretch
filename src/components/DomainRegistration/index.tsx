@@ -25,36 +25,32 @@ export const DomainRegistration: FC<DomainRegistrationProps> = ({ state, dispatc
         APICallFailed
     } = useDomainRegistrationLogic(state, dispatch);
 
-    return (
-        <>
-            {!loading ? (
-                <div>
-                    <h1>{domainRegistrationText?.title}</h1>
-                    <p>{domainRegistrationText?.subtitle}</p>
-                    {
-                        (APICallFailed && !!(domainRegistrations) && domainRegistrations.length > 0) ? null : <DomainRegistrationsList domainRegistrationData={domainRegistrations || []} localizedText={domainRegistrationsListText} onClickSelect={(domainReg) => { dispatch({ type: "SELECT_DOMAIN_REGISTRATION", payload: domainReg }) }} />
-                    }
-                    <form onSubmit={handleSubmit}></form>
-                    <div>
-                        <form onSubmit={handleSubmit}>
-                            <DomainInput
-                                value={domainInputValue}
-                                error={domainError}
-                                isValid={!!isValid}
-                                onChange={handleDomainInputChange}
-                            />
-                            <ContactInfoForm
-                                cityRef={cityRef}
-                                state={state}
-                                cultureInfo={state.cultureInfo}
-                                onChange={handleContactChange}
-                                culture={culture}
-                            />
-                            <button type="submit" className="app-btn">{domainRegistrationText.submit}</button>
-                        </form>
-                    </div>
-                </div>
-            ) : (<CircularProgress />)
+    return !loading ? (
+        <div>
+            <h1>{domainRegistrationText?.title}</h1>
+            <p>{domainRegistrationText?.subtitle}</p>
+            {
+                (APICallFailed && !!(domainRegistrations) && domainRegistrations.length > 0) ? null : <DomainRegistrationsList domainRegistrationData={domainRegistrations || []} localizedText={domainRegistrationsListText} onClickSelect={(domainReg) => { dispatch({ type: "SELECT_DOMAIN_REGISTRATION", payload: domainReg }) }} />
             }
-        </>);
-}
+            <form onSubmit={handleSubmit}></form>
+            <div>
+                <form onSubmit={handleSubmit}>
+                    <DomainInput
+                        value={domainInputValue}
+                        error={domainError}
+                        isValid={!!isValid}
+                        onChange={handleDomainInputChange}
+                    />
+                    <ContactInfoForm
+                        cityRef={cityRef}
+                        state={state}
+                        cultureInfo={state.cultureInfo}
+                        onChange={handleContactChange}
+                        culture={culture}
+                    />
+                    <button type="submit" className="app-btn">{domainRegistrationText.submit}</button>
+                </form>
+            </div>
+        </div>
+    ) : (<CircularProgress />)
+};

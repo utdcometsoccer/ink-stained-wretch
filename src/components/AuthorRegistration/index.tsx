@@ -23,7 +23,7 @@ export const AuthorRegistration: FC<AuthorRegistrationProps> = (props: AuthorReg
         state,
         loading
     } = useAuthorRegistration(props);
-    return loading ? (
+    return     loading ? (
         <CircularProgress />
     ) : (
         <div className="author-list">
@@ -73,5 +73,5 @@ export const AuthorRegistration: FC<AuthorRegistrationProps> = (props: AuthorReg
                 </button>
             </div>
         </div>
-    );
-}
+    )
+};

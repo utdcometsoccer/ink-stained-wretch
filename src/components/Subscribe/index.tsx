@@ -19,4 +19,3 @@ export const Subscribe: FC<SubscribeProps> = (props) => {
     );
 };
 
-export default Subscribe;

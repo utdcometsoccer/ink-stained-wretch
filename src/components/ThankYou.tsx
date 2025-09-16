@@ -8,11 +8,8 @@ export const ThankYou:FC<ThankYouProps> = ({ culture="en-us"}) => {
   const localization = useLocalizationContext();
   const text = localization.ThankYou;
   useTrackComponent('ThankYou', { culture });
-  return (
-    <div className="thank-you-container">
+  return (<>
       <h1 className="thank-you-title">{text.title}</h1>
       <p className="thank-you-message">{text.message}</p>
-      {/* Add thank you message and next steps here */}
-    </div>
-  );
+  </>);
 }
