@@ -1,13 +1,14 @@
 import { CircularProgress } from '@mui/material';
-import { useEffect, useRef, useState, type FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { useLocalizationContext } from '../../hooks/useLocalizationContext';
+import { useRunOnce } from '../../hooks/useRunOnce';
 import { useTrackComponent } from '../../hooks/useTrackComponent';
+import { createSubscription } from '../../services/createSubscription';
+import { formatError } from '../../services/formatError';
+import type { SubscriptionCreateResponse } from '../../types/Stripe';
 import "./Checkout.css";
 import { CheckoutForm } from './CheckoutForm';
 import type { CheckoutProps } from './CheckoutProps';
-import { createSubscription } from '../../services/createSubscription';
-import type { SubscriptionCreateResponse } from '../../types/Stripe';
-import { formatError } from '../../services/formatError';
 
 
 
@@ -29,36 +30,25 @@ export const Checkout: FC<CheckoutProps> = ({ state, dispatch }) => {
   }, [dispatch, stripePriceId]);
   const localized = useLocalizationContext();
   const localizedCheckout = localized.Checkout;
-  const didRunRef = useRef(false);
-  useEffect(() => {
-    if (didRunRef.current) return; // guard against Strict Mode double-invoke
-    didRunRef.current = true;
-    let canceled = false;
+  useRunOnce(() => {
     const run = async () => {
       try {
         const response = await createSubscription({ PriceId: stripePriceId || '', CustomerId: id || '' });
-        if (canceled) return;
         // handle success
-        setSubscription(response);
-        
+        setSubscription(response);        
       } catch (error) {
-        if (canceled) return;
         // handle error
         dispatch({ type: 'SET_ERROR', payload: formatError(error) });
       } finally {
-        if (canceled) return;
         // finalize
         setLoading(false);
       }
     }
     run();
-    return () => {
-      canceled = true;
-    };
-  }, []);
-  
+  });
+
   const { subscriptionId, clientSecret } = subscription || {};
-  useEffect(() => {    
+  useEffect(() => {
     if (!loading) {
       !clientSecret ? dispatch({ type: 'SET_ERROR', payload: 'No Stripe client secret found' }) : dispatch({ type: 'CLEAR_ERROR' });
       dispatch({ type: 'UPDATE_STATE', payload: { subscriptionId } });

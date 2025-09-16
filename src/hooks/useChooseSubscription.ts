@@ -16,15 +16,15 @@ export function useChooseSubscriptionLogic(state: State, dispatch: React.Dispatc
     initialChooseSubscriptionState
   );
 
-  useRunOnce((cancelRef) => {
+  useRunOnce(() => {
     async function getPlans() {
       let tempPlans: SubscriptionPlan[] = fallbackPlans;
       try {
         const apiPlans: SubscriptionPlan[] = [];
         let hasMore = true;
         let lastId: string | undefined = undefined;
-        let page = 0;
-        const MAX_PAGES = 10; // safety guard to prevent infinite loops if API misbehaves
+  let page = 0;
+  const MAX_PAGES = Number.parseInt(import.meta.env.VITE_SUBSCRIPTION_PLANS_MAX_PAGES || '20', 10) || 20; // safety guard from env
 
         while (hasMore && page < MAX_PAGES) {
           const resp = await fetchSubscriptionPlans({
@@ -47,7 +47,7 @@ export function useChooseSubscriptionLogic(state: State, dispatch: React.Dispatc
           page++;
         }
 
-        if (!cancelRef.current && apiPlans.length > 0) {
+        if (apiPlans.length > 0) {
           tempPlans = apiPlans;
         }
       } catch (error) {
@@ -55,10 +55,8 @@ export function useChooseSubscriptionLogic(state: State, dispatch: React.Dispatc
         if (trackException) {
           trackException(error instanceof Error ? error : new Error(String(error)), 3);
         }
-      } finally {
-        if (!cancelRef.current) {
+      } finally {        
           dispatch({ type: "UPDATE_STATE", payload: { subscriptionPlans: tempPlans } });
-        }
       }
     }
     void getPlans();
