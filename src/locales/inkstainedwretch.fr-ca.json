@@ -39,13 +39,9 @@
                 "label": "Auteur",
                 "description": "Page de l'auteur"
             },
-            "chooseSubscription": {
-                "label": "Forfaits",
-                "description": "Choisir un forfait"
-            },
-            "checkout": {
-                "label": "Paiement",
-                "description": "Compléter l'achat"
+           "subscribe": {
+                "label": "S'abonner",
+                "description": "Choisissez un plan d'abonnement et passez à la caisse"
             },
             "thankYou": {
                 "label": "Succès",

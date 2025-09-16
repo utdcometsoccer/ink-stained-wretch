@@ -10,8 +10,9 @@ import { trackEvent,  } from '../../services/applicationInsights';
 export interface CheckoutFormProps {
     name: string;
     clientSecret: string;
+    handleSuccess: () => void;
 }
-export const CheckoutForm: FC<CheckoutFormProps> = ({ name, clientSecret }) => {
+export const CheckoutForm: FC<CheckoutFormProps> = ({ name, clientSecret, handleSuccess }) => {
     const stripe = useStripe();
     const elements = useElements();
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -42,7 +43,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ name, clientSecret }) => {
                 throw new Error("Stripe.js has not yet loaded.");
             }
             const cardElement = elements.getElement(CardElement);
-            const { error } = await stripe.confirmCardPayment(clientSecret, {
+            const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
                 payment_method: {
                     card: cardElement!,
                     billing_details: { name }
@@ -50,6 +51,9 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ name, clientSecret }) => {
             });
             if (error) {
                 handlePaymentError(error);
+            } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+                // Set UI state to thankYou
+                handleSuccess();
             }
         } catch (error) {
             handlePaymentError(error);

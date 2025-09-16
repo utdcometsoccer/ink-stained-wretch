@@ -27,8 +27,7 @@
             "login": { "label": "تسجيل الدخول", "description": "تسجيل الدخول / إنشاء حساب" },
             "domainRegistration": { "label": "النطاق", "description": "تسجيل النطاق" },
             "authorPage": { "label": "المؤلف", "description": "صفحة المؤلف" },
-            "chooseSubscription": { "label": "الخطط", "description": "اختر خطة" },
-            "checkout": { "label": "الدفع", "description": "إتمام الشراء" },
+            "subscribe": { "label": "اشترك", "description": "اختر خطة اشتراك وأكمل الدفع" },
             "thankYou": { "label": "نجاح", "description": "شكرًا لك" }
         }
     },

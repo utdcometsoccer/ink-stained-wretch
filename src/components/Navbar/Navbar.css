@@ -98,9 +98,13 @@
   border-radius: 4px;
   transition: background 0.2s;
   text-align: left;
+  display: flex;
 }
 .mobile-nav-item.active {
   background: #444;
+}
+.mobile-nav-item > .nav-text > .nav-description {
+  margin-left: 5px;
 }
 .nav-icon {
   margin-right: 0.5rem;

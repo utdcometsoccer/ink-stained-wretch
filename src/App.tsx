@@ -4,9 +4,7 @@ import { Elements } from '@stripe/react-stripe-js';
 import type { Stripe } from "@stripe/stripe-js";
 import './App.css';
 import { AuthorRegistration } from './components/AuthorRegistration';
-import { Checkout } from './components/Checkout';
 import { ChooseCulture } from "./components/ChooseCulture";
-import ChooseSubscription from "./components/ChooseSubscription";
 import { DomainRegistration } from './components/DomainRegistration';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ErrorPage } from './components/ErrorPage';
@@ -17,8 +15,10 @@ import { LocalizationContext } from "./LocalizationContext";
 import { isDevelopment } from './services/isDevelopment';
 import { trackException } from './services/applicationInsights';
 import { msalInstance } from "./services/msalConfig";
-import { stripePromise } from './services/stripeClient';
+
 import { useAppLogic } from './hooks/useAppLogic';
+import Subscribe from "./components/Subscribe";
+import { stripePromise } from "./services/stripeClient";
 function App() {
   const { appState, dispatch, localized, loading, handleReactError } = useAppLogic();
 
@@ -33,14 +33,8 @@ function App() {
           return <DomainRegistration state={appState.state} dispatch={dispatch} />
         case 'authorPage':
           return <AuthorRegistration state={appState.state} dispatch={dispatch} culture={appState.state.cultureInfo?.Culture} />
-        case 'chooseSubscription':
-          return <ChooseSubscription state={appState.state} dispatch={dispatch} culture={appState.state.cultureInfo?.Culture} />
-        case 'checkout':
-          return import.meta.env.VITE_ENABLE_STRIPE_CHECKOUT ? (
-            <Elements stripe={stripePromise as unknown as Stripe | null}>
-              <Checkout state={appState.state} dispatch={dispatch} />
-            </Elements>
-          ) : <h2>Stripe Checkout is disabled</h2>
+        case 'subscribe':
+          return <Subscribe state={appState.state} dispatch={dispatch} culture={appState.state.cultureInfo?.Culture} />
         case 'thankYou':
           return <ThankYou />
         case 'error':

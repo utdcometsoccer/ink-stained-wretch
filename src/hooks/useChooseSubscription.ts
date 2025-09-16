@@ -68,15 +68,9 @@ export function useChooseSubscriptionLogic(state: State, dispatch: React.Dispatc
     dispatch({ type: "UPDATE_STATE", payload: { selectedSubscriptionPlan: plans[idx] } });
   };
 
-  const handleContinue = () => {
-    if (subState.selected !== null) {
-      dispatch({ type: "SET_UI_STATE", payload: "checkout" });
-    }
-  };
 
   return {
     subState,
-    handleSelect,
-    handleContinue,
+    handleSelect
   };
 }
