@@ -12,7 +12,7 @@ import { LogoutButton } from "./LogoutButton";
 import { LogoutHeader } from "./LogoutHeader";
 
 export const Login: FC<LoginProps> = ({ state, dispatch }) => {
-  
+
   const localization = useLocalizationContext();
   const loginRegisterText = localization.LoginRegister;
   useTrackComponent('Login', { state, dispatch });
@@ -26,7 +26,7 @@ export const Login: FC<LoginProps> = ({ state, dispatch }) => {
 
   const { countdown, showRedirect } = loginState;
   return (
-    <div>
+    <>
       <UnauthenticatedTemplate>
         <LoginHeader title={loginRegisterText?.loginHeader.title} subtitle={loginRegisterText?.loginHeader.subtitle} />
         <LoginButton onSignIn={handleSignIn} className="app-btn" label={loginRegisterText?.loginButton.label} />
@@ -41,6 +41,6 @@ export const Login: FC<LoginProps> = ({ state, dispatch }) => {
         <LogoutHeader label={loginRegisterText.logoutButton.label} />
         <LogoutButton onSignOut={handleSignOut} className="app-btn cancel" label={loginRegisterText.logoutButton.label} />
       </AuthenticatedTemplate>
-    </div>
+    </>
   );
 }

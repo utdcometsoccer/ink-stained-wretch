@@ -23,7 +23,7 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
   const culture = state.cultureInfo?.Culture || 'en-us';
   const localized = useLocalizationContext().ChooseCulture;
   return (
-    <div className="choose-culture-container">
+    <>
       <CountdownIndicator
         countdown={localState.countdown}
         showRedirect={typeof localState.countdown === "number" && localState.countdown > 0}
@@ -82,6 +82,6 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
           {localized.cookiesInfo}
         </p>
       </div>
-    </div>
+    </>
   );
 }

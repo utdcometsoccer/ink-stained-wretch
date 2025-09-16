@@ -10,15 +10,16 @@ import { ErrorBoundary } from './components/ErrorBoundary';
 import { ErrorPage } from './components/ErrorPage';
 import { Login } from './components/LoginRegister';
 import { Navbar } from './components/Navbar';
+import { Subscribe } from "./components/Subscribe";
 import { ThankYou } from './components/ThankYou';
-import { LocalizationContext } from "./LocalizationContext";
-import { isDevelopment } from './services/isDevelopment';
-import { trackException } from './services/applicationInsights';
-import { msalInstance } from "./services/msalConfig";
-
 import { useAppLogic } from './hooks/useAppLogic';
-import Subscribe from "./components/Subscribe";
+import { LocalizationContext } from "./LocalizationContext";
+import { trackException } from './services/applicationInsights';
+import { isDevelopment } from './services/isDevelopment';
+import { msalInstance } from "./services/msalConfig";
 import { stripePromise } from "./services/stripeClient";
+import { Container } from "./components/Container";
+
 function App() {
   const { appState, dispatch, localized, loading, handleReactError } = useAppLogic();
 
@@ -62,10 +63,12 @@ function App() {
             <div className="app">
               <Navbar currentState={appState.currentUIState} dispatch={dispatch} state={appState.state} />
               <main className="app-content">
-                {renderCurrentComponent()}
+                <Container>
+                  {renderCurrentComponent()}
+                </Container>
               </main>
             </div>
-            </Elements>
+          </Elements>
         </LocalizationContext>
       </ErrorBoundary>
     </MsalProvider>
