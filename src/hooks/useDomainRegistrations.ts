@@ -10,16 +10,41 @@ export function useDomainRegistrations(accessToken: string): UseDomainRegistrati
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!accessToken) {
-      setError("No access token provided");
-      setLoading(false);
-      return;
-    }
-    setLoading(true);
-    fetchDomainRegistrations(accessToken)
-      .then(setData)
-      .catch(err => setError(err.message))
-      .finally(() => setLoading(false));
+    let cancelled = false;
+    const run = async () => {
+      if (!accessToken) {
+        if (!cancelled) {
+          setError("No access token provided");
+          setLoading(false);
+        }
+        return;
+      }
+      try {
+        setLoading(true);
+        const registrations = await fetchDomainRegistrations(accessToken);
+        if (!cancelled) {
+          setData(registrations);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          if (err instanceof Error) {
+            setError(err.message);
+          } else if (typeof err === "string") {
+            setError(err);
+          } else {
+            setError(String(err));
+          }
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+    run();
+    return () => {
+      cancelled = true;
+    };
   }, [accessToken]);
 
   return { data, error, loading };

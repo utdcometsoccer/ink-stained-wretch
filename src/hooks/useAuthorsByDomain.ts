@@ -9,16 +9,37 @@ export function useAuthorsByDomain(accessToken: string, secondLevelDomain: strin
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!accessToken || !secondLevelDomain || !topLevelDomain) {
-      setError("Missing required parameters");
-      setLoading(false);
-      return;
-    }
-    setLoading(true);
-    fetchAuthorsByDomain(accessToken, secondLevelDomain, topLevelDomain)
-      .then(setData)
-      .catch(err => setError(err.message))
-      .finally(() => setLoading(false));
+    let cancelled = false;
+
+    const run = async () => {
+      if (!accessToken || !secondLevelDomain || !topLevelDomain) {
+        if (!cancelled) {
+          setError("Missing required parameters");
+          setLoading(false);
+        }
+        return;
+      }
+
+      if (!cancelled) {
+        setLoading(true);
+        setError(null);
+      }
+      try {
+        const authors = await fetchAuthorsByDomain(accessToken, secondLevelDomain, topLevelDomain);
+        if (!cancelled) setData(authors);
+      } catch (err) {
+        if (!cancelled) {
+          if (err instanceof Error) setError(err.message);
+          else if (typeof err === "string") setError(err);
+          else setError(String(err));
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    run();
+    return () => { cancelled = true; };
   }, [accessToken, secondLevelDomain, topLevelDomain]);
 
   return { authorInformation, error, loading };

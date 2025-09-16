@@ -16,23 +16,34 @@ export function usePenguinRandomHouseAuthorSearch(
 ): UsePenguinRandomHouseAuthorSearchResult {
 	const [data, setData] = useState<AuthorResult[] | null>(null);
 	const [error, setError] = useState<string | null>(null);
-	const [loading, setLoading] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(true);
 
 	useEffect(() => {
+		let cancelled = false;
+
 		if (!query) {
 			setData(null);
 			setError(null);
 			setLoading(false);
 			return;
 		}
+
 		setLoading(true);
 		setError(null);
 		fetchFn(query)
 			.then((authors) => {
-				setData(authors);
+				if (!cancelled) setData(authors);
 			})
-			.catch((err) => setError(err.message))
-			.finally(() => setLoading(false));
+			.catch((err) => {
+				if (!cancelled) setError(err?.message ?? String(err));
+			})
+			.finally(() => {
+				if (!cancelled) setLoading(false);
+			});
+
+		return () => {
+			cancelled = true;
+		};
 	}, [query, fetchFn]);
 
 	return { penguinAuthors: data, error, loading };

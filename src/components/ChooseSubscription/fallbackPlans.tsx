@@ -2,6 +2,7 @@ import type { SubscriptionPlan } from "../../types/SubscriptionPlan";
 
 export const fallbackPlans: SubscriptionPlan[] = [
   {
+    id: "plan_1_year",
     label: "1 Year Subscription",
     price: 59,
     duration: 1,
@@ -12,6 +13,7 @@ export const fallbackPlans: SubscriptionPlan[] = [
     currency: "USD"
   },
   {
+    id: "plan_2_year",
     label: "2 Year Subscription",
     price: 99,
     duration: 2,
@@ -22,6 +24,7 @@ export const fallbackPlans: SubscriptionPlan[] = [
     currency: "USD"
   },
   {
+    id: "plan_3_year",
     label: "3 Year Subscription",
     price: 149,
     duration: 3,

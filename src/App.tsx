@@ -1,4 +1,7 @@
 import { MsalProvider } from "@azure/msal-react";
+import { CircularProgress } from "@mui/material";
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe, type Stripe } from "@stripe/stripe-js";
 import { useEffect, useReducer } from 'react';
 import './App.css';
 import { AuthorRegistration } from './components/AuthorRegistration';
@@ -19,8 +22,9 @@ import { getDefaultLocale } from "./services/getDefaultLocale";
 import { isDevelopment } from './services/isDevelopment';
 import { loadStateFromCookie } from './services/loadStateFromCookie';
 import { msalInstance } from "./services/msalConfig";
-
+export const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY) ?? (new Error('Failed to load Stripe'));
 function App() {
+
   const [appState, dispatch] = useReducer(appReducer, loadStateFromCookie())
 
   // Initialize Application Insights
@@ -71,7 +75,19 @@ function App() {
   }, []);
 
   const culture = appState.state.cultureInfo?.Culture || 'en-us';
-  const localized = useGetLocalizedText(culture) || getDefaultLocale();  
+  const { localizedText, loading, error } = useGetLocalizedText(culture);
+  const localized = localizedText || getDefaultLocale();
+
+
+  useEffect(() => {
+    if (error) {
+      trackException(error instanceof Error ? error : new Error(String(error)), 3);
+      dispatch({
+        type: 'SET_ERROR',
+        payload: error instanceof Error ? error.message : String(error)
+      });
+    }
+  }, [error]);
 
   const handleReactError = (error: Error) => {
     trackException(error, 3); // Error severity level
@@ -95,7 +111,11 @@ function App() {
         case 'chooseSubscription':
           return <ChooseSubscription state={appState.state} dispatch={dispatch} culture={appState.state.cultureInfo?.Culture} />
         case 'checkout':
-          return import.meta.env.VITE_ENABLE_STRIPE_CHECKOUT ? <Checkout state={appState.state} /> : <h2>Stripe Checkout is disabled</h2>
+          return import.meta.env.VITE_ENABLE_STRIPE_CHECKOUT ? (
+            <Elements stripe={stripe as Stripe | null}>
+              <Checkout state={appState.state} dispatch={dispatch} />
+            </Elements>
+          ) : <h2>Stripe Checkout is disabled</h2>
         case 'thankYou':
           return <ThankYou />
         case 'error':
@@ -112,22 +132,32 @@ function App() {
       })
       return <ErrorPage state={appState.state} dispatch={dispatch} isDevelopment={isDevelopment} culture={appState.state.cultureInfo?.Culture} />
     }
+  };
+  if (stripe instanceof Error) {
+    dispatch({
+      type: 'SET_ERROR',
+      payload: stripe.message
+    })
   }
-
-  return (
+  return loading ? (
+    <CircularProgress />
+  ) : (
     <MsalProvider instance={msalInstance}>
       <ErrorBoundary onError={handleReactError}>
         <LocalizationContext value={localized}>
-          <div className="app">
-            <Navbar currentState={appState.currentUIState} dispatch={dispatch} state={appState.state} />
-            <main className="app-content">
-              {renderCurrentComponent()}
-            </main>
-          </div>
+          <Elements stripe={stripe as Stripe | null}>
+            <div className="app">
+              <Navbar currentState={appState.currentUIState} dispatch={dispatch} state={appState.state} />
+              <main className="app-content">
+                {renderCurrentComponent()}
+              </main>
+            </div>
+            </Elements>
         </LocalizationContext>
       </ErrorBoundary>
     </MsalProvider>
   )
-}
+};
 
 export default App
+

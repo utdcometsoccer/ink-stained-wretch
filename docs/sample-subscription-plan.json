@@ -1,0 +1,14 @@
+{
+  "label": "Basic",
+  "price": 9.99,
+  "duration": 1,
+  "features": [
+    "Up to 10 domains",
+    "Email support",
+    "Access to standard features"
+  ],
+  "stripePriceId": "price_1234567890abcdef",
+  "name": "Basic Monthly",
+  "description": "Starter plan billed monthly",
+  "currency": "USD"
+}

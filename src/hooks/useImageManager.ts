@@ -1,13 +1,7 @@
 import { useEffect, useReducer } from "react";
 import { imageManagerReducer } from '../reducers/imageManagerReducer';
 import { getImageApiErrorMessage } from "../services/imageApiErrors";
-import type { ManagedImage } from "../types/ManagedImage";
-
-interface UseImageManagerProps {
-  token: string;
-  listUserImages: (token: string) => Promise<ManagedImage[]>;
-  deleteImage: (id: string, token: string) => Promise<void>;
-}
+import type { UseImageManagerProps } from "../types/UseImageManagerProps";
 
 export function useImageManager({ token, listUserImages, deleteImage }: UseImageManagerProps) {
   const [state, dispatch] = useReducer(imageManagerReducer, {
