@@ -172,8 +172,7 @@ export interface NavbarText {
         login: { label: string; description: string };
         domainRegistration: { label: string; description: string };
         authorPage: { label: string; description: string };
-        chooseSubscription: { label: string; description: string };
-        checkout: { label: string; description: string };
+        subscribe: { label: string; description: string };
         thankYou: { label: string; description: string };
     };
 }

@@ -72,7 +72,7 @@ export function useAuthorRegistration({ state, dispatch, culture }: AuthorRegist
             dispatchList({ type: "SET_WARNING", payload: "You must add at least one author record before continuing." });
         } else {
             dispatchList({ type: "SET_WARNING", payload: "" });
-            dispatch({ type: "SET_UI_STATE", payload: "chooseSubscription" });
+            dispatch({ type: "SET_UI_STATE", payload: 'subscribe' });
         }
     };
     const authorsList = normalizeArray(Authors);

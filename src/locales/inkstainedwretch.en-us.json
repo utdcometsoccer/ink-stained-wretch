@@ -48,13 +48,9 @@
                 "label": "Author",
                 "description": "Author Page"
             },
-            "chooseSubscription": {
-                "label": "Plans",
-                "description": "Choose Plan"
-            },
-            "checkout": {
-                "label": "Checkout",
-                "description": "Complete Purchase"
+            "subscribe": {
+                "label": "Subscribe",
+                "description": "Choose a Subscription Plan and Checkout"
             },
             "thankYou": {
                 "label": "Success",

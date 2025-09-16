@@ -6,15 +6,15 @@ import type { ChooseCultureProps } from '../ChooseCulture/ChooseCultureProps';
 import "./ChooseSubscription.css";
 import { fallbackPlans } from './fallbackPlans';
 
-const ChooseSubscription:FC<ChooseCultureProps> = (props) => {
+export const ChooseSubscription: FC<ChooseCultureProps> = (props) => {
   useTrackComponent('ChooseSubscription', props);
-  const { subState, handleSelect, handleContinue } = useChooseSubscriptionLogic(props.state, props.dispatch);
+  const { subState, handleSelect } = useChooseSubscriptionLogic(props.state, props.dispatch);
   const localized = useLocalizationContext().ChooseSubscription;
   const { state } = props;
   const { subscriptionPlans } = state;
   const plans = subscriptionPlans || fallbackPlans;
   return (
-    <div className="choose-subscription-page">
+    <div>
       <h1 className="choose-subscription-title">{localized.title}</h1>
       <div className="choose-subscription-options">
         {plans.map((plan, idx) => (
@@ -25,27 +25,20 @@ const ChooseSubscription:FC<ChooseCultureProps> = (props) => {
           >
             <h2>{plan.label}</h2>
             <div className="choose-subscription-price">${plan.price}</div>
-            <ul className="choose-subscription-features">
-              {/*plan.features.map((feature: string) => (
-                <li key={feature}>{feature}</li>
-              ))*/}
-            </ul>
+            {Array.isArray(plan.features) && plan.features.length > 0 && (
+              <ul className="choose-subscription-features">
+                {plan.features.map((feature: string) => (
+                  <li key={feature}>{feature}</li>
+                ))}
+              </ul>
+            )}
             {subState.selected === idx && <div className="choose-subscription-selected">{localized.selected}</div>}
           </div>
         ))}
       </div>
-      <button
-        className="app-btn"
-        disabled={subState.selected === null}
-        onClick={handleContinue}
-      >
-        {localized.continue}
-      </button>
       <div className="choose-subscription-note">
         <strong>{localized.note}</strong>
       </div>
     </div>
   );
-};
-
-export default ChooseSubscription;
+}

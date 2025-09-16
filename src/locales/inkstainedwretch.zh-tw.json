@@ -39,13 +39,9 @@
                 "label": "作者",
                 "description": "作者頁面"
             },
-            "chooseSubscription": {
-                "label": "方案",
-                "description": "選擇方案"
-            },
-            "checkout": {
-                "label": "結帳",
-                "description": "完成購買"
+           "subscribe": {
+                "label": "訂閱",
+                "description": "選擇訂閱計劃並完成付款"
             },
             "thankYou": {
                 "label": "成功",

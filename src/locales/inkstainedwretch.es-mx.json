@@ -39,13 +39,9 @@
                 "label": "Autor",
                 "description": "Página del autor"
             },
-            "chooseSubscription": {
-                "label": "Planes",
-                "description": "Elegir plan"
-            },
-            "checkout": {
-                "label": "Pago",
-                "description": "Completar compra"
+           "subscribe": {
+                "label": "Suscribirse",
+                "description": "Elige un plan de suscripción y completa el pago"
             },
             "thankYou": {
                 "label": "Éxito",

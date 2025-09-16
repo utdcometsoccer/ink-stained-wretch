@@ -35,7 +35,7 @@ export const Checkout: FC<CheckoutProps> = ({ state, dispatch }) => {
       try {
         const response = await createSubscription({ PriceId: stripePriceId || '', CustomerId: id || '' });
         // handle success
-        setSubscription(response);        
+        setSubscription(response);
       } catch (error) {
         // handle error
         dispatch({ type: 'SET_ERROR', payload: formatError(error) });
@@ -62,7 +62,7 @@ export const Checkout: FC<CheckoutProps> = ({ state, dispatch }) => {
   return selectedSubscriptionPlan ? (
 
     <div className="checkout-page">
-      <CheckoutForm name={displayName || ''} clientSecret={clientSecret || ''} />
+      <CheckoutForm name={displayName || ''} clientSecret={clientSecret || ''} handleSuccess={() => dispatch({ type: 'SET_UI_STATE', payload: 'thankYou' })} />
     </div>
   ) : <div>{localizedCheckout.selectPlan}</div>;
 };
