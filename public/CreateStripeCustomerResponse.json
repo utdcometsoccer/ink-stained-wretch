@@ -1,0 +1,37 @@
+{
+    "customer": {
+        "id": "cus_T3dUOn7nnY9evx",
+        "object": "customer",
+        "address": null,
+        "balance": 0,
+        "cash_balance": null,
+        "created": 1757918925,
+        "currency": null,
+        "default_source": null,
+        "delinquent": false,
+        "description": null,
+        "discount": null,
+        "email": "idahosae@gmail.com",
+        "invoice_credit_balance": null,
+        "invoice_prefix": "PVQT3Y7I",
+        "invoice_settings": {
+            "custom_fields": null,
+            "default_payment_method": null,
+            "footer": null,
+            "rendering_options": null
+        },
+        "livemode": false,
+        "metadata": {},
+        "name": null,
+        "next_invoice_sequence": 1,
+        "phone": null,
+        "preferred_locales": [],
+        "shipping": null,
+        "sources": null,
+        "subscriptions": null,
+        "tax": null,
+        "tax_exempt": "none",
+        "tax_ids": null,
+        "test_clock": null
+    }
+}

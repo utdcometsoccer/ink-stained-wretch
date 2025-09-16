@@ -7,6 +7,9 @@ import { getAccessToken } from "../services/getAccessToken";
 import type { LoginLocalState } from "../types/LoginLocalState";
 import { loginReducer } from '../reducers/loginReducer';
 import type { State } from "../types/State";
+import type { UserProfile } from "../types/UserProfile";
+import { createStripeCustomer } from "../services/createStripeCustomer";
+import { trackEvent } from "../services/applicationInsights";
 
 
 export function useLoginLogic(
@@ -58,14 +61,15 @@ export function useLoginLogic(
         });
         const account = response.account || (accounts && accounts[0]);
         if (account) {
-          const userProfile = {
-            username: account.username,
-            name: account.name,
-            homeAccountId: account.homeAccountId,
-            localAccountId: account.localAccountId,
-            environment: account.environment
+          const userProfile: UserProfile = {
+            displayName: account.idTokenClaims?.name || account.name || "",
+            userId: account.idTokenClaims?.oid || account.localAccountId, 
+            emailAddress: (account.idTokenClaims?.email || account.username || "").toString(),
           };
-          dispatch({ type: 'UPDATE_STATE', payload: { userProfile, isAuthenticated: true } });
+          const { customer } = await createStripeCustomer(userProfile.emailAddress);
+          trackEvent('Stripe_Customer_Created', { customerId: customer.id, userId: userProfile.userId });
+          trackEvent('User_Signed_In', { userId: userProfile.userId, email: userProfile.emailAddress });
+          dispatch({ type: 'UPDATE_STATE', payload: { userProfile, isAuthenticated: true, customer } });
           dispatch({ type: 'SET_UI_STATE', payload: 'domainRegistration' });
         }
       } catch (error) {

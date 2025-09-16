@@ -1,40 +1,72 @@
-import type { FC } from 'react';
-import { useCheckoutLogic } from '../../hooks/useCheckout';
+import { CircularProgress } from '@mui/material';
+import { useEffect, useState, type FC } from 'react';
 import { useLocalizationContext } from '../../hooks/useLocalizationContext';
+import { useRunOnce } from '../../hooks/useRunOnce';
 import { useTrackComponent } from '../../hooks/useTrackComponent';
+import { createSubscription } from '../../services/createSubscription';
+import { formatError } from '../../services/formatError';
+import type { SubscriptionCreateResponse } from '../../types/Stripe';
 import "./Checkout.css";
+import { CheckoutForm } from './CheckoutForm';
 import type { CheckoutProps } from './CheckoutProps';
 
-export const Checkout: FC<CheckoutProps> = ({ state }) => {
+
+
+export const Checkout: FC<CheckoutProps> = ({ state, dispatch }) => {
+
+  const { selectedSubscriptionPlan, customer, userProfile } = state;
+  const { id, email } = customer || { id: null, email: null };
+  const { displayName } = userProfile || { displayName: '' };
+  const [loading, setLoading] = useState<boolean>(true);
+  const [subscription, setSubscription] = useState<SubscriptionCreateResponse | null>(null);
+  useEffect(() => {
+    !id ? dispatch({ type: 'SET_ERROR', payload: 'No Stripe customer ID found' }) : dispatch({ type: 'CLEAR_ERROR' });
+    !email ? dispatch({ type: 'SET_ERROR', payload: 'No email found' }) : dispatch({ type: 'CLEAR_ERROR' });
+  }, [dispatch, id, email]);
   useTrackComponent('Checkout', { state });
-  const { loading, plan, handleCheckout } = useCheckoutLogic(state);
-  const localized = useLocalizationContext().Checkout;
-  
-  return plan ? (
+  const { stripePriceId } = selectedSubscriptionPlan || { stripePriceId: null };
+  useEffect(() => {
+    !stripePriceId ? dispatch({ type: 'SET_ERROR', payload: 'No Stripe price ID found' }) : dispatch({ type: 'CLEAR_ERROR' });
+  }, [dispatch, stripePriceId]);
+  const localized = useLocalizationContext();
+  const localizedCheckout = localized.Checkout;
+  useRunOnce(() => {
+    const run = async () => {
+      try {
+        const response = await createSubscription({ PriceId: stripePriceId || '', CustomerId: id || '' });
+        // handle success
+        setSubscription(response);        
+      } catch (error) {
+        // handle error
+        dispatch({ type: 'SET_ERROR', payload: formatError(error) });
+      } finally {
+        // finalize
+        setLoading(false);
+      }
+    }
+    run();
+  });
+
+  const { subscriptionId, clientSecret } = subscription || {};
+  useEffect(() => {
+    if (!loading) {
+      !clientSecret ? dispatch({ type: 'SET_ERROR', payload: 'No Stripe client secret found' }) : dispatch({ type: 'CLEAR_ERROR' });
+      dispatch({ type: 'UPDATE_STATE', payload: { subscriptionId } });
+    }
+  }, [dispatch, clientSecret, loading]);
+
+  if (loading && !clientSecret) {
+    return <CircularProgress />;
+  }
+
+  return selectedSubscriptionPlan ? (
+
     <div className="checkout-page">
-      <h1>{localized.title}</h1>
-      <div className="plan-details">
-        <h2>{plan.name}</h2>
-        <p>{plan.description}</p>
-        <p>
-          <strong>{localized.price}</strong> ${plan.price} {plan.currency}
-        </p>
-      </div>
-      <div className="checkout-btn-container">
-        <div className="checkout-btn-wrapper">
-          <button
-            className="checkout-btn app-btn"
-            onClick={handleCheckout}
-            disabled={loading}
-          >
-            {loading ? (localized.redirecting) : (localized.subscribePay)}
-          </button>
-        </div>
-      </div>
-      <div className="checkout-trust">
-        <img src={import.meta.env.VITE_STRIPE_LOGO_URL || "https://stripe.com/img/v3/home/social.png"} alt="Stripe" className="checkout-stripe-logo" />
-        <span className="checkout-stripe-text">{localized.trustText}</span>
-      </div>
+      <CheckoutForm name={displayName || ''} clientSecret={clientSecret || ''} />
     </div>
-  ) : <div>{localized.selectPlan}</div>;
+  ) : <div>{localizedCheckout.selectPlan}</div>;
 };
+
+
+
+
