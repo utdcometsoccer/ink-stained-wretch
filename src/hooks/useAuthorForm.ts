@@ -168,18 +168,21 @@ export function useAuthorFormLogic(
     dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Articles", value: [...form.Articles, newArticle] } });
     dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "ArticleForm" });
     dispatchForm({ type: "SET_EDIT_INDEX", payload: form.Articles.length });
+    dispatchForm({ type: "SET_EDIT_TYPE", payload: "article" });
   };
   const handleAddBook = () => {
     const newBook: Book = { id: crypto.randomUUID(), Title: "", Description: "", URL: "", Cover: "" };
     dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Books", value: [...form.Books, newBook] } });
     dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "BookForm" });
     dispatchForm({ type: "SET_EDIT_INDEX", payload: form.Books.length });
+    dispatchForm({ type: "SET_EDIT_TYPE", payload: "book" });
   };
   const handleAddSocial = () => {
     const newSocial: Social = { id: crypto.randomUUID(), Name: "", URL: "" };
     dispatchForm({ type: "UPDATE_FIELD", payload: { name: "Socials", value: [...form.Socials, newSocial] } });
     dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "SocialForm" });
     dispatchForm({ type: "SET_EDIT_INDEX", payload: form.Socials.length });
+    dispatchForm({ type: "SET_EDIT_TYPE", payload: "social" });
   };
   const importBook = (newBook: Book) => {
     dispatchForm({ type: "ADD_BOOK", payload: newBook });
@@ -198,6 +201,7 @@ export function useAuthorFormLogic(
     }
     dispatchForm({ type: "SET_EDIT_TYPE", payload: null });
     dispatchForm({ type: "SET_EDIT_INDEX", payload: null });
+    dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "default" });
   };
 
   // Main form change handler

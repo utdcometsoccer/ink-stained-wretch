@@ -39,7 +39,7 @@
                 "label": "Auteur",
                 "description": "Page de l'auteur"
             },
-           "subscribe": {
+            "subscribe": {
                 "label": "S'abonner",
                 "description": "Choisissez un plan d'abonnement et passez à la caisse"
             },
@@ -226,7 +226,7 @@
         "url": "URL",
         "domain": "Domaine",
         "titleField": "Titre",
-    "description": "Description",
+        "description": "Description",
         "authorFirst": "Prénom",
         "authorLast": "Nom de famille",
         "photoCredit": "Crédit photo",
@@ -235,6 +235,13 @@
         "seriesIsbn": "ISBN de la série",
         "seriesCount": "Nombre de livres de la série",
         "keywordId": "ID de mot-clé",
+        "save": "Enregistrer",
+        "cancel": "Annuler"
+    },
+    "SocialForm": {
+        "legend": "Lien social",
+        "name": "Nom:",
+        "url": "URL:",
         "save": "Enregistrer",
         "cancel": "Annuler"
     }
