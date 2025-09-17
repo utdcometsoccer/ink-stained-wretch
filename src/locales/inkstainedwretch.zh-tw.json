@@ -237,5 +237,12 @@
         "keywordId": "關鍵字 ID",
         "save": "儲存",
         "cancel": "取消"
+    },
+    "SocialForm": {
+        "legend": "社交連結",
+        "name": "名稱：",
+        "url": "網址：",
+        "save": "儲存",
+        "cancel": "取消"
     }
 }

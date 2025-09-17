@@ -237,5 +237,12 @@
         "keywordId": "ID de palabra clave",
         "save": "Guardar",
         "cancel": "Cancelar"
+    },
+    "SocialForm": {
+        "legend": "Enlace social",
+        "name": "Nombre:",
+        "url": "URL:",
+        "save": "Guardar",
+        "cancel": "Cancelar"
     }
 }
