@@ -5,8 +5,9 @@ import {
     useStripe,
 } from '@stripe/react-stripe-js';
 import { useEffect, useState, type FC } from 'react';
+import { useLocalizationContext } from '../../hooks/useLocalizationContext';
+import { trackEvent, } from '../../services/applicationInsights';
 import { formatError } from '../../services/formatError';
-import { trackEvent,  } from '../../services/applicationInsights';
 export interface CheckoutFormProps {
     name: string;
     clientSecret: string;
@@ -17,6 +18,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ name, clientSecret, handle
     const elements = useElements();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [paymentError, setPaymentError] = useState<unknown | Error | string | null>(null);
+    const localized = useLocalizationContext().Checkout;
     const handlePaymentError = (error: unknown) => {
         console.error("Payment confirmation error:", error);
         setPaymentError(error);
@@ -65,26 +67,23 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ name, clientSecret, handle
     return (
         <form onSubmit={handleSubmit}>
             <div>
-                <h2>Complete your purchase</h2>
-
+                <h2>{localized.formTitle}</h2>
                 {/* Payment Element */}
                 <div id="payment-element">
                     <CardElement />
                 </div>
-
                 {/* Error message */}
                 {paymentError != null && (
                     <div className="error-message">
-                        {formatError(paymentError)}
+                        {localized.errorMessage} {formatError(paymentError)}
                     </div>
                 )}
-
                 {/* Submit button */}
-                <button type='submit' disabled={isLoading}>
-                    {isLoading ? <CircularProgress size={24} /> : 'Subscribe'}
+                <button className="app-btn" type='submit' disabled={isLoading}>
+                    {isLoading ? (
+                        <CircularProgress size={24} className="checkout-spinner" />
+                    ) : localized.buttonLabel}
                 </button>
-
-
             </div>
         </form>
     );

@@ -80,13 +80,10 @@
         "refresh": "Actualiser"
     },
     "Checkout": {
-        "title": "Paiement",
-        "planDetails": "Détails du forfait",
-        "price": "Prix :",
-        "subscribePay": "S'abonner et payer",
-        "redirecting": "Redirection...",
-        "trustText": "Paiements sécurisés par Stripe",
-        "selectPlan": "Veuillez sélectionner un forfait d'abonnement pour continuer."
+    "selectPlan": "Veuillez sélectionner un forfait d'abonnement pour continuer.",
+    "formTitle": "Complétez votre achat",
+    "errorMessage": "Une erreur s'est produite lors du paiement. Veuillez réessayer.",
+    "buttonLabel": "S'abonner"
     },
     "DomainInput": {
         "label": "Domaine :",

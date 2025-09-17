@@ -26,3 +26,8 @@
   min-width: 180px;
   max-width: 320px;
 }
+
+.checkout-spinner {  
+  border-radius: 50%;
+  color: #FFA726 !important;
+}

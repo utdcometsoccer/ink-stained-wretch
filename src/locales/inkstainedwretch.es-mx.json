@@ -80,13 +80,10 @@
         "refresh": "Actualizar"
     },
     "Checkout": {
-        "title": "Pago",
-        "planDetails": "Detalles del plan",
-        "price": "Precio:",
-        "subscribePay": "Suscribirse y pagar",
-        "redirecting": "Redirigiendo...",
-        "trustText": "Pagos seguros por Stripe",
-        "selectPlan": "Por favor, selecciona un plan de suscripción para continuar."
+    "selectPlan": "Por favor, selecciona un plan de suscripción para continuar.",
+    "formTitle": "Completa tu compra",
+    "errorMessage": "Ocurrió un error durante el pago. Por favor, inténtalo de nuevo.",
+    "buttonLabel": "Suscribirse"
     },
     "DomainInput": {
         "label": "Dominio:",
