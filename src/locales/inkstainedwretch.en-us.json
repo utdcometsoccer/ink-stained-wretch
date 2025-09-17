@@ -89,13 +89,10 @@
         "refresh": "Refresh"
     },
     "Checkout": {
-        "title": "Checkout",
-        "planDetails": "Plan Details",
-        "price": "Price:",
-        "subscribePay": "Subscribe & Pay",
-        "redirecting": "Redirecting...",
-        "trustText": "Payments secured by Stripe",
-        "selectPlan": "Please select a subscription plan to continue."
+    "selectPlan": "Please select a subscription plan to continue.",
+    "formTitle": "Complete your purchase",
+    "errorMessage": "An error occurred during payment. Please try again.",
+    "buttonLabel": "Subscribe"
     },
     "DomainInput": {
         "label": "Domain:",

@@ -62,13 +62,10 @@
         "refresh": "تحديث"
     },
     "Checkout": {
-        "title": "الدفع",
-        "planDetails": "تفاصيل الخطة",
-        "price": "السعر:",
-        "subscribePay": "اشترك وادفع",
-        "redirecting": "جارٍ التحويل...",
-        "trustText": "المدفوعات مؤمنة بواسطة Stripe",
-        "selectPlan": "يرجى اختيار خطة اشتراك للمتابعة."
+    "selectPlan": "يرجى اختيار خطة اشتراك للمتابعة.",
+    "formTitle": "أكمل عملية الشراء",
+    "errorMessage": "حدث خطأ أثناء الدفع. يرجى المحاولة مرة أخرى.",
+    "buttonLabel": "اشترك"
     },
     "DomainInput": {
         "label": "النطاق:",

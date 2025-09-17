@@ -70,14 +70,11 @@ export interface BookListText {
     importPenguinBooks: string;
 }
 
-export interface CheckoutText {
-    title: string;
-    planDetails: string;
-    price: string;
-    subscribePay: string;
-    redirecting: string;
-    trustText: string;
+export interface CheckoutText {    
     selectPlan: string;
+    formTitle: string;
+    errorMessage: string;
+    buttonLabel: string;
 }
 
 export interface ChooseCultureText {

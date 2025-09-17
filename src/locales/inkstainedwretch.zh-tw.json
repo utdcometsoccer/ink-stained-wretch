@@ -80,13 +80,10 @@
         "refresh": "重新整理"
     },
     "Checkout": {
-        "title": "結帳",
-        "planDetails": "方案細節",
-        "price": "價格：",
-        "subscribePay": "訂閱並付款",
-        "redirecting": "正在重新導向...",
-        "trustText": "付款由 Stripe 安全處理",
-        "selectPlan": "請選擇訂閱方案以繼續。"
+    "selectPlan": "請選擇訂閱方案以繼續。",
+    "formTitle": "完成您的購買",
+    "errorMessage": "付款時發生錯誤。請再試一次。",
+    "buttonLabel": "訂閱"
     },
     "DomainInput": {
         "label": "網域：",
