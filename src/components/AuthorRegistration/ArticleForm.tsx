@@ -35,7 +35,7 @@ export const ArticleForm: FC<ArticleFormProps> = ({ article, onSave, onCancel, c
         <div className="article-form-row">
           <label className="article-form-label">
             {localized.date}
-            <input name="Date" value={form.Date} onChange={handleChange} className="article-form-input" />
+            <input name="Date" type="date" value={form.Date} onChange={handleChange} className="article-form-input" />
           </label>
         </div>
         <div className="article-form-row">
