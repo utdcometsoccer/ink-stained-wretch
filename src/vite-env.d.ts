@@ -30,6 +30,7 @@ interface ImportMetaEnv {
   readonly VITE_PENGUIN_RANDOM_HOUSE_SEARCH_API: string;
   readonly VITE_PENGUIN_RANDOM_HOUSE_URL: string;
   readonly VITE_SUBSCRIPTION_PLANS_MAX_PAGES: string;
+  readonly VITE_BOOK_DESCRIPTION_LIMIT: string;
 }
 
 interface ImportMeta {

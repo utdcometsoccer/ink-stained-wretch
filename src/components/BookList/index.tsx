@@ -26,7 +26,9 @@ export const BookList: FC<BookListProps> = (props) => {
   const { disableGoogleImport, loading, openLibraryAuthorKeys, penguinAuthorKeys } = state;
   const disableImport = openLibraryAuthorKeys.length === 0 || loading;
   const disablePenguinImport = penguinAuthorKeys.length === 0 || loading;
-  
+
+  const DESCRIPTION_LIMIT = Number.parseInt(import.meta.env.VITE_BOOK_DESCRIPTION_LIMIT || '140', 10) || 140;
+
   const localized = useLocalizationContext().BookList;
   return loading ? <CircularProgress /> : (
     <div>
@@ -34,7 +36,12 @@ export const BookList: FC<BookListProps> = (props) => {
       <ul className="book-list-ul">
         {books.map(book => {
           const safeTitle = typeof book.Title === "string" ? book.Title : "";
-          const safeDescription = typeof book.Description === "string" ? book.Description : "";
+          let safeDescription = "";
+          if (typeof book.Description === "string") {
+            safeDescription = book.Description.length > DESCRIPTION_LIMIT
+              ? book.Description.slice(0, DESCRIPTION_LIMIT) + "..."
+              : book.Description;
+          }
           const safeURL = typeof book.URL === "string" ? book.URL : "";
           const safeCover = typeof book.Cover === "string" ? book.Cover : "";
           return (
