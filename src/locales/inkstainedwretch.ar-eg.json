@@ -1,4 +1,13 @@
 {
+    "AuthorRegistration": {
+    "authorListTitle": "معلومات المؤلف",
+    "languageLabel": "اللغة: ",
+    "regionLabel": "المنطقة: ",
+    "editAuthor": "تعديل",
+    "deleteAuthor": "حذف",
+    "addAuthor": "إضافة مؤلف",
+    "continue": "متابعة"
+    },
     "LoginRegister": {
         "loginHeader": {
             "title": "تسجيل الدخول",
