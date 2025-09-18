@@ -1,4 +1,13 @@
 {
+    "AuthorRegistration": {
+        "authorListTitle": "Informations sur l'auteur",
+        "languageLabel": "Langue : ",
+        "regionLabel": "égion : ",
+        "editAuthor": "Modifier",
+        "deleteAuthor": "Supprimer",
+        "addAuthor": "Ajouter un auteur",
+        "continue": "Continue"
+    },
     "LoginRegister": {
         "loginHeader": {
             "title": "Connexion",

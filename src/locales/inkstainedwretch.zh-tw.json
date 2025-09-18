@@ -1,4 +1,13 @@
 {
+    "AuthorRegistration": {
+        "authorListTitle": "作者資訊",
+        "languageLabel": "語言：",
+        "regionLabel": "地區：",
+        "editAuthor": "編輯",
+        "deleteAuthor": "刪除",
+        "addAuthor": "新增作者",
+        "continue": "繼續"
+    },
     "LoginRegister": {
         "loginHeader": {
             "title": "登入",

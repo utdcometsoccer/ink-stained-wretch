@@ -1,4 +1,13 @@
 {
+    "AuthorRegistration": {
+    "authorListTitle": "Información del autor",
+    "languageLabel": "Idioma: ",
+    "regionLabel": "Región: ",
+    "editAuthor": "Editar",
+    "deleteAuthor": "Eliminar",
+    "addAuthor": "Agregar autor",
+    "continue": "Continuar"
+    },
     "LoginRegister": {
         "loginHeader": {
             "title": "Iniciar sesión",
