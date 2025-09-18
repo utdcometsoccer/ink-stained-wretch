@@ -2,11 +2,13 @@ import { useEffect, useReducer, useCallback } from 'react';
 import { appReducer } from '../reducers/appReducer';
 import { loadStateFromCookie } from '../services/loadStateFromCookie';
 import { initializeAppInsights, trackEvent, trackException, trackPageView } from '../services/applicationInsights';
-import { useGetLocalizedText } from './useGetLocalizedText';
 import { getDefaultLocale } from '../services/getDefaultLocale';
+import { useRunOnce } from './useRunOnce';
+import { getLocalizedText } from '../services/localization';
 
 export function useAppLogic() {
   const [appState, dispatch] = useReducer(appReducer, loadStateFromCookie());
+  const { loading, localizationData, localizationDataLoaded } = appState.state;
 
   // Initialize Application Insights once
   useEffect(() => {
@@ -51,18 +53,25 @@ export function useAppLogic() {
 
   // Localization
   const culture = appState.state.cultureInfo?.Culture || 'en-us';
-  const { localizedText, loading, error } = useGetLocalizedText(culture);
-  const localized = localizedText || getDefaultLocale();
-
-  // Propagate localization errors
-  useEffect(() => {
-    if (error) {
-      trackException(error instanceof Error ? error : new Error(String(error)), 3);
-      dispatch({ type: 'SET_ERROR', payload: error instanceof Error ? error.message : String(error) });
+  useRunOnce(() => {
+    async function fetchLocalizedText() {
+      try {
+        dispatch({ type: 'UPDATE_STATE', payload: { localizationDataLoaded: false } });
+        dispatch({ type: 'UPDATE_STATE', payload: { loading: true } });
+        const localizedText = await getLocalizedText(culture);
+        const localized = localizedText || getDefaultLocale();
+        dispatch({ type: 'UPDATE_STATE', payload: { localizationData: localized } });
+        dispatch({ type: 'UPDATE_STATE', payload: { localizationDataLoaded: true } });
+      } catch (err) {
+        dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : String(err) });
+      } finally {
+        dispatch({ type: 'UPDATE_STATE', payload: { loading: false } });
+      }
     }
-  }, [error]);
+    localizationDataLoaded ? fetchLocalizedText() : () => console.log('Localization data already loaded');
+  });  
 
-  // Stripe integration is handled at the App component level
+  
 
   const handleReactError = useCallback((error: Error) => {
     trackException(error, 3);
@@ -72,7 +81,7 @@ export function useAppLogic() {
   return {
     appState,
     dispatch,
-    localized,
+    localized: localizationData || getDefaultLocale(),
     loading,
     handleReactError,
   } as const;

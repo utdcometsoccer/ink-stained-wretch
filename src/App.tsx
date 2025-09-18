@@ -5,6 +5,7 @@ import type { Stripe } from "@stripe/stripe-js";
 import './App.css';
 import { AuthorRegistration } from './components/AuthorRegistration';
 import { ChooseCulture } from "./components/ChooseCulture";
+import { Container } from "./components/Container";
 import { DomainRegistration } from './components/DomainRegistration';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { ErrorPage } from './components/ErrorPage';
@@ -15,14 +16,14 @@ import { ThankYou } from './components/ThankYou';
 import { useAppLogic } from './hooks/useAppLogic';
 import { LocalizationContext } from "./LocalizationContext";
 import { trackException } from './services/applicationInsights';
+import { getDefaultLocale } from "./services/getDefaultLocale";
 import { isDevelopment } from './services/isDevelopment';
 import { msalInstance } from "./services/msalConfig";
 import { stripePromise } from "./services/stripeClient";
-import { Container } from "./components/Container";
 
 function App() {
-  const { appState, dispatch, localized, loading, handleReactError } = useAppLogic();
-
+  const { appState, dispatch, handleReactError } = useAppLogic();
+  const { loading, localizationData } = appState.state
   const renderCurrentComponent = () => {
     try {
       switch (appState.currentUIState) {
@@ -58,7 +59,7 @@ function App() {
   ) : (
     <MsalProvider instance={msalInstance}>
       <ErrorBoundary onError={handleReactError}>
-        <LocalizationContext value={localized}>
+        <LocalizationContext value={localizationData || getDefaultLocale()}>
           <Elements stripe={stripePromise as unknown as Stripe | null}>
             <div className="app">
               <Navbar currentState={appState.currentUIState} dispatch={dispatch} state={appState.state} />
