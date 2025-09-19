@@ -4,7 +4,8 @@ A modular, type-safe author platform built with React, TypeScript, and Vite. It 
 
 ## Demo Video
 
-[![Watch the demo](https://img.youtube.com/vi/RgZER2OMr1U/maxresdefault.jpg)](https://youtu.be/RgZER2OMr1U)
+[![Watch the demo](<img width="1274" height="652" alt="image" src="https://github.com/user-attachments/assets/c47080d9-ac6a-4157-a34e-21c84a31de12" />
+)](https://youtu.be/RgZER2OMr1U)
 
 ## Key Features
 
