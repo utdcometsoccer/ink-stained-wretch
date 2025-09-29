@@ -13,7 +13,9 @@ interface ImportMetaEnv {
   readonly VITE_CONTACT_EMAIL: string;
   readonly VITE_OPENLIBRARY_AUTHOR_SEARCH_URL: string;
   readonly VITE_GOOGLE_BOOKS_API_URL: string;
-  readonly VITE_IMAGE_API_URL: string;
+  readonly VITE_IMAGE_UPLOAD_API_URL: string;
+  readonly VITE_IMAGE_USER_API_URL: string;
+  readonly VITE_IMAGE_DELETE_API_URL: string;
   readonly VITE_STRIPE_PUBLISHABLE_KEY: string;
   readonly VITE_STRIPE_CHECKOUT_SESSION_URL: string;
   readonly VITE_STRIPE_CREATE_CUSTOMER_URL: string;
@@ -31,6 +33,8 @@ interface ImportMetaEnv {
   readonly VITE_PENGUIN_RANDOM_HOUSE_URL: string;
   readonly VITE_SUBSCRIPTION_PLANS_MAX_PAGES: string;
   readonly VITE_BOOK_DESCRIPTION_LIMIT: string;
+  readonly VITE_PENGUIN_RANDOM_HOUSE_SEARCH_AUTHORS_API_URL: string;
+  readonly VITE_PENGUIN_RANDOM_HOUSE_TITLES_BY_AUTHOR_API_URL: string;
 }
 
 interface ImportMeta {

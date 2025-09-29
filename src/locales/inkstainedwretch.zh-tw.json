@@ -94,6 +94,11 @@
     "errorMessage": "付款時發生錯誤。請再試一次。",
     "buttonLabel": "訂閱"
     },
+    "AuthGuard": {
+        "title": "需要驗證",
+        "message": "請登入以存取此內容。您需要驗證身份以檢視和管理您的作者資訊。",
+        "buttonLabel": "使用 Microsoft 登入"
+    },
     "DomainInput": {
         "label": "網域：",
         "placeholder": "example.com",

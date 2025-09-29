@@ -13,7 +13,7 @@ export interface UseCreateStripeCustomerResult {
  * provided email when it changes. Manages loading and error state and returns
  * the latest response.
  */
-export function useCreateStripeCustomer(email: string): UseCreateStripeCustomerResult {
+export function useCreateStripeCustomer(email: string, bearerToken?: string): UseCreateStripeCustomerResult {
   const [customer, setCustomer] = useState<StripeCustomer | null>(null);
   const [error, setError] = useState<Error | string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -30,7 +30,7 @@ export function useCreateStripeCustomer(email: string): UseCreateStripeCustomerR
       setLoading(true);
       setError(null);
       try {
-        const res = await createStripeCustomer(email);
+  const res = await createStripeCustomer(email, bearerToken);
         if (!cancelled) setCustomer(res.customer);
       } catch (err) {
         if (!cancelled) setError(err instanceof Error ? err : new Error(String(err)));
@@ -43,7 +43,7 @@ export function useCreateStripeCustomer(email: string): UseCreateStripeCustomerR
     return () => {
       cancelled = true;
     };
-  }, [email]);
+  }, [email, bearerToken]);
 
   return { customer, error, loading };
 }

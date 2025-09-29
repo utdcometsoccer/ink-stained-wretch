@@ -10,4 +10,9 @@ export const msalConfig = {
   // No knownAuthorities needed for consumers endpoint
 };
 
+const scopeArray = import.meta.env.VITE_ENTRA_SCOPES.split(",");
 export const msalInstance = new PublicClientApplication(msalConfig);
+export const loginRequest = {
+  scopes: scopeArray,
+  authority: import.meta.env.VITE_ENTRA_AUTHORITY  
+};

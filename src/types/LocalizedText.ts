@@ -15,6 +15,12 @@ export interface ArticleFormText {
     cancel: string;
 }
 
+export interface AuthGuardText {
+    title: string;
+    message: string;
+    buttonLabel: string;
+}
+
 export interface ArticleListText {
     title: string;
     date: string;
@@ -232,6 +238,7 @@ export interface LocalizedText {
     ErrorPage: ErrorPageText;
     ImageManager: ImageManagerText;
     Checkout: CheckoutText;
+    AuthGuard: AuthGuardText;
     AuthorMainForm: AuthorMainFormText;
     DomainInput: DomainInputText;
     CountdownIndicator: CountdownIndicatorText;

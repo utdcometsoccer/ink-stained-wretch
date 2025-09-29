@@ -16,7 +16,13 @@ export function useNavbarLogic(state: State, dispatch: Dispatch<Action>) {
     useEffect(() => {
         (async () => {
             const navItems = await getNavItems(state.cultureInfo?.Culture || 'en-US');
-            setDynamicNavItems(navItems.map(item => {
+            
+            // Filter nav items based on authentication status
+            const filteredNavItems = isAuthenticated 
+                ? navItems // Show all items when authenticated
+                : navItems.filter(item => item.state === 'chooseCulture' || item.state === 'login'); // Only show Culture and Login when not authenticated
+            
+            setDynamicNavItems(filteredNavItems.map(item => {
                 if (item.state === 'login') {
                     return {
                         ...item,

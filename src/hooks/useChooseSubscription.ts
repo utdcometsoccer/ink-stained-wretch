@@ -32,7 +32,7 @@ export function useChooseSubscriptionLogic(state: State, dispatch: React.Dispatc
             limit: 25,
             includeProductDetails: true,
             // NOTE: If the API supports cursoring, add it to the request type and pass it here.
-          });
+          }, state.authToken ?? undefined);
 
           apiPlans.push(...resp.plans);
           hasMore = resp.hasMore;

@@ -94,6 +94,11 @@
     "errorMessage": "Ocurrió un error durante el pago. Por favor, inténtalo de nuevo.",
     "buttonLabel": "Suscribirse"
     },
+    "AuthGuard": {
+        "title": "Autenticación requerida",
+        "message": "Por favor, inicia sesión para acceder a este contenido. Necesitas autenticarte para ver y gestionar tu información de autor.",
+        "buttonLabel": "Iniciar sesión con Microsoft"
+    },
     "DomainInput": {
         "label": "Dominio:",
         "placeholder": "ejemplo.com",

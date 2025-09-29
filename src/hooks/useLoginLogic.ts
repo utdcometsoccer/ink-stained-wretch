@@ -1,15 +1,16 @@
-import type { Dispatch } from "react";
-import type { Action } from "../types/Action";
-import type { LoginLogicResult } from "../types/LoginLogicResult";
 import { useMsal } from "@azure/msal-react";
+import type { Dispatch } from "react";
 import { useEffect, useReducer, useRef } from "react";
-import { getAccessToken } from "../services/getAccessToken";
-import type { LoginLocalState } from "../types/LoginLocalState";
 import { loginReducer } from '../reducers/loginReducer';
+import { trackEvent } from "../services/applicationInsights";
+import { createStripeCustomer } from "../services/createStripeCustomer";
+import { getAccessToken } from "../services/getAccessToken";
+import { loginRequest } from "../services/msalConfig";
+import type { Action } from "../types/Action";
+import type { LoginLocalState } from "../types/LoginLocalState";
+import type { LoginLogicResult } from "../types/LoginLogicResult";
 import type { State } from "../types/State";
 import type { UserProfile } from "../types/UserProfile";
-import { createStripeCustomer } from "../services/createStripeCustomer";
-import { trackEvent } from "../services/applicationInsights";
 
 
 export function useLoginLogic(
@@ -53,24 +54,24 @@ export function useLoginLogic(
   function handleSignIn() {
     return async () => {
       try {
-        const scopeArray = import.meta.env.VITE_ENTRA_SCOPES.split(",");
         const response = await instance.loginPopup({
-          scopes: scopeArray,
-          authority: import.meta.env.VITE_ENTRA_AUTHORITY,
+          ...loginRequest,
           prompt: "select_account"
         });
         const account = response.account || (accounts && accounts[0]);
         if (account) {
+          const authToken = response.accessToken || await getAccessToken() || '';
           const userProfile: UserProfile = {
             displayName: account.idTokenClaims?.name || account.name || "",
-            userId: account.idTokenClaims?.oid || account.localAccountId, 
+            userId: account.idTokenClaims?.oid || account.localAccountId,
             emailAddress: (account.idTokenClaims?.email || account.username || "").toString(),
           };
-          const { customer } = await createStripeCustomer(userProfile.emailAddress);
+          const { customer } = await createStripeCustomer(userProfile.emailAddress, authToken);
           trackEvent('Stripe_Customer_Created', { customerId: customer.id, userId: userProfile.userId });
           trackEvent('User_Signed_In', { userId: userProfile.userId, email: userProfile.emailAddress });
           dispatch({ type: 'UPDATE_STATE', payload: { userProfile, isAuthenticated: true, customer } });
           dispatch({ type: 'SET_UI_STATE', payload: 'domainRegistration' });
+          dispatch({ type: 'UPDATE_STATE', payload: { authToken: authToken } });
         }
       } catch (error) {
         const mode = import.meta.env.MODE;

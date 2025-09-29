@@ -33,7 +33,7 @@ export const Checkout: FC<CheckoutProps> = ({ state, dispatch }) => {
   useRunOnce(() => {
     const run = async () => {
       try {
-        const response = await createSubscription({ PriceId: stripePriceId || '', CustomerId: id || '' });
+        const response = await createSubscription({ PriceId: stripePriceId || '', CustomerId: id || '' }, state.authToken ?? undefined);
         // handle success
         setSubscription(response);
       } catch (error) {

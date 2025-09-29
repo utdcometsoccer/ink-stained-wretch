@@ -10,7 +10,8 @@ import type { UseFetchStripeClientSecretResult } from "../types/UseFetchStripeCl
  * latest response.
  */
 export function useFetchStripeClientSecret(
-	req: CreateStripeCheckoutSessionRequest
+	req: CreateStripeCheckoutSessionRequest,
+	bearerToken?: string
 ): UseFetchStripeClientSecretResult {
 	const [stripeClientSecret, setStripeClientSecret] = useState<CreateStripeCheckoutSessionResponse | null>(null);
 	const [error, setError] = useState<Error | string | null>(null);
@@ -23,7 +24,7 @@ export function useFetchStripeClientSecret(
 			setLoading(true);
 			setError(null);
 			try {
-				const res = await fetchStripeClientSecret(req);
+				const res = await fetchStripeClientSecret(req, bearerToken);
 				if (!cancelled) {
 					setStripeClientSecret(res);
 				}
@@ -43,7 +44,7 @@ export function useFetchStripeClientSecret(
 			cancelled = true;
 		};
 		// Track individual fields for stability and to avoid refiring on object identity changes
-	}, [req.customerId, req.priceId, req.domain]);
+	}, [req.customerId, req.priceId, req.domain, bearerToken]);
 
 	return { stripeClientSecret, error, loading };
 }

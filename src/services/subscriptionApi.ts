@@ -11,12 +11,14 @@ import type { SubscriptionPlanListResponse } from "../types/SubscriptionPlanList
 
 const SUBSCRIPTION_PLANS_API_URL = import.meta.env.VITE_SUBSCRIPTION_PLANS_API_URL;
 
-export async function fetchSubscriptionPlans(requestBody: SubscriptionPlanListRequest): Promise<SubscriptionPlanListResponse> {
+export async function fetchSubscriptionPlans(requestBody: SubscriptionPlanListRequest, bearerToken?: string): Promise<SubscriptionPlanListResponse> {
   
   
+  const headers: Record<string, string> = { "content-type": "application/json" };
+  if (bearerToken) headers["Authorization"] = `Bearer ${bearerToken}`;
   const response = await fetch(SUBSCRIPTION_PLANS_API_URL, {
     method: "POST",
-    headers: { "content-type": "application/json" },
+    headers,
     body: JSON.stringify({
       active: requestBody.active ?? true,
       productId: requestBody.productId ?? undefined,

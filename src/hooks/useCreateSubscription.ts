@@ -18,7 +18,8 @@ export interface UseCreateSubscriptionResult {
  */
 export function useCreateSubscription(
   payload: CreateSubscriptionRequest | null,
-  fetchFn: CreateSubscriptionFn = createSubscription
+  fetchFn: CreateSubscriptionFn = createSubscription,
+  bearerToken?: string,
 ): UseCreateSubscriptionResult {
   const [data, setData] = useState<SubscriptionCreateResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -36,7 +37,8 @@ export function useCreateSubscription(
 
     setLoading(true);
     setError(null);
-    fetchFn(payload)
+  const fn = bearerToken ? (p: CreateSubscriptionRequest) => createSubscription(p, bearerToken) : fetchFn;
+  fn(payload)
       .then((res) => {
         if (!cancelled) setData(res);
       })
@@ -50,7 +52,7 @@ export function useCreateSubscription(
     return () => {
       cancelled = true;
     };
-  }, [payload, fetchFn]);
+  }, [payload, fetchFn, bearerToken]);
 
   return { subscription: data, error, loading };
 }
