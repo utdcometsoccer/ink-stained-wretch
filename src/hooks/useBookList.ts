@@ -8,7 +8,7 @@ import type { BookListProps } from "../components/BookList/BookListProps";
 import type { OpenLibraryTypeValue } from "../types/OpenLibrary";
 import { fetchPenguinTitlesByAuthorKey } from "../services/fetchPenguinTitlesByAuthorKey";
 
-export function useBookList({ authorName, importBook, onEdit, onDelete, openLibraryAuthorKeys, penguinAuthorKeys }: BookListProps) {
+export function useBookList({ authorName, importBook, onEdit, onDelete, openLibraryAuthorKeys, penguinAuthorKeys, authToken }: BookListProps) {
   const initialState = {
     disableGoogleImport: !authorName || !importBook,
     openLibraryAuthorKeys: openLibraryAuthorKeys || [],
@@ -103,7 +103,7 @@ export function useBookList({ authorName, importBook, onEdit, onDelete, openLibr
           const rows = 10;
           let start = 0;
           do {
-            const titles = await fetchPenguinTitlesByAuthorKey(authorKey, rows, start > 0 ? start : undefined);
+            const titles = await fetchPenguinTitlesByAuthorKey(authorKey, rows, start > 0 ? start : undefined, authToken);
             const nextLink = titles.data._links.filter(l => l.rel === 'next');
             continueFetching = nextLink.length > 0;
             start += rows;
