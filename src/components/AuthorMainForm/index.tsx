@@ -158,6 +158,7 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
                     importBook={importBook}                    
                     openLibraryAuthorKeys={form.OpenLibraryAuthorKeys}
                     penguinAuthorKeys={form.PenguinAuthorID}
+                    authToken={token}
                 />
                 <h3>{localized.socialLinks}</h3>
                 <SocialList socials={form.Socials} onEdit={handleEditSocial} onAdd={handleAddSocial} onDelete={handleDeleteSocial} />
