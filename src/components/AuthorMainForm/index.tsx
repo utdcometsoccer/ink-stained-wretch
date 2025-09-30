@@ -34,6 +34,7 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
     handleCancelClick,
     listUserImages,
     deleteImage,
+    uploadImage,
 }) => {
     const localized = useLocalizationContext().AuthorMainForm;
     useTrackComponent('AuthorMainForm', {
@@ -129,6 +130,7 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
                                 }}
                                 listUserImages={listUserImages}
                                 deleteImage={deleteImage}
+                                uploadImage={uploadImage}
                             />
                             <button type="button" className="author-form-image-manager-close" onClick={() => dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: false })}>{localized.close}</button>
                         </div>

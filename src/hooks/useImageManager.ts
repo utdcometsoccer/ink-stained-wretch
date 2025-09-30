@@ -3,7 +3,7 @@ import { imageManagerReducer } from '../reducers/imageManagerReducer';
 import { getImageApiErrorMessage } from "../services/imageApiErrors";
 import type { UseImageManagerProps } from "../types/UseImageManagerProps";
 
-export function useImageManager({ token, listUserImages, deleteImage }: UseImageManagerProps) {
+export function useImageManager({ token, listUserImages, deleteImage, uploadImage }: UseImageManagerProps) {
   const [state, dispatch] = useReducer(imageManagerReducer, {
     images: [],
     loading: false,
@@ -41,10 +41,26 @@ export function useImageManager({ token, listUserImages, deleteImage }: UseImage
     }
   };
 
+  const handleUpload = async (file: File) => {
+    dispatch({ type: 'SET_LOADING', payload: true });
+    dispatch({ type: 'SET_ERROR', payload: null });
+    try {
+      const newImage = await uploadImage(file, token);
+      dispatch({ type: 'ADD_IMAGE', payload: newImage });
+      return newImage;
+    } catch (err) {
+      dispatch({ type: 'SET_ERROR', payload: getImageApiErrorMessage(err) });
+      throw err;
+    } finally {
+      dispatch({ type: 'SET_LOADING', payload: false });
+    }
+  };
+
   return {
     state,
     fetchImages,
     handleDelete,
+    handleUpload,
     dispatch,
   };
 }

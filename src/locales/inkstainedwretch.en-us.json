@@ -86,7 +86,13 @@
         "loading": "Loading...",
         "select": "Select",
         "delete": "Delete",
-        "refresh": "Refresh"
+        "refresh": "Refresh",
+        "uploadTitle": "Upload Images",
+        "uploadText": "Drag and drop images here or click to browse",
+        "uploadButton": "Choose Files",
+        "supportedFormats": "Supported formats: JPG, PNG, GIF, WebP (max 10MB)",
+        "uploading": "Uploading...",
+        "uploadSuccess": "Image uploaded successfully!"
     },
     "Checkout": {
     "selectPlan": "Please select a subscription plan to continue.",

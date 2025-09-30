@@ -86,7 +86,13 @@
         "loading": "Cargando...",
         "select": "Seleccionar",
         "delete": "Eliminar",
-        "refresh": "Actualizar"
+        "refresh": "Actualizar",
+        "uploadTitle": "Subir imágenes",
+        "uploadText": "Arrastra y suelta imágenes aquí o haz clic para explorar",
+        "uploadButton": "Elegir archivos",
+        "supportedFormats": "Formatos soportados: JPG, PNG, GIF, WebP (máx 10MB)",
+        "uploading": "Subiendo...",
+        "uploadSuccess": "¡Imagen subida exitosamente!"
     },
     "Checkout": {
     "selectPlan": "Por favor, selecciona un plan de suscripción para continuar.",

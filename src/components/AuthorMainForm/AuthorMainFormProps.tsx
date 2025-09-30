@@ -28,4 +28,5 @@ export interface AuthorMainFormProps {
     handleCancelClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
     listUserImages: any;
     deleteImage: any;
+    uploadImage: any;
 }

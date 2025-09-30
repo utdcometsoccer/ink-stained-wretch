@@ -86,7 +86,13 @@
         "loading": "載入中...",
         "select": "選取",
         "delete": "刪除",
-        "refresh": "重新整理"
+        "refresh": "重新整理",
+        "uploadTitle": "上傳圖片",
+        "uploadText": "拖放圖片到此處或點擊瀏覽",
+        "uploadButton": "選擇檔案",
+        "supportedFormats": "支援格式：JPG、PNG、GIF、WebP（最大 10MB）",
+        "uploading": "上傳中...",
+        "uploadSuccess": "圖片上傳成功！"
     },
     "Checkout": {
     "selectPlan": "請選擇訂閱方案以繼續。",

@@ -17,6 +17,7 @@ export const BookForm: FC<BookFormProps & { token: string }> = (props) => {
     handleSelectImage,
     listUserImages,
     deleteImage,
+    uploadImage,
     token: hookToken,
     onCancel: hookOnCancel,
   } = useBookForm(props);
@@ -64,6 +65,7 @@ export const BookForm: FC<BookFormProps & { token: string }> = (props) => {
                   onSelect={handleSelectImage}
                   listUserImages={listUserImages}
                   deleteImage={deleteImage}
+                  uploadImage={uploadImage}
                 />
                 <button type="button" className="book-form-image-manager-close" onClick={handleHideImageManager}>{text.close}</button>
               </div>
