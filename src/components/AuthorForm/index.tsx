@@ -41,6 +41,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
     handleCancelClick,
     listUserImages,
     deleteImage,
+    uploadImage,
     handleSaveArticle,
     handleSaveBook,
     handleSaveSocial,
@@ -85,6 +86,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
         handleCancelClick={handleCancelClick}
         listUserImages={listUserImages}
         deleteImage={deleteImage}
+        uploadImage={uploadImage}
       />;
     case "AuthorDocForm":
       return form.selectedAuthorDoc ? (
@@ -120,6 +122,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
         handleCancelClick={handleCancelClick}
         listUserImages={listUserImages}
         deleteImage={deleteImage}
+        uploadImage={uploadImage}
       />;
     case "AuthorDocList":
       return (
@@ -205,6 +208,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
           handleCancelClick={handleCancelClick}
           listUserImages={listUserImages}
           deleteImage={deleteImage}
+          uploadImage={uploadImage}
         />
       );
   }

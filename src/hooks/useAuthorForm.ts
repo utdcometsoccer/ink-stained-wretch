@@ -1,7 +1,7 @@
 import { useReducer, useEffect } from "react";
 import { authorFormReducer, initialAuthorFormState } from "../reducers/authorFormReducer";
 import { cultureFromBrowser, type Language } from "@idahoedokpayi/react-country-state-selector";
-import { deleteImage, listUserImages } from '../services/imageApi';
+import { deleteImage, listUserImages, uploadImage } from '../services/imageApi';
 import { fetchOpenLibraryAuthors } from "../services/openLibraryApi";
 import type { Article } from "../types/Article";
 import type { Book } from "../types/Book";
@@ -284,6 +284,7 @@ export function useAuthorFormLogic(
     handleCancelClick,
     listUserImages,
     deleteImage,
+    uploadImage,
     handleSaveArticle,
     handleSaveBook,
     handleSaveSocial,

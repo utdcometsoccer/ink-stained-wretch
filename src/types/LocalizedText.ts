@@ -148,6 +148,12 @@ export interface ImageManagerText {
     select: string;
     delete: string;
     refresh: string;
+    uploadTitle: string;
+    uploadText: string;
+    uploadButton: string;
+    supportedFormats: string;
+    uploading: string;
+    uploadSuccess: string;
 }
 
 export interface LoginRegisterText {

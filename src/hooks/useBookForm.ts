@@ -1,7 +1,7 @@
 import type { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
 import { useTrackComponent } from "../hooks/useTrackComponent";
-import { deleteImage, listUserImages } from '../services/imageApi';
+import { deleteImage, listUserImages, uploadImage } from '../services/imageApi';
 import type { Book } from "../types/Book";
 import { useLocalizationContext } from "./useLocalizationContext";
 
@@ -54,6 +54,7 @@ export function useBookForm({ book, token, onSave, onCancel, culture }: UseBookF
     handleSelectImage,
     listUserImages,
     deleteImage,
+    uploadImage,
     token,
     onCancel,
   };

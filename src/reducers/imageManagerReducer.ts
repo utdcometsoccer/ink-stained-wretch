@@ -10,7 +10,8 @@ export type ImageManagerAction =
   | { type: 'SET_IMAGES'; payload: ManagedImage[] }
   | { type: 'SET_LOADING'; payload: boolean }
   | { type: 'SET_ERROR'; payload: string | null }
-  | { type: 'DELETE_IMAGE'; payload: string };
+  | { type: 'DELETE_IMAGE'; payload: string }
+  | { type: 'ADD_IMAGE'; payload: ManagedImage };
 
 export function imageManagerReducer(state: ImageManagerState, action: ImageManagerAction): ImageManagerState {
   switch (action.type) {
@@ -22,6 +23,8 @@ export function imageManagerReducer(state: ImageManagerState, action: ImageManag
       return { ...state, error: action.payload };
     case 'DELETE_IMAGE':
       return { ...state, images: state.images.filter(img => img.id !== action.payload) };
+    case 'ADD_IMAGE':
+      return { ...state, images: [...state.images, action.payload] };
     default:
       return state;
   }

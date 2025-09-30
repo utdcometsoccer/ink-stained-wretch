@@ -30,3 +30,85 @@
 .image-manager-close-btn {
   margin-top: 8px;
 }
+
+.image-manager-upload-area {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 1em;
+  text-align: center;
+  background-color: #fafafa;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.image-manager-upload-area:hover {
+  border-color: #007bff;
+  background-color: #f0f8ff;
+}
+
+.image-manager-upload-area.dragging {
+  border-color: #007bff;
+  background-color: #e6f3ff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
+}
+
+.image-manager-upload-text {
+  margin-bottom: 1em;
+  color: #666;
+}
+
+.image-manager-upload-btn {
+  padding: 0.5em 1em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.image-manager-upload-btn:hover {
+  background-color: #0056b3;
+}
+
+.image-manager-upload-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.image-manager-file-input {
+  display: none;
+}
+
+.image-manager-upload-controls {
+  display: flex;
+  gap: 1em;
+  margin-bottom: 1em;
+  flex-wrap: wrap;
+}
+
+.image-manager-supported-formats {
+  margin-top: 0.5em;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.image-manager-upload-status {
+  padding: 0.5em;
+  margin-bottom: 1em;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.image-manager-upload-status.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.image-manager-upload-status.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}

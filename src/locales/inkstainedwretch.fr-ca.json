@@ -86,7 +86,13 @@
         "loading": "Chargement...",
         "select": "Sélectionner",
         "delete": "Supprimer",
-        "refresh": "Actualiser"
+        "refresh": "Actualiser",
+        "uploadTitle": "Télécharger des images",
+        "uploadText": "Glissez-déposez les images ici ou cliquez pour parcourir",
+        "uploadButton": "Choisir des fichiers",
+        "supportedFormats": "Formats supportés : JPG, PNG, GIF, WebP (max 10MB)",
+        "uploading": "Téléchargement...",
+        "uploadSuccess": "Image téléchargée avec succès !"
     },
     "Checkout": {
     "selectPlan": "Veuillez sélectionner un forfait d'abonnement pour continuer.",

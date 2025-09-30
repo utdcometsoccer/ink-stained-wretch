@@ -68,7 +68,13 @@
         "loading": "جارٍ التحميل...",
         "select": "اختيار",
         "delete": "حذف",
-        "refresh": "تحديث"
+        "refresh": "تحديث",
+        "uploadTitle": "رفع الصور",
+        "uploadText": "اسحب وأفلت الصور هنا أو انقر للتصفح",
+        "uploadButton": "اختيار الملفات",
+        "supportedFormats": "التنسيقات المدعومة: JPG، PNG، GIF، WebP (حد أقصى 10 ميجابايت)",
+        "uploading": "جارٍ الرفع...",
+        "uploadSuccess": "تم رفع الصورة بنجاح!"
     },
     "Checkout": {
     "selectPlan": "يرجى اختيار خطة اشتراك للمتابعة.",
