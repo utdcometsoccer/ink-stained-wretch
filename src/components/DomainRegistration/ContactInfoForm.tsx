@@ -2,6 +2,7 @@ import { CountryDropdown, StateDropdown } from "@idahoedokpayi/react-country-sta
 import { type FC } from "react";
 import { useLocalizationContext } from "../../hooks/useLocalizationContext";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
+import { useGetStateProvinceInformation } from "../../services/getStateProvinceInformation";
 import type { ContactInfoFormProps } from "./ContactInfoFormProps";
 import "./DomainRegistration.css";
 
@@ -9,6 +10,7 @@ export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cultureInfo, 
   useTrackComponent('ContactInfoForm', { state, cultureInfo, cityRef, onChange });
   const localization = useLocalizationContext();
   const localized = localization.DomainRegistration;
+  const getStateProvinceInformation = useGetStateProvinceInformation(state.authToken || undefined);
   const contactInfo = {
     ...state.domainRegistration?.contactInformation,
     country: state.domainRegistration?.contactInformation?.country || cultureInfo?.Country || "US"
@@ -51,6 +53,8 @@ export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cultureInfo, 
           } as React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
           onChange(event);
         }}
+        culture={cultureInfo}
+        getStateProvinceInformation={getStateProvinceInformation}
         Label={localized.state}
       />
       <br />

@@ -1,6 +1,6 @@
 import { useMsal } from "@azure/msal-react";
 import type { Dispatch } from "react";
-import { useEffect, useReducer, useRef } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import { loginReducer } from '../reducers/loginReducer';
 import { trackEvent } from "../services/applicationInsights";
 import { createStripeCustomer } from "../services/createStripeCustomer";
@@ -17,8 +17,9 @@ export function useLoginLogic(
   dispatch: Dispatch<Action>,
   state?: State,
 ): LoginLogicResult {
+  const { authToken, isAuthenticated } = state || {};
   const { instance, accounts } = useMsal();
-  const msalReady = typeof accounts !== 'undefined' && Array.isArray(accounts);
+  const [msalReady] = useState(() => typeof accounts !== 'undefined' && Array.isArray(accounts));
 
   // Countdown logic
   const countdownRef = useRef<HTMLDivElement | null>(null);
@@ -27,8 +28,8 @@ export function useLoginLogic(
 
   useEffect(() => {
     async function fetchToken() {
-      if (msalReady && state?.isAuthenticated) {
-        const token = await getAccessToken();
+      if (msalReady && isAuthenticated ) {
+        const token = authToken || await getAccessToken();
         dispatch({ type: 'UPDATE_STATE', payload: { authToken: token } });
         loginDispatch({ type: "START_REDIRECT", countdown: 10 });
       } else {
@@ -37,7 +38,7 @@ export function useLoginLogic(
       }
     }
     fetchToken();
-  }, [msalReady, state?.isAuthenticated, dispatch]);
+  }, []);
 
   useEffect(() => {
     if (loginState.showRedirect && loginState.countdown !== null && loginState.countdown > 0) {
