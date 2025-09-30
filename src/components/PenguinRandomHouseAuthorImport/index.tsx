@@ -14,12 +14,13 @@ const PenguinRandomHouseAuthorImport: FC<PenguinRandomHouseAuthorImportProps> = 
   onImport,
   onGoBack,
   importedKeys = [],
+  accessToken,
   authorSearchHook = usePenguinRandomHouseAuthorSearch
 }) => {
   const localization = useLocalizationContext();
   const text = localization.PenguinRandomHouseAuthorList;
   useTrackComponent('PenguinRandomHouseAuthorImport', { query, importedKeys });
-  const { penguinAuthors, error, loading } = authorSearchHook(query);
+  const { penguinAuthors, error, loading } = authorSearchHook(query, accessToken);
 
   return (
     <div className="prh-author-list-container">

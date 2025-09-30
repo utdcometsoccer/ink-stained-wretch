@@ -7,7 +7,8 @@ export interface PenguinRandomHouseAuthorImportProps {
   onImport: (author: AuthorResult) => void;
   onGoBack: () => void;
   importedKeys?: string[];
-  authorSearchHook?: (query: string) => {
+  accessToken?: string;
+  authorSearchHook?: (query: string, accessToken?: string) => {
     penguinAuthors: AuthorResult[] | null;
     error: string | null;
     loading: boolean;

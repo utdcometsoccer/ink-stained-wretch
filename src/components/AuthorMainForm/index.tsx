@@ -155,8 +155,9 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
                     onAdd={handleAddBook}
                     onDelete={handleDeleteBook}
                     authorName={form.AuthorName}
-                    importBook={importBook}
+                    importBook={importBook}                    
                     openLibraryAuthorKeys={form.OpenLibraryAuthorKeys}
+                    penguinAuthorKeys={form.PenguinAuthorID}
                 />
                 <h3>{localized.socialLinks}</h3>
                 <SocialList socials={form.Socials} onEdit={handleEditSocial} onAdd={handleAddSocial} onDelete={handleDeleteSocial} />

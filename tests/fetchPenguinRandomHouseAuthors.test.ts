@@ -49,6 +49,53 @@ describe('fetchPenguinRandomHouseAuthors', () => {
     expect(result[0].name).toBe('John Doe');
   });
 
+  it('includes authorization header when access token is provided', async () => {
+    const mockAuthors: AuthorResult[] = [];
+    const mockFetch = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ data: { results: mockAuthors } })
+    } as Response);
+
+    await fetchPenguinRandomHouseAuthors('test', 'test-token');
+    
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        method: 'GET',
+        headers: expect.objectContaining({
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer test-token'
+        })
+      })
+    );
+  });
+
+  it('does not include authorization header when no access token is provided', async () => {
+    const mockAuthors: AuthorResult[] = [];
+    const mockFetch = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ data: { results: mockAuthors } })
+    } as Response);
+
+    await fetchPenguinRandomHouseAuthors('test');
+    
+    expect(mockFetch).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        method: 'GET',
+        headers: expect.objectContaining({
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        })
+      })
+    );
+    
+    const callArgs = mockFetch.mock.calls[0][1] as RequestInit;
+    const headers = callArgs.headers as Record<string, string>;
+    expect(headers).not.toHaveProperty('Authorization');
+  });
+
   it('throws error for invalid query or network failure', async () => {
     vi.spyOn(globalThis, 'fetch').mockRejectedValueOnce(new Error('Network error'));
     await expect(fetchPenguinRandomHouseAuthors('badquery')).rejects.toThrow('Network error');
