@@ -13,7 +13,7 @@ describe('usePenguinRandomHouseAuthorSearch', () => {
             { key: 'A1', name: 'Author One', docType: 'author', id: 'id1', score: 100, url: '', domain: [], title: null, description: null, author: null, authorFirst: 'First', authorLast: 'Last', photoCredit: null, onTour: false, seriesAuthor: null, seriesIsbn: null, seriesCount: null, keywordId: null, _embeds: null, _links: [] }
         ];
         const mockFetchFn = vi.fn().mockResolvedValue(mockAuthors);
-        const { result } = renderHook(() => usePenguinRandomHouseAuthorSearch('test', mockFetchFn));
+        const { result } = renderHook(() => usePenguinRandomHouseAuthorSearch('test', undefined, mockFetchFn));
         expect(result.current.loading).toBe(true);
         await act(async () => {
             await waitFor(() => expect(result.current.loading).toBe(false));
@@ -21,12 +21,28 @@ describe('usePenguinRandomHouseAuthorSearch', () => {
         expect(result.current.penguinAuthors).toEqual(mockAuthors);
         expect(result.current.error).toBeNull();
         expect(result.current.loading).toBe(false);
-        expect(mockFetchFn).toHaveBeenCalledWith('test');
+        expect(mockFetchFn).toHaveBeenCalledWith('test', undefined);
+    });
+
+    it('fetches authors with access token', async () => {
+        const mockAuthors: AuthorResult[] = [
+            { key: 'A1', name: 'Author One', docType: 'author', id: 'id1', score: 100, url: '', domain: [], title: null, description: null, author: null, authorFirst: 'First', authorLast: 'Last', photoCredit: null, onTour: false, seriesAuthor: null, seriesIsbn: null, seriesCount: null, keywordId: null, _embeds: null, _links: [] }
+        ];
+        const mockFetchFn = vi.fn().mockResolvedValue(mockAuthors);
+        const { result } = renderHook(() => usePenguinRandomHouseAuthorSearch('test', 'test-token', mockFetchFn));
+        expect(result.current.loading).toBe(true);
+        await act(async () => {
+            await waitFor(() => expect(result.current.loading).toBe(false));
+        });
+        expect(result.current.penguinAuthors).toEqual(mockAuthors);
+        expect(result.current.error).toBeNull();
+        expect(result.current.loading).toBe(false);
+        expect(mockFetchFn).toHaveBeenCalledWith('test', 'test-token');
     });
 
     it('handles API error correctly', async () => {
         const mockFetchFn = vi.fn().mockRejectedValue(new Error('API error'));
-        const { result } = renderHook(() => usePenguinRandomHouseAuthorSearch('test', mockFetchFn));
+        const { result } = renderHook(() => usePenguinRandomHouseAuthorSearch('test', undefined, mockFetchFn));
         expect(result.current.loading).toBe(true);
         await act(async () => {
             await waitFor(() => expect(result.current.loading).toBe(false));
@@ -34,6 +50,6 @@ describe('usePenguinRandomHouseAuthorSearch', () => {
         expect(result.current.penguinAuthors).toBeNull();
         expect(result.current.error).toBe('API error');
         expect(result.current.loading).toBe(false);
-        expect(mockFetchFn).toHaveBeenCalledWith('test');
+        expect(mockFetchFn).toHaveBeenCalledWith('test', undefined);
     });
 });

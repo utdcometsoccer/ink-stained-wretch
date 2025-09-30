@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { AuthorResult } from "../types/PenguinRandomHouse";
 
-export type FetchPenguinRandomHouseAuthorsFn = (query: string) => Promise<AuthorResult[]>;
+export type FetchPenguinRandomHouseAuthorsFn = (query: string, accessToken?: string) => Promise<AuthorResult[]>;
 import { fetchPenguinRandomHouseAuthors } from "../services/fetchPenguinRandomHouseAuthors";
 
 export interface UsePenguinRandomHouseAuthorSearchResult {
@@ -12,6 +12,7 @@ export interface UsePenguinRandomHouseAuthorSearchResult {
 
 export function usePenguinRandomHouseAuthorSearch(
 	query: string,
+	accessToken?: string,
 	fetchFn: FetchPenguinRandomHouseAuthorsFn = fetchPenguinRandomHouseAuthors
 ): UsePenguinRandomHouseAuthorSearchResult {
 	const [data, setData] = useState<AuthorResult[] | null>(null);
@@ -30,7 +31,7 @@ export function usePenguinRandomHouseAuthorSearch(
 
 		setLoading(true);
 		setError(null);
-		fetchFn(query)
+		fetchFn(query, accessToken)
 			.then((authors) => {
 				if (!cancelled) setData(authors);
 			})
@@ -44,7 +45,7 @@ export function usePenguinRandomHouseAuthorSearch(
 		return () => {
 			cancelled = true;
 		};
-	}, [query, fetchFn]);
+	}, [query, accessToken, fetchFn]);
 
 	return { penguinAuthors: data, error, loading };
 }

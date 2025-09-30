@@ -25,13 +25,14 @@ describe('PenguinRandomHouseAuthorImport', () => {
         onImport={onImport}
         onGoBack={onGoBack}
         importedKeys={[authors[1].key]}
-        culture="en-us"
+        accessToken="test-token"
         authorSearchHook={mockAuthorSearchHook}
       />
     );
     expect(screen.getByText('Author One')).toBeInTheDocument();
     expect(screen.getByText('Author Two')).toBeInTheDocument();
     expect(screen.getAllByRole('button', { name: /Import/i })[1]).toBeDisabled();
+    expect(mockAuthorSearchHook).toHaveBeenCalledWith('test', 'test-token');
   });
 
   it('calls onAuthorClick and onImport', () => {
@@ -50,7 +51,7 @@ describe('PenguinRandomHouseAuthorImport', () => {
         onImport={onImport}
         onGoBack={onGoBack}
         importedKeys={[]}
-        culture="en-us"
+        accessToken="test-token"
         authorSearchHook={mockAuthorSearchHook}
       />
     );
@@ -58,6 +59,7 @@ describe('PenguinRandomHouseAuthorImport', () => {
     expect(onAuthorClick).toHaveBeenCalledWith(authors[0]);
     fireEvent.click(screen.getAllByRole('button', { name: /Import/i })[0]);
     expect(onImport).toHaveBeenCalledWith(authors[0]);
+    expect(mockAuthorSearchHook).toHaveBeenCalledWith('test', 'test-token');
   });
 
   it('calls onGoBack', () => {
@@ -76,11 +78,12 @@ describe('PenguinRandomHouseAuthorImport', () => {
         onImport={onImport}
         onGoBack={onGoBack}
         importedKeys={[]}
-        culture="en-us"
+        accessToken={undefined}
         authorSearchHook={mockAuthorSearchHook}
       />
     );
     fireEvent.click(screen.getByRole('button', { name: /Go Back/i }));
     expect(onGoBack).toHaveBeenCalled();
+    expect(mockAuthorSearchHook).toHaveBeenCalledWith('test', undefined);
   });
 });

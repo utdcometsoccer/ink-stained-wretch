@@ -147,6 +147,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
         <PenguinRandomHouseAuthorImport
           query={form.AuthorName}
           importedKeys={form.PenguinAuthorID || []}
+          accessToken={token}
           onAuthorClick={author => {
             dispatchForm({ type: "SELECT_PENGUIN_AUTHOR", payload: author });
             dispatchForm({ type: "SET_AUTHOR_FORM_STATE", payload: "PenguinAuthorForm" });
