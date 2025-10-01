@@ -2,10 +2,14 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook } from '@testing-library/react';
 import { CultureInfo } from '@idahoedokpayi/react-country-state-selector';
 import { getStateProvinceInformation, getStateProvinceInformationWithAuth, useGetStateProvinceInformation, clearStateProvinceCache } from '../src/services/getStateProvinceInformation';
-import * as fetchStatesProvincesModule from '../src/services/fetchStatesProvinces';
+import { fetchStatesProvinces } from '../src/services/fetchStatesProvinces';
 
 // Mock the fetchStatesProvinces service
-vi.mock('../src/services/fetchStatesProvinces');
+vi.mock('../src/services/fetchStatesProvinces', () => ({
+  fetchStatesProvinces: vi.fn()
+}));
+
+const mockFetchStatesProvinces = vi.mocked(fetchStatesProvinces);
 
 describe('getStateProvinceInformation', () => {
   const mockStateProvincesResponse = {
@@ -47,7 +51,6 @@ describe('getStateProvinceInformation', () => {
 
   describe('getStateProvinceInformationWithAuth function', () => {
     it('should fetch and transform state/province data correctly with auth token', async () => {
-      const mockFetchStatesProvinces = vi.spyOn(fetchStatesProvincesModule, 'fetchStatesProvinces');
       mockFetchStatesProvinces.mockResolvedValueOnce(mockStateProvincesResponse);
 
       const cultureInfo = new CultureInfo('en-US');
@@ -58,7 +61,7 @@ describe('getStateProvinceInformation', () => {
     });
 
     it('should cache results separately for authenticated and non-authenticated requests', async () => {
-      const mockFetchStatesProvinces = vi.spyOn(fetchStatesProvincesModule, 'fetchStatesProvinces');
+      
       mockFetchStatesProvinces.mockResolvedValueOnce(mockStateProvincesResponse);
       
       const mockAuthenticatedResponse = {
@@ -97,18 +100,18 @@ describe('getStateProvinceInformation', () => {
 
   describe('getStateProvinceInformation function', () => {
     it('should fetch and transform state/province data correctly', async () => {
-      const mockFetchStatesProvinces = vi.spyOn(fetchStatesProvincesModule, 'fetchStatesProvinces');
+      
       mockFetchStatesProvinces.mockResolvedValueOnce(mockStateProvincesResponse);
 
       const cultureInfo = new CultureInfo('en-US');
       const result = await getStateProvinceInformation(cultureInfo);
 
-      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US');
+      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US', undefined);
       expect(result).toEqual(expectedStateProvinceInfo);
     });
 
     it('should cache results for the same culture', async () => {
-      const mockFetchStatesProvinces = vi.spyOn(fetchStatesProvincesModule, 'fetchStatesProvinces');
+      
       mockFetchStatesProvinces.mockResolvedValueOnce(mockStateProvincesResponse);
 
       const cultureInfo = new CultureInfo('en-US');
@@ -126,7 +129,7 @@ describe('getStateProvinceInformation', () => {
     });
 
     it('should handle different cultures separately', async () => {
-      const mockFetchStatesProvinces = vi.spyOn(fetchStatesProvincesModule, 'fetchStatesProvinces');
+      
       mockFetchStatesProvinces.mockResolvedValueOnce(mockStateProvincesResponse);
       
       const mockCanadaResponse = {
@@ -154,14 +157,14 @@ describe('getStateProvinceInformation', () => {
       const resultCA = await getStateProvinceInformation(cultureInfoCA);
 
       expect(mockFetchStatesProvinces).toHaveBeenCalledTimes(2);
-      expect(mockFetchStatesProvinces).toHaveBeenNthCalledWith(1, 'en-US');
-      expect(mockFetchStatesProvinces).toHaveBeenNthCalledWith(2, 'en-CA');
+      expect(mockFetchStatesProvinces).toHaveBeenNthCalledWith(1, 'en-US', undefined);
+      expect(mockFetchStatesProvinces).toHaveBeenNthCalledWith(2, 'en-CA', undefined);
       expect(resultUS).toEqual(expectedStateProvinceInfo);
       expect(resultCA).toEqual([{ code: 'ON', name: 'Ontario' }]);
     });
 
     it('should return empty array on error', async () => {
-      const mockFetchStatesProvinces = vi.spyOn(fetchStatesProvincesModule, 'fetchStatesProvinces');
+      
       mockFetchStatesProvinces.mockRejectedValueOnce(new Error('API Error'));
 
       const cultureInfo = new CultureInfo('en-US');
@@ -171,7 +174,7 @@ describe('getStateProvinceInformation', () => {
     });
 
     it('should clear cache when clearStateProvinceCache is called', async () => {
-      const mockFetchStatesProvinces = vi.spyOn(fetchStatesProvincesModule, 'fetchStatesProvinces');
+      
       mockFetchStatesProvinces.mockResolvedValue(mockStateProvincesResponse);
 
       const cultureInfo = new CultureInfo('en-US');
@@ -215,7 +218,7 @@ describe('getStateProvinceInformation', () => {
     });
 
     it('should work with the returned function without token', async () => {
-      const mockFetchStatesProvinces = vi.spyOn(fetchStatesProvincesModule, 'fetchStatesProvinces');
+      
       mockFetchStatesProvinces.mockResolvedValueOnce(mockStateProvincesResponse);
 
       const { result } = renderHook(() => useGetStateProvinceInformation());
@@ -228,7 +231,7 @@ describe('getStateProvinceInformation', () => {
     });
 
     it('should work with the returned function with token', async () => {
-      const mockFetchStatesProvinces = vi.spyOn(fetchStatesProvincesModule, 'fetchStatesProvinces');
+      
       mockFetchStatesProvinces.mockResolvedValueOnce(mockStateProvincesResponse);
 
       const { result } = renderHook(() => useGetStateProvinceInformation('test-token'));

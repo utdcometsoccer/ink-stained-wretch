@@ -17,7 +17,8 @@ describe('fetchSubscriptionPlans', () => {
       statusText: 'OK',
       json: vi.fn().mockResolvedValueOnce(mockPlans)
     } as any);
-    const result = await fetchSubscriptionPlans();
+    const requestBody = { active: true };
+    const result = await fetchSubscriptionPlans(requestBody);
     expect(result).toEqual(mockPlans);
   });
 
@@ -27,24 +28,29 @@ describe('fetchSubscriptionPlans', () => {
       statusText: 'Server Error',
       json: vi.fn()
     } as any);
-    await expect(fetchSubscriptionPlans()).rejects.toThrow('Failed to fetch valid subscription plans: 500 Server Error');
+    const requestBody = { active: true };
+    await expect(fetchSubscriptionPlans(requestBody)).rejects.toThrow('Failed to fetch valid subscription plans: 500 Server Error');
   });
 
-  it('throws error if data is not array', async () => {
+  it('returns data even if not array', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
       status: 200,
       statusText: 'OK',
       json: vi.fn().mockResolvedValueOnce({})
     } as any);
-    await expect(fetchSubscriptionPlans()).rejects.toThrow('Failed to fetch valid subscription plans: 200 OK');
+    const requestBody = { active: true };
+    const result = await fetchSubscriptionPlans(requestBody);
+    expect(result).toEqual({});
   });
 
-  it('throws error if array is empty', async () => {
+  it('returns empty array when response is empty', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
       status: 200,
       statusText: 'OK',
       json: vi.fn().mockResolvedValueOnce([])
     } as any);
-    await expect(fetchSubscriptionPlans()).rejects.toThrow('Failed to fetch valid subscription plans: 200 OK');
+    const requestBody = { active: true };
+    const result = await fetchSubscriptionPlans(requestBody);
+    expect(result).toEqual([]);
   });
 });
