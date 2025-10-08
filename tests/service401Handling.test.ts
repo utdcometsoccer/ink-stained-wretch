@@ -21,8 +21,8 @@ describe('Service functions 401 handling', () => {
       const mockResponse = {
         status: 401,
         ok: false
-      };
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse as any);
+      } as Response;
+      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
       
       await expect(fetchAuthorsByDomain('token', 'example', 'com'))
         .rejects.toThrow(UnauthorizedError);
@@ -33,8 +33,8 @@ describe('Service functions 401 handling', () => {
         status: 200,
         ok: true,
         json: vi.fn().mockResolvedValue([{ id: '1', AuthorName: 'Test' }])
-      };
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse as any);
+      } as unknown as Response;
+      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
       
       const result = await fetchAuthorsByDomain('token', 'example', 'com');
       expect(result).toEqual([{ id: '1', AuthorName: 'Test' }]);
@@ -46,8 +46,8 @@ describe('Service functions 401 handling', () => {
       const mockResponse = {
         status: 401,
         ok: false
-      };
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse as any);
+      } as Response;
+      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
       
       await expect(fetchDomainRegistrations('token'))
         .rejects.toThrow(UnauthorizedError);
@@ -59,8 +59,8 @@ describe('Service functions 401 handling', () => {
       const mockResponse = {
         status: 401,
         ok: false
-      };
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse as any);
+      } as Response;
+      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
       
       await expect(fetchStatesProvinces('en-us', 'token'))
         .rejects.toThrow(UnauthorizedError);
@@ -70,8 +70,8 @@ describe('Service functions 401 handling', () => {
       const mockResponse = {
         status: 401,
         ok: false
-      };
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse as any);
+      } as Response;
+      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
       
       try {
         await fetchStatesProvinces('en-us', 'token');
@@ -87,8 +87,8 @@ describe('Service functions 401 handling', () => {
       const mockResponse = {
         status: 401,
         ok: false
-      };
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse as any);
+      } as Response;
+      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
       
       await expect(fetchSubscriptionPlans({ active: true }, 'token'))
         .rejects.toThrow(UnauthorizedError);
@@ -100,8 +100,8 @@ describe('Service functions 401 handling', () => {
       const mockResponse = {
         status: 401,
         ok: false
-      };
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse as any);
+      } as Response;
+      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
       
       const file = new File(['dummy'], 'test.png');
       await expect(uploadImage(file, 'token'))
@@ -112,8 +112,8 @@ describe('Service functions 401 handling', () => {
       const mockResponse = {
         status: 401,
         ok: false
-      };
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse as any);
+      } as Response;
+      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
       
       await expect(listUserImages('token'))
         .rejects.toThrow(UnauthorizedError);
@@ -123,8 +123,8 @@ describe('Service functions 401 handling', () => {
       const mockResponse = {
         status: 401,
         ok: false
-      };
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse as any);
+      } as Response;
+      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
       
       await expect(deleteImage('image-id', 'token'))
         .rejects.toThrow(UnauthorizedError);
