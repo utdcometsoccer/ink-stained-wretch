@@ -6,11 +6,18 @@ import { useGetStateProvinceInformation } from "../../services/getStateProvinceI
 import type { ContactInfoFormProps } from "./ContactInfoFormProps";
 import "./DomainRegistration.css";
 
-export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cultureInfo, cityRef, onChange }) => {
+export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cultureInfo, cityRef, onChange, dispatch }) => {
   useTrackComponent('ContactInfoForm', { state, cultureInfo, cityRef, onChange });
   const localization = useLocalizationContext();
   const localized = localization.DomainRegistration;
-  const getStateProvinceInformation = useGetStateProvinceInformation(state.authToken || undefined);
+  
+  const updateToken = (newToken: string | null) => {
+    if (dispatch) {
+      dispatch({ type: 'UPDATE_STATE', payload: { authToken: newToken } });
+    }
+  };
+  
+  const getStateProvinceInformation = useGetStateProvinceInformation(state.authToken || undefined, updateToken);
   const contactInfo = {
     ...state.domainRegistration?.contactInformation,
     country: state.domainRegistration?.contactInformation?.country || cultureInfo?.Country || "US"

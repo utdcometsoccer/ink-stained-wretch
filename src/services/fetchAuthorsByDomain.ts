@@ -1,4 +1,5 @@
 import { type Author } from "../types/Author";
+import { UnauthorizedError } from "../types/UnauthorizedError";
 
 export async function fetchAuthorsByDomain(
   accessToken: string | undefined,
@@ -12,6 +13,7 @@ export async function fetchAuthorsByDomain(
   const response = await fetch(`${apiUrl}${secondLevelDomain}/${topLevelDomain}`, {
     headers
   });
+  if (response.status === 401) throw new UnauthorizedError();
   if (!response.ok) throw new Error(`API error: ${response.status}`);
   return await response.json();
 }

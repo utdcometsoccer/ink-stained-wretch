@@ -1,9 +1,17 @@
 import { useState, useEffect } from "react";
 import { fetchAuthorsByDomain } from "../services/fetchAuthorsByDomain";
+import { withAuthRetry } from "../services/withAuthRetry";
 import { type Author } from "../types/Author";
 import type { UseAuthorsByDomainResult } from "../types/UseAuthorsByDomainResult";
+import type { Dispatch } from "react";
+import type { Action } from "../types/Action";
 
-export function useAuthorsByDomain(accessToken: string, secondLevelDomain: string, topLevelDomain: string): UseAuthorsByDomainResult {
+export function useAuthorsByDomain(
+  accessToken: string, 
+  secondLevelDomain: string, 
+  topLevelDomain: string,
+  dispatch?: Dispatch<Action>
+): UseAuthorsByDomainResult {
   const [authorInformation, setData] = useState<Author[] | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -25,7 +33,17 @@ export function useAuthorsByDomain(accessToken: string, secondLevelDomain: strin
         setError(null);
       }
       try {
-        const authors = await fetchAuthorsByDomain(accessToken, secondLevelDomain, topLevelDomain);
+        const updateToken = (newToken: string | null) => {
+          if (dispatch) {
+            dispatch({ type: 'UPDATE_STATE', payload: { authToken: newToken } });
+          }
+        };
+        
+        const authors = await withAuthRetry(
+          (token) => fetchAuthorsByDomain(token, secondLevelDomain, topLevelDomain),
+          accessToken,
+          updateToken
+        );
         if (!cancelled) setData(authors);
       } catch (err) {
         if (!cancelled) {
@@ -40,7 +58,7 @@ export function useAuthorsByDomain(accessToken: string, secondLevelDomain: strin
 
     run();
     return () => { cancelled = true; };
-  }, [accessToken, secondLevelDomain, topLevelDomain]);
+  }, [accessToken, secondLevelDomain, topLevelDomain, dispatch]);
 
   return { authorInformation, error, loading };
 }

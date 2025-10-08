@@ -1,4 +1,5 @@
 import type { StateProvinceResponse } from "../types/StateProvinceResponse";
+import { UnauthorizedError } from "../types/UnauthorizedError";
 
 /**
  * Fetches state and province data from the API
@@ -32,6 +33,10 @@ export async function fetchStatesProvinces(culture?: string, accessToken?: strin
       headers
     });
 
+    if (response.status === 401) {
+      throw new UnauthorizedError();
+    }
+
     if (!response.ok) {
       throw new Error(`Failed to fetch states/provinces: ${response.status} ${response.statusText}`);
     }
@@ -39,6 +44,9 @@ export async function fetchStatesProvinces(culture?: string, accessToken?: strin
     const data = await response.json();
     return data;
   } catch (error) {
+    if (error instanceof UnauthorizedError) {
+      throw error;
+    }
     if (error instanceof Error) {
       throw new Error(`Error fetching states/provinces: ${error.message}`);
     }

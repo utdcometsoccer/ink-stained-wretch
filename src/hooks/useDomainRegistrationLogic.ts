@@ -18,7 +18,7 @@ import { useTrackComponent } from "./useTrackComponent";
 
 export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Action>, domainRegistrationsFetcher: DomainRegistrationsFetcher = useDomainRegistrations): DomainRegistrationLogicReturn {
   const { authToken, cultureInfo} = state;
-  const { data, error, loading } = domainRegistrationsFetcher(authToken || '');
+  const { data, error, loading } = domainRegistrationsFetcher(authToken || '', dispatch);
   useEffect(() => {
           if (data) {
               dispatch({ type: "SET_DOMAIN_REGISTRATIONS", payload: data });
