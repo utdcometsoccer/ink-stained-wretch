@@ -47,6 +47,7 @@ export const DomainRegistration: FC<DomainRegistrationProps> = ({ state, dispatc
                         cultureInfo={state.cultureInfo}
                         onChange={handleContactChange}
                         culture={culture}
+                        dispatch={dispatch}
                     />
                     <button type="submit" className="app-btn">{domainRegistrationText.submit}</button>
                 </form>

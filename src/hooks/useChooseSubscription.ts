@@ -5,6 +5,7 @@ import {
 } from "../reducers/chooseSubscriptionReducer";
 import type { SubscriptionPlan } from "../types/SubscriptionPlan";
 import { fetchSubscriptionPlans } from "../services/subscriptionApi";
+import { withAuthRetry } from "../services/withAuthRetry";
 import { trackException } from "../services/applicationInsights";
 import { fallbackPlans } from "../components/ChooseSubscription/fallbackPlans";
 import type { State } from "../types/State";
@@ -27,12 +28,20 @@ export function useChooseSubscriptionLogic(state: State, dispatch: React.Dispatc
   const MAX_PAGES = Number.parseInt(import.meta.env.VITE_SUBSCRIPTION_PLANS_MAX_PAGES || '20', 10) || 20; // safety guard from env
 
         while (hasMore && page < MAX_PAGES) {
-          const resp = await fetchSubscriptionPlans({
-            active: true,
-            limit: 25,
-            includeProductDetails: true,
-            // NOTE: If the API supports cursoring, add it to the request type and pass it here.
-          }, state.authToken ?? undefined);
+          const updateToken = (newToken: string | null) => {
+            dispatch({ type: 'UPDATE_STATE', payload: { authToken: newToken } });
+          };
+          
+          const resp = await withAuthRetry(
+            (token) => fetchSubscriptionPlans({
+              active: true,
+              limit: 25,
+              includeProductDetails: true,
+              // NOTE: If the API supports cursoring, add it to the request type and pass it here.
+            }, token),
+            state.authToken ?? undefined,
+            updateToken
+          );
 
           apiPlans.push(...resp.plans);
           hasMore = resp.hasMore;

@@ -14,7 +14,7 @@ import { PenguinRandomHouseAuthorImport } from "../PenguinRandomHouseAuthorImpor
 import { PenguinRandomHouseAuthorDetail } from "../PenguinRandomHouseAuthorDetail";
 
 
-export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSave, onCancel }) => {
+export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSave, onCancel, dispatch }) => {
   useTrackComponent('AuthorForm', { appState, author, domain });
   // Use custom hook for all logic and handlers
   const {
@@ -46,7 +46,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
     handleSaveBook,
     handleSaveSocial,
     handleCancelChild,
-  } = useAuthorFormLogic(appState, author, domain ?? null, onSave, onCancel);
+  } = useAuthorFormLogic(appState, author, domain ?? null, onSave, onCancel, dispatch);
   
   // Main render logic (move to end of function)
   switch (form.authorFormState) {
@@ -174,7 +174,7 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
       break;
     case "BookForm":
       if (form.editIndex !== null) {
-        return <BookForm token={token} book={form.Books[form.editIndex]} onSave={handleSaveBook} onCancel={handleCancelChild} />;
+        return <BookForm token={token} book={form.Books[form.editIndex]} onSave={handleSaveBook} onCancel={handleCancelChild} dispatch={dispatch} />;
       }
       break;
     case "SocialForm":

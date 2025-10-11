@@ -2,6 +2,7 @@ import { useReducer, useEffect } from "react";
 import { authorFormReducer, initialAuthorFormState } from "../reducers/authorFormReducer";
 import { cultureFromBrowser, type Language } from "@idahoedokpayi/react-country-state-selector";
 import { deleteImage, listUserImages, uploadImage } from '../services/imageApi';
+import { withAuthRetry } from '../services/withAuthRetry';
 import { fetchOpenLibraryAuthors } from "../services/openLibraryApi";
 import type { Article } from "../types/Article";
 import type { Book } from "../types/Book";
@@ -11,13 +12,16 @@ import type { AuthorForms } from "../types/AuthorForms";
 import type { State } from "../types/State";
 import type { Author } from "../types/Author";
 import type { Domain } from "../types/Domain";
+import type { Action } from "../types/Action";
+import type { Dispatch } from "react";
 
 export function useAuthorFormLogic(
   appState: State,
   author: Author | null,
   domain: Domain | null,
-  onSave: (form: any) => void,
-  onCancel: () => void
+  onSave: (form: Author) => void,
+  onCancel: () => void,
+  dispatch?: Dispatch<Action>
 ) {
   const defaultAuthorName = `${appState.domainRegistration?.contactInformation?.firstName} ${appState.domainRegistration?.contactInformation?.lastName}`.trim() || '';
   const defaultCopyrightText = appState.domainRegistration?.contactInformation?.firstName ? `© ${new Date().getFullYear()} ${appState.domainRegistration.contactInformation.firstName} ${appState.domainRegistration.contactInformation.lastName}. All rights reserved.` : '';
@@ -260,6 +264,37 @@ export function useAuthorFormLogic(
     }
   }, [buttonState]);
 
+  // Create wrapped image API functions that handle 401 responses
+  const updateToken = (newToken: string | null) => {
+    if (dispatch) {
+      dispatch({ type: 'UPDATE_STATE', payload: { authToken: newToken } });
+    }
+  };
+  
+  const wrappedUploadImage = async (file: File, token?: string) => {
+    return withAuthRetry(
+      (t) => uploadImage(file, t),
+      token,
+      updateToken
+    );
+  };
+  
+  const wrappedListUserImages = async (token?: string) => {
+    return withAuthRetry(
+      (t) => listUserImages(t),
+      token,
+      updateToken
+    );
+  };
+  
+  const wrappedDeleteImage = async (id: string, token?: string) => {
+    return withAuthRetry(
+      (t) => deleteImage(id, t),
+      token,
+      updateToken
+    );
+  };
+
   return {
     form,
     dispatchForm,
@@ -282,9 +317,9 @@ export function useAuthorFormLogic(
     importAuthorFromOpenLibrary,
     importAuthorFromPenguinRandomHouse,
     handleCancelClick,
-    listUserImages,
-    deleteImage,
-    uploadImage,
+    listUserImages: wrappedListUserImages,
+    deleteImage: wrappedDeleteImage,
+    uploadImage: wrappedUploadImage,
     handleSaveArticle,
     handleSaveBook,
     handleSaveSocial,

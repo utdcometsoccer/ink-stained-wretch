@@ -1,4 +1,5 @@
 import type { ManagedImage } from "../types/ManagedImage";
+import { UnauthorizedError } from "../types/UnauthorizedError";
 
 const UPLOAD_URL = import.meta.env.VITE_IMAGE_UPLOAD_API_URL || "/api/images/upload";
 const USER_URL = import.meta.env.VITE_IMAGE_USER_API_URL || "/api/images/user";
@@ -14,6 +15,7 @@ export async function uploadImage(file: File, token?: string): Promise<ManagedIm
     headers,
     body: formData
   });
+  if (res.status === 401) throw new UnauthorizedError();
   if (!res.ok) throw new Error("Failed to upload image");
   return await res.json();
 }
@@ -25,6 +27,7 @@ export async function listUserImages(token?: string): Promise<Array<ManagedImage
     method: "GET",
     headers
   });
+  if (res.status === 401) throw new UnauthorizedError();
   if (!res.ok) throw new Error("Failed to fetch user images");
   return await res.json();
 }
@@ -36,5 +39,6 @@ export async function deleteImage(id: string, token?: string): Promise<void> {
     method: "DELETE",
     headers
   });
+  if (res.status === 401) throw new UnauthorizedError();
   if (!res.ok) throw new Error("Failed to delete image");
 }
