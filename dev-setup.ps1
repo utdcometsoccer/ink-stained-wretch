@@ -52,17 +52,17 @@ try {
     Write-Host "❌ Error during git fetch: $($_.Exception.Message)" -ForegroundColor Red
 }
 
-# Run tests
-Write-Host "🧪 Running tests..." -ForegroundColor Yellow
+# Run tests (non-blocking)
+Write-Host "🧪 Starting tests in background..." -ForegroundColor Yellow
 try {
-    npm run test
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "❌ Tests failed" -ForegroundColor Red
-    } else {
-        Write-Host "✅ All tests passed" -ForegroundColor Green
+    $testJob = Start-Job -ScriptBlock {
+        Set-Location $using:ScriptPath
+        npm run test
     }
+    Write-Host "✅ Tests started (Job ID: $($testJob.Id))" -ForegroundColor Green
+    Write-Host "💡 Use 'Receive-Job $($testJob.Id)' to check test results later" -ForegroundColor Cyan
 } catch {
-    Write-Host "❌ Error running tests: $($_.Exception.Message)" -ForegroundColor Red
+    Write-Host "❌ Error starting tests: $($_.Exception.Message)" -ForegroundColor Red
 }
 
 # Open browser (before starting dev server)

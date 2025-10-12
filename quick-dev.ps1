@@ -19,9 +19,9 @@ Start-Process "http://localhost:5173"
 Write-Host "📡 Fetching from git..." -ForegroundColor Yellow
 git fetch
 
-# Run tests
-Write-Host "🧪 Running tests..." -ForegroundColor Yellow
-npm run test
+# Run tests in background
+Write-Host "🧪 Starting tests in background..." -ForegroundColor Yellow
+Start-Process "powershell" -ArgumentList "-Command", "npm run test" -WindowStyle Minimized
 
 # Start dev server
 Write-Host "🔥 Starting development server..." -ForegroundColor Yellow
