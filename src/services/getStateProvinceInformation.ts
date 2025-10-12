@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import type { CultureInfo, StateProvinceInformation, GetStateProvinceInformation } from '@idahoedokpayi/react-country-state-selector';
 import { fetchStatesProvinces } from './fetchStatesProvinces';
+import { withAuthRetry } from './withAuthRetry';
 
 // Create a cache for memoization
 const stateProvinceCache = new Map<string, StateProvinceInformation[]>();
@@ -16,8 +17,13 @@ export const getStateProvinceInformation: GetStateProvinceInformation = async (c
 /**
  * Enhanced version that supports authentication tokens
  * Maps our StateProvince type to the library's StateProvinceInformation type
+ * @param updateToken Optional callback to update token in application state on 401
  */
-export const getStateProvinceInformationWithAuth = async (cultureInfo: CultureInfo, accessToken?: string): Promise<StateProvinceInformation[]> => {
+export const getStateProvinceInformationWithAuth = async (
+  cultureInfo: CultureInfo, 
+  accessToken?: string,
+  updateToken?: (newToken: string | null) => void
+): Promise<StateProvinceInformation[]> => {
   const cacheKey = accessToken ? `${cultureInfo.Culture}-auth` : cultureInfo.Culture;
   
   // Check cache first
@@ -27,7 +33,12 @@ export const getStateProvinceInformationWithAuth = async (cultureInfo: CultureIn
 
   try {
     // Fetch from our API with culture as route parameter and optional auth token
-    const response = await fetchStatesProvinces(cultureInfo.Culture, accessToken);
+    // Use withAuthRetry to handle 401 responses
+    const response = await withAuthRetry(
+      (token) => fetchStatesProvinces(cultureInfo.Culture, token),
+      accessToken,
+      updateToken
+    );
     
     // Extract state/province data from the response
     // Find the country data that matches the culture's country
@@ -63,11 +74,15 @@ export const getStateProvinceInformationWithAuth = async (cultureInfo: CultureIn
 /**
  * React hook that provides a memoized version of the getStateProvinceInformation function
  * This ensures the function reference stays stable across re-renders
+ * @param updateToken Optional callback to update token in application state on 401
  */
-export const useGetStateProvinceInformation = (accessToken?: string): GetStateProvinceInformation => {
+export const useGetStateProvinceInformation = (
+  accessToken?: string,
+  updateToken?: (newToken: string | null) => void
+): GetStateProvinceInformation => {
   return useCallback(async (cultureInfo: CultureInfo): Promise<StateProvinceInformation[]> => {
-    return getStateProvinceInformationWithAuth(cultureInfo, accessToken);
-  }, [accessToken]);
+    return getStateProvinceInformationWithAuth(cultureInfo, accessToken, updateToken);
+  }, [accessToken, updateToken]);
 };
 
 /**

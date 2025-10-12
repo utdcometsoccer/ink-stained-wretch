@@ -1,7 +1,9 @@
 import type { DomainRegistration } from "./DomainRegistration";
+import type { Dispatch } from "react";
+import type { Action } from "./Action";
 
 export interface DomainRegistrationsFetcher {
-    (accessToken: string): {
+    (accessToken: string, dispatch?: Dispatch<Action>): {
         data: DomainRegistration[] | null;
         error: any;
         loading: boolean;

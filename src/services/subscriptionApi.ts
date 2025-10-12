@@ -1,5 +1,6 @@
 import type { SubscriptionPlanListRequest } from "../types/SubscriptionPlanListRequest";
 import type { SubscriptionPlanListResponse } from "../types/SubscriptionPlanListResponse";
+import { UnauthorizedError } from "../types/UnauthorizedError";
 
 /**
  * Subscription Plans API
@@ -27,6 +28,9 @@ export async function fetchSubscriptionPlans(requestBody: SubscriptionPlanListRe
       includeProductDetails: requestBody.includeProductDetails ?? true,
     })
   });
+  if (response.status === 401) {
+    throw new UnauthorizedError();
+  }
   if (response.status !== 200) {
     throw new Error(`Failed to fetch valid subscription plans: ${response.status} ${response.statusText}`);
   }

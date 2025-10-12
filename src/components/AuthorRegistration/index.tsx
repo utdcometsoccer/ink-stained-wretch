@@ -21,6 +21,7 @@ export const AuthorRegistration: FC<AuthorRegistrationProps> = (props: AuthorReg
         handleCancelAuthor,
         handleValidateAuthors,
         state,
+        dispatch,
         loading
     } = useAuthorRegistration(props);
     return     loading ? (
@@ -60,6 +61,7 @@ export const AuthorRegistration: FC<AuthorRegistrationProps> = (props: AuthorReg
                     domain={state.domainRegistration?.domain}
                     onSave={handleSaveAuthor}
                     onCancel={handleCancelAuthor}
+                    dispatch={dispatch}
                 />
             )}
             <div className="author-list-btn-row">

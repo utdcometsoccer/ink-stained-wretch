@@ -18,7 +18,7 @@ export function useAuthorRegistration({ state, dispatch, culture }: AuthorRegist
     const handleDeleteAuthor = (id: string) => {
         dispatch({ type: "DELETE_AUTHOR", payload: id });
     };
-    const { authorInformation, error, loading } = useAuthorsByDomain(authToken ?? "", secondLevelDomain || "", topLevelDomain || "");
+    const { authorInformation, error, loading } = useAuthorsByDomain(authToken ?? "", secondLevelDomain || "", topLevelDomain || "", dispatch);
     useEffect(() => {
         if (!error && authorInformation && authorInformation.length > 0) {
             authorInformation.forEach(author => {

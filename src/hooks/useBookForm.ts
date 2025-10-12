@@ -2,7 +2,10 @@ import type { ChangeEvent, FormEvent } from "react";
 import { useState } from "react";
 import { useTrackComponent } from "../hooks/useTrackComponent";
 import { deleteImage, listUserImages, uploadImage } from '../services/imageApi';
+import { withAuthRetry } from '../services/withAuthRetry';
 import type { Book } from "../types/Book";
+import type { Action } from "../types/Action";
+import type { Dispatch } from "react";
 import { useLocalizationContext } from "./useLocalizationContext";
 
 export interface UseBookFormProps {
@@ -11,9 +14,10 @@ export interface UseBookFormProps {
   onSave: (book: Book) => void;
   onCancel: () => void;
   culture?: string;
+  dispatch?: Dispatch<Action>;
 }
 
-export function useBookForm({ book, token, onSave, onCancel, culture }: UseBookFormProps) {
+export function useBookForm({ book, token, onSave, onCancel, culture, dispatch }: UseBookFormProps) {
   const localization = useLocalizationContext();
   const text = localization.BookForm;
   useTrackComponent('BookForm', { book, token, onSave, onCancel, culture });
@@ -40,6 +44,37 @@ export function useBookForm({ book, token, onSave, onCancel, culture }: UseBookF
     setShowImageManager(false);
   };
 
+  // Create wrapped image API functions that handle 401 responses
+  const updateToken = (newToken: string | null) => {
+    if (dispatch) {
+      dispatch({ type: 'UPDATE_STATE', payload: { authToken: newToken } });
+    }
+  };
+  
+  const wrappedUploadImage = async (file: File, token?: string) => {
+    return withAuthRetry(
+      (t) => uploadImage(file, t),
+      token,
+      updateToken
+    );
+  };
+  
+  const wrappedListUserImages = async (token?: string) => {
+    return withAuthRetry(
+      (t) => listUserImages(t),
+      token,
+      updateToken
+    );
+  };
+  
+  const wrappedDeleteImage = async (id: string, token?: string) => {
+    return withAuthRetry(
+      (t) => deleteImage(id, t),
+      token,
+      updateToken
+    );
+  };
+
   return {
     text,
     form,
@@ -52,9 +87,9 @@ export function useBookForm({ book, token, onSave, onCancel, culture }: UseBookF
     handleShowImageManager,
     handleHideImageManager,
     handleSelectImage,
-    listUserImages,
-    deleteImage,
-    uploadImage,
+    listUserImages: wrappedListUserImages,
+    deleteImage: wrappedDeleteImage,
+    uploadImage: wrappedUploadImage,
     token,
     onCancel,
   };
