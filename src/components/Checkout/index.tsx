@@ -15,14 +15,13 @@ import type { CheckoutProps } from './CheckoutProps';
 export const Checkout: FC<CheckoutProps> = ({ state, dispatch }) => {
 
   const { selectedSubscriptionPlan, customer, userProfile } = state;
-  const { id, email } = customer || { id: null, email: null };
+  const { id } = customer || { id: null };
   const { displayName } = userProfile || { displayName: '' };
   const [loading, setLoading] = useState<boolean>(true);
   const [subscription, setSubscription] = useState<SubscriptionCreateResponse | null>(null);
   useEffect(() => {
-    !id ? dispatch({ type: 'SET_ERROR', payload: 'No Stripe customer ID found' }) : dispatch({ type: 'CLEAR_ERROR' });
-    !email ? dispatch({ type: 'SET_ERROR', payload: 'No email found' }) : dispatch({ type: 'CLEAR_ERROR' });
-  }, [dispatch, id, email]);
+    !id ? dispatch({ type: 'SET_ERROR', payload: 'No Stripe customer ID found' }) : dispatch({ type: 'CLEAR_ERROR' });    
+  }, [dispatch, id]);
   useTrackComponent('Checkout', { state });
   const { stripePriceId } = selectedSubscriptionPlan || { stripePriceId: null };
   useEffect(() => {
