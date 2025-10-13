@@ -24,6 +24,7 @@ interface ImportMetaEnv {
   readonly VITE_ENABLE_STRIPE_CHECKOUT: boolean;
   readonly VITE_API_URL: string;
   readonly VITE_USER_DOMAIN_REGISTRATIONS_API_URL: string;
+  readonly VITE_DOMAIN_REGISTRATION_SUBMIT_API_URL: string;
   readonly VITE_LOCALIZATION_API_URL: string;
   readonly VITE_WHOIS_API_URL: string;
   readonly VITE_PENGUIN_RANDOM_HOUSE_API_URL: string;
