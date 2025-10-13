@@ -141,7 +141,8 @@
         "addBook": "Add Book",
         "importOpenLibrary": "Import Books Open Library",
         "importGoogleBooks": "Import Google Books",
-        "importPenguinBooks": "Import Books Penguin Random House"
+        "importPenguinBooks": "Import Books Penguin Random House",
+        "importAmazonBooks": "Import Books from Amazon"
     },
     "ArticleForm": {
         "legend": "Edit Article",

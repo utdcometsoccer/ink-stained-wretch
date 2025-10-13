@@ -36,6 +36,7 @@ interface ImportMetaEnv {
   readonly VITE_BOOK_DESCRIPTION_LIMIT: string;
   readonly VITE_PENGUIN_RANDOM_HOUSE_SEARCH_AUTHORS_API_URL: string;
   readonly VITE_PENGUIN_RANDOM_HOUSE_TITLES_BY_AUTHOR_API_URL: string;
+  readonly VITE_AMAZON_BOOKS_API_URL: string;
 }
 
 interface ImportMeta {

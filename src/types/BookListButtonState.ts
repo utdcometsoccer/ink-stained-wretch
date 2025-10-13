@@ -1,1 +1,1 @@
-export type BookListButtonState = "default" | "Editing" | "Deleting" | "GoogleImporting" | "OpenLibraryImporting" | "PenguinImporting";
+export type BookListButtonState = "default" | "Editing" | "Deleting" | "GoogleImporting" | "OpenLibraryImporting" | "PenguinImporting" | "AmazonImporting";

@@ -7,6 +7,7 @@ import type { Book } from "../types/Book";
 import type { BookListProps } from "../components/BookList/BookListProps";
 import type { OpenLibraryTypeValue } from "../types/OpenLibrary";
 import { fetchPenguinTitlesByAuthorKey } from "../services/fetchPenguinTitlesByAuthorKey";
+import { fetchAmazonBooks } from "../services/fetchAmazonBooks";
 
 export function useBookList({ authorName, importBook, onEdit, onDelete, openLibraryAuthorKeys, penguinAuthorKeys, authToken }: BookListProps) {
   const initialState = {
@@ -129,7 +130,42 @@ export function useBookList({ authorName, importBook, onEdit, onDelete, openLibr
         resetState();
       }
     };
+    const amazonImport = async () => {
+      try {
+        if (!authorName || !importBook) return;
+        let page = 1;
+        const maxPages = 15; // 15 pages × 10 items = 150 items (TotalResultCount)
+        
+        while (page <= maxPages) {
+          const books = await fetchAmazonBooks(authorName, page);
+          if (books.length === 0) break;
+          
+          books.forEach(amazonBook => {
+            const title = amazonBook.ItemInfo?.Title?.DisplayValue || "";
+            const imageUrl = amazonBook.Images?.Primary?.Medium?.URL || "";
+            const detailUrl = amazonBook.DetailPageURL || "";
+            
+            importBook({
+              id: crypto.randomUUID(),
+              Title: title,
+              Description: "",
+              URL: detailUrl,
+              Cover: imageUrl
+            });
+          });
+          
+          page++;
+        }
+      } catch (err) {
+        console.error("Failed to import books from Amazon", err);
+      } finally {
+        resetState();
+      }
+    };
     switch (buttonState) {
+      case "AmazonImporting":
+        amazonImport();
+        break;
       case "PenguinImporting":
         penguinImport();
         break;
@@ -176,6 +212,13 @@ export function useBookList({ authorName, importBook, onEdit, onDelete, openLibr
     dispatch({ type: "BUTTON_CLICK", value: "PenguinImporting" });
   }
 
+  function importBooksFromAmazon(event: React.MouseEvent<HTMLButtonElement>): void {
+    event.preventDefault();
+    if (!authorName || !importBook) return;
+    dispatch({ type: "SET_LOADING", value: true });
+    dispatch({ type: "BUTTON_CLICK", value: "AmazonImporting" });
+  }
+
   function onEditClick(event: React.MouseEvent<HTMLButtonElement>, book: Book): void {
     event.preventDefault();
     dispatch({ type: "SET_BOOK_ID", value: book.id });
@@ -196,6 +239,7 @@ export function useBookList({ authorName, importBook, onEdit, onDelete, openLibr
     onGoogleImportClick,
     importBooksFromOpenLibrary,
     importBooksFromPenguin,
+    importBooksFromAmazon,
     onEditClick,
     onDeleteClick,
     resetState,
