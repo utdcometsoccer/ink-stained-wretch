@@ -4,16 +4,23 @@ import {
     useElements,
     useStripe,
 } from '@stripe/react-stripe-js';
+import type { Dispatch } from 'react';
 import { useEffect, useState, type FC } from 'react';
 import { useLocalizationContext } from '../../hooks/useLocalizationContext';
 import { trackEvent, } from '../../services/applicationInsights';
 import { formatError } from '../../services/formatError';
+import { submitDomainRegistration } from '../../services/submitDomainRegistration';
+import { withAuthRetry } from '../../services/withAuthRetry';
+import type { Action } from '../../types/Action';
+import type { State } from '../../types/State';
 export interface CheckoutFormProps {
     name: string;
     clientSecret: string;
     handleSuccess: () => void;
+    state: State;
+    dispatch: Dispatch<Action>;
 }
-export const CheckoutForm: FC<CheckoutFormProps> = ({ name, clientSecret, handleSuccess }) => {
+export const CheckoutForm: FC<CheckoutFormProps> = ({ name, clientSecret, handleSuccess, state, dispatch }) => {
     const stripe = useStripe();
     const elements = useElements();
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -54,6 +61,23 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ name, clientSecret, handle
             if (error) {
                 handlePaymentError(error);
             } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+                // Submit domain registration after successful payment
+                if (state.domainRegistration) {
+                    try {
+                        await withAuthRetry(
+                            (token) => submitDomainRegistration(state.domainRegistration!, token),
+                            state.authToken,
+                            (newToken) => dispatch({ type: 'UPDATE_STATE', payload: { authToken: newToken } })
+                        );
+                        trackEvent('DomainRegistrationSubmitted', { 
+                            domain: `${state.domainRegistration.domain?.secondLevelDomain}.${state.domainRegistration.domain?.topLevelDomain}` 
+                        });
+                    } catch (domainError) {
+                        console.error("Domain registration submission error:", domainError);
+                        trackEvent('DomainRegistrationError', { error: formatError(domainError) });
+                        // Don't block the success flow if domain registration fails
+                    }
+                }
                 // Set UI state to thankYou
                 handleSuccess();
             }
