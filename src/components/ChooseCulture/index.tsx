@@ -22,7 +22,19 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
   } = useChooseCultureLogic(state, dispatch);
   const { useCookies } = state;
   const { ChooseCulture: { title, subtitle, legend, languageLabel, countryLabel, continue: continueLabel, cancel, cookieConsent, cookiesInfo } } = useLocalizationContext();
-  const { language, country, countdown, shouldShowCountdown } = localState;
+  const { language, country, countdown, shouldShowCountdown, hasSubmitted } = localState;
+  
+  // Cancel button should be enabled only when:
+  // 1. Continue has been clicked (hasSubmitted)
+  // 2. Countdown is active (shouldShowCountdown)
+  // 3. Valid culture exists in global state
+  // 4. Valid culture exists in local state
+  const isCancelEnabled = shouldShowCountdown && 
+                          hasSubmitted && 
+                          !!state.cultureInfo && 
+                          !!language && 
+                          !!country;
+  
   return (
     <>
       <CountdownIndicator
@@ -67,7 +79,7 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
             type="button"
             className={`app-btn cancel`}
             onClick={handleCancel}
-            disabled={!shouldShowCountdown}
+            disabled={!isCancelEnabled}
           >
             {cancel}
           </button>

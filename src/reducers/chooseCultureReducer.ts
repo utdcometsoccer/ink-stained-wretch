@@ -3,6 +3,7 @@ export interface ChooseCultureState {
   country: string;
   countdown?: number;
   shouldShowCountdown?: boolean;
+  hasSubmitted?: boolean;
 }
 
 export type ChooseCultureAction =
@@ -12,7 +13,8 @@ export type ChooseCultureAction =
   | { type: "RESET_COUNTDOWN" }
   | { type: "SYNC_FROM_PROPS"; payload: { language: string; country: string; countdown?: number } }
   | { type: "SHOW_COUNTDOWN" }
-  | { type: "CANCEL_COUNTDOWN" };
+  | { type: "CANCEL_COUNTDOWN" }
+  | { type: "RESET_STATE" };
 
 export function chooseCultureReducer(
   state: ChooseCultureState,
@@ -20,7 +22,7 @@ export function chooseCultureReducer(
 ): ChooseCultureState {
   switch (action.type) {
     case "SHOW_COUNTDOWN":
-      return { ...state, shouldShowCountdown: true };
+      return { ...state, shouldShowCountdown: true, hasSubmitted: true };
     case "SET_LANGUAGE":
       return { ...state, language: action.payload };
     case "SET_COUNTRY":
@@ -31,6 +33,8 @@ export function chooseCultureReducer(
       return { ...state, countdown: undefined };
     case "CANCEL_COUNTDOWN":
       return { ...state, countdown: undefined, shouldShowCountdown: false };
+    case "RESET_STATE":
+      return { ...state, language: "", country: "", hasSubmitted: false };
     case "SYNC_FROM_PROPS":
       return { ...state, ...action.payload };
     default:
