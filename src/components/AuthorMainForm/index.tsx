@@ -2,6 +2,7 @@ import { CountryDropdown, LanguageDropdown, type Language } from "@idahoedokpayi
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { type FC } from "react";
 import penguinLogo from '../../assets/penguin-vector.png';
+import { useCultureInfo } from "../../contexts/CultureInfoContext";
 import { useLocalizationContext } from "../../hooks/useLocalizationContext";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
 import { ArticleList } from "../AuthorRegistration/ArticleList";
@@ -14,7 +15,6 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
     form,
     dispatchForm,
     token,
-    cultureInfo,
     handleChange,
     handleLanguageChange,
     handleCountryChange,
@@ -36,12 +36,12 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
     deleteImage,
     uploadImage,
 }) => {
+    const { cultureInfo } = useCultureInfo();
     const localized = useLocalizationContext().AuthorMainForm;
     useTrackComponent('AuthorMainForm', {
         form,
         dispatchForm,
         token,
-        cultureInfo,
         handleChange,
         handleLanguageChange,
         handleCountryChange,

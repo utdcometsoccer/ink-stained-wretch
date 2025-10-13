@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { DomainRegistration } from "../src/components/DomainRegistration/index";
 import type { State } from "../src/types/State";
 import { vi } from "vitest";
+import { CultureInfoProvider } from "../src/contexts/CultureInfoContext";
 
 describe("DomainRegistration", () => {
   const mockDispatch = vi.fn();
@@ -42,7 +43,12 @@ describe("DomainRegistration", () => {
         }
       }
     };
-    render(<DomainRegistration state={state} dispatch={mockDispatch} />);
+    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as any;
+    render(
+      <CultureInfoProvider cultureInfo={mockCultureInfo}>
+        <DomainRegistration state={state} dispatch={mockDispatch} />
+      </CultureInfoProvider>
+    );
     expect(screen.getByRole("heading", { name: /Domain Registration/i, level: 1 })).toBeInTheDocument();
     expect(screen.getByLabelText(/Domain:/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/First Name:/i)).toHaveValue("John");
@@ -61,7 +67,12 @@ describe("DomainRegistration", () => {
         }
       }
     };
-    render(<DomainRegistration state={state} dispatch={mockDispatch} />);
+    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as any;
+    render(
+      <CultureInfoProvider cultureInfo={mockCultureInfo}>
+        <DomainRegistration state={state} dispatch={mockDispatch} />
+      </CultureInfoProvider>
+    );
     fireEvent.click(screen.getByText(/Submit/i));
     expect(mockDispatch).toHaveBeenCalled();
   });

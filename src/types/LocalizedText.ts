@@ -236,29 +236,29 @@ export interface ThankYouText {
 }
 
 export interface LocalizedText {
-    LoginRegister: LoginRegisterText;
-    ThankYou: ThankYouText;
-    Navbar: NavbarText;
+    ArticleForm: ArticleFormText;
+    ArticleList: ArticleListText;
+    AuthGuard: AuthGuardText;
+    AuthorDocList: AuthorDocListText;
+    AuthorMainForm: AuthorMainFormText;
+    AuthorRegistration: AuthorRegistrationText;
+    BookForm: BookFormText;
+    BookList: BookListText;
+    Checkout: CheckoutText;
+    ChooseCulture: ChooseCultureText;
+    ChooseSubscription: ChooseSubscriptionText;
+    CountdownIndicator: CountdownIndicatorText;
+    DomainInput: DomainInputText;
     DomainRegistration: DomainRegistrationText;
     DomainRegistrationsList: DomainRegistrationsListText;
     ErrorPage: ErrorPageText;
     ImageManager: ImageManagerText;
-    Checkout: CheckoutText;
-    AuthGuard: AuthGuardText;
-    AuthorMainForm: AuthorMainFormText;
-    DomainInput: DomainInputText;
-    CountdownIndicator: CountdownIndicatorText;
-    ChooseCulture: ChooseCultureText;
-    BookList: BookListText;
-    ArticleForm: ArticleFormText;
-    ArticleList: ArticleListText;
+    LoginRegister: LoginRegisterText;
+    Navbar: NavbarText;
     OpenLibraryAuthorForm: OpenLibraryAuthorFormText;
-    AuthorDocList: AuthorDocListText;
-    BookForm: BookFormText;
+    PenguinRandomHouseAuthorDetail: PenguinRandomHouseAuthorDetailText;
+    PenguinRandomHouseAuthorList: PenguinRandomHouseAuthorListText;
     SocialForm: SocialFormText;
     SocialList: SocialListText;
-    ChooseSubscription: ChooseSubscriptionText;
-    AuthorRegistration: AuthorRegistrationText;
-    PenguinRandomHouseAuthorList: PenguinRandomHouseAuthorListText;
-    PenguinRandomHouseAuthorDetail: PenguinRandomHouseAuthorDetailText;
+    ThankYou: ThankYouText;
 }

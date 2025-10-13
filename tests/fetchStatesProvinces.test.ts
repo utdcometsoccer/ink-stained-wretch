@@ -40,7 +40,7 @@ describe('fetchStatesProvinces', () => {
     // Mock import.meta.env for browser environment
     vi.stubGlobal('import.meta', {
       env: {
-        VITE_STATES_PROVINCES_API_URL: 'http://localhost:7072/api/stateprovinces'
+        VITE_STATES_PROVINCES_API_URL: 'http://localhost:7001/api/stateprovinces'
       }
     });
   });
@@ -68,14 +68,14 @@ describe('fetchStatesProvinces', () => {
     await fetchStatesProvinces('en-US');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7072/api/stateprovinces/en-US',
-      expect.objectContaining({
+      'http://localhost:7001/api/stateprovinces/en-US',
+      {
         method: 'GET',
-        headers: expect.objectContaining({
+        headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
-        })
-      })
+        }
+      }
     );
   });
 
@@ -92,15 +92,15 @@ describe('fetchStatesProvinces', () => {
     await fetchStatesProvinces(undefined, 'test-token');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7072/api/stateprovinces',
-      expect.objectContaining({
+      'http://localhost:7001/api/stateprovinces',
+      {
         method: 'GET',
-        headers: expect.objectContaining({
+        headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
           'Authorization': 'Bearer test-token'
-        })
-      })
+        }
+      }
     );
   });
 
@@ -115,24 +115,24 @@ describe('fetchStatesProvinces', () => {
     await fetchStatesProvinces('es-MX', 'test-token');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7072/api/stateprovinces/es-MX',
-      expect.objectContaining({
+      'http://localhost:7001/api/stateprovinces/es-MX',
+      {
         method: 'GET',
-        headers: expect.objectContaining({
+        headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
           'Authorization': 'Bearer test-token'
-        })
-      })
+        }
+      }
     );
   });
 
-  it('throws error when fetch fails', async () => {
+  it('throws error when fetch returns undefined', async () => {
     // Mock fetch to return undefined (simulating network failure)
     vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(undefined as any);
 
     await expect(fetchStatesProvinces()).rejects.toThrow(
-      'Error fetching states/provinces: Cannot read properties of undefined (reading \'ok\')'
+      'Error fetching states/provinces: Cannot read properties of undefined (reading \'status\')'
     );
   });
 
@@ -149,7 +149,7 @@ describe('fetchStatesProvinces', () => {
     );
   });
 
-  it('throws error when fetch fails', async () => {
+  it('throws error when network request fails', async () => {
     vi.spyOn(globalThis, 'fetch').mockRejectedValueOnce(new Error('Network error'));
 
     await expect(fetchStatesProvinces()).rejects.toThrow(

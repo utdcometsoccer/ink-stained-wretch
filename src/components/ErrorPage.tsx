@@ -1,10 +1,12 @@
 import type { FC } from 'react';
 import { useLocalizationContext } from '../hooks/useLocalizationContext';
 import { useTrackComponent } from '../hooks/useTrackComponent';
+import { useCultureInfo } from '../contexts/CultureInfoContext';
 import './ErrorPage.css';
 import type { ErrorPageProps } from "./ErrorPageProps";
 
-export const ErrorPage: FC<ErrorPageProps> = ({ state, dispatch, isDevelopment, culture = 'en-us' }) => {
+export const ErrorPage: FC<ErrorPageProps> = ({ state, dispatch, isDevelopment }) => {
+  const { culture } = useCultureInfo();
   useTrackComponent('ErrorPage', { state, isDevelopment, culture });
   const { error } = state;
   const detailedError = typeof error === 'string' ? error : error?.message || 'No additional error information available.';

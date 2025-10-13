@@ -1,13 +1,16 @@
-import { CountryDropdown, StateDropdown } from "@idahoedokpayi/react-country-state-selector";
+import { CountryDropdown, StateDropdown, type Country } from "@idahoedokpayi/react-country-state-selector";
 import { type FC } from "react";
 import { useLocalizationContext } from "../../hooks/useLocalizationContext";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
 import { useGetStateProvinceInformation } from "../../services/getStateProvinceInformation";
+import { getBrowserCultureWithFallback } from "../../services/getBrowserCultureWithFallback";
+import { useCultureInfo } from "../../contexts/CultureInfoContext";
 import type { ContactInfoFormProps } from "./ContactInfoFormProps";
 import "./DomainRegistration.css";
 
-export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cultureInfo, cityRef, onChange, dispatch }) => {
-  useTrackComponent('ContactInfoForm', { state, cultureInfo, cityRef, onChange });
+export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cityRef, onChange, dispatch }) => {
+  const { cultureInfo } = useCultureInfo();
+  useTrackComponent('ContactInfoForm', { state, cityRef, onChange });
   const localization = useLocalizationContext();
   const localized = localization.DomainRegistration;
   
@@ -20,7 +23,7 @@ export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cultureInfo, 
   const getStateProvinceInformation = useGetStateProvinceInformation(state.authToken || undefined, updateToken);
   const contactInfo = {
     ...state.domainRegistration?.contactInformation,
-    country: state.domainRegistration?.contactInformation?.country || cultureInfo?.Country || "US"
+    country: state.domainRegistration?.contactInformation?.country || cultureInfo?.Country || getBrowserCultureWithFallback().Country
   };
   
   return (
@@ -52,7 +55,7 @@ export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cultureInfo, 
       </label>
       <br />
       <StateDropdown
-        country={cultureInfo?.Country || "US"}
+        country={cultureInfo?.Country || getBrowserCultureWithFallback().Country as Country}
         selectedState={contactInfo.state ?? ""}
         onStateChange={value => {
           const event = {

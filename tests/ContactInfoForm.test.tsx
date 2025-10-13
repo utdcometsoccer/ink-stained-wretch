@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ContactInfoForm } from "../src/components/DomainRegistration/ContactInfoForm";
+import { CultureInfoProvider } from "../src/contexts/CultureInfoContext";
 import type { State } from "../src/types/State";
 describe("ContactInfoForm", () => {
   const baseState: State = {
@@ -22,8 +23,11 @@ describe("ContactInfoForm", () => {
 
   it("renders all contact fields", () => {
     const mockCityRef = { current: document.createElement('input') };
+    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as any;
     render(
-      <ContactInfoForm state={baseState} cityRef={mockCityRef} onChange={() => {}} />
+      <CultureInfoProvider cultureInfo={mockCultureInfo}>
+        <ContactInfoForm state={baseState} cityRef={mockCityRef} onChange={() => {}} />
+      </CultureInfoProvider>
     );
     expect(screen.getByLabelText(/First Name:/i)).toHaveValue("Jane");
     expect(screen.getByLabelText(/Last Name:/i)).toHaveValue("Smith");
@@ -37,8 +41,11 @@ describe("ContactInfoForm", () => {
   it("calls onChange when input changes", () => {
     const handleChange = vi.fn();
     const mockCityRef = { current: document.createElement('input') };
+    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as any;
     render(
-      <ContactInfoForm state={baseState} cityRef={mockCityRef} onChange={handleChange} />
+      <CultureInfoProvider cultureInfo={mockCultureInfo}>
+        <ContactInfoForm state={baseState} cityRef={mockCityRef} onChange={handleChange} />
+      </CultureInfoProvider>
     );
     fireEvent.change(screen.getByLabelText(/First Name:/i), { target: { value: "NewName" } });
     expect(handleChange).toHaveBeenCalled();

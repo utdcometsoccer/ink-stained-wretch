@@ -3,11 +3,13 @@ import { useRef, useState } from 'react';
 import { useImageManager } from '../../hooks/useImageManager';
 import { useLocalizationContext } from '../../hooks/useLocalizationContext.ts';
 import { useTrackComponent } from '../../hooks/useTrackComponent.ts';
+import { useCultureInfo } from '../../contexts/CultureInfoContext';
 import type { ManagedImage } from '../../types/ManagedImage';
 import './ImageManager.css';
 import type { ImageManagerProps } from './ImageManagerProps.tsx';
 
-export const ImageManager = ({ token, onSelect, listUserImages, deleteImage, uploadImage, culture = 'en-us' }: ImageManagerProps) => {
+export const ImageManager = ({ token, onSelect, listUserImages, deleteImage, uploadImage }: ImageManagerProps) => {
+  const { culture } = useCultureInfo();
   useTrackComponent('ImageManager', { token, onSelect, listUserImages, deleteImage, uploadImage, culture });
   const localized = useLocalizationContext().ImageManager;
   const { state, fetchImages, handleDelete, handleUpload } = useImageManager({ token, listUserImages, deleteImage, uploadImage });

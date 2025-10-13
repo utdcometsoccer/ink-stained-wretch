@@ -2,11 +2,12 @@ import type { ChangeEvent, FC, FormEvent } from "react";
 import { useState } from "react";
 import { useLocalizationContext } from "../../hooks/useLocalizationContext";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
+import { getBrowserCultureWithFallback } from "../../services/getBrowserCultureWithFallback";
 import type { Article } from "../../types/Article";
 import "./ArticleForm.css";
 import type { ArticleFormProps } from "./ArticleFormProps";
 
-export const ArticleForm: FC<ArticleFormProps> = ({ article, onSave, onCancel, culture = 'en-us' }) => {
+export const ArticleForm: FC<ArticleFormProps> = ({ article, onSave, onCancel, culture = getBrowserCultureWithFallback().Culture }) => {
   useTrackComponent('ArticleForm', { article, onSave, onCancel, culture});
   const [form, setForm] = useState<Article>(article);
   const localized = useLocalizationContext().ArticleForm;

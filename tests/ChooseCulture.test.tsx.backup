@@ -1,0 +1,244 @@
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
+import { ChooseCulture } from "../src/components/ChooseCulture";
+import type { State } from "../src/types/State";
+
+// Mock the hooks and services
+const mockUseChooseCultureLogic = vi.fn();
+vi.mock("../src/hooks/useChooseCulture", () => ({
+  useChooseCultureLogic: mockUseChooseCultureLogic,
+}));
+
+const mockUseLocalizationContext = vi.fn();
+vi.mock("../src/hooks/useLocalizationContext", () => ({
+  useLocalizationContext: mockUseLocalizationContext,
+}));
+
+vi.mock("../src/hooks/useTrackComponent", () => ({
+  useTrackComponent: vi.fn(),
+}));
+
+vi.mock("../src/services/getBrowserCultureWithFallback", () => ({
+  getBrowserCultureWithFallback: vi.fn(() => ({ Culture: "en-US" })),
+}));
+
+vi.mock("../src/components/CountdownIndicator", () => ({
+  CountdownIndicator: (props: { showRedirect?: boolean, countdown?: number }) => 
+    props.showRedirect && props.countdown && props.countdown > 0 ? (
+      <div data-testid="countdown-indicator">Countdown: {props.countdown}</div>
+    ) : null
+}));
+
+vi.mock("@idahoedokpayi/react-country-state-selector", () => ({
+  CultureInfo: vi.fn().mockImplementation((culture: string) => ({ culture })),
+  CountryDropdown: (props: { selectedCountry: string, onCountryChange: (country: string) => void, Label: string }) => (
+    <div>
+      <label htmlFor="country-dropdown">{props.Label}</label>
+      <select 
+        id="country-dropdown"
+        data-testid="country-dropdown" 
+        value={props.selectedCountry} 
+        onChange={(e) => props.onCountryChange(e.target.value)}
+      >
+        <option value="US">United States</option>
+        <option value="MX">Mexico</option>
+      </select>
+    </div>
+  ),
+  LanguageDropdown: (props: { selectedLanguage: string, onLanguageChange: (language: string) => void, Label: string }) => (
+    <div>
+      <label htmlFor="language-dropdown">{props.Label}</label>
+      <select 
+        id="language-dropdown"
+        data-testid="language-dropdown" 
+        value={props.selectedLanguage} 
+        onChange={(e) => props.onLanguageChange(e.target.value)}
+      >
+        <option value="en">English</option>
+        <option value="es">Spanish</option>
+      </select>
+    </div>
+  ),
+}));
+
+describe("ChooseCulture", () => {
+  const mockDispatch = vi.fn();
+  const mockHandleSubmit = vi.fn();
+  const mockHandleCancel = vi.fn();
+  const mockHandleLanguageChange = vi.fn();
+  const mockHandleCountryChange = vi.fn();
+  const mockHandleCookieConsentChange = vi.fn();
+  const mockCountdownRef = { current: null };
+
+  const baseState: State = {
+    cultureInfo: { culture: "en-US" } as any,
+    useCookies: false,
+    localizationData: {
+      ChooseCulture: {
+        title: "Choose Your Culture",
+        subtitle: "Select your language and region",
+        legend: "Culture Settings",
+        languageLabel: "Language",
+        countryLabel: "Country",
+        continue: "Continue",
+        cancel: "Cancel",
+        cookieConsent: "I consent to cookies",
+        cookiesInfo: "We use cookies to improve your experience"
+      }
+    } as any
+  };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+    
+    // Mock useLocalizationContext
+    mockUseLocalizationContext.mockReturnValue({
+      ChooseCulture: {
+        title: "Choose Your Culture",
+        subtitle: "Select your language and region", 
+        legend: "Culture Settings",
+        languageLabel: "Language",
+        countryLabel: "Country",
+        continue: "Continue",
+        cancel: "Cancel",
+        cookieConsent: "I consent to cookies",
+        cookiesInfo: "We use cookies to improve your experience"
+      }
+    });
+  });
+
+  it("shows countdown indicator and disables continue button when countdown is active", () => {
+    // Initially no countdown
+    mockUseChooseCultureLogic.mockReturnValue({
+      localState: {
+        language: "en",
+        country: "US", 
+        countdown: undefined,
+        shouldShowCountdown: false
+      },
+      countdownRef: mockCountdownRef,
+      handleLanguageChange: mockHandleLanguageChange,
+      handleCountryChange: mockHandleCountryChange,
+      handleSubmit: mockHandleSubmit,
+      handleCancel: mockHandleCancel,
+      handleCookieConsentChange: mockHandleCookieConsentChange,
+    });
+
+    const { rerender } = render(
+      <ChooseCulture state={baseState} dispatch={mockDispatch} />
+    );
+
+    // Initially, continue button should be enabled and no countdown indicator
+    const continueButton = screen.getByText("Continue");
+    expect(continueButton.hasAttribute('disabled')).toBe(false);
+    expect(screen.queryByTestId("countdown-indicator")).toBeNull();
+
+    // Simulate form submission which should trigger countdown
+    fireEvent.click(continueButton);
+    expect(mockHandleSubmit).toHaveBeenCalled();
+
+    // Now mock the state after form submission with countdown active
+    mockUseChooseCultureLogic.mockReturnValue({
+      localState: {
+        language: "en",
+        country: "US",
+        countdown: 5,
+        shouldShowCountdown: true
+      },
+      countdownRef: mockCountdownRef,
+      handleLanguageChange: mockHandleLanguageChange,
+      handleCountryChange: mockHandleCountryChange,
+      handleSubmit: mockHandleSubmit,
+      handleCancel: mockHandleCancel,
+      handleCookieConsentChange: mockHandleCookieConsentChange,
+    });
+
+    // Re-render with countdown active
+    rerender(<ChooseCulture state={baseState} dispatch={mockDispatch} />);
+
+    // Now countdown indicator should be visible and continue button disabled
+    expect(screen.getByTestId("countdown-indicator")).toBeDefined();
+    expect(screen.getByText("Continue").hasAttribute('disabled')).toBe(true);
+    expect(screen.getByText("Cancel").hasAttribute('disabled')).toBe(false);
+  });
+
+  it("enables cancel button when countdown is active", () => {
+    // Mock state with active countdown
+    mockUseChooseCultureLogic.mockReturnValue({
+      localState: {
+        language: "en",
+        country: "US",
+        countdown: 3,
+        shouldShowCountdown: true
+      },
+      countdownRef: mockCountdownRef,
+      handleLanguageChange: mockHandleLanguageChange,
+      handleCountryChange: mockHandleCountryChange,
+      handleSubmit: mockHandleSubmit,
+      handleCancel: mockHandleCancel,
+      handleCookieConsentChange: mockHandleCookieConsentChange,
+    });
+
+    render(<ChooseCulture state={baseState} dispatch={mockDispatch} />);
+
+    const cancelButton = screen.getByText("Cancel");
+    expect(cancelButton.hasAttribute('disabled')).toBe(false);
+    
+    // Test cancel functionality
+    fireEvent.click(cancelButton);
+    expect(mockHandleCancel).toHaveBeenCalled();
+  });
+
+  it("disables cancel button when no countdown is active", () => {
+    // Mock state with no countdown
+    mockUseChooseCultureLogic.mockReturnValue({
+      localState: {
+        language: "en",
+        country: "US",
+        countdown: undefined,
+        shouldShowCountdown: false
+      },
+      countdownRef: mockCountdownRef,
+      handleLanguageChange: mockHandleLanguageChange,
+      handleCountryChange: mockHandleCountryChange,
+      handleSubmit: mockHandleSubmit,
+      handleCancel: mockHandleCancel,
+      handleCookieConsentChange: mockHandleCookieConsentChange,
+    });
+
+    render(<ChooseCulture state={baseState} dispatch={mockDispatch} />);
+
+    const cancelButton = screen.getByText("Cancel");
+    expect(cancelButton.hasAttribute('disabled')).toBe(true);
+  });
+
+  it("renders form elements correctly", () => {
+    mockUseChooseCultureLogic.mockReturnValue({
+      localState: {
+        language: "en",
+        country: "US",
+        countdown: undefined,
+        shouldShowCountdown: false
+      },
+      countdownRef: mockCountdownRef,
+      handleLanguageChange: mockHandleLanguageChange,
+      handleCountryChange: mockHandleCountryChange,
+      handleSubmit: mockHandleSubmit,
+      handleCancel: mockHandleCancel,
+      handleCookieConsentChange: mockHandleCookieConsentChange,
+    });
+
+    render(<ChooseCulture state={baseState} dispatch={mockDispatch} />);
+
+    // Check that all form elements are rendered
+    expect(screen.getByText("Choose Your Culture")).toBeDefined();
+    expect(screen.getByText("Select your language and region")).toBeDefined();
+    expect(screen.getByText("Culture Settings")).toBeDefined();
+    expect(screen.getByTestId("language-dropdown")).toBeDefined();
+    expect(screen.getByTestId("country-dropdown")).toBeDefined();
+    expect(screen.getByText("Continue")).toBeDefined();
+    expect(screen.getByText("Cancel")).toBeDefined();
+    expect(screen.getByLabelText("I consent to cookies")).toBeDefined();
+  });
+});

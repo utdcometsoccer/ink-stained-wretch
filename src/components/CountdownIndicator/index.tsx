@@ -2,13 +2,14 @@ import type { FC } from 'react';
 import { useCountdownIndicatorLogic } from '../../hooks/useCountdownIndicator';
 import type { CountdownIndicatorProps } from './CountdownIndicatorProps';
 import { useTrackComponent } from '../../hooks/useTrackComponent';
-import { useContext } from 'react';
-import { LocalizationContext } from '../../LocalizationContext';
+import { useLocalizationContext } from '../../hooks/useLocalizationContext';
+import { useCultureInfo } from '../../contexts/CultureInfoContext';
 
 
-export const CountdownIndicator: FC<CountdownIndicatorProps> = ({ countdown, showRedirect, countdownRef, text, culture = 'en-us' }) => {
+export const CountdownIndicator: FC<CountdownIndicatorProps> = ({ countdown, showRedirect, countdownRef, text }) => {
+  const { culture } = useCultureInfo();
   useTrackComponent('CountdownIndicator', { countdown, showRedirect, countdownRef, text, culture });
-  const localization = useContext(LocalizationContext);
+  const localization = useLocalizationContext();
   const localized = localization.CountdownIndicator;
   useCountdownIndicatorLogic(countdown, countdownRef);
   if (!showRedirect || !countdown || countdown <= 0) return null;
