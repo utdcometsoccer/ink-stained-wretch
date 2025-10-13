@@ -108,7 +108,8 @@ describe("ChooseCulture", () => {
         language: "en",
         country: "US",
         countdown: 0,
-        shouldShowCountdown: false
+        shouldShowCountdown: false,
+        hasSubmitted: false
       },
       handleSubmit: vi.fn(),
       handleCancel: vi.fn(),
@@ -128,7 +129,8 @@ describe("ChooseCulture", () => {
         language: "en",
         country: "US",
         countdown: 5,
-        shouldShowCountdown: true
+        shouldShowCountdown: true,
+        hasSubmitted: true
       },
       handleSubmit: vi.fn(),
       handleCancel: vi.fn(),
@@ -171,7 +173,8 @@ describe("ChooseCulture", () => {
         language: "en",
         country: "US",
         countdown: 3,
-        shouldShowCountdown: true
+        shouldShowCountdown: true,
+        hasSubmitted: true
       },
       handleSubmit: vi.fn(),
       handleCancel: vi.fn(),
