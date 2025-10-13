@@ -6,10 +6,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import type { FC } from "react";
 import { useLocalizationContext } from '../../hooks/useLocalizationContext';
 import { useTrackComponent } from "../../hooks/useTrackComponent";
+import { getBrowserCultureWithFallback } from '../../services/getBrowserCultureWithFallback';
 import "./SocialList.css";
 import type { SocialListProps } from "./SocialListProps";
 
-export const SocialList: FC<SocialListProps> = ({ socials, onEdit, onAdd, onDelete, culture = "en-US" }) => {
+export const SocialList: FC<SocialListProps> = ({ socials, onEdit, onAdd, onDelete, culture = getBrowserCultureWithFallback().Culture }) => {
   useTrackComponent('SocialList', { socials, onEdit, onAdd, onDelete, culture });
   const localized = useLocalizationContext().SocialList;
   return (

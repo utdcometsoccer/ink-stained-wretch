@@ -21,7 +21,6 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
     form,
     dispatchForm,
     token,
-    cultureInfo,
     handleChange,
     handleLanguageChange,
     handleCountryChange,
@@ -66,7 +65,6 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
         form={form}
         dispatchForm={dispatchForm}
         token={token}
-        cultureInfo={cultureInfo}
         handleChange={handleChange}
         handleLanguageChange={handleLanguageChange}
         handleCountryChange={handleCountryChange}
@@ -102,7 +100,6 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
         form={form}
         dispatchForm={dispatchForm}
         token={token}
-        cultureInfo={cultureInfo}
         handleChange={handleChange}
         handleLanguageChange={handleLanguageChange}
         handleCountryChange={handleCountryChange}
@@ -188,7 +185,6 @@ export const AuthorForm: FC<AuthorFormProps> = ({ appState, author, domain, onSa
           form={form}
           dispatchForm={dispatchForm}
           token={token}
-          cultureInfo={cultureInfo}
           handleChange={handleChange}
           handleLanguageChange={handleLanguageChange}
           handleCountryChange={handleCountryChange}

@@ -8,6 +8,7 @@ import "./ChooseCulture.css";
 import type { ChooseCultureProps } from "./ChooseCultureProps";
 
 
+
 export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
   useTrackComponent('ChooseCulture', { state, dispatch });
   const {
@@ -20,37 +21,36 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
     handleCookieConsentChange,
   } = useChooseCultureLogic(state, dispatch);
   const { useCookies } = state;
-  const culture = state.cultureInfo?.Culture || 'en-us';
-  const localized = useLocalizationContext().ChooseCulture;
+  const { ChooseCulture: { title, subtitle, legend, languageLabel, countryLabel, continue: continueLabel, cancel, cookieConsent, cookiesInfo } } = useLocalizationContext();
+  const { language, country, countdown, shouldShowCountdown } = localState;
   return (
     <>
       <CountdownIndicator
-        countdown={localState.countdown}
-        showRedirect={typeof localState.countdown === "number" && localState.countdown > 0}
-        culture={culture}
+        countdown={countdown}
+        showRedirect={shouldShowCountdown && typeof countdown === "number" && countdown > 0}
         countdownRef={countdownRef}
       />
-      <h1>{localized.title}</h1>
-      <p>{localized.subtitle}</p>
+      <h1>{title}</h1>
+      <p>{subtitle}</p>
       <form
         className="choose-culture-form"
         onSubmit={handleSubmit}
       >
         <fieldset className="choose-culture-fieldset">
-          <legend className="choose-culture-legend">{localized.legend}</legend>
+          <legend className="choose-culture-legend">{legend}</legend>
           <div className="choose-culture-dropdown-group">
             <LanguageDropdown
-              selectedLanguage={localState.language as Language}
+              selectedLanguage={language as Language}
               onLanguageChange={handleLanguageChange}
-              Label={localized.languageLabel}
+              Label={languageLabel}
               culture={state.cultureInfo}
             />
           </div>
           <div className="choose-culture-dropdown-group">
             <CountryDropdown
-              selectedCountry={localState.country}
+              selectedCountry={country}
               culture={state.cultureInfo}
-              Label={localized.countryLabel}
+              Label={countryLabel}
               onCountryChange={handleCountryChange}
             />
           </div>
@@ -58,28 +58,28 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
         <div className="choose-culture-btn-group">
           <button
             type="submit"
-            className={`app-btn${typeof localState.countdown === "number" && localState.countdown > 0 ? " cancel" : ""}`}
-            disabled={typeof localState.countdown === "number" && localState.countdown > 0}
+            className={`app-btn${shouldShowCountdown && typeof countdown === "number" && countdown > 0 ? " cancel" : ""}`}
+            disabled={shouldShowCountdown && typeof countdown === "number" && countdown > 0}
           >
-            {localized.continue}
+            {continueLabel}
           </button>
           <button
             type="button"
             className={`app-btn cancel`}
             onClick={handleCancel}
-            disabled={typeof localState.countdown !== "number" || localState.countdown <= 0}
+            disabled={!shouldShowCountdown}
           >
-            {localized.cancel}
+            {cancel}
           </button>
         </div>
       </form>
       <div className="choose-culture-cookies">
         <input type="checkbox" id="cookieConsent" name="cookieConsent" checked={useCookies} onChange={handleCookieConsentChange} />
-        <label htmlFor="cookieConsent">{localized.cookieConsent}</label>
+        <label htmlFor="cookieConsent">{cookieConsent}</label>
       </div>
       <div className="choose-culture-cookies-info">
         <p>
-          {localized.cookiesInfo}
+          {cookiesInfo}
         </p>
       </div>
     </>

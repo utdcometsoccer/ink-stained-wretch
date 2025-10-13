@@ -5,6 +5,7 @@ import { initializeAppInsights, trackEvent, trackException, trackPageView } from
 import { getDefaultLocale } from '../services/getDefaultLocale';
 import { useRunOnce } from './useRunOnce';
 import { getLocalizedText } from '../services/localization';
+import { getBrowserCultureWithFallback } from '../services/getBrowserCultureWithFallback';
 
 export function useAppLogic() {
   const [appState, dispatch] = useReducer(appReducer, loadStateFromCookie());
@@ -52,7 +53,7 @@ export function useAppLogic() {
   }, []);
 
   // Localization
-  const culture = appState.state.cultureInfo?.Culture || 'en-us';
+  const culture = appState.state.cultureInfo?.Culture || getBrowserCultureWithFallback().Culture;
   useRunOnce(() => {
     async function fetchLocalizedText() {
       try {
@@ -68,7 +69,7 @@ export function useAppLogic() {
         dispatch({ type: 'UPDATE_STATE', payload: { loading: false } });
       }
     }
-    localizationDataLoaded ? fetchLocalizedText() : () => console.log('Localization data already loaded');
+    !localizationDataLoaded ? fetchLocalizedText() : () => console.log('Localization data already loaded');
   });  
 
   

@@ -14,6 +14,7 @@ import type { State } from "../types/State";
 import { useDomainRegistrations } from "./useDomainRegistrations";
 import { useLocalizationContext } from "./useLocalizationContext";
 import { useTrackComponent } from "./useTrackComponent";
+import { getBrowserCultureWithFallback } from "../services/getBrowserCultureWithFallback";
 
 
 export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Action>, domainRegistrationsFetcher: DomainRegistrationsFetcher = useDomainRegistrations): DomainRegistrationLogicReturn {
@@ -25,7 +26,7 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
           }
       }, [data, dispatch]);
   
-  const culture = cultureInfo?.Culture || 'en-us';
+  const culture = cultureInfo?.Culture || getBrowserCultureWithFallback().Culture;
   const localizedText = useLocalizationContext();
   const domainRegistrationText = localizedText.DomainRegistration;
   const domainRegistrationsListText = localizedText.DomainRegistrationsList;

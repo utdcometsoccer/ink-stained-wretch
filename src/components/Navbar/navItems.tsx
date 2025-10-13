@@ -4,12 +4,11 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import LanguageIcon from '@mui/icons-material/Language';
 import LoginIcon from '@mui/icons-material/Login';
 import PublicIcon from '@mui/icons-material/Public';
-import { getLocalizedText } from '../../services/localization';
 import type { NavItem } from '../../types/NavItem';
+import type { LocalizedText } from '../../types/LocalizedText';
 
-export async function getNavItems(culture: string = 'en-US'): Promise<NavItem[]> {
-    const cultureText = await getLocalizedText(culture);
-    const localizedNavbar = cultureText?.Navbar;
+export function getNavItems(localization: LocalizedText): NavItem[] {
+    const localizedNavbar = localization?.Navbar;
     const localized = localizedNavbar?.navItems;
     return [
         { state: 'chooseCulture', label: localized?.chooseCulture.label ?? 'Culture', icon: <LanguageIcon fontSize="small" />, description: localized?.chooseCulture.description ?? 'Choose Language & Region' },

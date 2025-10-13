@@ -1,12 +1,14 @@
 import { useEffect, useReducer, useRef, type Dispatch, type FormEvent } from "react";
-import { cultureFromBrowser } from '@idahoedokpayi/react-country-state-selector';
 import type { State } from "../types/State";
 import { chooseCultureReducer } from "../reducers/chooseCultureReducer";
 import type { Action } from "../types/Action";
+import { getBrowserCultureWithFallback } from "../services/getBrowserCultureWithFallback";
+import { getLocalizedText } from "../services/localization";
+import { getDefaultLocale } from "../services/getDefaultLocale";
 
 
 export function useChooseCultureLogic(state: State, dispatch: Dispatch<Action>) {
-  const browserCulture = cultureFromBrowser();
+  const browserCulture = getBrowserCultureWithFallback();
   const [localState, localDispatch] = useReducer(
     chooseCultureReducer,
     {
@@ -16,6 +18,48 @@ export function useChooseCultureLogic(state: State, dispatch: Dispatch<Action>) 
     }
   );
   const countdownRef = useRef<HTMLDivElement>(null);
+
+  // Helper function to update localization data when culture changes
+  const updateLocalizationData = async (language: string, country: string, culture: string) => {
+    try {
+      // Update global state immediately
+      dispatch({
+        type: "UPDATE_STATE",
+        payload: {
+          cultureInfo: {
+            Language: language,
+            Country: country,
+            Culture: culture,
+          },
+        },
+      });
+      // Set loading state
+      dispatch({
+        type: 'UPDATE_STATE',
+        payload: {
+          localizationDataLoaded: false,
+          loading: true
+        }
+      });
+
+      const localizedText = await getLocalizedText(culture);
+      const localized = localizedText || getDefaultLocale();
+
+      // Update localization data and clear loading state
+      dispatch({
+        type: 'UPDATE_STATE',
+        payload: {
+          localizationData: localized,
+          localizationDataLoaded: true,
+          loading: false
+        }
+      });
+    } catch (err) {
+      console.error('Failed to load localization data:', err);
+      dispatch({ type: 'SET_ERROR', payload: err instanceof Error ? err.message : String(err) });
+      dispatch({ type: 'UPDATE_STATE', payload: { loading: false } });
+    }
+  };
 
   useEffect(() => {
     if (state.cultureInfo && !localState.countdown) {
@@ -40,26 +84,35 @@ export function useChooseCultureLogic(state: State, dispatch: Dispatch<Action>) 
   }, [localState.countdown, dispatch]);
 
   const handleLanguageChange = (selected: string) => {
+    // Update local state
     localDispatch({ type: "SET_LANGUAGE", payload: selected });
+
+    const newCulture = `${selected}-${localState.country}`.toLowerCase();
+
+
+    // Update localization data for the new culture
+    updateLocalizationData(selected, localState.country, newCulture);
   };
 
   const handleCountryChange = (selected: string) => {
     localDispatch({ type: "SET_COUNTRY", payload: selected });
+
+    const newCulture = `${localState.language}-${selected}`.toLowerCase();
+
+    // Update localization data for the new culture
+    updateLocalizationData(localState.language, selected, newCulture);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch({
-      type: "UPDATE_STATE",
-      payload: {
-        cultureInfo: {
-          Language: localState.language,
-          Country: localState.country,
-          Culture: `${localState.language}-${localState.country}`,
-        },
-      },
-    });
+
+    const newCulture = `${localState.language}-${localState.country}`.toLowerCase();
+
+    // Update localization data for the new culture
+    updateLocalizationData(localState.language, localState.country, newCulture);
+
     localDispatch({ type: "SET_COUNTDOWN", payload: 10 });
+    localDispatch({ type: "SHOW_COUNTDOWN" });
   };
 
   const handleCancel = () => {

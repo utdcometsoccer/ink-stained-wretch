@@ -16,6 +16,15 @@ export const MainContentRenderer: React.FC<MainContentRendererProps> = ({
   dispatch,
   isDevelopment
 }) => {
+
+  // Debug: Pretty print state to console in development mode
+  if (isDevelopment()) {
+    console.log('🐛 MainContentRenderer State Debug:', {
+      currentUIState,
+      state: JSON.parse(JSON.stringify(state, null, 2))
+    });
+  }
+  
   const renderCurrentComponent = () => {
     try {
       switch (currentUIState) {
@@ -32,13 +41,13 @@ export const MainContentRenderer: React.FC<MainContentRendererProps> = ({
         case 'authorPage':
           return (
             <AuthGuard>
-              <AuthorRegistration state={state} dispatch={dispatch} culture={state.cultureInfo?.Culture} />
+              <AuthorRegistration state={state} dispatch={dispatch} />
             </AuthGuard>
           )
         case 'subscribe':
           return (
             <AuthGuard>
-              <Subscribe state={state} dispatch={dispatch} culture={state.cultureInfo?.Culture} />
+              <Subscribe state={state} dispatch={dispatch} />
             </AuthGuard>
           )
         case 'thankYou':
@@ -48,9 +57,9 @@ export const MainContentRenderer: React.FC<MainContentRendererProps> = ({
             </AuthGuard>
           )
         case 'error':
-          return <ErrorPage state={state} dispatch={dispatch} isDevelopment={isDevelopment} culture={state.cultureInfo?.Culture} />
+          return <ErrorPage state={state} dispatch={dispatch} isDevelopment={isDevelopment} />
         default:
-          return <ErrorPage state={state} dispatch={dispatch} isDevelopment={isDevelopment} culture={state.cultureInfo?.Culture} />
+          return <ErrorPage state={state} dispatch={dispatch} isDevelopment={isDevelopment} />
       }
     } catch (error) {
       const renderError = error instanceof Error ? error : new Error('An error occurred while rendering');
@@ -59,7 +68,7 @@ export const MainContentRenderer: React.FC<MainContentRendererProps> = ({
         type: 'SET_ERROR',
         payload: renderError.message
       })
-      return <ErrorPage state={state} dispatch={dispatch} isDevelopment={isDevelopment} culture={state.cultureInfo?.Culture} />
+      return <ErrorPage state={state} dispatch={dispatch} isDevelopment={isDevelopment} />
     }
   };
 

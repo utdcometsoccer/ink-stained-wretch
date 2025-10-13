@@ -1,10 +1,13 @@
 import type { FC } from 'react';
+import type { Dispatch } from 'react';
 import { ChooseSubscription } from '../ChooseSubscription';
 import { Checkout } from '../Checkout';
-import type { CheckoutProps } from '../Checkout/CheckoutProps';
-import type { ChooseCultureProps } from '../ChooseCulture/ChooseCultureProps';
-interface SubscribeProps extends ChooseCultureProps, CheckoutProps {
-    // Combines props for both ChooseSubscription and Checkout
+import type { Action } from '../../types/Action';
+import type { State } from '../../types/State';
+
+interface SubscribeProps {
+    state: State;
+    dispatch: Dispatch<Action>;
 }
 
 export const Subscribe: FC<SubscribeProps> = (props) => {

@@ -19,7 +19,6 @@ export const DomainRegistration: FC<DomainRegistrationProps> = ({ state, dispatc
         domainRegistrationText,
         domainInputValue,
         domainError,
-        culture,
         loading,
         domainRegistrationsListText,
         APICallFailed
@@ -44,9 +43,7 @@ export const DomainRegistration: FC<DomainRegistrationProps> = ({ state, dispatc
                     <ContactInfoForm
                         cityRef={cityRef}
                         state={state}
-                        cultureInfo={state.cultureInfo}
                         onChange={handleContactChange}
-                        culture={culture}
                         dispatch={dispatch}
                     />
                     <button type="submit" className="app-btn">{domainRegistrationText.submit}</button>

@@ -7,38 +7,36 @@ import type { Action } from "../types/Action";
 import type { State } from '../types/State';
 import { getNavItems } from '../components/Navbar/navItems';
 import type { NavItem } from '../types/NavItem';
+import { useLocalizationContext } from './useLocalizationContext';
 
 
-export function useNavbarLogic(state: State, dispatch: Dispatch<Action>) {
+export function useNavbarLogic(_state: State, dispatch: Dispatch<Action>) {
     const { accounts } = useMsal();
     const isAuthenticated = accounts && accounts.length > 0;
     const [dynamicNavItems, setDynamicNavItems] = useState<NavItem[]>([]);
+    const localization = useLocalizationContext();
     useEffect(() => {
-        (async () => {
-            const navItems = await getNavItems(state.cultureInfo?.Culture || 'en-US');
+        const navItems = getNavItems(localization);
+        
+        // Filter nav items based on authentication status
+        const filteredNavItems = isAuthenticated 
+            ? navItems // Show all items when authenticated
+            : navItems.filter(item => item.state === 'chooseCulture' || item.state === 'login'); // Only show Culture and Login when not authenticated
             
-            // Filter nav items based on authentication status
-            const filteredNavItems = isAuthenticated 
-                ? navItems // Show all items when authenticated
-                : navItems.filter(item => item.state === 'chooseCulture' || item.state === 'login'); // Only show Culture and Login when not authenticated
-            
-            setDynamicNavItems(filteredNavItems.map(item => {
-                if (item.state === 'login') {
-                    return {
-                        ...item,
-                        label: isAuthenticated ? 'Logout' : 'Login',
-                        icon: isAuthenticated ? <LogoutIcon fontSize="small" /> : <LoginIcon fontSize="small" />,
-                        description: isAuthenticated ? 'Sign Out' : 'Sign In / Sign Up'
-                    };
-                }
-                return item;
-
-            }));
-        })();
+        setDynamicNavItems(filteredNavItems.map(item => {
+            if (item.state === 'login') {
+                return {
+                    ...item,
+                    label: isAuthenticated ? 'Logout' : 'Login',
+                    icon: isAuthenticated ? <LogoutIcon fontSize="small" /> : <LoginIcon fontSize="small" />,
+                    description: isAuthenticated ? 'Sign Out' : 'Sign In / Sign Up'
+                };
+            }
+            return item;
+        }));
+        
         dispatch({ type: 'UPDATE_STATE', payload: { isAuthenticated } });
-    }, [isAuthenticated, dispatch]);
-
-
+    }, [isAuthenticated, dispatch, localization]);
     const [isMenuOpen, setMenuOpen] = useState(false);
 
     const handleNavigation = (uiState: UIStates) => {

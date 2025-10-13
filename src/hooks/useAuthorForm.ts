@@ -3,6 +3,7 @@ import { authorFormReducer, initialAuthorFormState } from "../reducers/authorFor
 import { cultureFromBrowser, type Language } from "@idahoedokpayi/react-country-state-selector";
 import { deleteImage, listUserImages, uploadImage } from '../services/imageApi';
 import { withAuthRetry } from '../services/withAuthRetry';
+import { getBrowserCultureWithFallback } from '../services/getBrowserCultureWithFallback';
 import { fetchOpenLibraryAuthors } from "../services/openLibraryApi";
 import type { Article } from "../types/Article";
 import type { Book } from "../types/Book";
@@ -28,8 +29,8 @@ export function useAuthorFormLogic(
   const { authToken, cultureInfo, domainRegistration } = appState;
   const token = authToken ?? '';
   const browserCulture = cultureFromBrowser();
-  const language = cultureInfo?.Language || browserCulture.Language || "en";
-  const country = cultureInfo?.Country || browserCulture.Country || "US";
+  const language = cultureInfo?.Language || browserCulture.Language || getBrowserCultureWithFallback().Language;
+  const country = cultureInfo?.Country || browserCulture.Country || getBrowserCultureWithFallback().Country;
   const emailAddress = domainRegistration?.contactInformation?.emailAddress || appState.userProfile?.emailAddress || '';
   const initialState = {
     ...(author ?? initialAuthorFormState),

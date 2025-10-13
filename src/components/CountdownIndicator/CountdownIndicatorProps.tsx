@@ -5,5 +5,4 @@ export type CountdownIndicatorProps = {
     showRedirect?: boolean;
     countdownRef: RefObject<HTMLDivElement | null>;
     text?: string;
-    culture?: string;
 };

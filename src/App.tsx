@@ -7,6 +7,7 @@ import { Container } from "./components/Container";
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { MainContentRenderer } from './components/MainContentRenderer';
 import { Navbar } from './components/Navbar';
+import { CultureInfoProvider } from './contexts/CultureInfoContext';
 import { useAppLogic } from './hooks/useAppLogic';
 import { LocalizationContext } from "./LocalizationContext";
 import { getDefaultLocale } from "./services/getDefaultLocale";
@@ -23,23 +24,25 @@ function App() {
   ) : (
     <MsalProvider instance={msalInstance}>
       <ErrorBoundary onError={handleReactError}>
-        <LocalizationContext value={localizationData || getDefaultLocale()}>
-          <Elements stripe={stripePromise as unknown as Stripe | null}>
-            <div className="app">
-              <Navbar currentState={appState.currentUIState} dispatch={dispatch} state={appState.state} />
-              <main className="app-content">
-                <Container>
-                  <MainContentRenderer 
-                    currentUIState={appState.currentUIState}
-                    state={appState.state}
-                    dispatch={dispatch}
-                    isDevelopment={isDevelopment}
-                  />
-                </Container>
-              </main>
-            </div>
-          </Elements>
-        </LocalizationContext>
+        <CultureInfoProvider cultureInfo={appState.state.cultureInfo}>
+          <LocalizationContext.Provider value={localizationData || getDefaultLocale()}>
+            <Elements stripe={stripePromise as unknown as Stripe | null}>
+              <div className="app">
+                <Navbar currentState={appState.currentUIState} dispatch={dispatch} state={appState.state} />
+                <main className="app-content">
+                  <Container>
+                    <MainContentRenderer 
+                      currentUIState={appState.currentUIState}
+                      state={appState.state}
+                      dispatch={dispatch}
+                      isDevelopment={isDevelopment}
+                    />
+                  </Container>
+                </main>
+              </div>
+            </Elements>
+          </LocalizationContext.Provider>
+        </CultureInfoProvider>
       </ErrorBoundary>
     </MsalProvider>
   )

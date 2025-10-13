@@ -7,8 +7,10 @@ import type { UseAuthorRegistrationReturn } from "../types/UseAuthorRegistration
 import { useAuthorsByDomain } from "./useAuthorsByDomain";
 import { useLocalizationContext } from "./useLocalizationContext";
 import { useTrackComponent } from './useTrackComponent';
+import { useCultureInfo } from "../contexts/CultureInfoContext";
 
-export function useAuthorRegistration({ state, dispatch, culture }: AuthorRegistrationProps): UseAuthorRegistrationReturn {
+export function useAuthorRegistration({ state, dispatch }: AuthorRegistrationProps): UseAuthorRegistrationReturn {
+    const { culture } = useCultureInfo();
     const { authToken, Authors, domainRegistration } = state;
     const { domain } = domainRegistration || {};
     const { secondLevelDomain, topLevelDomain } = domain || {};

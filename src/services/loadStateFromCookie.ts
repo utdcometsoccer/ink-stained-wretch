@@ -1,10 +1,13 @@
 import type { AppState } from "../types/AppState";
-
+import { getDefaultLocale } from "./getDefaultLocale";
 
 export function loadStateFromCookie(): AppState {
     const initialState: AppState = {
         currentUIState: 'chooseCulture',
         state: {
+            localizationData: getDefaultLocale(),
+            localizationDataLoaded: false,
+            loading: false
         }
     };
     const cookieMatch = document.cookie.match(/(?:^|; )appState=([^;]*)/);
