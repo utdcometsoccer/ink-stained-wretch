@@ -91,7 +91,7 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
     const value = domainInputValue.trim();
     const { secondLevelDomain, topLevelDomain } = parseDomain(domainInputValue);
     dispatch({
-      type: "SET_DOMAIN_INPUT_VALUE", payload: value
+      type: "SET_DOMAIN_INPUT_VALUE", payload: { topLevelDomain, secondLevelDomain }
     });
     if (value === '') {
       domainRegistrationDispatch({ type: "SET_DOMAIN_ERROR", payload: null });

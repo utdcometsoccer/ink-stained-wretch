@@ -31,7 +31,7 @@ export function useChooseCultureLogic(state: State, dispatch: Dispatch<Action>) 
             Language: language,
             Country: country,
             Culture: culture,
-          },
+          } as any,
         },
       });
       // Set loading state

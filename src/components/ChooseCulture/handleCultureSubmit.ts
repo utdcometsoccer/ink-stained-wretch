@@ -7,5 +7,5 @@ export function handleCultureSubmit(
     cultureInfo?: CultureInfo    
 ) {
     dispatch({ type: 'UPDATE_STATE', payload: { cultureInfo } });
-    dispatch({ type: 'SET_UI_STATE', payload: 'createAccount' });
+    dispatch({ type: 'SET_UI_STATE', payload: 'domainRegistration' as any });
 } 

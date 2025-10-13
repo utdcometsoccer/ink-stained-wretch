@@ -1,7 +1,7 @@
 import type { UIStates } from "../types/UIStates";
 import { saveStateToCookie } from '../services/saveStateToCookie';
 import type { AppState } from "../types/AppState";
-import type { Action } from "../types/Action";
+import type { AppAction } from "../types/actions";
 
 
 export type ActionType =
@@ -18,7 +18,7 @@ export type ActionType =
   | 'SELECT_DOMAIN_REGISTRATION'  // New action type for selecting a domain registration
   | 'SET_DOMAIN_REGISTRATIONS';  // New action for updating domainRegistrations
 
-export function appReducer(state: AppState, action: Action): AppState {
+export function appReducer(state: AppState, action: AppAction): AppState {
   let nextState: AppState = state;
   switch (action.type) {
     case 'SELECT_DOMAIN_REGISTRATION':
