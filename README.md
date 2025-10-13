@@ -71,6 +71,7 @@ Frontend (Vite) variables (prefix VITE_):
 - API endpoints
   - `VITE_OPENLIBRARY_AUTHOR_SEARCH_URL`
   - `VITE_GOOGLE_BOOKS_API_URL`
+  - `VITE_AMAZON_BOOKS_API_URL`
   - `VITE_IMAGE_API_URL`
   - `VITE_USER_DOMAIN_REGISTRATIONS_API_URL`
   - `VITE_DOMAIN_REGISTRATION_SUBMIT_API_URL` (POST endpoint for submitting domain registrations)
@@ -191,6 +192,7 @@ VITE_LOCALIZATION_API_URL=http://localhost:7072/api/localizedtext/
 VITE_IMAGE_API_URL=/api/images
 VITE_OPENLIBRARY_AUTHOR_SEARCH_URL=https://openlibrary.org/search/authors.json?q=
 VITE_GOOGLE_BOOKS_API_URL=https://www.googleapis.com/books/v1/volumes
+VITE_AMAZON_BOOKS_API_URL=https://api.example.com
 
 # Stripe (test mode only for local)
 VITE_ENABLE_STRIPE_CHECKOUT=false
