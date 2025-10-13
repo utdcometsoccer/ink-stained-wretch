@@ -15,6 +15,7 @@ export function useChooseCultureLogic(state: State, dispatch: Dispatch<Action>) 
       language: state.cultureInfo?.Language ?? browserCulture.Language,
       country: state.cultureInfo?.Country ?? browserCulture.Country,
       countdown: undefined,
+      shouldShowCountdown: false,
     }
   );
   const countdownRef = useRef<HTMLDivElement>(null);
