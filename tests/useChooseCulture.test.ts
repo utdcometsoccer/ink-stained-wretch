@@ -140,6 +140,9 @@ describe('useChooseCultureLogic', () => {
 
     // Verify countdown was set
     expect(result.current.localState.countdown).toBe(10);
+    
+    // Verify shouldShowCountdown flag is set to true (for button disable)
+    expect(result.current.localState.shouldShowCountdown).toBe(true);
   });
 
   it('sets countdown when culture info exists in state', () => {

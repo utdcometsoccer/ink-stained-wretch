@@ -15,6 +15,7 @@ export function useChooseCultureLogic(state: State, dispatch: Dispatch<Action>) 
       language: state.cultureInfo?.Language ?? browserCulture.Language,
       country: state.cultureInfo?.Country ?? browserCulture.Country,
       countdown: undefined,
+      shouldShowCountdown: false,
     }
   );
   const countdownRef = useRef<HTMLDivElement>(null);
@@ -69,6 +70,7 @@ export function useChooseCultureLogic(state: State, dispatch: Dispatch<Action>) 
           language: state.cultureInfo.Language,
           country: state.cultureInfo.Country,
           countdown: Number(import.meta.env.VITE_COUNTDOWN_SECONDS) || 10,
+          shouldShowCountdown: true,
         },
       });
     }
