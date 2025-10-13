@@ -50,7 +50,7 @@ export const Checkout: FC<CheckoutProps> = ({ state, dispatch }) => {
   useEffect(() => {
     if (!loading) {
       !clientSecret ? dispatch({ type: 'SET_ERROR', payload: 'No Stripe client secret found' }) : dispatch({ type: 'CLEAR_ERROR' });
-      dispatch({ type: 'UPDATE_STATE', payload: { subscriptionId } });
+      dispatch({ type: 'UPDATE_STATE', payload: { SubscriptionId: subscriptionId } });
     }
   }, [dispatch, clientSecret, loading]);
 

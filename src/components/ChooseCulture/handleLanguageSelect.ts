@@ -4,6 +4,6 @@ import type { Action } from "../../types/Action";
 
 export function handleLanguageSelect(dispatch: Dispatch<Action>) {
   return (e: React.ChangeEvent<HTMLSelectElement>) => {
-    dispatch({ type: 'UPDATE_STATE', payload: { selectedLanguage: e.target.value as Language } });
+    dispatch({ type: 'UPDATE_STATE', payload: { selectedLanguage: e.target.value as Language } as any });
   };
 }

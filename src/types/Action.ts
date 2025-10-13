@@ -1,6 +1,3 @@
-import type { ActionType } from "../reducers/appReducer";
+import type { AppAction } from "./actions";
 
-export interface Action {
-  type: ActionType;
-  payload?: any;
-}
+export type Action = AppAction;
