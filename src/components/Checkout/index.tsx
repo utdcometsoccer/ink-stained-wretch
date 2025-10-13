@@ -61,7 +61,13 @@ export const Checkout: FC<CheckoutProps> = ({ state, dispatch }) => {
   return selectedSubscriptionPlan ? (
 
     <div className="checkout-page">
-      <CheckoutForm name={displayName || ''} clientSecret={clientSecret || ''} handleSuccess={() => dispatch({ type: 'SET_UI_STATE', payload: 'thankYou' })} />
+      <CheckoutForm 
+        name={displayName || ''} 
+        clientSecret={clientSecret || ''} 
+        handleSuccess={() => dispatch({ type: 'SET_UI_STATE', payload: 'thankYou' })} 
+        state={state}
+        dispatch={dispatch}
+      />
     </div>
   ) : <div>{localizedCheckout.selectPlan}</div>;
 };
