@@ -70,6 +70,7 @@ export function useChooseCultureLogic(state: State, dispatch: Dispatch<Action>) 
           language: state.cultureInfo.Language,
           country: state.cultureInfo.Country,
           countdown: Number(import.meta.env.VITE_COUNTDOWN_SECONDS) || 10,
+          shouldShowCountdown: true,
         },
       });
     }

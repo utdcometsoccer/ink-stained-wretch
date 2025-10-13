@@ -10,7 +10,7 @@ export type ChooseCultureAction =
   | { type: "SET_COUNTRY"; payload: string }
   | { type: "SET_COUNTDOWN"; payload: number | undefined }
   | { type: "RESET_COUNTDOWN" }
-  | { type: "SYNC_FROM_PROPS"; payload: { language: string; country: string; countdown?: number } }
+  | { type: "SYNC_FROM_PROPS"; payload: { language: string; country: string; countdown?: number; shouldShowCountdown?: boolean } }
   | { type: "SHOW_COUNTDOWN" }
   | { type: "CANCEL_COUNTDOWN" };
 
