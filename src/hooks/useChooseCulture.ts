@@ -119,6 +119,7 @@ export function useChooseCultureLogic(state: State, dispatch: Dispatch<Action>) 
 
   const handleCancel = () => {
     localDispatch({ type: "CANCEL_COUNTDOWN" });
+    localDispatch({ type: "RESET_STATE" });
   };
 
   // Handler for cookie consent checkbox
