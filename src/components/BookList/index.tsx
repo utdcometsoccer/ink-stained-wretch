@@ -3,10 +3,10 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import GoogleIcon from '@mui/icons-material/Google';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CircularProgress from "@mui/material/CircularProgress";
 import type { FC } from "react";
 import penguinLogo from "../../assets/penguin-vector.png";
+import amazonLogo from "../../assets/amazon-logo.svg";
 import { useBookList } from "../../hooks/useBookList";
 import { useLocalizationContext } from '../../hooks/useLocalizationContext';
 import { useTrackComponent } from '../../hooks/useTrackComponent';
@@ -88,8 +88,8 @@ export const BookList: FC<BookListProps> = (props) => {
         <span className="btn-label">{localized.importGoogleBooks}</span>
       </button>
       <button disabled={disableAmazonImport} className={disableAmazonImport ? "book-list-cancel-btn icon-btn" : "book-list-add-btn icon-btn"} title={localized.importAmazonBooks} onClick={importBooksFromAmazon}>
-        <ShoppingCartIcon fontSize="small" className="book-list-book-icon" />
-        <span className="btn-label">{localized.importAmazonBooks}</span>
+        <img src={amazonLogo} alt="Amazon" className="book-list-penguin-logo" />
+        {localized.importAmazonBooks}
       </button>
 
     </div>
