@@ -1,7 +1,6 @@
-import { renderHook, act } from '@testing-library/react';
+import { renderHook, act, waitFor } from '@testing-library/react';
 import { vi, describe, it, expect, beforeEach, MockedFunction } from 'vitest';
 import { useAppLogic } from '../src/hooks/useAppLogic';
-import { useGetLocalizedText as originalUseGetLocalizedText } from '../src/hooks/useGetLocalizedText';
 import {
   initializeAppInsights,
   trackEvent,
@@ -22,33 +21,44 @@ vi.mock('../src/services/loadStateFromCookie', () => ({
     state: {
       Authors: [],
       cultureInfo: { Culture: 'en-us' },
+      localizationDataLoaded: false,
+      loading: false,
     },
   })),
 }));
 
-vi.mock('../src/hooks/useGetLocalizedText', async () => {
-  return {
-    useGetLocalizedText: vi.fn(() => ({
-      localizedText: { Checkout: { selectPlan: 'Select a plan' } },
-      loading: false,
-      error: null,
-    })),
-  };
-});
+vi.mock('../src/services/localization', () => ({
+  getLocalizedText: vi.fn(() => Promise.resolve({
+    Checkout: { selectPlan: 'Select a plan' }
+  })),
+}));
+
+vi.mock('../src/services/getDefaultLocale', () => ({
+  getDefaultLocale: vi.fn(() => ({
+    Checkout: { selectPlan: 'Select a plan' }
+  })),
+}));
 
 describe('useAppLogic', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
-  it('initializes and returns state, dispatch, localized, loading, and handler', () => {
+  it('initializes and returns state, dispatch, localized, loading, and handler', async () => {
     const { result } = renderHook(() => useAppLogic());
+    
+    // Initial state
     expect(result.current).toHaveProperty('appState');
     expect(result.current).toHaveProperty('dispatch');
     expect(result.current).toHaveProperty('localized');
     expect(result.current).toHaveProperty('loading');
     expect(result.current).toHaveProperty('handleReactError');
-    expect(result.current.loading).toBeFalsy();
+    
+    // Wait for async localization loading to complete
+    await waitFor(() => {
+      expect(result.current.loading).toBeFalsy();
+    });
+    
     expect(result.current.localized).toBeTruthy();
     expect(initializeAppInsights).toHaveBeenCalled();
     expect(trackEvent).toHaveBeenCalled();
@@ -105,12 +115,16 @@ describe('useAppLogic', () => {
     expect(String(result.current.appState.state.error)).toContain('reject');
   });
 
-  it('propagates localization errors', () => {
-    // This test was based on incorrect assumption - useAppLogic doesn't use useGetLocalizedText
-    // It uses getLocalizedText service directly. Since we can't easily mock async behavior in useRunOnce,
-    // we'll test that the hook initializes properly without localization errors
+  it('initializes properly with localization', async () => {
     const { result } = renderHook(() => useAppLogic());
+    
+    // Wait for localization to complete
+    await waitFor(() => {
+      expect(result.current.appState.state.localizationDataLoaded).toBe(true);
+    });
+    
     expect(result.current.appState.currentUIState).toBe('chooseCulture');
     expect(result.current.appState.state.error).toBeUndefined();
+    expect(result.current.localized).toBeTruthy();
   });
 });
