@@ -13,6 +13,7 @@ export default defineConfig({
     globals: true,
     setupFiles: './setupTests.ts',
     environment: 'jsdom',
+    bail: 1,
     browser: {
       enabled: true,
       provider: 'playwright',

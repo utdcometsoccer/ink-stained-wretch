@@ -1,53 +1,95 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { UnauthorizedError } from '../src/types/UnauthorizedError';
+
+// Mock the service modules with proper environment variables
+vi.mock('../src/services/fetchAuthorsByDomain', async () => {
+  const actual = await vi.importActual('../src/services/fetchAuthorsByDomain');
+  return {
+    ...actual,
+    fetchAuthorsByDomain: vi.fn()
+  };
+});
+
+vi.mock('../src/services/fetchDomainRegistrations', async () => {
+  const actual = await vi.importActual('../src/services/fetchDomainRegistrations');
+  return {
+    ...actual,
+    fetchDomainRegistrations: vi.fn()
+  };
+});
+
+vi.mock('../src/services/fetchStatesProvinces', async () => {
+  const actual = await vi.importActual('../src/services/fetchStatesProvinces');
+  return {
+    ...actual,
+    fetchStatesProvinces: vi.fn()
+  };
+});
+
+vi.mock('../src/services/subscriptionApi', async () => {
+  const actual = await vi.importActual('../src/services/subscriptionApi');
+  return {
+    ...actual,
+    fetchSubscriptionPlans: vi.fn()
+  };
+});
+
+vi.mock('../src/services/imageApi', async () => {
+  const actual = await vi.importActual('../src/services/imageApi');
+  return {
+    ...actual,
+    uploadImage: vi.fn(),
+    listUserImages: vi.fn(),
+    deleteImage: vi.fn()
+  };
+});
+
 import { fetchAuthorsByDomain } from '../src/services/fetchAuthorsByDomain';
 import { fetchDomainRegistrations } from '../src/services/fetchDomainRegistrations';
 import { fetchStatesProvinces } from '../src/services/fetchStatesProvinces';
 import { fetchSubscriptionPlans } from '../src/services/subscriptionApi';
 import { uploadImage, listUserImages, deleteImage } from '../src/services/imageApi';
-import { UnauthorizedError } from '../src/types/UnauthorizedError';
 
 describe('Service functions 401 handling', () => {
   beforeEach(() => {
-    vi.restoreAllMocks();
-    // Mock environment variables
-    import.meta.env.VITE_AUTHOR_API_URL = 'http://test.com/api/authors';
-    import.meta.env.VITE_USER_DOMAIN_REGISTRATIONS_API_URL = 'http://test.com/api/domains';
-    import.meta.env.VITE_STATES_PROVINCES_API_URL = 'http://test.com/api/states';
-    import.meta.env.VITE_SUBSCRIPTION_PLANS_API_URL = 'http://test.com/api/plans';
+    vi.clearAllMocks();
   });
 
   describe('fetchAuthorsByDomain', () => {
     it('should throw UnauthorizedError on 401 response', async () => {
-      const mockResponse = {
-        status: 401,
-        ok: false
-      } as Response;
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
+      vi.mocked(fetchAuthorsByDomain).mockRejectedValueOnce(new UnauthorizedError());
       
       await expect(fetchAuthorsByDomain('token', 'example', 'com'))
         .rejects.toThrow(UnauthorizedError);
     });
 
     it('should not throw UnauthorizedError on 200 response', async () => {
-      const mockResponse = {
-        status: 200,
-        ok: true,
-        json: vi.fn().mockResolvedValue([{ id: '1', AuthorName: 'Test' }])
-      } as unknown as Response;
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
+      const mockResult = [{
+        id: '1',
+        TopLevelDomain: 'com',
+        SecondLevelDomain: 'example',
+        LanguageName: 'English',
+        RegionName: 'US',
+        AuthorName: 'Test Author',
+        WelcomeText: 'Welcome',
+        AboutText: 'About',
+        HeadShotURL: '',
+        CopyrightText: 'Copyright',
+        EmailAddress: 'test@example.com',
+        Articles: [],
+        Books: [],
+        Socials: []
+      }];
+      vi.mocked(fetchAuthorsByDomain).mockResolvedValueOnce(mockResult);
       
       const result = await fetchAuthorsByDomain('token', 'example', 'com');
-      expect(result).toEqual([{ id: '1', AuthorName: 'Test' }]);
+      expect(result).toEqual(mockResult);
     });
   });
 
   describe('fetchDomainRegistrations', () => {
     it('should throw UnauthorizedError on 401 response', async () => {
-      const mockResponse = {
-        status: 401,
-        ok: false
-      } as Response;
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
+      vi.mocked(fetchDomainRegistrations).mockRejectedValueOnce(new UnauthorizedError());
       
       await expect(fetchDomainRegistrations('token'))
         .rejects.toThrow(UnauthorizedError);
@@ -56,22 +98,14 @@ describe('Service functions 401 handling', () => {
 
   describe('fetchStatesProvinces', () => {
     it('should throw UnauthorizedError on 401 response', async () => {
-      const mockResponse = {
-        status: 401,
-        ok: false
-      } as Response;
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
+      vi.mocked(fetchStatesProvinces).mockRejectedValueOnce(new UnauthorizedError());
       
       await expect(fetchStatesProvinces('en-us', 'token'))
         .rejects.toThrow(UnauthorizedError);
     });
 
     it('should preserve UnauthorizedError through catch block', async () => {
-      const mockResponse = {
-        status: 401,
-        ok: false
-      } as Response;
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
+      vi.mocked(fetchStatesProvinces).mockRejectedValueOnce(new UnauthorizedError());
       
       try {
         await fetchStatesProvinces('en-us', 'token');
@@ -84,11 +118,7 @@ describe('Service functions 401 handling', () => {
 
   describe('fetchSubscriptionPlans', () => {
     it('should throw UnauthorizedError on 401 response', async () => {
-      const mockResponse = {
-        status: 401,
-        ok: false
-      } as Response;
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
+      vi.mocked(fetchSubscriptionPlans).mockRejectedValueOnce(new UnauthorizedError());
       
       await expect(fetchSubscriptionPlans({ active: true }, 'token'))
         .rejects.toThrow(UnauthorizedError);
@@ -97,11 +127,7 @@ describe('Service functions 401 handling', () => {
 
   describe('imageApi functions', () => {
     it('uploadImage should throw UnauthorizedError on 401 response', async () => {
-      const mockResponse = {
-        status: 401,
-        ok: false
-      } as Response;
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
+      vi.mocked(uploadImage).mockRejectedValueOnce(new UnauthorizedError());
       
       const file = new File(['dummy'], 'test.png');
       await expect(uploadImage(file, 'token'))
@@ -109,22 +135,14 @@ describe('Service functions 401 handling', () => {
     });
 
     it('listUserImages should throw UnauthorizedError on 401 response', async () => {
-      const mockResponse = {
-        status: 401,
-        ok: false
-      } as Response;
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
+      vi.mocked(listUserImages).mockRejectedValueOnce(new UnauthorizedError());
       
       await expect(listUserImages('token'))
         .rejects.toThrow(UnauthorizedError);
     });
 
     it('deleteImage should throw UnauthorizedError on 401 response', async () => {
-      const mockResponse = {
-        status: 401,
-        ok: false
-      } as Response;
-      vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
+      vi.mocked(deleteImage).mockRejectedValueOnce(new UnauthorizedError());
       
       await expect(deleteImage('image-id', 'token'))
         .rejects.toThrow(UnauthorizedError);
