@@ -41,13 +41,8 @@ export const getCountryInformationWithAuth = async (
     );
     
     // Extract country data from the response
-    // Find the data that matches the culture
-    const cultureData = response.data.find(data => 
-      data.culture === cultureInfo.Culture
-    );
-    
-    // Extract country details or use empty array if none found
-    const countryDetails = cultureData?.countries || [];
+    // The response now contains language, count, and countries directly
+    const countryDetails = response.countries || [];
     
     // Map to the library's CountryInformation type
     const countryInformation: CountryInformation[] = countryDetails.map(country => ({

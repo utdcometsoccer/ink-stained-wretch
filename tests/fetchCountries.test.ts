@@ -8,36 +8,16 @@ beforeEach(() => {
 
 describe('fetchCountries', () => {
   const mockCountriesResponse: CountryResponse = {
-    data: [
+    language: 'en',
+    count: 2,
+    countries: [
       {
-        culture: 'en-US',
-        countries: [
-          {
-            name: 'United States',
-            code: 'US',
-            culture: 'en-US'
-          },
-          {
-            name: 'Canada',
-            code: 'CA',
-            culture: 'en-US'
-          }
-        ]
+        name: 'United States',
+        code: 'US'
       },
       {
-        culture: 'es-MX',
-        countries: [
-          {
-            name: 'Estados Unidos',
-            code: 'US',
-            culture: 'es-MX'
-          },
-          {
-            name: 'México',
-            code: 'MX',
-            culture: 'es-MX'
-          }
-        ]
+        name: 'Canada',
+        code: 'CA'
       }
     ]
   };

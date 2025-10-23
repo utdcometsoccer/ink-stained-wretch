@@ -13,21 +13,16 @@ const mockFetchCountries = vi.mocked(fetchCountries);
 
 describe('getCountryInformation', () => {
   const mockCountriesResponse = {
-    data: [
+    language: 'en',
+    count: 2,
+    countries: [
       {
-        culture: 'en-US',
-        countries: [
-          {
-            code: 'US' as const,
-            name: 'United States',
-            culture: 'en-US'
-          },
-          {
-            code: 'CA' as const,
-            name: 'Canada',
-            culture: 'en-US'
-          }
-        ]
+        code: 'US' as const,
+        name: 'United States'
+      },
+      {
+        code: 'CA' as const,
+        name: 'Canada'
       }
     ]
   };
@@ -62,16 +57,12 @@ describe('getCountryInformation', () => {
       mockFetchCountries.mockResolvedValueOnce(mockCountriesResponse);
       
       const mockAuthenticatedResponse = {
-        data: [
+        language: 'en',
+        count: 1,
+        countries: [
           {
-            culture: 'en-US',
-            countries: [
-              {
-                code: 'US' as const,
-                name: 'Authenticated United States',
-                culture: 'en-US'
-              }
-            ]
+            code: 'US' as const,
+            name: 'Authenticated United States'
           }
         ]
       };
@@ -128,16 +119,12 @@ describe('getCountryInformation', () => {
       mockFetchCountries.mockResolvedValueOnce(mockCountriesResponse);
       
       const mockSpanishResponse = {
-        data: [
+        language: 'es',
+        count: 1,
+        countries: [
           {
-            culture: 'es-MX',
-            countries: [
-              {
-                code: 'MX' as const,
-                name: 'México',
-                culture: 'es-MX'
-              }
-            ]
+            code: 'MX' as const,
+            name: 'México'
           }
         ]
       };
