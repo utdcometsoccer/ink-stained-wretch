@@ -28,18 +28,18 @@ export const Login: FC<LoginProps> = ({ state, dispatch }) => {
   return (
     <>
       <UnauthenticatedTemplate>
-        <LoginHeader title={loginRegisterText?.loginHeader.title} subtitle={loginRegisterText?.loginHeader.subtitle} />
-        <LoginButton onSignIn={handleSignIn} className="app-btn" label={loginRegisterText?.loginButton.label} />
+        <LoginHeader title={loginRegisterText?.loginHeaderTitle} subtitle={loginRegisterText?.loginHeaderSubtitle} />
+        <LoginButton onSignIn={handleSignIn} className="app-btn" label={loginRegisterText?.loginButtonLabel} />
       </UnauthenticatedTemplate>
       <AuthenticatedTemplate>
         <CountdownIndicator
           countdown={countdown ?? undefined}
           showRedirect={showRedirect}
           countdownRef={countdownRef}
-          text={loginRegisterText.countdownIndicator.text.replace('{countdown}', `${countdown ?? 0}`)}
+          text={loginRegisterText.countdownIndicatorText.replace('{countdown}', `${countdown ?? 0}`)}
         />
-        <LogoutHeader label={loginRegisterText.logoutButton.label} />
-        <LogoutButton onSignOut={handleSignOut} className="app-btn cancel" label={loginRegisterText.logoutButton.label} />
+        <LogoutHeader label={loginRegisterText.logoutButtonLabel} />
+        <LogoutButton onSignOut={handleSignOut} className="app-btn cancel" label={loginRegisterText.logoutButtonLabel} />
       </AuthenticatedTemplate>
     </>
   );

@@ -158,19 +158,11 @@ export interface ImageManagerText {
 }
 
 export interface LoginRegisterText {
-    loginHeader: {
-        title: string;
-        subtitle: string;
-    };
-    loginButton: {
-        label: string;
-    };
-    logoutButton: {
-        label: string;
-    };
-    countdownIndicator: {
-        text: string;
-    }
+    loginHeaderTitle: string;
+    loginHeaderSubtitle: string;
+    loginButtonLabel: string;
+    logoutButtonLabel: string;
+    countdownIndicatorText: string;
 }
 
 export interface NavbarText {
