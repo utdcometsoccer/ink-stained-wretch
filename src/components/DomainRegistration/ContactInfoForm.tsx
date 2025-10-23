@@ -3,6 +3,7 @@ import { type FC } from "react";
 import { useLocalizationContext } from "../../hooks/useLocalizationContext";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
 import { useGetStateProvinceInformation } from "../../services/getStateProvinceInformation";
+import { useGetCountryInformation } from "../../services/getCountryInformation";
 import { getBrowserCultureWithFallback } from "../../services/getBrowserCultureWithFallback";
 import { useCultureInfo } from "../../contexts/CultureInfoContext";
 import type { ContactInfoFormProps } from "./ContactInfoFormProps";
@@ -21,6 +22,7 @@ export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cityRef, onCh
   };
   
   const getStateProvinceInformation = useGetStateProvinceInformation(state.authToken || undefined, updateToken);
+  const getCountryInformation = useGetCountryInformation(state.authToken || undefined, updateToken);
   const contactInfo = {
     ...state.domainRegistration?.contactInformation,
     country: state.domainRegistration?.contactInformation?.country || cultureInfo?.Country || getBrowserCultureWithFallback().Country
@@ -78,6 +80,7 @@ export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cityRef, onCh
           } as React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
           onChange(event);
         }}
+        getCountryInformation={getCountryInformation}
       />
       <br />
       <label>
