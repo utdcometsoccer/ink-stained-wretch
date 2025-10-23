@@ -3,6 +3,7 @@ import type { FC } from "react";
 import { useChooseCultureLogic } from '../../hooks/useChooseCulture';
 import { useLocalizationContext } from "../../hooks/useLocalizationContext";
 import { useTrackComponent } from '../../hooks/useTrackComponent';
+import { useGetCountryInformation } from '../../services/getCountryInformation';
 import { CountdownIndicator } from "../CountdownIndicator";
 import "./ChooseCulture.css";
 import type { ChooseCultureProps } from "./ChooseCultureProps";
@@ -23,6 +24,7 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
   const { useCookies } = state;
   const { ChooseCulture: { title, subtitle, legend, languageLabel, countryLabel, continue: continueLabel, cancel, cookieConsent, cookiesInfo } } = useLocalizationContext();
   const { language, country, countdown, shouldShowCountdown, hasSubmitted } = localState;
+  const getCountryInformation = useGetCountryInformation();
   
   // Cancel button should be enabled only when:
   // 1. Continue has been clicked (hasSubmitted)
@@ -64,6 +66,7 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
               culture={state.cultureInfo}
               Label={countryLabel}
               onCountryChange={handleCountryChange}
+              getCountryInformation={getCountryInformation}
             />
           </div>
         </fieldset>
