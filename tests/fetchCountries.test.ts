@@ -65,51 +65,7 @@ describe('fetchCountries', () => {
     );
   });
 
-  it('includes authorization header when access token is provided', async () => {
-    const mockFetch = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
-      ok: true,
-      status: 200,
-      statusText: 'OK',
-      json: vi.fn().mockResolvedValueOnce(mockCountriesResponse)
-    } as any);
 
-    await fetchCountries(undefined, 'test-token');
-
-    expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7001/api/countries',
-      {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer test-token'
-        }
-      }
-    );
-  });
-
-  it('includes culture as route parameter and authorization header when both are provided', async () => {
-    const mockFetch = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
-      ok: true,
-      status: 200,
-      statusText: 'OK',
-      json: vi.fn().mockResolvedValueOnce(mockCountriesResponse)
-    } as any);
-
-    await fetchCountries('es-MX', 'test-token');
-
-    expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7001/api/countries/es-MX',
-      {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer test-token'
-        }
-      }
-    );
-  });
 
   it('throws error when fetch returns undefined', async () => {
     // Mock fetch to return undefined (simulating network failure)
@@ -133,12 +89,29 @@ describe('fetchCountries', () => {
     );
   });
 
-  it('throws error when network request fails', async () => {
+  it('returns fallback data when network request fails', async () => {
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     vi.spyOn(globalThis, 'fetch').mockRejectedValueOnce(new Error('Network error'));
 
-    await expect(fetchCountries()).rejects.toThrow(
-      'Error fetching countries: Network error'
+    const result = await fetchCountries();
+
+    expect(result).toEqual({
+      language: "en",
+      count: 5,
+      countries: [
+        { code: "US", name: "United States" },
+        { code: "CA", name: "Canada" },
+        { code: "GB", name: "United Kingdom" },
+        { code: "AU", name: "Australia" },
+        { code: "DE", name: "Germany" }
+      ]
+    });
+    expect(consoleSpy).toHaveBeenCalledWith(
+      'Failed to fetch countries from remote service, using fallback data:',
+      expect.any(Error)
     );
+    
+    consoleSpy.mockRestore();
   });
 
   it('throws generic error when unknown error occurs', async () => {

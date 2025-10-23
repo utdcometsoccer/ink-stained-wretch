@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
 import type { CultureInfo, CountryInformation, GetCountryInformation } from '@idahoedokpayi/react-country-state-selector';
 import { fetchCountries } from './fetchCountries';
-import { withAuthRetry } from './withAuthRetry';
 
 // Create a cache for memoization
 const countryCache = new Map<string, CountryInformation[]>();
@@ -15,16 +14,13 @@ export const getCountryInformation: GetCountryInformation = async (cultureInfo: 
 };
 
 /**
- * Enhanced version that supports authentication tokens
+ * Enhanced version for getting country information
  * Maps our Country type to the library's CountryInformation type
- * @param updateToken Optional callback to update token in application state on 401
  */
 export const getCountryInformationWithAuth = async (
-  cultureInfo: CultureInfo, 
-  accessToken?: string,
-  updateToken?: (newToken: string | null) => void
+  cultureInfo: CultureInfo
 ): Promise<CountryInformation[]> => {
-  const cacheKey = accessToken ? `${cultureInfo.Culture}-auth` : cultureInfo.Culture;
+  const cacheKey = cultureInfo.Culture;
   
   // Check cache first
   if (countryCache.has(cacheKey)) {
@@ -32,13 +28,8 @@ export const getCountryInformationWithAuth = async (
   }
 
   try {
-    // Fetch from our API with culture as route parameter and optional auth token
-    // Use withAuthRetry to handle 401 responses
-    const response = await withAuthRetry(
-      (token) => fetchCountries(cultureInfo.Culture, token),
-      accessToken,
-      updateToken
-    );
+    // Fetch from our API with culture as route parameter
+    const response = await fetchCountries(cultureInfo.Culture);
     
     // Extract country data from the response
     // The response now contains language, count, and countries directly
@@ -64,15 +55,11 @@ export const getCountryInformationWithAuth = async (
 /**
  * React hook that provides a memoized version of the getCountryInformation function
  * This ensures the function reference stays stable across re-renders
- * @param updateToken Optional callback to update token in application state on 401
  */
-export const useGetCountryInformation = (
-  accessToken?: string,
-  updateToken?: (newToken: string | null) => void
-): GetCountryInformation => {
+export const useGetCountryInformation = (): GetCountryInformation => {
   return useCallback(async (cultureInfo: CultureInfo): Promise<CountryInformation[]> => {
-    return getCountryInformationWithAuth(cultureInfo, accessToken, updateToken);
-  }, [accessToken, updateToken]);
+    return getCountryInformationWithAuth(cultureInfo);
+  }, []);
 };
 
 /**

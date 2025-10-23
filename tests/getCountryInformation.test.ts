@@ -42,45 +42,32 @@ describe('getCountryInformation', () => {
   });
 
   describe('getCountryInformationWithAuth function', () => {
-    it('should fetch and transform country data correctly with auth token', async () => {
+    it('should fetch and transform country data correctly', async () => {
       mockFetchCountries.mockResolvedValueOnce(mockCountriesResponse);
 
       const cultureInfo = new CultureInfo('en-US');
-      const result = await getCountryInformationWithAuth(cultureInfo, 'test-token');
+      const result = await getCountryInformationWithAuth(cultureInfo);
 
-      expect(mockFetchCountries).toHaveBeenCalledWith('en-US', 'test-token');
+      expect(mockFetchCountries).toHaveBeenCalledWith('en-US');
       expect(result).toEqual(expectedCountryInfo);
     });
 
-    it('should cache results separately for authenticated and non-authenticated requests', async () => {
+    it('should cache results correctly', async () => {
       
       mockFetchCountries.mockResolvedValueOnce(mockCountriesResponse);
-      
-      const mockAuthenticatedResponse = {
-        language: 'en',
-        count: 1,
-        countries: [
-          {
-            code: 'US' as const,
-            name: 'Authenticated United States'
-          }
-        ]
-      };
-      mockFetchCountries.mockResolvedValueOnce(mockAuthenticatedResponse);
 
       const cultureInfo = new CultureInfo('en-US');
       
-      // Call without token (cached as 'en-US')
+      // Call first time (should fetch from API)
       const result1 = await getCountryInformationWithAuth(cultureInfo);
       
-      // Call with token (cached as 'en-US-auth')
-      const result2 = await getCountryInformationWithAuth(cultureInfo, 'test-token');
+      // Call second time (should use cache)
+      const result2 = await getCountryInformationWithAuth(cultureInfo);
 
-      expect(mockFetchCountries).toHaveBeenCalledTimes(2);
-      expect(mockFetchCountries).toHaveBeenNthCalledWith(1, 'en-US', undefined);
-      expect(mockFetchCountries).toHaveBeenNthCalledWith(2, 'en-US', 'test-token');
+      expect(mockFetchCountries).toHaveBeenCalledTimes(1);
+      expect(mockFetchCountries).toHaveBeenCalledWith('en-US');
       expect(result1).toEqual(expectedCountryInfo);
-      expect(result2).toEqual([{ code: 'US', name: 'Authenticated United States' }]);
+      expect(result2).toEqual(expectedCountryInfo);
     });
   });
 
@@ -92,7 +79,7 @@ describe('getCountryInformation', () => {
       const cultureInfo = new CultureInfo('en-US');
       const result = await getCountryInformation(cultureInfo);
 
-      expect(mockFetchCountries).toHaveBeenCalledWith('en-US', undefined);
+      expect(mockFetchCountries).toHaveBeenCalledWith('en-US');
       expect(result).toEqual(expectedCountryInfo);
     });
 
@@ -137,8 +124,8 @@ describe('getCountryInformation', () => {
       const resultMX = await getCountryInformation(cultureInfoMX);
 
       expect(mockFetchCountries).toHaveBeenCalledTimes(2);
-      expect(mockFetchCountries).toHaveBeenNthCalledWith(1, 'en-US', undefined);
-      expect(mockFetchCountries).toHaveBeenNthCalledWith(2, 'es-MX', undefined);
+      expect(mockFetchCountries).toHaveBeenNthCalledWith(1, 'en-US');
+      expect(mockFetchCountries).toHaveBeenNthCalledWith(2, 'es-MX');
       expect(resultUS).toEqual(expectedCountryInfo);
       expect(resultMX).toEqual([{ code: 'MX', name: 'México' }]);
     });
@@ -185,8 +172,8 @@ describe('getCountryInformation', () => {
       expect(firstFunction).toBe(secondFunction);
     });
 
-    it('should return a stable function reference with token', () => {
-      const { result, rerender } = renderHook(() => useGetCountryInformation('test-token'));
+    it('should return a stable function reference', () => {
+      const { result, rerender } = renderHook(() => useGetCountryInformation());
       
       const firstFunction = result.current;
       
@@ -197,7 +184,7 @@ describe('getCountryInformation', () => {
       expect(firstFunction).toBe(secondFunction);
     });
 
-    it('should work with the returned function without token', async () => {
+    it('should work with the returned function', async () => {
       
       mockFetchCountries.mockResolvedValueOnce(mockCountriesResponse);
 
@@ -207,35 +194,7 @@ describe('getCountryInformation', () => {
       const countryInfo = await result.current(cultureInfo);
       
       expect(countryInfo).toEqual(expectedCountryInfo);
-      expect(mockFetchCountries).toHaveBeenCalledWith('en-US', undefined);
-    });
-
-    it('should work with the returned function with token', async () => {
-      
-      mockFetchCountries.mockResolvedValueOnce(mockCountriesResponse);
-
-      const { result } = renderHook(() => useGetCountryInformation('test-token'));
-      
-      const cultureInfo = new CultureInfo('en-US');
-      const countryInfo = await result.current(cultureInfo);
-      
-      expect(countryInfo).toEqual(expectedCountryInfo);
-      expect(mockFetchCountries).toHaveBeenCalledWith('en-US', 'test-token');
-    });
-
-    it('should update when token changes', () => {
-      const { result, rerender } = renderHook(
-        ({ token }: { token?: string }) => useGetCountryInformation(token),
-        { initialProps: { token: undefined as string | undefined } }
-      );
-      
-      const firstFunction = result.current;
-      
-      rerender({ token: 'new-token' as string | undefined });
-      
-      const secondFunction = result.current;
-      
-      expect(firstFunction).not.toBe(secondFunction);
+      expect(mockFetchCountries).toHaveBeenCalledWith('en-US');
     });
   });
 });
