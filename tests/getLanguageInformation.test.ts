@@ -9,6 +9,11 @@ vi.mock('../src/services/fetchLanguages', () => ({
   fetchLanguages: vi.fn()
 }));
 
+// Mock withAuthRetry to avoid MSAL dependencies
+vi.mock('../src/services/withAuthRetry', () => ({
+  withAuthRetry: vi.fn((serviceFn, token) => serviceFn(token))
+}));
+
 const mockFetchLanguages = vi.mocked(fetchLanguages);
 
 describe('getLanguageInformation', () => {

@@ -5,6 +5,8 @@ import { UnauthorizedError } from '../src/types/UnauthorizedError';
 
 beforeEach(() => {
   vi.restoreAllMocks();
+  // Mock environment variable
+  vi.stubEnv('VITE_LANGUAGES_API_URL', 'http://localhost:7001/api/languages');
 });
 
 describe('fetchLanguages', () => {
@@ -27,15 +29,6 @@ describe('fetchLanguages', () => {
       }
     ]
   };
-
-  beforeEach(() => {
-    // Mock import.meta.env for browser environment
-    vi.stubGlobal('import.meta', {
-      env: {
-        VITE_LANGUAGES_API_URL: 'http://localhost:7001/api/languages'
-      }
-    });
-  });
 
   it('returns languages on success', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
@@ -138,11 +131,7 @@ describe('fetchLanguages', () => {
   });
 
   it('throws error when API URL is not defined', async () => {
-    vi.stubGlobal('import.meta', {
-      env: {
-        VITE_LANGUAGES_API_URL: ''
-      }
-    });
+    vi.stubEnv('VITE_LANGUAGES_API_URL', '');
 
     await expect(fetchLanguages()).rejects.toThrow('API URL is not defined in VITE_LANGUAGES_API_URL environment variable');
   });
