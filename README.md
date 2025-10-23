@@ -210,6 +210,10 @@ VITE_IMAGE_API_URL=https://your-api.azurewebsites.net/api/images
 VITE_USER_DOMAIN_REGISTRATIONS_API_URL=https://your-api.azurewebsites.net/api/domain-registrations
 VITE_DOMAIN_REGISTRATION_SUBMIT_API_URL=https://your-api.azurewebsites.net/api/domain-registrations
 
+# Localization APIs
+VITE_LANGUAGES_API_URL=https://your-api.azurewebsites.net/api/languages
+VITE_STATES_PROVINCES_API_URL=https://your-api.azurewebsites.net/api/stateprovinces
+
 # External API Integrations
 VITE_OPENLIBRARY_AUTHOR_SEARCH_URL=https://openlibrary.org/search/authors.json?q=
 VITE_GOOGLE_BOOKS_API_URL=https://www.googleapis.com/books/v1/volumes
