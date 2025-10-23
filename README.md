@@ -244,6 +244,69 @@ VITE_SUBSCRIPTION_PLANS_MAX_PAGES=5
 VITE_COUNTDOWN_SECONDS=10
 ```
 
+- Node.js LTS (18+) and npm
+- A Stripe account and publishable key
+- Optional: Azure account for hosting the backend (Functions) and Application Insights
+
+### Install and Run (Windows PowerShell)
+
+```powershell
+npm install
+npm run dev
+```
+
+Open http://localhost:5173 (default Vite port) unless overridden.
+
+## Environment Variables
+
+Create a `.env` in the project root (already included in this repo for local development). Do NOT commit secrets in production.
+
+Frontend (Vite) variables (prefix VITE_):
+
+- API endpoints
+  - `VITE_OPENLIBRARY_AUTHOR_SEARCH_URL`
+  - `VITE_GOOGLE_BOOKS_API_URL`
+  - `VITE_AMAZON_BOOKS_API_URL`
+  - `VITE_IMAGE_API_URL`
+  - `VITE_USER_DOMAIN_REGISTRATIONS_API_URL`
+  - `VITE_DOMAIN_REGISTRATION_SUBMIT_API_URL` (POST endpoint for submitting domain registrations)
+  - `VITE_LOCALIZATION_API_URL`
+  - `VITE_SUBSCRIPTION_PLANS_API_URL`
+  - `VITE_WHOIS_API_URL`
+  - Penguin Random House integration:
+    - `VITE_PENGUIN_RANDOM_HOUSE_API_URL`
+    - `VITE_PENGUIN_RANDOM_HOUSE_API_KEY`
+    - `VITE_PENGUIN_RANDOM_HOUSE_API_DOMAIN`
+    - `VITE_PENGUIN_RANDOM_HOUSE_SEARCH_API`
+    - `VITE_PENGUIN_RANDOM_HOUSE_LIST_TITLES_BY_AUTHOR_API`
+    - `VITE_PENGUIN_RANDOM_HOUSE_URL`
+
+- Stripe
+  - `VITE_STRIPE_PUBLISHABLE_KEY`
+  - `VITE_STRIPE_CHECKOUT_SESSION_URL` (Azure Function or backend endpoint)
+  - `VITE_STRIPE_CREATE_CUSTOMER_URL`
+  - `VITE_STRIPE_CREATE_SUBSCRIPTION_URL`
+  - `VITE_STRIPE_LOGO_URL`
+  - `VITE_ENABLE_STRIPE_CHECKOUT` (feature flag)
+
+- Microsoft Entra (MSAL)
+  - `VITE_ENTRA_CLIENT_ID`
+  - `VITE_ENTRA_TENANT_ID`
+  - `VITE_ENTRA_POLICY`
+  - `VITE_ENTRA_AUTHORITY`
+  - `VITE_ENTRA_SCOPES`
+
+- App Insights
+  - `VITE_APPLICATION_INSIGHTS_CONNECTION_STRING`
+
+- App Settings and Feature Flags
+  - `VITE_APP_NAME`
+  - `VITE_CONTACT_EMAIL`
+  - `VITE_COUNTDOWN_SECONDS` (Login redirect countdown)
+  - `VITE_BOOK_DESCRIPTION_LIMIT` (default 140)
+  - `VITE_SUBSCRIPTION_PLANS_MAX_PAGES` (subscription plan pagination; default 20)
+
+Type declarations live in `src/vite-env.d.ts`. If you add a new `VITE_` variable, also add it to that file to keep type safety.
 > **Note**: Type declarations for environment variables are in `src/vite-env.d.ts`. Add new `VITE_` variables to this file for TypeScript support.
 
 ## Localization
@@ -380,6 +443,14 @@ Authorization: Bearer {token}
 
 Manages author profiles and biographical information with domain-based filtering.
 
+# Mock/local API endpoints
+VITE_SUBSCRIPTION_PLANS_API_URL=http://localhost:7071/api/GetStripePriceInformation
+VITE_LOCALIZATION_API_URL=http://localhost:7072/api/localizedtext/
+VITE_IMAGE_API_URL=/api/images
+VITE_OPENLIBRARY_AUTHOR_SEARCH_URL=https://openlibrary.org/search/authors.json?q=
+VITE_GOOGLE_BOOKS_API_URL=https://www.googleapis.com/books/v1/volumes
+# Amazon Books API - should point to your Amazon Products API proxy service
+VITE_AMAZON_BOOKS_API_URL=https://your-amazon-api-proxy.example.com
 #### Authentication
 - **Method**: OAuth 2.0 with Microsoft Entra ID
 - **Scope**: `api://your-app-id/author.read`

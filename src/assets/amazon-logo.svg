@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
+  <defs>
+    <style>
+      .cls-1 { fill: #000000; }
+      .cls-2 { fill: #FF9900; }
+    </style>
+  </defs>
+  <!-- Amazon text -->
+  <text x="20" y="110" font-family="Arial, sans-serif" font-size="60" font-weight="bold" class="cls-1">amazon</text>
+  <!-- Amazon smile arrow -->
+  <path class="cls-2" d="M 55 145 Q 150 165, 245 145" fill="none" stroke="#FF9900" stroke-width="8" stroke-linecap="round"/>
+  <path class="cls-2" d="M 240 140 L 245 145 L 240 150" fill="none" stroke="#FF9900" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

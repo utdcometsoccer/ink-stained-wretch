@@ -6,6 +6,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import CircularProgress from "@mui/material/CircularProgress";
 import type { FC } from "react";
 import penguinLogo from "../../assets/penguin-vector.png";
+import amazonLogo from "../../assets/amazon-logo.svg";
 import { useBookList } from "../../hooks/useBookList";
 import { useLocalizationContext } from '../../hooks/useLocalizationContext';
 import { useTrackComponent } from '../../hooks/useTrackComponent';
@@ -20,12 +21,14 @@ export const BookList: FC<BookListProps> = (props) => {
     onGoogleImportClick,
     importBooksFromOpenLibrary,
     importBooksFromPenguin,
+    importBooksFromAmazon,
     onEditClick,
     onDeleteClick,
   } = useBookList(props);
   const { disableGoogleImport, loading, openLibraryAuthorKeys, penguinAuthorKeys } = state;
   const disableImport = openLibraryAuthorKeys.length === 0 || loading;
   const disablePenguinImport = penguinAuthorKeys.length === 0 || loading;
+  const disableAmazonImport = !props.authorName || loading;
 
   const DESCRIPTION_LIMIT = Number.parseInt(import.meta.env.VITE_BOOK_DESCRIPTION_LIMIT || '140', 10) || 140;
 
@@ -83,6 +86,10 @@ export const BookList: FC<BookListProps> = (props) => {
       <button disabled={disableGoogleImport} className={disableGoogleImport ? "book-list-cancel-btn icon-btn" : "book-list-add-btn icon-btn"} title={localized.importGoogleBooks} onClick={onGoogleImportClick}>
         <GoogleIcon fontSize="small" className="book-list-book-icon" />
         <span className="btn-label">{localized.importGoogleBooks}</span>
+      </button>
+      <button disabled={disableAmazonImport} className={disableAmazonImport ? "book-list-cancel-btn icon-btn" : "book-list-add-btn icon-btn"} title={localized.importAmazonBooks} onClick={importBooksFromAmazon}>
+        <img src={amazonLogo} alt="Amazon" className="book-list-penguin-logo" />
+        {localized.importAmazonBooks}
       </button>
 
     </div>

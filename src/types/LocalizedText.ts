@@ -74,6 +74,7 @@ export interface BookListText {
     importOpenLibrary: string;
     importGoogleBooks: string;
     importPenguinBooks: string;
+    importAmazonBooks: string;
 }
 
 export interface CheckoutText {    
