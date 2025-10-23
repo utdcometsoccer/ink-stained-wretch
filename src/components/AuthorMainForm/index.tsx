@@ -5,6 +5,7 @@ import penguinLogo from '../../assets/penguin-vector.png';
 import { useCultureInfo } from "../../contexts/CultureInfoContext";
 import { useLocalizationContext } from "../../hooks/useLocalizationContext";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
+import { useGetLanguageInformation } from "../../services/getLanguageInformation";
 import { ArticleList } from "../AuthorRegistration/ArticleList";
 import { SocialList } from "../AuthorRegistration/SocialList";
 import { BookList } from "../BookList/index";
@@ -38,6 +39,10 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
 }) => {
     const { cultureInfo } = useCultureInfo();
     const localized = useLocalizationContext().AuthorMainForm;
+    
+    // Get the language information function with authentication support
+    const getLanguageInformation = useGetLanguageInformation(token);
+    
     useTrackComponent('AuthorMainForm', {
         form,
         dispatchForm,
@@ -76,6 +81,7 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
                     Label={localized.language}
                     selectedLanguage={form.LanguageName as Language}
                     onLanguageChange={handleLanguageChange}
+                    getLanguageInformation={getLanguageInformation}
                 />
                 <CountryDropdown
                     culture={cultureInfo}

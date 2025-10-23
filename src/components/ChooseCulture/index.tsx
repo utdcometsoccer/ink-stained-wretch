@@ -3,6 +3,7 @@ import type { FC } from "react";
 import { useChooseCultureLogic } from '../../hooks/useChooseCulture';
 import { useLocalizationContext } from "../../hooks/useLocalizationContext";
 import { useTrackComponent } from '../../hooks/useTrackComponent';
+import { useGetLanguageInformation } from '../../services/getLanguageInformation';
 import { CountdownIndicator } from "../CountdownIndicator";
 import "./ChooseCulture.css";
 import type { ChooseCultureProps } from "./ChooseCultureProps";
@@ -23,6 +24,9 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
   const { useCookies } = state;
   const { ChooseCulture: { title, subtitle, legend, languageLabel, countryLabel, continue: continueLabel, cancel, cookieConsent, cookiesInfo } } = useLocalizationContext();
   const { language, country, countdown, shouldShowCountdown, hasSubmitted } = localState;
+  
+  // Get the language information function with authentication support
+  const getLanguageInformation = useGetLanguageInformation(state.authToken ?? undefined);
   
   // Cancel button should be enabled only when:
   // 1. Continue has been clicked (hasSubmitted)
@@ -56,6 +60,7 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
               onLanguageChange={handleLanguageChange}
               Label={languageLabel}
               culture={state.cultureInfo}
+              getLanguageInformation={getLanguageInformation}
             />
           </div>
           <div className="choose-culture-dropdown-group">
