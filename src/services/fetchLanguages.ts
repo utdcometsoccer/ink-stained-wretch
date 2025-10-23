@@ -1,31 +1,37 @@
 import type { LanguageResponse } from "../types/LanguageResponse";
 import { UnauthorizedError } from "../types/UnauthorizedError";
+import { getLanguageFromCulture } from "./cultureUtils";
+
+// Default English languages fallback data
+const DEFAULT_LANGUAGES: LanguageResponse = [
+  { code: "en", name: "English" },
+  { code: "es", name: "Spanish" },
+  { code: "fr", name: "French" },
+  { code: "de", name: "German" },
+  { code: "it", name: "Italian" }
+];
 
 /**
- * Fetches language data from the API
+ * Fetches language data from the API with fallback to default English data
  * @param culture Optional culture string to filter results by locale (passed as route parameter)
- * @param accessToken Optional bearer token for authentication
- * @returns Promise that resolves to a LanguageResponse object
+ * @returns Promise that resolves to a LanguageResponse array (returns default English data if remote service fails)
  */
-export async function fetchLanguages(culture?: string, accessToken?: string): Promise<LanguageResponse> {
+export async function fetchLanguages(culture?: string): Promise<LanguageResponse> {
   const apiUrl = import.meta.env.VITE_LANGUAGES_API_URL || "";
   
   if (!apiUrl) {
     throw new Error("API URL is not defined in VITE_LANGUAGES_API_URL environment variable");
   }
 
-  // Construct the full URL with culture as route parameter
-  const fullUrl = culture ? `${apiUrl}/${culture}` : apiUrl;
+  // Construct the full URL with language from culture as route parameter
+  const language = getLanguageFromCulture(culture);
+  const fullUrl = language ? `${apiUrl}/${language}` : apiUrl;
 
   // Setup headers
   const headers: Record<string, string> = { 
     "Accept": "application/json",
     "Content-Type": "application/json"
   };
-  
-  if (accessToken) {
-    headers["Authorization"] = `Bearer ${accessToken}`;
-  }
 
   try {
     const response = await fetch(fullUrl, {
@@ -47,9 +53,9 @@ export async function fetchLanguages(culture?: string, accessToken?: string): Pr
     if (error instanceof UnauthorizedError) {
       throw error;
     }
-    if (error instanceof Error) {
-      throw new Error(`Error fetching languages: ${error.message}`);
-    }
-    throw new Error('An unknown error occurred while fetching languages');
+    
+    // Log the error and return fallback data
+    console.warn('Failed to fetch languages from remote service, using fallback data:', error);
+    return DEFAULT_LANGUAGES;
   }
 }

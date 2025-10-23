@@ -17,20 +17,16 @@ vi.mock('../src/services/withAuthRetry', () => ({
 const mockFetchLanguages = vi.mocked(fetchLanguages);
 
 describe('getLanguageInformation', () => {
-  const mockLanguagesResponse = {
-    data: [
-      {
-        code: 'en' as const,
-        name: 'English',
-        culture: 'en-US'
-      },
-      {
-        code: 'es' as const,
-        name: 'Spanish',
-        culture: 'en-US'
-      }
-    ]
-  };
+  const mockLanguagesResponse = [
+    {
+      code: 'en' as const,
+      name: 'English'
+    },
+    {
+      code: 'es' as const,
+      name: 'Spanish'
+    }
+  ];
 
   const expectedLanguageInfo = [
     { code: 'en', name: 'English' },
@@ -47,44 +43,32 @@ describe('getLanguageInformation', () => {
   });
 
   describe('getLanguageInformationWithAuth function', () => {
-    it('should fetch and transform language data correctly with auth token', async () => {
+    it('should fetch and transform language data correctly', async () => {
       mockFetchLanguages.mockResolvedValueOnce(mockLanguagesResponse);
 
       const cultureInfo = new CultureInfo('en-US');
-      const result = await getLanguageInformationWithAuth(cultureInfo, 'test-token');
+      const result = await getLanguageInformationWithAuth(cultureInfo);
 
-      expect(mockFetchLanguages).toHaveBeenCalledWith('en-US', 'test-token');
+      expect(mockFetchLanguages).toHaveBeenCalledWith('en-US');
       expect(result).toEqual(expectedLanguageInfo);
     });
 
-    it('should cache results separately for authenticated and non-authenticated requests', async () => {
+    it('should cache results correctly', async () => {
       
       mockFetchLanguages.mockResolvedValueOnce(mockLanguagesResponse);
-      
-      const mockAuthenticatedResponse = {
-        data: [
-          {
-            code: 'fr' as const,
-            name: 'Authenticated French',
-            culture: 'en-US'
-          }
-        ]
-      };
-      mockFetchLanguages.mockResolvedValueOnce(mockAuthenticatedResponse);
 
       const cultureInfo = new CultureInfo('en-US');
       
-      // Call without token (cached as 'en-US')
+      // Call first time (should fetch from API)
       const result1 = await getLanguageInformationWithAuth(cultureInfo);
       
-      // Call with token (cached as 'en-US-auth')
-      const result2 = await getLanguageInformationWithAuth(cultureInfo, 'test-token');
+      // Call second time (should use cache)
+      const result2 = await getLanguageInformationWithAuth(cultureInfo);
 
-      expect(mockFetchLanguages).toHaveBeenCalledTimes(2);
-      expect(mockFetchLanguages).toHaveBeenNthCalledWith(1, 'en-US', undefined);
-      expect(mockFetchLanguages).toHaveBeenNthCalledWith(2, 'en-US', 'test-token');
+      expect(mockFetchLanguages).toHaveBeenCalledTimes(1);
+      expect(mockFetchLanguages).toHaveBeenCalledWith('en-US');
       expect(result1).toEqual(expectedLanguageInfo);
-      expect(result2).toEqual([{ code: 'fr', name: 'Authenticated French' }]);
+      expect(result2).toEqual(expectedLanguageInfo);
     });
   });
 
@@ -96,7 +80,7 @@ describe('getLanguageInformation', () => {
       const cultureInfo = new CultureInfo('en-US');
       const result = await getLanguageInformation(cultureInfo);
 
-      expect(mockFetchLanguages).toHaveBeenCalledWith('en-US', undefined);
+      expect(mockFetchLanguages).toHaveBeenCalledWith('en-US');
       expect(result).toEqual(expectedLanguageInfo);
     });
 
@@ -122,15 +106,12 @@ describe('getLanguageInformation', () => {
       
       mockFetchLanguages.mockResolvedValueOnce(mockLanguagesResponse);
       
-      const mockFrenchResponse = {
-        data: [
-          {
-            code: 'fr' as const,
-            name: 'Français',
-            culture: 'fr-CA'
-          }
-        ]
-      };
+      const mockFrenchResponse = [
+        {
+          code: 'fr' as const,
+          name: 'Français'
+        }
+      ];
       mockFetchLanguages.mockResolvedValueOnce(mockFrenchResponse);
 
       const cultureInfoUS = new CultureInfo('en-US');
@@ -140,8 +121,8 @@ describe('getLanguageInformation', () => {
       const resultCA = await getLanguageInformation(cultureInfoCA);
 
       expect(mockFetchLanguages).toHaveBeenCalledTimes(2);
-      expect(mockFetchLanguages).toHaveBeenNthCalledWith(1, 'en-US', undefined);
-      expect(mockFetchLanguages).toHaveBeenNthCalledWith(2, 'fr-CA', undefined);
+      expect(mockFetchLanguages).toHaveBeenNthCalledWith(1, 'en-US');
+      expect(mockFetchLanguages).toHaveBeenNthCalledWith(2, 'fr-CA');
       expect(resultUS).toEqual(expectedLanguageInfo);
       expect(resultCA).toEqual([{ code: 'fr', name: 'Français' }]);
     });
@@ -188,8 +169,8 @@ describe('getLanguageInformation', () => {
       expect(firstFunction).toBe(secondFunction);
     });
 
-    it('should return a stable function reference with token', () => {
-      const { result, rerender } = renderHook(() => useGetLanguageInformation('test-token'));
+    it('should return a stable function reference', () => {
+      const { result, rerender } = renderHook(() => useGetLanguageInformation());
       
       const firstFunction = result.current;
       
@@ -200,7 +181,7 @@ describe('getLanguageInformation', () => {
       expect(firstFunction).toBe(secondFunction);
     });
 
-    it('should work with the returned function without token', async () => {
+    it('should work with the returned function', async () => {
       
       mockFetchLanguages.mockResolvedValueOnce(mockLanguagesResponse);
 
@@ -210,35 +191,7 @@ describe('getLanguageInformation', () => {
       const languageInfo = await result.current(cultureInfo);
       
       expect(languageInfo).toEqual(expectedLanguageInfo);
-      expect(mockFetchLanguages).toHaveBeenCalledWith('en-US', undefined);
-    });
-
-    it('should work with the returned function with token', async () => {
-      
-      mockFetchLanguages.mockResolvedValueOnce(mockLanguagesResponse);
-
-      const { result } = renderHook(() => useGetLanguageInformation('test-token'));
-      
-      const cultureInfo = new CultureInfo('en-US');
-      const languageInfo = await result.current(cultureInfo);
-      
-      expect(languageInfo).toEqual(expectedLanguageInfo);
-      expect(mockFetchLanguages).toHaveBeenCalledWith('en-US', 'test-token');
-    });
-
-    it('should update when token changes', () => {
-      const { result, rerender } = renderHook(
-        ({ token }: { token?: string }) => useGetLanguageInformation(token),
-        { initialProps: { token: undefined as string | undefined } }
-      );
-      
-      const firstFunction = result.current;
-      
-      rerender({ token: 'new-token' as string | undefined });
-      
-      const secondFunction = result.current;
-      
-      expect(firstFunction).not.toBe(secondFunction);
+      expect(mockFetchLanguages).toHaveBeenCalledWith('en-US');
     });
   });
 });

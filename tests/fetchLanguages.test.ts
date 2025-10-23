@@ -10,25 +10,20 @@ beforeEach(() => {
 });
 
 describe('fetchLanguages', () => {
-  const mockLanguageResponse: LanguageResponse = {
-    data: [
-      {
-        code: 'en',
-        name: 'English',
-        culture: 'en-US'
-      },
-      {
-        code: 'es',
-        name: 'Spanish',
-        culture: 'es-MX'
-      },
-      {
-        code: 'fr',
-        name: 'French',
-        culture: 'fr-CA'
-      }
-    ]
-  };
+  const mockLanguageResponse: LanguageResponse = [
+    {
+      code: 'en',
+      name: 'English'
+    },
+    {
+      code: 'es',
+      name: 'Spanish'
+    },
+    {
+      code: 'fr',
+      name: 'French'
+    }
+  ];
 
   it('returns languages on success', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
@@ -64,51 +59,7 @@ describe('fetchLanguages', () => {
     );
   });
 
-  it('includes authorization header when access token is provided', async () => {
-    const mockFetch = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
-      ok: true,
-      status: 200,
-      statusText: 'OK',
-      json: vi.fn().mockResolvedValueOnce(mockLanguageResponse)
-    } as never);
 
-    await fetchLanguages(undefined, 'test-token');
-
-    expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7001/api/languages',
-      {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer test-token'
-        }
-      }
-    );
-  });
-
-  it('includes both culture and authorization when both are provided', async () => {
-    const mockFetch = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
-      ok: true,
-      status: 200,
-      statusText: 'OK',
-      json: vi.fn().mockResolvedValueOnce(mockLanguageResponse)
-    } as never);
-
-    await fetchLanguages('en-US', 'test-token');
-
-    expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7001/api/languages/en-US',
-      {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer test-token'
-        }
-      }
-    );
-  });
 
   it('throws UnauthorizedError when response status is 401', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
@@ -136,9 +87,24 @@ describe('fetchLanguages', () => {
     await expect(fetchLanguages()).rejects.toThrow('API URL is not defined in VITE_LANGUAGES_API_URL environment variable');
   });
 
-  it('handles network errors', async () => {
+  it('returns fallback data when network request fails', async () => {
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     vi.spyOn(globalThis, 'fetch').mockRejectedValueOnce(new Error('Network error'));
 
-    await expect(fetchLanguages()).rejects.toThrow('Error fetching languages: Network error');
+    const result = await fetchLanguages();
+
+    expect(result).toEqual([
+      { code: "en", name: "English" },
+      { code: "es", name: "Spanish" },
+      { code: "fr", name: "French" },
+      { code: "de", name: "German" },
+      { code: "it", name: "Italian" }
+    ]);
+    expect(consoleSpy).toHaveBeenCalledWith(
+      'Failed to fetch languages from remote service, using fallback data:',
+      expect.any(Error)
+    );
+    
+    consoleSpy.mockRestore();
   });
 });

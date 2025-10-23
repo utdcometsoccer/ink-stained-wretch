@@ -22,7 +22,7 @@ export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cityRef, onCh
   };
   
   const getStateProvinceInformation = useGetStateProvinceInformation(state.authToken || undefined, updateToken);
-  const getCountryInformation = useGetCountryInformation(state.authToken || undefined, updateToken);
+  const getCountryInformation = useGetCountryInformation();
   const contactInfo = {
     ...state.domainRegistration?.contactInformation,
     country: state.domainRegistration?.contactInformation?.country || cultureInfo?.Country || getBrowserCultureWithFallback().Country

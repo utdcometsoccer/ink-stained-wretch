@@ -27,8 +27,8 @@ export const ChooseCulture: FC<ChooseCultureProps> = ({ state, dispatch }) => {
   const { language, country, countdown, shouldShowCountdown, hasSubmitted } = localState;
   const getCountryInformation = useGetCountryInformation();
   
-  // Get the language information function with authentication support
-  const getLanguageInformation = useGetLanguageInformation(state.authToken ?? undefined);
+  // Get the language information function
+  const getLanguageInformation = useGetLanguageInformation();
   
   // Cancel button should be enabled only when:
   // 1. Continue has been clicked (hasSubmitted)

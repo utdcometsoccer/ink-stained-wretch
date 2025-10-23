@@ -69,7 +69,7 @@ export function useBookList({ authorName, importBook, onEdit, onDelete, openLibr
               const bookKey = openLibraryBook.key;
               const description = openLibraryBook.description;
               const descriptionIsString = typeof description === 'string';
-              const descriptionTypeValue: OpenLibraryTypeValue | null = !descriptionIsString ? (description as OpenLibraryTypeValue) : {type: '', value: ''};
+              const descriptionTypeValue: OpenLibraryTypeValue | null = !descriptionIsString ? (description as OpenLibraryTypeValue) : { type: '', value: '' };
               if (typeof description !== 'string' && description !== null && typeof description === 'object') {
                 Object.entries(description ?? {}).forEach(([key, value]) => {
                   if (typeof value !== 'function') {
@@ -111,8 +111,8 @@ export function useBookList({ authorName, importBook, onEdit, onDelete, openLibr
             titles.data.titles.forEach(penguinBook => {
               const iconLinks = penguinBook._links.filter(l => l.rel === 'icon');
               const coverURL = iconLinks.length > 0 ? iconLinks[0].href : "";
-              
-              
+
+
               importBook && importBook({
                 id: crypto.randomUUID(),
                 Title: penguinBook.title || "",
@@ -134,17 +134,17 @@ export function useBookList({ authorName, importBook, onEdit, onDelete, openLibr
       try {
         if (!authorName || !importBook) return;
         let page = 1;
-        const maxPages = 15; // 15 pages × 10 items = 150 items (TotalResultCount)
-        
+        const maxPages = 55; // 55 pages × 10 items = 550 items (TotalResultCount)
+
         while (page <= maxPages) {
-          const books = await fetchAmazonBooks(authorName, page);
+          const books = await fetchAmazonBooks(authorName, authToken, page);
           if (books.length === 0) break;
-          
+
           books.forEach(amazonBook => {
             const title = amazonBook.ItemInfo?.Title?.DisplayValue || "";
             const imageUrl = amazonBook.Images?.Primary?.Medium?.URL || "";
             const detailUrl = amazonBook.DetailPageURL || "";
-            
+
             importBook({
               id: crypto.randomUUID(),
               Title: title,
@@ -153,7 +153,7 @@ export function useBookList({ authorName, importBook, onEdit, onDelete, openLibr
               Cover: imageUrl
             });
           });
-          
+
           page++;
         }
       } catch (err) {
