@@ -48,7 +48,7 @@ describe('fetchLanguages', () => {
     await fetchLanguages('en-US');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7001/api/languages/en-US',
+      'http://localhost:7001/api/languages/en',
       {
         method: 'GET',
         headers: {
@@ -71,14 +71,28 @@ describe('fetchLanguages', () => {
     await expect(fetchLanguages()).rejects.toThrow(UnauthorizedError);
   });
 
-  it('throws error when response is not ok', async () => {
+  it('returns fallback data when response is not ok', async () => {
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
       ok: false,
       status: 500,
       statusText: 'Internal Server Error'
     } as never);
 
-    await expect(fetchLanguages()).rejects.toThrow('Failed to fetch languages: 500 Internal Server Error');
+    const result = await fetchLanguages();
+    
+    // Should return default fallback languages
+    expect(result).toEqual([
+      { code: "en", name: "English" },
+      { code: "es", name: "Spanish" },
+      { code: "fr", name: "French" },
+      { code: "de", name: "German" },
+      { code: "it", name: "Italian" }
+    ]);
+    
+    // Verify warning was logged
+    expect(consoleSpy).toHaveBeenCalled();
+    consoleSpy.mockRestore();
   });
 
   it('throws error when API URL is not defined', async () => {

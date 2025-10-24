@@ -6,15 +6,40 @@ import type { State } from '../src/types/State';
 import type { Action } from '../src/types/Action';
 
 // Mock the culture detection from browser
-vi.mock('@idahoedokpayi/react-country-state-selector', async () => {
-  const actual = await vi.importActual('@idahoedokpayi/react-country-state-selector') as any;
+vi.mock('@idahoedokpayi/react-country-state-selector', () => {
+  // Define mock CultureInfo class inside the factory
+  class MockCultureInfo {
+    private _language: string;
+    private _country: string;
+    private _culture: string;
+
+    constructor(culture: string) {
+      const [language, country] = culture.split('-');
+      this._language = language;
+      this._country = country;
+      this._culture = culture;
+    }
+
+    get Language() {
+      return this._language;
+    }
+
+    get Country() {
+      return this._country;
+    }
+
+    get Culture() {
+      return this._culture;
+    }
+  }
+
   return {
-    ...actual,
-    cultureFromBrowser: vi.fn(() => ({
+    CultureInfo: MockCultureInfo,
+    cultureFromBrowser: () => ({
       Language: 'en',
       Country: 'US',
       Culture: 'en-US'
-    }))
+    })
   };
 });
 

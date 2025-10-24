@@ -2,10 +2,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { fetchStatesProvinces } from '../src/services/fetchStatesProvinces';
 import { StateProvinceResponse } from '../src/types/StateProvinceResponse';
 
-beforeEach(() => {
-  vi.restoreAllMocks();
-});
-
 describe('fetchStatesProvinces', () => {
   const mockStateProvincesResponse: StateProvinceResponse = {
     data: [
