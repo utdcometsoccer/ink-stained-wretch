@@ -6,7 +6,7 @@ export async function getAccessToken(): Promise<string | null> {
   try {
     const response = await msalInstance.acquireTokenSilent({
       account: accounts[0],
-      scopes:import.meta.env.VITE_ENTRA_SCOPES.split(",")
+      scopes:import.meta.env.VITE_ENTRA_SCOPES?.split(",") || []
     });
     return response.accessToken;
   } catch (err) {

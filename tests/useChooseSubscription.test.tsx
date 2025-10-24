@@ -2,6 +2,8 @@ import { renderHook } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { useChooseSubscriptionLogic } from '../src/hooks/useChooseSubscription';
 
+import { fetchSubscriptionPlans } from '../src/services/subscriptionApi';
+
 vi.mock('../src/services/subscriptionApi', () => ({
   fetchSubscriptionPlans: vi.fn(async () => ({
     plans: [],
@@ -9,8 +11,6 @@ vi.mock('../src/services/subscriptionApi', () => ({
     lastId: undefined,
   })),
 }));
-
-const { fetchSubscriptionPlans } = require('../src/services/subscriptionApi');
 
 describe('useChooseSubscriptionLogic run-once behavior', () => {
   beforeEach(() => {

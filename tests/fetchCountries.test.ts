@@ -54,7 +54,7 @@ describe('fetchCountries', () => {
     await fetchCountries('en-US');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7001/api/countries/en-US',
+      'http://localhost:7001/api/countries/en',
       {
         method: 'GET',
         headers: {
@@ -67,16 +67,25 @@ describe('fetchCountries', () => {
 
 
 
-  it('throws error when fetch returns undefined', async () => {
+  it('returns fallback data when fetch returns undefined', async () => {
     // Mock fetch to return undefined (simulating network failure)
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(undefined as any);
 
-    await expect(fetchCountries()).rejects.toThrow(
-      'Error fetching countries: Cannot read properties of undefined (reading \'status\')'
-    );
+    const result = await fetchCountries();
+    
+    // Should return default English countries as fallback
+    expect(result.language).toBe('en');
+    expect(result.countries).toHaveLength(5);
+    expect(result.countries[0].code).toBe('US');
+    
+    // Verify warning was logged
+    expect(consoleSpy).toHaveBeenCalled();
+    consoleSpy.mockRestore();
   });
 
-  it('throws error when API response is not ok', async () => {
+  it('returns fallback data when API response is not ok', async () => {
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
       ok: false,
       status: 500,
@@ -84,9 +93,15 @@ describe('fetchCountries', () => {
       json: vi.fn()
     } as any);
 
-    await expect(fetchCountries()).rejects.toThrow(
-      'Failed to fetch countries: 500 Internal Server Error'
-    );
+    const result = await fetchCountries();
+    
+    // Should return default English countries as fallback
+    expect(result.language).toBe('en');
+    expect(result.countries).toHaveLength(5);
+    
+    // Verify warning was logged
+    expect(consoleSpy).toHaveBeenCalled();
+    consoleSpy.mockRestore();
   });
 
   it('returns fallback data when network request fails', async () => {
@@ -114,11 +129,18 @@ describe('fetchCountries', () => {
     consoleSpy.mockRestore();
   });
 
-  it('throws generic error when unknown error occurs', async () => {
+  it('returns fallback data when unknown error occurs', async () => {
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     vi.spyOn(globalThis, 'fetch').mockRejectedValueOnce('Unknown error');
 
-    await expect(fetchCountries()).rejects.toThrow(
-      'An unknown error occurred while fetching countries'
-    );
+    const result = await fetchCountries();
+    
+    // Should return default English countries as fallback
+    expect(result.language).toBe('en');
+    expect(result.countries).toHaveLength(5);
+    
+    // Verify warning was logged
+    expect(consoleSpy).toHaveBeenCalled();
+    consoleSpy.mockRestore();
   });
 });
