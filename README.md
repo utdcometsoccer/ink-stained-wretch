@@ -219,6 +219,7 @@ VITE_OPENLIBRARY_AUTHOR_SEARCH_URL=https://openlibrary.org/search/authors.json?q
 VITE_GOOGLE_BOOKS_API_URL=https://www.googleapis.com/books/v1/volumes
 VITE_PENGUIN_RANDOM_HOUSE_API_URL=https://reststop.randomhouse.com/resources
 VITE_PENGUIN_RANDOM_HOUSE_API_KEY=your-penguin-api-key
+VITE_AMAZON_BOOKS_API_URL=https://your-api.azurewebsites.net/api/amazon-books
 VITE_WHOIS_API_URL=https://api.whois.vu
 ```
 
@@ -230,6 +231,9 @@ VITE_STRIPE_CHECKOUT_SESSION_URL=https://your-api.azurewebsites.net/api/stripe-c
 VITE_STRIPE_CREATE_CUSTOMER_URL=https://your-api.azurewebsites.net/api/stripe-customer
 VITE_STRIPE_CREATE_SUBSCRIPTION_URL=https://your-api.azurewebsites.net/api/stripe-subscription
 VITE_ENABLE_STRIPE_CHECKOUT=true
+
+# Feature Flags
+VITE_ENABLE_AMAZON_IMPORT=true
 ```
 
 ### Monitoring & Analytics

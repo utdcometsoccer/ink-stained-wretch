@@ -29,6 +29,9 @@ export const BookList: FC<BookListProps> = (props) => {
   const disableImport = openLibraryAuthorKeys.length === 0 || loading;
   const disablePenguinImport = penguinAuthorKeys.length === 0 || loading;
   const disableAmazonImport = !props.authorName || loading;
+  
+  // Feature flag for Amazon Import functionality
+  const showAmazonImport = import.meta.env.VITE_ENABLE_AMAZON_IMPORT === 'true';
 
   const DESCRIPTION_LIMIT = Number.parseInt(import.meta.env.VITE_BOOK_DESCRIPTION_LIMIT || '140', 10) || 140;
 
@@ -87,10 +90,12 @@ export const BookList: FC<BookListProps> = (props) => {
         <GoogleIcon fontSize="small" className="book-list-book-icon" />
         <span className="btn-label">{localized.importGoogleBooks}</span>
       </button>
-      <button disabled={disableAmazonImport} className={disableAmazonImport ? "book-list-cancel-btn icon-btn" : "book-list-add-btn icon-btn"} title={localized.importAmazonBooks} onClick={importBooksFromAmazon}>
-        <img src={amazonLogo} alt="Amazon" className="book-list-penguin-logo" />
-        {localized.importAmazonBooks}
-      </button>
+      {showAmazonImport && (
+        <button disabled={disableAmazonImport} className={disableAmazonImport ? "book-list-cancel-btn icon-btn" : "book-list-add-btn icon-btn"} title={localized.importAmazonBooks} onClick={importBooksFromAmazon}>
+          <img src={amazonLogo} alt="Amazon" className="book-list-penguin-logo" />
+          {localized.importAmazonBooks}
+        </button>
+      )}
 
     </div>
   );
