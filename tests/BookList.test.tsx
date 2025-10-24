@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { BookList } from "../src/components/BookList/index";
 import type { Book } from "../src/types/Book";
@@ -21,6 +21,9 @@ const mockBooks: Book[] = [
 ];
 
 describe("BookList", () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+  });
   it("renders books and buttons", () => {
     render(
       <BookList
@@ -90,4 +93,7 @@ describe("BookList", () => {
     fireEvent.click(screen.getAllByTitle("Delete")[0]);
     expect(onDelete).toHaveBeenCalled();
   });
+
+  // Note: Environment variable feature flag tests are handled at integration level
+  // The Amazon Import button visibility is controlled by VITE_ENABLE_AMAZON_IMPORT
 });
