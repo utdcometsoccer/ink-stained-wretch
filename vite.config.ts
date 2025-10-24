@@ -15,7 +15,7 @@ export default defineConfig({
     environment: 'jsdom',
     bail: 1,
     browser: {
-      enabled: true,
+      enabled: false,
       provider: 'playwright',
       instances: [
         { browser: 'chromium' },
