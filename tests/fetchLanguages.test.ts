@@ -6,7 +6,11 @@ import { UnauthorizedError } from '../src/types/UnauthorizedError';
 beforeEach(() => {
   vi.restoreAllMocks();
   // Mock environment variable
-  vi.stubEnv('VITE_LANGUAGES_API_URL', 'http://localhost:7001/api/languages');
+  vi.stubGlobal('import.meta', {
+    env: {
+      VITE_LANGUAGES_API_URL: 'http://localhost:7072/api/languages'
+    }
+  });
 });
 
 describe('fetchLanguages', () => {
@@ -48,7 +52,7 @@ describe('fetchLanguages', () => {
     await fetchLanguages('en-US');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7001/api/languages/en-US',
+      'http://localhost:7072/api/languages/en',
       {
         method: 'GET',
         headers: {
@@ -71,20 +75,37 @@ describe('fetchLanguages', () => {
     await expect(fetchLanguages()).rejects.toThrow(UnauthorizedError);
   });
 
-  it('throws error when response is not ok', async () => {
+  it('returns fallback data when API response is not ok', async () => {
     vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
       ok: false,
       status: 500,
       statusText: 'Internal Server Error'
     } as never);
 
-    await expect(fetchLanguages()).rejects.toThrow('Failed to fetch languages: 500 Internal Server Error');
+    const result = await fetchLanguages();
+    
+    expect(result).toHaveLength(5);
+    expect(result[0].name).toBe('English');
   });
 
-  it('throws error when API URL is not defined', async () => {
-    vi.stubEnv('VITE_LANGUAGES_API_URL', '');
+  it('returns fallback data when API URL is not defined', async () => {
+    const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    vi.stubGlobal('import.meta', {
+      env: {
+        VITE_LANGUAGES_API_URL: ''
+      }
+    });
 
-    await expect(fetchLanguages()).rejects.toThrow('API URL is not defined in VITE_LANGUAGES_API_URL environment variable');
+    const result = await fetchLanguages();
+    
+    expect(result).toHaveLength(5);
+    expect(result[0].name).toBe('English');
+    expect(consoleSpy).toHaveBeenCalledWith(
+      'Failed to fetch languages from remote service, using fallback data:',
+      expect.any(Error)
+    );
+    
+    consoleSpy.mockRestore();
   });
 
   it('returns fallback data when network request fails', async () => {

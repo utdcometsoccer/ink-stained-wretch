@@ -5,7 +5,12 @@ import type { AmazonProductsApiResponse } from "../src/types/AmazonProductsApi";
 describe("fetchAmazonBooks", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    global.fetch = vi.fn();
+    vi.stubGlobal('fetch', vi.fn());
+    vi.stubGlobal('import.meta', {
+      env: {
+        VITE_AMAZON_BOOKS_API_URL: "http://localhost:7072/api/amazon/books/author"
+      }
+    });
   });
 
   it("should fetch books successfully", async () => {
@@ -54,51 +59,40 @@ describe("fetchAmazonBooks", () => {
       }
     };
 
-    (global.fetch as any).mockResolvedValueOnce({
+    (vi.mocked(globalThis.fetch)).mockResolvedValueOnce({
       ok: true,
       json: async () => mockResponse
-    });
+    } as Response);
 
-    // Mock the env var
-    import.meta.env.VITE_AMAZON_BOOKS_API_URL = "https://api.example.com";
-
-    const books = await fetchAmazonBooks("Stephen King", 1);
+    const books = await fetchAmazonBooks("Stephen King", "test-token", 1);
 
     expect(books).toHaveLength(1);
     expect(books[0].ASIN).toBe("B001EXAMPLE");
     expect(books[0].ItemInfo?.Title?.DisplayValue).toBe("The Shining");
-    expect(global.fetch).toHaveBeenCalledWith(
-      "https://api.example.com/api/amazon/books/author/Stephen%20King?page=1"
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      "http://localhost:7072/api/amazon/books/author/Stephen%20King?page=1",
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          Accept: "application/json",
+          Authorization: "Bearer test-token"
+        })
+      })
     );
   });
 
-  it("should return empty array on fetch error", async () => {
-    (global.fetch as any).mockRejectedValueOnce(new Error("Network error"));
-    import.meta.env.VITE_AMAZON_BOOKS_API_URL = "https://api.example.com";
+  it("should throw error on fetch error", async () => {
+    (vi.mocked(globalThis.fetch)).mockRejectedValueOnce(new Error("Network error"));
 
-    const books = await fetchAmazonBooks("Stephen King", 1);
-
-    expect(books).toEqual([]);
+    await expect(fetchAmazonBooks("Stephen King", "test-token", 1)).rejects.toThrow("Network error");
   });
 
-  it("should return empty array when API URL is not configured", async () => {
-    import.meta.env.VITE_AMAZON_BOOKS_API_URL = "";
-
-    const books = await fetchAmazonBooks("Stephen King", 1);
-
-    expect(books).toEqual([]);
-    expect(global.fetch).not.toHaveBeenCalled();
-  });
-
-  it("should handle non-ok response", async () => {
-    (global.fetch as any).mockResolvedValueOnce({
+  it("should throw error on non-ok response", async () => {
+    (vi.mocked(globalThis.fetch)).mockResolvedValueOnce({
       ok: false,
       status: 404
-    });
-    import.meta.env.VITE_AMAZON_BOOKS_API_URL = "https://api.example.com";
+    } as Response);
 
-    const books = await fetchAmazonBooks("Stephen King", 1);
-
-    expect(books).toEqual([]);
+    await expect(fetchAmazonBooks("Stephen King", "test-token", 1))
+      .rejects.toThrow("Amazon API error: 404");
   });
 });

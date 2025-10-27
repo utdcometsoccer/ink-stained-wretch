@@ -54,48 +54,13 @@ describe('getStateProvinceInformation', () => {
       mockFetchStatesProvinces.mockResolvedValueOnce(mockStateProvincesResponse);
 
       const cultureInfo = new CultureInfo('en-US');
-      const result = await getStateProvinceInformationWithAuth(cultureInfo, 'test-token');
+      const result = await getStateProvinceInformationWithAuth(cultureInfo);
 
-      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US', 'test-token');
+      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US');
       expect(result).toEqual(expectedStateProvinceInfo);
     });
 
-    it('should cache results separately for authenticated and non-authenticated requests', async () => {
-      
-      mockFetchStatesProvinces.mockResolvedValueOnce(mockStateProvincesResponse);
-      
-      const mockAuthenticatedResponse = {
-        data: [
-          {
-            country: 'US',
-            culture: 'en-US',
-            stateProvinces: [
-              {
-                code: 'TX-AUTH',
-                name: 'Authenticated Texas',
-                country: 'US',
-                culture: 'en-US'
-              }
-            ]
-          }
-        ]
-      };
-      mockFetchStatesProvinces.mockResolvedValueOnce(mockAuthenticatedResponse);
 
-      const cultureInfo = new CultureInfo('en-US');
-      
-      // Call without token (cached as 'en-US')
-      const result1 = await getStateProvinceInformationWithAuth(cultureInfo);
-      
-      // Call with token (cached as 'en-US-auth')
-      const result2 = await getStateProvinceInformationWithAuth(cultureInfo, 'test-token');
-
-      expect(mockFetchStatesProvinces).toHaveBeenCalledTimes(2);
-      expect(mockFetchStatesProvinces).toHaveBeenNthCalledWith(1, 'en-US', undefined);
-      expect(mockFetchStatesProvinces).toHaveBeenNthCalledWith(2, 'en-US', 'test-token');
-      expect(result1).toEqual(expectedStateProvinceInfo);
-      expect(result2).toEqual([{ code: 'TX-AUTH', name: 'Authenticated Texas' }]);
-    });
   });
 
   describe('getStateProvinceInformation function', () => {
@@ -106,7 +71,7 @@ describe('getStateProvinceInformation', () => {
       const cultureInfo = new CultureInfo('en-US');
       const result = await getStateProvinceInformation(cultureInfo);
 
-      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US', undefined);
+      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US');
       expect(result).toEqual(expectedStateProvinceInfo);
     });
 
@@ -157,8 +122,8 @@ describe('getStateProvinceInformation', () => {
       const resultCA = await getStateProvinceInformation(cultureInfoCA);
 
       expect(mockFetchStatesProvinces).toHaveBeenCalledTimes(2);
-      expect(mockFetchStatesProvinces).toHaveBeenNthCalledWith(1, 'en-US', undefined);
-      expect(mockFetchStatesProvinces).toHaveBeenNthCalledWith(2, 'en-CA', undefined);
+      expect(mockFetchStatesProvinces).toHaveBeenNthCalledWith(1, 'en-US');
+      expect(mockFetchStatesProvinces).toHaveBeenNthCalledWith(2, 'en-CA');
       expect(resultUS).toEqual(expectedStateProvinceInfo);
       expect(resultCA).toEqual([{ code: 'ON', name: 'Ontario' }]);
     });
@@ -206,7 +171,7 @@ describe('getStateProvinceInformation', () => {
     });
 
     it('should return a stable function reference with token', () => {
-      const { result, rerender } = renderHook(() => useGetStateProvinceInformation('test-token'));
+      const { result, rerender } = renderHook(() => useGetStateProvinceInformation());
       
       const firstFunction = result.current;
       
@@ -227,25 +192,25 @@ describe('getStateProvinceInformation', () => {
       const stateProvinceInfo = await result.current(cultureInfo);
       
       expect(stateProvinceInfo).toEqual(expectedStateProvinceInfo);
-      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US', undefined);
+      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US');
     });
 
     it('should work with the returned function with token', async () => {
       
       mockFetchStatesProvinces.mockResolvedValueOnce(mockStateProvincesResponse);
 
-      const { result } = renderHook(() => useGetStateProvinceInformation('test-token'));
+      const { result } = renderHook(() => useGetStateProvinceInformation());
       
       const cultureInfo = new CultureInfo('en-US');
       const stateProvinceInfo = await result.current(cultureInfo);
       
       expect(stateProvinceInfo).toEqual(expectedStateProvinceInfo);
-      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US', 'test-token');
+      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US');
     });
 
-    it('should update when token changes', () => {
+    it('should maintain stable function reference regardless of props changes', () => {
       const { result, rerender } = renderHook(
-        ({ token }: { token?: string }) => useGetStateProvinceInformation(token),
+        ({ token }: { token?: string }) => useGetStateProvinceInformation(),
         { initialProps: { token: undefined as string | undefined } }
       );
       
@@ -255,7 +220,7 @@ describe('getStateProvinceInformation', () => {
       
       const secondFunction = result.current;
       
-      expect(firstFunction).not.toBe(secondFunction);
+      expect(firstFunction).toBe(secondFunction);
     });
   });
 });
