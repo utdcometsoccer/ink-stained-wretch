@@ -40,7 +40,7 @@ describe('fetchStatesProvinces', () => {
     // Mock import.meta.env for browser environment
     vi.stubGlobal('import.meta', {
       env: {
-        VITE_STATES_PROVINCES_API_URL: 'http://localhost:7001/api/stateprovinces'
+        VITE_STATES_PROVINCES_API_URL: 'http://localhost:7072/api/stateprovinces'
       }
     });
   });
@@ -68,7 +68,7 @@ describe('fetchStatesProvinces', () => {
     await fetchStatesProvinces('en-US');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7001/api/stateprovinces/en-US',
+      'http://localhost:7072/api/stateprovinces/en-US',
       {
         method: 'GET',
         headers: {
@@ -81,7 +81,7 @@ describe('fetchStatesProvinces', () => {
 
 
 
-  it('includes authorization header when access token is provided', async () => {
+  it('does not include authorization header (authentication removed)', async () => {
     const mockFetch = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
       ok: true,
       status: 200,
@@ -89,16 +89,15 @@ describe('fetchStatesProvinces', () => {
       json: vi.fn().mockResolvedValueOnce(mockStateProvincesResponse)
     } as any);
 
-    await fetchStatesProvinces(undefined, 'test-token');
+    await fetchStatesProvinces();
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7001/api/stateprovinces',
+      'http://localhost:7072/api/stateprovinces',
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer test-token'
+          'Content-Type': 'application/json'
         }
       }
     );
@@ -112,16 +111,15 @@ describe('fetchStatesProvinces', () => {
       json: vi.fn().mockResolvedValueOnce(mockStateProvincesResponse)
     } as any);
 
-    await fetchStatesProvinces('es-MX', 'test-token');
+    await fetchStatesProvinces('es-MX');
 
     expect(mockFetch).toHaveBeenCalledWith(
-      'http://localhost:7001/api/stateprovinces/es-MX',
+      'http://localhost:7072/api/stateprovinces/es-MX',
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer test-token'
+          'Content-Type': 'application/json'
         }
       }
     );

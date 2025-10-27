@@ -10,7 +10,7 @@ vi.mock('../src/services/subscriptionApi', () => ({
   })),
 }));
 
-const { fetchSubscriptionPlans } = require('../src/services/subscriptionApi');
+import { fetchSubscriptionPlans } from '../src/services/subscriptionApi';
 
 describe('useChooseSubscriptionLogic run-once behavior', () => {
   beforeEach(() => {

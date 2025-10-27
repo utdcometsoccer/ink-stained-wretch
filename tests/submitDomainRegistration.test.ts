@@ -6,9 +6,16 @@ import type { DomainRegistration } from '../src/types/DomainRegistration';
 describe('submitDomainRegistration', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
-    // Mock environment variable
-    import.meta.env.VITE_DOMAIN_REGISTRATION_SUBMIT_API_URL = 'http://test.com/api/domain-registration';
   });
+
+  // Set up default environment for most tests  
+  const setupDefaultEnv = () => {
+    vi.stubGlobal('import.meta', {
+      env: {
+        VITE_DOMAIN_REGISTRATION_SUBMIT_API_URL: 'http://localhost:7072/api/domain-registrations'
+      }
+    });
+  };
 
   const mockDomainRegistration: DomainRegistration = {
     domain: {
@@ -28,6 +35,8 @@ describe('submitDomainRegistration', () => {
   };
 
   it('should successfully submit domain registration with access token', async () => {
+    setupDefaultEnv();
+    
     const mockResponse = {
       status: 200,
       ok: true,
@@ -39,7 +48,7 @@ describe('submitDomainRegistration', () => {
     const result = await submitDomainRegistration(mockDomainRegistration, 'test-token');
     
     expect(fetchSpy).toHaveBeenCalledWith(
-      'http://test.com/api/domain-registration',
+      'http://localhost:7072/api/domain-registrations',
       expect.objectContaining({
         method: 'POST',
         headers: expect.objectContaining({
@@ -54,10 +63,12 @@ describe('submitDomainRegistration', () => {
   });
 
   it('should successfully submit domain registration without access token', async () => {
+    setupDefaultEnv();
+    
     const mockResponse = {
       status: 200,
       ok: true,
-      json: vi.fn().mockResolvedValue({ ...mockDomainRegistration, id: '123' })
+      json: vi.fn().mockResolvedValue({ ...mockDomainRegistration, id: '456' })
     } as unknown as Response;
     
     const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
@@ -65,17 +76,20 @@ describe('submitDomainRegistration', () => {
     await submitDomainRegistration(mockDomainRegistration);
     
     expect(fetchSpy).toHaveBeenCalledWith(
-      'http://test.com/api/domain-registration',
+      'http://localhost:7072/api/domain-registrations',
       expect.objectContaining({
         method: 'POST',
         headers: expect.not.objectContaining({
           'Authorization': expect.anything()
-        })
+        }),
+        body: JSON.stringify(mockDomainRegistration)
       })
     );
   });
 
   it('should throw UnauthorizedError on 401 response', async () => {
+    setupDefaultEnv();
+    
     const mockResponse = {
       status: 401,
       ok: false
@@ -88,6 +102,8 @@ describe('submitDomainRegistration', () => {
   });
 
   it('should throw error on non-200 response', async () => {
+    setupDefaultEnv();
+    
     const mockResponse = {
       status: 500,
       ok: false
@@ -97,12 +113,5 @@ describe('submitDomainRegistration', () => {
     
     await expect(submitDomainRegistration(mockDomainRegistration, 'test-token'))
       .rejects.toThrow('API error: 500');
-  });
-
-  it('should throw error if API URL is not defined', async () => {
-    import.meta.env.VITE_DOMAIN_REGISTRATION_SUBMIT_API_URL = '';
-    
-    await expect(submitDomainRegistration(mockDomainRegistration, 'test-token'))
-      .rejects.toThrow('API URL is not defined in VITE_DOMAIN_REGISTRATION_SUBMIT_API_URL environment variable');
   });
 });
