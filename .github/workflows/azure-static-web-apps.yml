@@ -1,0 +1,105 @@
+name: Azure Static Web Apps CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  build_and_deploy_job:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          lfs: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Application
+        run: npm run build
+        env:
+          # Authentication & Security
+          VITE_ENTRA_CLIENT_ID: ${{ secrets.VITE_ENTRA_CLIENT_ID }}
+          VITE_ENTRA_TENANT_ID: ${{ secrets.VITE_ENTRA_TENANT_ID }}
+          VITE_ENTRA_AUTHORITY: ${{ secrets.VITE_ENTRA_AUTHORITY }}
+          VITE_ENTRA_SCOPES: ${{ secrets.VITE_ENTRA_SCOPES }}
+          
+          # API Endpoints
+          VITE_SUBSCRIPTION_PLANS_API_URL: ${{ secrets.VITE_SUBSCRIPTION_PLANS_API_URL }}
+          VITE_AUTHOR_API_BASE_URL: ${{ secrets.VITE_AUTHOR_API_BASE_URL }}
+          VITE_IMAGE_API_URL: ${{ secrets.VITE_IMAGE_API_URL }}
+          VITE_USER_DOMAIN_REGISTRATIONS_API_URL: ${{ secrets.VITE_USER_DOMAIN_REGISTRATIONS_API_URL }}
+          VITE_DOMAIN_REGISTRATION_SUBMIT_API_URL: ${{ secrets.VITE_DOMAIN_REGISTRATION_SUBMIT_API_URL }}
+          VITE_LANGUAGES_API_URL: ${{ secrets.VITE_LANGUAGES_API_URL }}
+          VITE_STATES_PROVINCES_API_URL: ${{ secrets.VITE_STATES_PROVINCES_API_URL }}
+          VITE_LOCALIZATION_API_URL: ${{ secrets.VITE_LOCALIZATION_API_URL }}
+          
+          # External API Integrations
+          VITE_OPENLIBRARY_AUTHOR_SEARCH_URL: https://openlibrary.org/search/authors.json?q=
+          VITE_GOOGLE_BOOKS_API_URL: https://www.googleapis.com/books/v1/volumes
+          VITE_PENGUIN_RANDOM_HOUSE_API_URL: ${{ secrets.VITE_PENGUIN_RANDOM_HOUSE_API_URL }}
+          VITE_PENGUIN_RANDOM_HOUSE_API_KEY: ${{ secrets.VITE_PENGUIN_RANDOM_HOUSE_API_KEY }}
+          VITE_AMAZON_BOOKS_API_URL: ${{ secrets.VITE_AMAZON_BOOKS_API_URL }}
+          VITE_WHOIS_API_URL: https://api.whois.vu
+          
+          # Payment Processing
+          VITE_STRIPE_PUBLISHABLE_KEY: ${{ secrets.VITE_STRIPE_PUBLISHABLE_KEY }}
+          VITE_STRIPE_CHECKOUT_SESSION_URL: ${{ secrets.VITE_STRIPE_CHECKOUT_SESSION_URL }}
+          VITE_STRIPE_CREATE_CUSTOMER_URL: ${{ secrets.VITE_STRIPE_CREATE_CUSTOMER_URL }}
+          VITE_STRIPE_CREATE_SUBSCRIPTION_URL: ${{ secrets.VITE_STRIPE_CREATE_SUBSCRIPTION_URL }}
+          VITE_ENABLE_STRIPE_CHECKOUT: ${{ secrets.VITE_ENABLE_STRIPE_CHECKOUT }}
+          
+          # Monitoring & Analytics
+          VITE_APPLICATION_INSIGHTS_CONNECTION_STRING: ${{ secrets.VITE_APPLICATION_INSIGHTS_CONNECTION_STRING }}
+          
+          # Feature Configuration
+          VITE_APP_NAME: ${{ secrets.VITE_APP_NAME }}
+          VITE_CONTACT_EMAIL: ${{ secrets.VITE_CONTACT_EMAIL }}
+          VITE_BOOK_DESCRIPTION_LIMIT: ${{ secrets.VITE_BOOK_DESCRIPTION_LIMIT }}
+          VITE_SUBSCRIPTION_PLANS_MAX_PAGES: ${{ secrets.VITE_SUBSCRIPTION_PLANS_MAX_PAGES }}
+          VITE_COUNTDOWN_SECONDS: ${{ secrets.VITE_COUNTDOWN_SECONDS }}
+          VITE_ENABLE_AMAZON_IMPORT: ${{ secrets.VITE_ENABLE_AMAZON_IMPORT }}
+
+      - name: Deploy to Azure Static Web Apps
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          ###### Repository/Build Configurations ######
+          app_location: "/" # App source code path
+          api_location: "" # Api source code path - optional
+          output_location: "dist" # Built app content directory - optional
+          ###### End of Repository/Build Configurations ######
+          skip_app_build: true # Skip build since we already built above
+
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+    steps:
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: "close"
