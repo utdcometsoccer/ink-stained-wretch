@@ -1026,44 +1026,38 @@ View coverage reports by opening `coverage/index.html` in your browser.
 
 #### Azure Static Web Apps (Recommended)
 
-1. **Build Configuration**:
-   ```json
-   {
-     "buildCommand": "npm run build",
-     "outputFolder": "dist",
-     "skipGithubActionWorkflowGeneration": false
-   }
-   ```
+This project includes an automated CI/CD pipeline for deploying to Azure Static Web Apps. The pipeline automatically deploys the application when changes are pushed to the main branch or when pull requests are created.
 
-2. **Environment Variables**:
-   - Configure all `VITE_` variables in Azure portal
-   - Ensure production Stripe keys are used
-   - Set up Application Insights connection string
+**📚 Complete Setup Guide**: See [AZURE_DEPLOYMENT.md](AZURE_DEPLOYMENT.md) for detailed instructions.
 
-3. **GitHub Actions Workflow**:
-   ```yaml
-   name: Azure Static Web Apps CI/CD
-   
-   on:
-     push:
-       branches: [ main ]
-     pull_request:
-       branches: [ main ]
-   
-   jobs:
-     build_and_deploy:
-       runs-on: ubuntu-latest
-       steps:
-         - uses: actions/checkout@v2
-         - name: Build And Deploy
-           uses: Azure/static-web-apps-deploy@v1
-           with:
-             azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-             repo_token: ${{ secrets.GITHUB_TOKEN }}
-             action: "upload"
-             app_location: "/"
-             output_location: "dist"
-   ```
+**Quick Start**:
+
+1. **Create Azure Static Web App**:
+   - Follow the [Azure Portal setup guide](AZURE_DEPLOYMENT.md#azure-static-web-apps-setup)
+   - Or use Azure CLI for quick setup
+
+2. **Configure GitHub Secrets**:
+   - Add `AZURE_STATIC_WEB_APPS_API_TOKEN` from Azure portal
+   - Add all required `VITE_` environment variables
+   - See [complete secrets list](AZURE_DEPLOYMENT.md#environment-variables-and-secrets)
+
+3. **Deploy Automatically**:
+   - Push to `main` branch → Production deployment
+   - Open PR → Preview environment created
+   - Close PR → Preview environment removed
+
+**Build Configuration**:
+- **Build Command**: `npm run build`
+- **Output Folder**: `dist`
+- **Node Version**: 22.x
+- **App Location**: `/` (root)
+
+**Workflow Features**:
+- ✅ Automatic deployment on push to main
+- ✅ PR preview environments
+- ✅ Environment variable injection
+- ✅ Build optimization and caching
+- ✅ Automatic cleanup on PR close
 
 #### Alternative Platforms
 
