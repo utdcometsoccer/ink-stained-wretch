@@ -265,10 +265,10 @@ To manually trigger a deployment:
 
 #### Build Failures
 
-**TypeScript Errors**
-- The build may fail due to existing TypeScript errors in the codebase
-- Check workflow logs for specific errors
-- Fix TypeScript issues before merging to main
+**TypeScript Compilation Errors**
+- Check workflow logs for specific TypeScript errors
+- Verify all types are correctly defined
+- Fix any type mismatches before merging to main
 
 **Missing Dependencies**
 - Ensure `package.json` and `package-lock.json` are committed
