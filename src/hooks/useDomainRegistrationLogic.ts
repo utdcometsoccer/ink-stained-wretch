@@ -10,6 +10,7 @@ import { validatePhone } from "../services/validatePhone";
 import type { Action } from "../types/Action";
 import type { DomainRegistrationLogicReturn } from "../types/DomainRegistrationLogicReturn";
 import type { DomainRegistrationsFetcher } from "../types/DomainRegistrationsFetcher";
+import type { ContactInfoErrors } from "../types/DomainRegistrationState";
 import type { State } from "../types/State";
 import { useDomainRegistrations } from "./useDomainRegistrations";
 import { useLocalizationContext } from "./useLocalizationContext";
@@ -96,7 +97,7 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
     });
     
     // Clear previous errors
-    const errors: Record<string, string> = {};
+    const errors: ContactInfoErrors = {};
     
     if (value === '') {
       domainRegistrationDispatch({ type: "SET_DOMAIN_ERROR", payload: null });
