@@ -9,19 +9,14 @@ import { useCultureInfo } from "../../contexts/CultureInfoContext";
 import type { ContactInfoFormProps } from "./ContactInfoFormProps";
 import "./DomainRegistration.css";
 
-export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cityRef, onChange, dispatch }) => {
+export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cityRef, onChange }) => {
   const { cultureInfo } = useCultureInfo();
   useTrackComponent('ContactInfoForm', { state, cityRef, onChange });
   const localization = useLocalizationContext();
   const localized = localization.DomainRegistration;
   
-  const updateToken = (newToken: string | null) => {
-    if (dispatch) {
-      dispatch({ type: 'UPDATE_STATE', payload: { authToken: newToken } });
-    }
-  };
   
-  const getStateProvinceInformation = useGetStateProvinceInformation(state.authToken || undefined, updateToken);
+  const getStateProvinceInformation = useGetStateProvinceInformation();
   const getCountryInformation = useGetCountryInformation();
   const contactInfo = {
     ...state.domainRegistration?.contactInformation,
