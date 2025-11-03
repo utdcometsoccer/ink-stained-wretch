@@ -1,5 +1,6 @@
 import type { RefObject } from "react";
 import type { DomainRegistrationsListText, DomainRegistrationText } from "./LocalizedText";
+import type { ContactInfoErrors } from "./DomainRegistrationState";
 
 export interface DomainRegistrationLogicReturn {
   cityRef: RefObject<HTMLInputElement|null>;
@@ -14,4 +15,5 @@ export interface DomainRegistrationLogicReturn {
   domainRegistrationsListText: DomainRegistrationsListText;
   loading: boolean;
   APICallFailed: boolean;
+  contactInfoErrors: ContactInfoErrors;
 }

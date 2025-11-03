@@ -9,12 +9,11 @@ import { useCultureInfo } from "../../contexts/CultureInfoContext";
 import type { ContactInfoFormProps } from "./ContactInfoFormProps";
 import "./DomainRegistration.css";
 
-export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cityRef, onChange }) => {
+export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cityRef, onChange, errors = {} }) => {
   const { cultureInfo } = useCultureInfo();
   useTrackComponent('ContactInfoForm', { state, cityRef, onChange });
   const localization = useLocalizationContext();
   const localized = localization.DomainRegistration;
-  
   
   const getStateProvinceInformation = useGetStateProvinceInformation();
   const getCountryInformation = useGetCountryInformation();
@@ -29,16 +28,19 @@ export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cityRef, onCh
       <label>
         {localized.firstName}:
         <input type="text" name="firstName" value={contactInfo.firstName ?? ""} onChange={onChange} required />
+        {errors.firstName && <div className="error-message">{errors.firstName}</div>}
       </label>
       <br />
       <label>
         {localized.lastName}:
         <input type="text" name="lastName" value={contactInfo.lastName ?? ""} onChange={onChange} required />
+        {errors.lastName && <div className="error-message">{errors.lastName}</div>}
       </label>
       <br />
       <label>
         {localized.address}:
         <input type="text" name="address" value={contactInfo.address ?? ""} onChange={onChange} required />
+        {errors.address && <div className="error-message">{errors.address}</div>}
       </label>
       <br />
       <label>
@@ -49,6 +51,7 @@ export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cityRef, onCh
       <label>
         {localized.city}:
         <input type="text" name="city" value={contactInfo.city ?? ""} onChange={onChange} required ref={cityRef} />
+        {errors.city && <div className="error-message">{errors.city}</div>}
       </label>
       <br />
       <StateDropdown
@@ -64,6 +67,7 @@ export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cityRef, onCh
         getStateProvinceInformation={getStateProvinceInformation}
         Label={localized.state}
       />
+      {errors.state && <div className="error-message">{errors.state}</div>}
       <br />
       <CountryDropdown
         selectedCountry={contactInfo.country ?? ""}
@@ -81,16 +85,19 @@ export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cityRef, onCh
       <label>
         {localized.zipCode}:
         <input type="text" name="zipCode" value={contactInfo.zipCode ?? ""} onChange={onChange} required />
+        {errors.zipCode && <div className="error-message">{errors.zipCode}</div>}
       </label>
       <br />
       <label>
         {localized.emailAddress}:
         <input type="email" name="emailAddress" value={contactInfo.emailAddress ?? ""} onChange={onChange} required />
+        {errors.emailAddress && <div className="error-message">{errors.emailAddress}</div>}
       </label>
       <br />
       <label>
         {localized.telephoneNumber}:
         <input type="tel" name="telephoneNumber" value={contactInfo.telephoneNumber ?? ""} onChange={onChange} required />
+        {errors.telephoneNumber && <div className="error-message">{errors.telephoneNumber}</div>}
       </label>
     </fieldset>
   );

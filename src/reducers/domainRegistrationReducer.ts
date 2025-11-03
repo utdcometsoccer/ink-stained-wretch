@@ -12,6 +12,8 @@ export function domainRegistrationReducer(
       return { ...localState, domainError: action.payload };
     case "SET_API_CALL_FAILED":
       return { ...localState, APICallFailed: action.payload };
+    case "SET_CONTACT_INFO_ERRORS":
+      return { ...localState, contactInfoErrors: action.payload };
     default:
       return localState;
   }

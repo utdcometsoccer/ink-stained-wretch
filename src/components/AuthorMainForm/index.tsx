@@ -42,9 +42,9 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
     const localized = useLocalizationContext().AuthorMainForm;
     
     // Get the language information function with authentication support
-    const getLanguageInformation = useGetLanguageInformation(token);
+    const getLanguageInformation = useGetLanguageInformation();
     
-    const getCountryInformation = useGetCountryInformation(token ?? undefined, undefined);
+    const getCountryInformation = useGetCountryInformation();
     useTrackComponent('AuthorMainForm', {
         form,
         dispatchForm,
