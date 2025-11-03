@@ -9,7 +9,7 @@ import { useCultureInfo } from "../../contexts/CultureInfoContext";
 import type { ContactInfoFormProps } from "./ContactInfoFormProps";
 import "./DomainRegistration.css";
 
-export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cityRef, onChange, dispatch: _dispatch, errors = {} }) => {
+export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cityRef, onChange, errors = {} }) => {
   const { cultureInfo } = useCultureInfo();
   useTrackComponent('ContactInfoForm', { state, cityRef, onChange });
   const localization = useLocalizationContext();
