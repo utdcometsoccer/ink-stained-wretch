@@ -9,7 +9,20 @@ vi.mock('../src/services/fetchStatesProvinces', () => ({
   fetchStatesProvinces: vi.fn()
 }));
 
+// Mock the library's default function
+vi.mock('@idahoedokpayi/react-country-state-selector', async () => {
+  const actual = await vi.importActual('@idahoedokpayi/react-country-state-selector');
+  return {
+    ...actual,
+    getStateProvinceInformationByCulture: vi.fn()
+  };
+});
+
 const mockFetchStatesProvinces = vi.mocked(fetchStatesProvinces);
+
+// Import the mocked function
+const { getStateProvinceInformationByCulture } = await import('@idahoedokpayi/react-country-state-selector');
+const mockGetStateProvinceInformationByCulture = vi.mocked(getStateProvinceInformationByCulture);
 
 describe('getStateProvinceInformation', () => {
   const mockStateProvincesResponse = {
@@ -128,13 +141,32 @@ describe('getStateProvinceInformation', () => {
       expect(resultCA).toEqual([{ code: 'ON', name: 'Ontario' }]);
     });
 
-    it('should return empty array on error', async () => {
-      
+    it('should fall back to library default function on API error', async () => {
       mockFetchStatesProvinces.mockRejectedValueOnce(new Error('API Error'));
+      
+      const fallbackStateProvinces = [
+        { code: 'CA', name: 'California (fallback)' },
+        { code: 'TX', name: 'Texas (fallback)' }
+      ];
+      mockGetStateProvinceInformationByCulture.mockResolvedValueOnce(fallbackStateProvinces);
 
       const cultureInfo = new CultureInfo('en-US');
       const result = await getStateProvinceInformation(cultureInfo);
 
+      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US');
+      expect(mockGetStateProvinceInformationByCulture).toHaveBeenCalledWith(cultureInfo);
+      expect(result).toEqual(fallbackStateProvinces);
+    });
+
+    it('should return empty array when both API and fallback fail', async () => {
+      mockFetchStatesProvinces.mockRejectedValueOnce(new Error('API Error'));
+      mockGetStateProvinceInformationByCulture.mockRejectedValueOnce(new Error('Fallback Error'));
+
+      const cultureInfo = new CultureInfo('en-US');
+      const result = await getStateProvinceInformation(cultureInfo);
+
+      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US');
+      expect(mockGetStateProvinceInformationByCulture).toHaveBeenCalledWith(cultureInfo);
       expect(result).toEqual([]);
     });
 
@@ -210,7 +242,7 @@ describe('getStateProvinceInformation', () => {
 
     it('should maintain stable function reference regardless of props changes', () => {
       const { result, rerender } = renderHook(
-        ({ token }: { token?: string }) => useGetStateProvinceInformation(),
+        () => useGetStateProvinceInformation(),
         { initialProps: { token: undefined as string | undefined } }
       );
       

@@ -9,7 +9,20 @@ vi.mock('../src/services/fetchCountries', () => ({
   fetchCountries: vi.fn()
 }));
 
+// Mock the library's default function
+vi.mock('@idahoedokpayi/react-country-state-selector', async () => {
+  const actual = await vi.importActual('@idahoedokpayi/react-country-state-selector');
+  return {
+    ...actual,
+    getCountryInformationByCulture: vi.fn()
+  };
+});
+
 const mockFetchCountries = vi.mocked(fetchCountries);
+
+// Import the mocked function
+const { getCountryInformationByCulture } = await import('@idahoedokpayi/react-country-state-selector');
+const mockGetCountryInformationByCulture = vi.mocked(getCountryInformationByCulture);
 
 describe('getCountryInformation', () => {
   const mockCountriesResponse = {
@@ -130,13 +143,32 @@ describe('getCountryInformation', () => {
       expect(resultMX).toEqual([{ code: 'MX', name: 'México' }]);
     });
 
-    it('should return empty array on error', async () => {
-      
+    it('should fall back to library default function on API error', async () => {
       mockFetchCountries.mockRejectedValueOnce(new Error('API Error'));
+      
+      const fallbackCountries = [
+        { code: 'US' as const, name: 'United States (fallback)' },
+        { code: 'CA' as const, name: 'Canada (fallback)' }
+      ];
+      mockGetCountryInformationByCulture.mockResolvedValueOnce(fallbackCountries);
 
       const cultureInfo = new CultureInfo('en-US');
       const result = await getCountryInformation(cultureInfo);
 
+      expect(mockFetchCountries).toHaveBeenCalledWith('en-US');
+      expect(mockGetCountryInformationByCulture).toHaveBeenCalledWith(cultureInfo);
+      expect(result).toEqual(fallbackCountries);
+    });
+
+    it('should return empty array when both API and fallback fail', async () => {
+      mockFetchCountries.mockRejectedValueOnce(new Error('API Error'));
+      mockGetCountryInformationByCulture.mockRejectedValueOnce(new Error('Fallback Error'));
+
+      const cultureInfo = new CultureInfo('en-US');
+      const result = await getCountryInformation(cultureInfo);
+
+      expect(mockFetchCountries).toHaveBeenCalledWith('en-US');
+      expect(mockGetCountryInformationByCulture).toHaveBeenCalledWith(cultureInfo);
       expect(result).toEqual([]);
     });
 
