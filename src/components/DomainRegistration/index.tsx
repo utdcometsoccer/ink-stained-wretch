@@ -21,7 +21,8 @@ export const DomainRegistration: FC<DomainRegistrationProps> = ({ state, dispatc
         domainError,
         loading,
         domainRegistrationsListText,
-        APICallFailed
+        APICallFailed,
+        contactInfoErrors
     } = useDomainRegistrationLogic(state, dispatch);
 
     return !loading ? (
@@ -45,6 +46,7 @@ export const DomainRegistration: FC<DomainRegistrationProps> = ({ state, dispatc
                         state={state}
                         onChange={handleContactChange}
                         dispatch={dispatch}
+                        errors={contactInfoErrors}
                     />
                     <button type="submit" className="app-btn">{domainRegistrationText.submit}</button>
                 </form>

@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import type { CultureInfo, CountryInformation, GetCountryInformation } from '@idahoedokpayi/react-country-state-selector';
+import { getCountryInformationByCulture } from '@idahoedokpayi/react-country-state-selector';
 import { fetchCountries } from './fetchCountries';
 
 // Create a cache for memoization
@@ -46,9 +47,15 @@ export const getCountryInformationWithAuth = async (
     
     return countryInformation;
   } catch (error) {
-    console.error('Failed to fetch country information:', error);
-    // Return empty array as fallback
-    return [];
+    console.error('Failed to fetch country information from API, falling back to default:', error);
+    // Fall back to the library's default implementation
+    try {
+      return await getCountryInformationByCulture(cultureInfo);
+    } catch (fallbackError) {
+      console.error('Fallback to default country information also failed:', fallbackError);
+      // Return empty array as final fallback
+      return [];
+    }
   }
 };
 

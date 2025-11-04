@@ -10,6 +10,7 @@ import { validatePhone } from "../services/validatePhone";
 import type { Action } from "../types/Action";
 import type { DomainRegistrationLogicReturn } from "../types/DomainRegistrationLogicReturn";
 import type { DomainRegistrationsFetcher } from "../types/DomainRegistrationsFetcher";
+import type { ContactInfoErrors } from "../types/DomainRegistrationState";
 import type { State } from "../types/State";
 import { useDomainRegistrations } from "./useDomainRegistrations";
 import { useLocalizationContext } from "./useLocalizationContext";
@@ -40,7 +41,8 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
   const [domainRegistrationState, domainRegistrationDispatch] = useReducer(domainRegistrationReducer, {
     domainInputValue: domainString || "",
     domainError: null,
-    APICallFailed: false
+    APICallFailed: false,
+    contactInfoErrors: {}
   });
   const cityRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -48,7 +50,7 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
       domainRegistrationDispatch({ type: "SET_API_CALL_FAILED", payload: true });
     }
   }, [error, domainRegistrationDispatch]);
-  const { APICallFailed, domainError, domainInputValue } = domainRegistrationState;  
+  const { APICallFailed, domainError, domainInputValue, contactInfoErrors } = domainRegistrationState;  
   const contactInfo = (state.domainRegistration ? state.domainRegistration.contactInformation : undefined) || {
     firstName: '',
     lastName: '',
@@ -93,6 +95,10 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
     dispatch({
       type: "SET_DOMAIN_INPUT_VALUE", payload: { topLevelDomain, secondLevelDomain }
     });
+    
+    // Clear previous errors
+    const errors: ContactInfoErrors = {};
+    
     if (value === '') {
       domainRegistrationDispatch({ type: "SET_DOMAIN_ERROR", payload: null });
       dispatch({ type: "UPDATE_DOMAIN", payload: { topLevelDomain: '', secondLevelDomain: '' } });
@@ -106,28 +112,46 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
       dispatch({ type: "UPDATE_DOMAIN", payload: { topLevelDomain: '', secondLevelDomain: '' } });
       return;
     }
-    const requiredFields = [
-      contactInfo.firstName,
-      contactInfo.lastName,
-      contactInfo.address,
-      contactInfo.city,
-      contactInfo.state,
-      contactInfo.zipCode,
-      contactInfo.emailAddress,
-      contactInfo.telephoneNumber
-    ];
-    if (requiredFields.some(f => !f || f.trim() === '')) {
-      domainRegistrationDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please fill out all required contact information.' });
+    
+    // Validate individual fields
+    if (!contactInfo.firstName || contactInfo.firstName.trim() === '') {
+      errors.firstName = 'First name is required.';
+    }
+    if (!contactInfo.lastName || contactInfo.lastName.trim() === '') {
+      errors.lastName = 'Last name is required.';
+    }
+    if (!contactInfo.address || contactInfo.address.trim() === '') {
+      errors.address = 'Address is required.';
+    }
+    if (!contactInfo.city || contactInfo.city.trim() === '') {
+      errors.city = 'City is required.';
+    }
+    if (!contactInfo.state || contactInfo.state.trim() === '') {
+      errors.state = 'State is required.';
+    }
+    if (!contactInfo.zipCode || contactInfo.zipCode.trim() === '') {
+      errors.zipCode = 'Zip code is required.';
+    }
+    if (!contactInfo.emailAddress || contactInfo.emailAddress.trim() === '') {
+      errors.emailAddress = 'Email address is required.';
+    } else if (!validateEmail(contactInfo.emailAddress)) {
+      errors.emailAddress = 'Please enter a valid email address.';
+    }
+    if (!contactInfo.telephoneNumber || contactInfo.telephoneNumber.trim() === '') {
+      errors.telephoneNumber = 'Telephone number is required.';
+    } else if (!validatePhone(contactInfo.telephoneNumber)) {
+      errors.telephoneNumber = 'Please enter a valid telephone number.';
+    }
+    
+    // If there are any errors, set them and stop
+    if (Object.keys(errors).length > 0) {
+      domainRegistrationDispatch({ type: "SET_CONTACT_INFO_ERRORS", payload: errors });
       return;
     }
-    if (!validateEmail(contactInfo.emailAddress ?? "")) {
-      domainRegistrationDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please enter a valid email address.' });
-      return;
-    }
-    if (!validatePhone(contactInfo.telephoneNumber ?? "")) {
-      domainRegistrationDispatch({ type: "SET_DOMAIN_ERROR", payload: 'Please enter a valid telephone number.' });
-      return;
-    }
+    
+    // Clear errors if validation passes
+    domainRegistrationDispatch({ type: "SET_CONTACT_INFO_ERRORS", payload: {} });
+    
     const match = value.match(domainRegex);
     if (match) {
       domainRegistrationDispatch({ type: "SET_DOMAIN_ERROR", payload: null });
@@ -152,6 +176,7 @@ export function useDomainRegistrationLogic(state: State, dispatch: Dispatch<Acti
     culture,
     domainRegistrationsListText,
     loading,
-    APICallFailed
+    APICallFailed,
+    contactInfoErrors
   };
 }

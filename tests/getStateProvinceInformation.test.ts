@@ -128,13 +128,27 @@ describe('getStateProvinceInformation', () => {
       expect(resultCA).toEqual([{ code: 'ON', name: 'Ontario' }]);
     });
 
-    it('should return empty array on error', async () => {
-      
+    it('should fall back to library default function on API error', async () => {
       mockFetchStatesProvinces.mockRejectedValueOnce(new Error('API Error'));
 
       const cultureInfo = new CultureInfo('en-US');
       const result = await getStateProvinceInformation(cultureInfo);
 
+      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US');
+      // The fallback should return data from the library's default implementation
+      // For en-US, it should return US states
+      expect(result.length).toBeGreaterThan(0);
+    });
+
+    it('should return empty array when both API and fallback fail for unsupported culture', async () => {
+      mockFetchStatesProvinces.mockRejectedValueOnce(new Error('API Error'));
+
+      // Using a culture that the library doesn't support
+      const cultureInfo = new CultureInfo('ar-SA');
+      const result = await getStateProvinceInformation(cultureInfo);
+
+      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('ar-SA');
+      // The fallback should fail for unsupported cultures and return empty array
       expect(result).toEqual([]);
     });
 
@@ -210,7 +224,7 @@ describe('getStateProvinceInformation', () => {
 
     it('should maintain stable function reference regardless of props changes', () => {
       const { result, rerender } = renderHook(
-        ({ token }: { token?: string }) => useGetStateProvinceInformation(),
+        () => useGetStateProvinceInformation(),
         { initialProps: { token: undefined as string | undefined } }
       );
       
