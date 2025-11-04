@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
 import { AuthorMainForm } from "../src/components/AuthorMainForm/index";
 import { CultureInfoProvider } from "../src/contexts/CultureInfoContext";
 import { initialAuthorFormState } from "../src/reducers/authorFormReducer";
@@ -51,6 +52,21 @@ vi.mock('../src/hooks/useLocalizationContext', () => ({
 
 vi.mock('../src/hooks/useTrackComponent', () => ({
   useTrackComponent: vi.fn()
+}));
+
+// Mock service functions that use external package functions
+vi.mock('../src/services/getCountryInformation', () => ({
+  useGetCountryInformation: () => vi.fn(() => ({
+    name: 'Test Country',
+    code: 'US'
+  }))
+}));
+
+vi.mock('../src/services/getLanguageInformation', () => ({
+  useGetLanguageInformation: () => vi.fn(() => ({
+    name: 'English',
+    code: 'en'
+  }))
 }));
 
 // Mock child components

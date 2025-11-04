@@ -6,7 +6,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   test: {
-    coverage: {      
+    coverage: {
       reporter: ['text', 'json', 'html'],
       enabled: true
     },
@@ -21,6 +21,14 @@ export default defineConfig({
         { browser: 'chromium' },
       ],
     },
-    isolate: false
+    isolate: false,
+    reporters: [
+      [
+        "default",
+        {
+          "summary": false
+        }
+      ]
+    ]
   }
 })
