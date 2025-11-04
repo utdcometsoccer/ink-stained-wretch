@@ -130,14 +130,27 @@ describe('getCountryInformation', () => {
       expect(resultMX).toEqual([{ code: 'MX', name: 'México' }]);
     });
 
-    it('should return empty array on error', async () => {
-      
+    it('should fall back to library default function on API error', async () => {
       mockFetchCountries.mockRejectedValueOnce(new Error('API Error'));
 
       const cultureInfo = new CultureInfo('en-US');
       const result = await getCountryInformation(cultureInfo);
 
-      expect(result).toEqual([]);
+      expect(mockFetchCountries).toHaveBeenCalledWith('en-US');
+      // The fallback should return data from the library's default implementation
+      // The library has country information for all supported cultures
+      expect(result.length).toBeGreaterThan(0);
+    });
+
+    it('should return data from fallback even when API fails', async () => {
+      mockFetchCountries.mockRejectedValueOnce(new Error('API Error'));
+
+      const cultureInfo = new CultureInfo('fr-CA');
+      const result = await getCountryInformation(cultureInfo);
+
+      expect(mockFetchCountries).toHaveBeenCalledWith('fr-CA');
+      // The fallback should successfully return country data
+      expect(result.length).toBeGreaterThan(0);
     });
 
     it('should clear cache when clearCountryCache is called', async () => {
