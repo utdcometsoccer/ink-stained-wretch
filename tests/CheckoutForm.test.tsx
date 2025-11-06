@@ -1,23 +1,25 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { CheckoutForm } from '../src/components/Checkout/CheckoutForm';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import type { State } from '../src/types/State';
 
+// Mock the domain registration submission hook
+vi.mock('../src/hooks/useDomainRegistrationSubmission', () => ({
+  useDomainRegistrationSubmission: vi.fn(),
+  validateDomainRegistration: vi.fn()
+}));
+
 // Mock services
-vi.mock('../src/services/submitDomainRegistration', () => ({
-  submitDomainRegistration: vi.fn()
-}));
-
-vi.mock('../src/services/withAuthRetry', () => ({
-  withAuthRetry: vi.fn()
-}));
-
 vi.mock('../src/services/applicationInsights', () => ({
   trackEvent: vi.fn()
+}));
+
+vi.mock('../src/services/formatError', () => ({
+  formatError: vi.fn((error) => error?.message || String(error))
 }));
 
 vi.mock('../src/hooks/useLocalizationContext', () => ({
@@ -30,9 +32,15 @@ vi.mock('../src/hooks/useLocalizationContext', () => ({
   })
 }));
 
+// Import mocked services
+import { useDomainRegistrationSubmission } from '../src/hooks/useDomainRegistrationSubmission';
+
+const mockUseDomainRegistrationSubmission = vi.mocked(useDomainRegistrationSubmission);
+
 describe('CheckoutForm with domain registration', () => {
   const mockDispatch = vi.fn();
   const mockHandleSuccess = vi.fn();
+  const mockSubmitDomainRegistration = vi.fn();
   
   const mockState: State = {
     authToken: 'test-token',
@@ -56,6 +64,12 @@ describe('CheckoutForm with domain registration', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    
+    // Setup domain registration submission hook mock
+    mockUseDomainRegistrationSubmission.mockReturnValue({
+      submitDomainRegistrationWithValidation: mockSubmitDomainRegistration,
+      validateDomainRegistration: vi.fn()
+    });
   });
 
   it('renders without crashing', async () => {
@@ -78,7 +92,7 @@ describe('CheckoutForm with domain registration', () => {
     });
   });
 
-  it('includes state and dispatch props', () => {
+  it('initializes domain registration submission hook with correct parameters', () => {
     const stripePromise = loadStripe('pk_test_mock');
     
     render(
@@ -93,7 +107,48 @@ describe('CheckoutForm with domain registration', () => {
       </Elements>
     );
 
-    // If the component renders without error, the props are correctly typed
-    expect(true).toBe(true);
+    expect(mockUseDomainRegistrationSubmission).toHaveBeenCalledWith('test-token', mockDispatch);
+  });
+
+  it('handles null authToken correctly', () => {
+    const stripePromise = loadStripe('pk_test_mock');
+    const stateWithNullToken = { ...mockState, authToken: null };
+    
+    render(
+      <Elements stripe={stripePromise}>
+        <CheckoutForm
+          name="Test User"
+          clientSecret="test_secret"
+          handleSuccess={mockHandleSuccess}
+          state={stateWithNullToken}
+          dispatch={mockDispatch}
+        />
+      </Elements>
+    );
+
+    expect(mockUseDomainRegistrationSubmission).toHaveBeenCalledWith(undefined, mockDispatch);
+  });
+
+  it('verifies that the component correctly integrates with domain registration validation', () => {
+    const stripePromise = loadStripe('pk_test_mock');
+    
+    // Clear mocks right before this specific test to ensure clean state
+    vi.clearAllMocks();
+    
+    render(
+      <Elements stripe={stripePromise}>
+        <CheckoutForm
+          name="Test User"
+          clientSecret="test_secret"
+          handleSuccess={mockHandleSuccess}
+          state={mockState}
+          dispatch={mockDispatch}
+        />
+      </Elements>
+    );
+
+    // Verify the hook was called at least once, ensuring domain registration logic is integrated
+    expect(mockUseDomainRegistrationSubmission).toHaveBeenCalled();
+    expect(mockUseDomainRegistrationSubmission).toHaveBeenCalledWith('test-token', mockDispatch);
   });
 });
