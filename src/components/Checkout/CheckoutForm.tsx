@@ -7,10 +7,9 @@ import {
 import type { Dispatch } from 'react';
 import { useEffect, useState, type FC } from 'react';
 import { useLocalizationContext } from '../../hooks/useLocalizationContext';
+import { useDomainRegistrationSubmission } from '../../hooks/useDomainRegistrationSubmission';
 import { trackEvent, } from '../../services/applicationInsights';
 import { formatError } from '../../services/formatError';
-import { submitDomainRegistration } from '../../services/submitDomainRegistration';
-import { withAuthRetry } from '../../services/withAuthRetry';
 import type { Action } from '../../types/Action';
 import type { State } from '../../types/State';
 export interface CheckoutFormProps {
@@ -26,6 +25,7 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ name, clientSecret, handle
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [paymentError, setPaymentError] = useState<unknown | Error | string | null>(null);
     const localized = useLocalizationContext().Checkout;
+    const { submitDomainRegistrationWithValidation } = useDomainRegistrationSubmission(state.authToken || undefined, dispatch);
     const handlePaymentError = (error: unknown) => {
         console.error("Payment confirmation error:", error);
         setPaymentError(error);
@@ -63,19 +63,11 @@ export const CheckoutForm: FC<CheckoutFormProps> = ({ name, clientSecret, handle
             } else if (paymentIntent && paymentIntent.status === 'succeeded') {
                 // Submit domain registration after successful payment
                 if (state.domainRegistration) {
-                    try {
-                        await withAuthRetry(
-                            (token) => submitDomainRegistration(state.domainRegistration!, token),
-                            state.authToken,
-                            (newToken) => dispatch({ type: 'UPDATE_STATE', payload: { authToken: newToken } })
-                        );
-                        trackEvent('DomainRegistrationSubmitted', { 
-                            domain: `${state.domainRegistration.domain?.secondLevelDomain}.${state.domainRegistration.domain?.topLevelDomain}` 
-                        });
-                    } catch (domainError) {
-                        console.error("Domain registration submission error:", domainError);
-                        trackEvent('DomainRegistrationError', { error: formatError(domainError) });
+                    const result = await submitDomainRegistrationWithValidation(state.domainRegistration);
+                    if (!result.success) {
+                        console.warn("Domain registration submission failed:", result.errors);
                         // Don't block the success flow if domain registration fails
+                        // The validation and tracking is already handled in the hook
                     }
                 }
                 // Set UI state to thankYou
