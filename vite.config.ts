@@ -5,6 +5,9 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  optimizeDeps: {
+    include: ['@idahoedokpayi/react-country-state-selector']
+  },
   test: {
     coverage: {
       reporter: ['text', 'json', 'html'],

@@ -50,4 +50,100 @@ describe("ContactInfoForm", () => {
     fireEvent.change(screen.getByLabelText(/First Name:/i), { target: { value: "NewName" } });
     expect(handleChange).toHaveBeenCalled();
   });
+
+  it("automatically sets country from culture info when country is undefined", () => {
+    const handleChange = vi.fn();
+    const mockCityRef = { current: document.createElement('input') };
+    const mockCultureInfo = { Culture: 'fr-CA', Language: 'fr', Country: 'CA' } as any;
+    
+    // Create state with undefined country
+    const stateWithoutCountry: State = {
+      domainRegistration: {
+        contactInformation: {
+          firstName: "Jean",
+          lastName: "Dupont",
+          address: "123 Rue Principal",
+          address2: "",
+          city: "Montreal",
+          state: "QC",
+          country: undefined, // This should trigger auto-persistence
+          zipCode: "H1A 1A1",
+          emailAddress: "jean@example.com",
+          telephoneNumber: "5141234567",
+        },
+      },
+    } as any;
+
+    render(
+      <CultureInfoProvider cultureInfo={mockCultureInfo}>
+        <ContactInfoForm state={stateWithoutCountry} cityRef={mockCityRef} onChange={handleChange} />
+      </CultureInfoProvider>
+    );
+
+    // The useEffect should have triggered onChange with the detected country
+    expect(handleChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({
+          name: 'country',
+          value: 'CA'
+        })
+      })
+    );
+  });
+
+  it("automatically sets country from culture info when country is empty string", () => {
+    const handleChange = vi.fn();
+    const mockCityRef = { current: document.createElement('input') };
+    const mockCultureInfo = { Culture: 'de-DE', Language: 'de', Country: 'DE' } as any;
+    
+    // Create state with empty country
+    const stateWithEmptyCountry: State = {
+      domainRegistration: {
+        contactInformation: {
+          firstName: "Hans",
+          lastName: "Mueller",
+          address: "Hauptstrasse 1",
+          address2: "",
+          city: "Berlin",
+          state: "BE",
+          country: "", // This should trigger auto-persistence
+          zipCode: "10115",
+          emailAddress: "hans@example.com",
+          telephoneNumber: "4930123456",
+        },
+      },
+    } as any;
+
+    render(
+      <CultureInfoProvider cultureInfo={mockCultureInfo}>
+        <ContactInfoForm state={stateWithEmptyCountry} cityRef={mockCityRef} onChange={handleChange} />
+      </CultureInfoProvider>
+    );
+
+    // The useEffect should have triggered onChange with the detected country
+    expect(handleChange).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: expect.objectContaining({
+          name: 'country',
+          value: 'DE'
+        })
+      })
+    );
+  });
+
+  it("does not auto-set country when country is already populated", () => {
+    const handleChange = vi.fn();
+    const mockCityRef = { current: document.createElement('input') };
+    const mockCultureInfo = { Culture: 'en-GB', Language: 'en', Country: 'GB' } as any;
+    
+    // Use baseState which already has country set to "US"
+    render(
+      <CultureInfoProvider cultureInfo={mockCultureInfo}>
+        <ContactInfoForm state={baseState} cityRef={mockCityRef} onChange={handleChange} />
+      </CultureInfoProvider>
+    );
+
+    // onChange should NOT have been called automatically since country is already set
+    expect(handleChange).not.toHaveBeenCalled();
+  });
 });

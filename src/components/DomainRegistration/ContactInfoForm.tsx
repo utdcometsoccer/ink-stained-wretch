@@ -1,5 +1,5 @@
 import { CountryDropdown, StateDropdown, type Country } from "@idahoedokpayi/react-country-state-selector";
-import { type FC } from "react";
+import { type FC, useEffect } from "react";
 import { useLocalizationContext } from "../../hooks/useLocalizationContext";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
 import { useGetStateProvinceInformation } from "../../services/getStateProvinceInformation";
@@ -21,6 +21,20 @@ export const ContactInfoForm: FC<ContactInfoFormProps> = ({ state, cityRef, onCh
     ...state.domainRegistration?.contactInformation,
     country: state.domainRegistration?.contactInformation?.country || cultureInfo?.Country || getBrowserCultureWithFallback().Country
   };
+
+  // Auto-persist the detected country if no country is currently set in the state
+  useEffect(() => {
+    const currentCountry = state.domainRegistration?.contactInformation?.country;
+    const detectedCountry = cultureInfo?.Country || getBrowserCultureWithFallback().Country;
+    
+    // Only auto-persist if no country is set (undefined or empty string) and we have a detected country
+    if ((!currentCountry || currentCountry.trim() === '') && detectedCountry) {
+      const syntheticEvent = {
+        target: { name: "country", value: detectedCountry }
+      } as React.ChangeEvent<HTMLInputElement | HTMLSelectElement>;
+      onChange(syntheticEvent);
+    }
+  }, [state.domainRegistration?.contactInformation?.country, cultureInfo?.Country, onChange]);
   
   return (
     <fieldset className="domain-contact-fieldset">

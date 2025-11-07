@@ -1,5 +1,6 @@
 import type { DomainRegistration } from "../types/DomainRegistration";
 import { UnauthorizedError } from "../types/UnauthorizedError";
+import { getBrowserCultureWithFallback } from "./getBrowserCultureWithFallback";
 
 /**
  * Submit a domain registration to the API
@@ -11,6 +12,18 @@ export async function submitDomainRegistration(
   domainRegistration: DomainRegistration,
   accessToken?: string
 ): Promise<DomainRegistration> {
+  // Create a copy of the domain registration to avoid mutating the original
+  const registrationData = { ...domainRegistration };
+  
+  // Check if contactInformation exists and if country is undefined (not null), set it from browser culture
+  if (registrationData.contactInformation && registrationData.contactInformation.country === undefined) {
+    const browserCulture = getBrowserCultureWithFallback();
+    registrationData.contactInformation = {
+      ...registrationData.contactInformation,
+      country: browserCulture.Country
+    };
+  }
+  
   const apiUrl = import.meta.env.VITE_DOMAIN_REGISTRATION_SUBMIT_API_URL || "";
   if (!apiUrl) {
     throw new Error("API URL is not defined in VITE_DOMAIN_REGISTRATION_SUBMIT_API_URL environment variable");
@@ -28,7 +41,7 @@ export async function submitDomainRegistration(
   const response = await fetch(`${apiUrl}`, {
     method: "POST",
     headers,
-    body: JSON.stringify(domainRegistration)
+    body: JSON.stringify(registrationData)
   });
 
   if (response.status === 401) {
