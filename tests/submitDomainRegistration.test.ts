@@ -3,9 +3,18 @@ import { submitDomainRegistration } from '../src/services/submitDomainRegistrati
 import { UnauthorizedError } from '../src/types/UnauthorizedError';
 import type { DomainRegistration } from '../src/types/DomainRegistration';
 
+// Mock the getBrowserCultureWithFallback function
+vi.mock('../src/services/getBrowserCultureWithFallback', () => ({
+  getBrowserCultureWithFallback: vi.fn().mockReturnValue({
+    Language: 'en',
+    Country: 'US',
+    Culture: 'en-US'
+  })
+}));
+
 describe('submitDomainRegistration', () => {
   beforeEach(() => {
-    vi.restoreAllMocks();
+    vi.clearAllMocks();
   });
 
   // Set up default environment for most tests  
@@ -176,7 +185,7 @@ describe('submitDomainRegistration', () => {
       expect(submittedBody.contactInformation.state).toBe('ON');
     });
 
-    it('should handle domain registration with undefined country', async () => {
+    it('should handle domain registration with undefined country by setting it from browser culture', async () => {
       const domainRegistrationNoCountry: DomainRegistration = {
         ...mockDomainRegistration,
         contactInformation: {
@@ -196,8 +205,9 @@ describe('submitDomainRegistration', () => {
       await submitDomainRegistration(domainRegistrationNoCountry, 'test-token');
       
       const submittedBody = JSON.parse(fetchSpy.mock.calls[0][1]?.body as string);
-      // When country is undefined, JSON.stringify removes the property entirely
-      expect(submittedBody.contactInformation).not.toHaveProperty('country');
+      // When country is undefined, it should be automatically set from browser culture (defaults to 'US')
+      expect(submittedBody.contactInformation).toHaveProperty('country');
+      expect(submittedBody.contactInformation.country).toBe('US');
     });
 
     it('should handle domain registration with null country', async () => {
@@ -332,6 +342,39 @@ describe('submitDomainRegistration', () => {
       const parsedBody = JSON.parse(rawBody);
       expect(parsedBody).toHaveProperty('contactInformation');
       expect(parsedBody.contactInformation).toHaveProperty('country', 'US');
+    });
+
+    it('should use browser culture country when contactInformation country is undefined', async () => {
+      // Get the mocked function and override its implementation for this test
+      const getBrowserCultureWithFallback = await import('../src/services/getBrowserCultureWithFallback');
+      vi.mocked(getBrowserCultureWithFallback.getBrowserCultureWithFallback).mockReturnValueOnce({
+        Language: 'fr',
+        Country: 'CA',
+        Culture: 'fr-CA'
+      });
+
+      const domainRegistrationNoBrowserCountry: DomainRegistration = {
+        ...mockDomainRegistration,
+        contactInformation: {
+          ...mockDomainRegistration.contactInformation!,
+          country: undefined // This should trigger browser country detection
+        }
+      };
+
+      const mockResponse = {
+        status: 200,
+        ok: true,
+        json: vi.fn().mockResolvedValue({ ...domainRegistrationNoBrowserCountry, id: '104' })
+      } as unknown as Response;
+      
+      const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(mockResponse);
+      
+      await submitDomainRegistration(domainRegistrationNoBrowserCountry, 'test-token');
+      
+      const submittedBody = JSON.parse(fetchSpy.mock.calls[0][1]?.body as string);
+      // Should use the mocked browser country 'CA' instead of default 'US'
+      expect(submittedBody.contactInformation).toHaveProperty('country', 'CA');
+      expect(getBrowserCultureWithFallback.getBrowserCultureWithFallback).toHaveBeenCalledTimes(1);
     });
   });
 });

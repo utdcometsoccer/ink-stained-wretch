@@ -20,6 +20,14 @@ vi.mock("../src/services/getBrowserCultureWithFallback", () => ({
   getBrowserCultureWithFallback: vi.fn(() => ({ Culture: "en-US" }))
 }));
 
+vi.mock("../src/services/getCountryInformation", () => ({
+  useGetCountryInformation: vi.fn(() => ({
+    getCountryInformation: vi.fn(),
+    isLoading: false,
+    error: null
+  }))
+}));
+
 // Mock CountdownIndicator component
 vi.mock("../src/components/CountdownIndicator", () => ({
   CountdownIndicator: vi.fn((props) => 
