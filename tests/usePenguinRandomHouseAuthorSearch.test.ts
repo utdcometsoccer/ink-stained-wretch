@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { renderHook, act, waitFor } from '@testing-library/react';
+import { renderHook, waitFor } from '@testing-library/react';
 import { usePenguinRandomHouseAuthorSearch } from '../src/hooks/usePenguinRandomHouseAuthorSearch';
 import type { AuthorResult } from '../src/types/PenguinRandomHouse';
 

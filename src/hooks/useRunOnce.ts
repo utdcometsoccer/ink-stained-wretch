@@ -19,5 +19,5 @@ export function useRunOnce(
     return () => {
       cancelRef.current = true;
     };
-  }, []);
+  }, [effect]);
 }

@@ -16,6 +16,7 @@ export class ErrorBoundary extends Component<Props, State> {
   };
 
   public static getDerivedStateFromError(_: Error): State {
+    // This parameter is required by React but not used in this implementation
     return { hasError: true };
   }
 

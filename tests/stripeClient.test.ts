@@ -6,7 +6,7 @@ vi.mock('@stripe/stripe-js', () => ({
 
 describe('stripeClient', () => {
   it('loads stripe with publishable key', async () => {
-    (import.meta as any).env = { VITE_STRIPE_PUBLISHABLE_KEY: 'pk_test_123' };
+    (import.meta as unknown as { env: Record<string, string> }).env = { VITE_STRIPE_PUBLISHABLE_KEY: 'pk_test_123' };
     const mod = await import('../src/services/stripeClient');
     expect(mod.stripePromise).toBeTruthy();
   });

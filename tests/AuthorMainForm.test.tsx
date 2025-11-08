@@ -1,12 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { AuthorMainForm } from "../src/components/AuthorMainForm/index";
 import { CultureInfoProvider } from "../src/contexts/CultureInfoContext";
 import { initialAuthorFormState } from "../src/reducers/authorFormReducer";
 import type { AuthorMainFormProps } from "../src/components/AuthorMainForm/AuthorMainFormProps";
-import type { Language } from "@idahoedokpayi/react-country-state-selector";
 
 // Mock the CSS import
 vi.mock('../src/components/AuthorMainForm/AuthorMainForm.css', () => ({}));
@@ -102,7 +101,7 @@ vi.mock('../src/components/BookList/index', () => ({
 }));
 
 vi.mock('../src/components/ImageManager/index', () => ({
-  ImageManager: ({ onSelect, token, listUserImages, deleteImage, uploadImage }: any) => (
+  ImageManager: ({ onSelect }: { onSelect: (image: { url: string }) => void }) => (
     <div data-testid="image-manager">
       <button onClick={() => onSelect({ url: 'test-image.jpg' })} data-testid="select-image">Select Image</button>
     </div>

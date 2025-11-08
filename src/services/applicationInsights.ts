@@ -18,7 +18,7 @@ export const initializeAppInsights = () => {
   }
 
   try {
-    var reactPlugin = new ReactPlugin();
+    const reactPlugin = new ReactPlugin();
     const browserHistory = createBrowserHistory();
     appInsights = new ApplicationInsights({
       config: {

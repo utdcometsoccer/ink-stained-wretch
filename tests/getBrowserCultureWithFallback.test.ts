@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { getBrowserCultureWithFallback } from '../src/services/getBrowserCultureWithFallback';
-import { cultureFromBrowser } from '@idahoedokpayi/react-country-state-selector';
+import { cultureFromBrowser, CultureInfo } from '@idahoedokpayi/react-country-state-selector';
 
 // Mock the external library
 vi.mock('@idahoedokpayi/react-country-state-selector', () => ({
@@ -8,7 +8,7 @@ vi.mock('@idahoedokpayi/react-country-state-selector', () => ({
 }));
 
 describe('getBrowserCultureWithFallback', () => {
-  let mockCultureFromBrowser: any;
+  let mockCultureFromBrowser: ReturnType<typeof vi.mocked<typeof cultureFromBrowser>>;
 
   beforeEach(() => {
     // Get the mocked function
@@ -20,11 +20,9 @@ describe('getBrowserCultureWithFallback', () => {
 
   describe('when browser culture is valid', () => {
     it('should return browser culture with lowercase culture string', () => {
-      mockCultureFromBrowser.mockReturnValue({
-        Language: 'fr',
-        Country: 'CA',
-        Culture: 'fr-CA'
-      });
+      mockCultureFromBrowser.mockReturnValue(
+        new CultureInfo('fr-CA')
+      );
 
       const result = getBrowserCultureWithFallback();
 
@@ -36,11 +34,9 @@ describe('getBrowserCultureWithFallback', () => {
     });
 
     it('should handle uppercase browser culture correctly', () => {
-      mockCultureFromBrowser.mockReturnValue({
-        Language: 'ES',
-        Country: 'MX',
-        Culture: 'ES-MX'
-      });
+      mockCultureFromBrowser.mockReturnValue(
+        new CultureInfo('es-MX')
+      );
 
       const result = getBrowserCultureWithFallback();
 

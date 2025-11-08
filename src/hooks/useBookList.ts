@@ -77,13 +77,15 @@ export function useBookList({ authorName, importBook, onEdit, onDelete, openLibr
                   }
                 });
               }
-              importBook && importBook({
-                id: crypto.randomUUID(),
+              if (importBook) {
+                importBook({
+                  id: crypto.randomUUID(),
                 Title: openLibraryBook.title || "",
                 Description: (descriptionIsString ? openLibraryBook.description?.toString() : descriptionTypeValue?.value || "") || "",
-                URL: bookKey ? `https://openlibrary.org${bookKey}` : "",
-                Cover: coverID ? `https://covers.openlibrary.org/b/id/${coverID}-M.jpg` : ""
-              });
+                  URL: bookKey ? `https://openlibrary.org${bookKey}` : "",
+                  Cover: coverID ? `https://covers.openlibrary.org/b/id/${coverID}-M.jpg` : ""
+                });
+              }
             });
           } while (continueFetching);
         }
@@ -113,13 +115,15 @@ export function useBookList({ authorName, importBook, onEdit, onDelete, openLibr
               const coverURL = iconLinks.length > 0 ? iconLinks[0].href : "";
 
 
-              importBook && importBook({
-                id: crypto.randomUUID(),
-                Title: penguinBook.title || "",
-                Description: "",
-                URL: `${penguinURL}${penguinBook.seoFriendlyUrl}` || "",
-                Cover: coverURL
-              });
+              if (importBook) {
+                importBook({
+                  id: crypto.randomUUID(),
+                  Title: penguinBook.title || "",
+                  Description: "",
+                  URL: `${penguinURL}${penguinBook.seoFriendlyUrl}` || "",
+                  Cover: coverURL
+                });
+              }
             });
           } while (continueFetching);
         }

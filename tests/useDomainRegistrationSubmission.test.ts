@@ -334,7 +334,7 @@ describe('useDomainRegistrationSubmission', () => {
       const submittedData = { ...validDomainRegistration, id: 'test-id-456' };
       
       // Mock withAuthRetry to capture and call the submission function
-      mockWithAuthRetry.mockImplementation(async (submitFn, token, updateTokenFn) => {
+      mockWithAuthRetry.mockImplementation(async (submitFn, token) => {
         return await submitFn(token || undefined);
       });
       

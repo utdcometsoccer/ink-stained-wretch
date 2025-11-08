@@ -38,7 +38,7 @@ export function useLoginLogic(
       }
     }
     fetchToken();
-  }, []);
+  }, [authToken, dispatch, isAuthenticated, msalReady]);
 
   useEffect(() => {
     if (loginState.showRedirect && loginState.countdown !== null && loginState.countdown > 0) {

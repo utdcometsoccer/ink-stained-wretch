@@ -16,7 +16,7 @@ describe('fetchSubscriptionPlans', () => {
       status: 200,
       statusText: 'OK',
       json: vi.fn().mockResolvedValueOnce(mockPlans)
-    } as any);
+    } as unknown as Response);
     const requestBody = { active: true };
     const result = await fetchSubscriptionPlans(requestBody);
     expect(result).toEqual(mockPlans);
@@ -27,7 +27,7 @@ describe('fetchSubscriptionPlans', () => {
       status: 500,
       statusText: 'Server Error',
       json: vi.fn()
-    } as any);
+    } as unknown as Response);
     const requestBody = { active: true };
     await expect(fetchSubscriptionPlans(requestBody)).rejects.toThrow('Failed to fetch valid subscription plans: 500 Server Error');
   });
@@ -37,7 +37,7 @@ describe('fetchSubscriptionPlans', () => {
       status: 200,
       statusText: 'OK',
       json: vi.fn().mockResolvedValueOnce({})
-    } as any);
+    } as unknown as Response);
     const requestBody = { active: true };
     const result = await fetchSubscriptionPlans(requestBody);
     expect(result).toEqual({});
@@ -48,7 +48,7 @@ describe('fetchSubscriptionPlans', () => {
       status: 200,
       statusText: 'OK',
       json: vi.fn().mockResolvedValueOnce([])
-    } as any);
+    } as unknown as Response);
     const requestBody = { active: true };
     const result = await fetchSubscriptionPlans(requestBody);
     expect(result).toEqual([]);
@@ -59,7 +59,7 @@ describe('fetchSubscriptionPlans', () => {
       status: 200,
       statusText: 'OK',
       json: vi.fn().mockResolvedValueOnce([])
-    } as any);
+    } as unknown as Response);
     
     const requestBody = { active: true, culture: 'en-US' };
     await fetchSubscriptionPlans(requestBody);
@@ -78,7 +78,7 @@ describe('fetchSubscriptionPlans', () => {
       status: 200,
       statusText: 'OK',
       json: vi.fn().mockResolvedValueOnce([])
-    } as any);
+    } as unknown as Response);
     
     const requestBody = { active: true };
     await fetchSubscriptionPlans(requestBody);

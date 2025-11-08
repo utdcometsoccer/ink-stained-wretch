@@ -38,7 +38,8 @@ export const ImageManager = ({ token, onSelect, listUserImages, deleteImage, upl
         setUploadStatus(localized.uploadSuccess);
         setTimeout(() => setUploadStatus(null), 3000);
       } catch (error) {
-        setUploadStatus(`Upload failed: ${file.name}`);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        setUploadStatus(`Upload failed: ${file.name} - ${errorMessage}`);
         setTimeout(() => setUploadStatus(null), 5000);
       }
     });

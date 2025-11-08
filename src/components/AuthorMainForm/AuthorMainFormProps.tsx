@@ -25,7 +25,7 @@ export interface AuthorMainFormProps {
     importAuthorFromOpenLibrary: (e: React.MouseEvent<HTMLButtonElement>) => void;
     importAuthorFromPenguinRandomHouse: (e: React.MouseEvent<HTMLButtonElement>) => void;
     handleCancelClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    listUserImages: any;
-    deleteImage: any;
-    uploadImage: any;
+    listUserImages: () => Promise<void>;
+    deleteImage: (imageId: string) => Promise<void>;
+    uploadImage: (file: File) => Promise<void>;
 }

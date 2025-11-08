@@ -1,4 +1,4 @@
-export function getImageApiErrorMessage(error: any): string {
+export function getImageApiErrorMessage(error: { response?: { status: number; data?: { error?: string } } }): string {
   if (error?.response?.status === 400) {
     return error.response.data?.error || "File too large.";
   }

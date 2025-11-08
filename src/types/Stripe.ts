@@ -62,10 +62,10 @@ export interface Coupon {
 }
 
 export interface InvoiceSettings {
-  custom_fields: null | any;
+  custom_fields: null | Record<string, unknown>;
   default_payment_method: string | null;
   footer: string | null;
-  rendering_options: null | any;
+  rendering_options: null | Record<string, unknown>;
 }
 
 export interface Shipping {

@@ -6,13 +6,8 @@ import type {
   SetErrorAction,
   ClearErrorAction,
   UpdateStateAction,
-  UpdateDomainAction,
-  UpdateDomainContactInfoAction,
-  SaveAuthorAction,
-  DeleteAuthorAction,
   UpdateUseCookiesAction,
   SetDomainInputValueAction,
-  SelectDomainRegistrationAction,
   SetDomainRegistrationsAction
 } from "../src/types/actions";
 
