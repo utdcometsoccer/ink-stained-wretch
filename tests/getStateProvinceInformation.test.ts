@@ -9,6 +9,11 @@ vi.mock('../src/services/fetchStatesProvinces', () => ({
   fetchStatesProvinces: vi.fn()
 }));
 
+// Mock the withAuthRetry service
+vi.mock('../src/services/withAuthRetry', () => ({
+  withAuthRetry: vi.fn(async (serviceFn) => serviceFn())
+}));
+
 const mockFetchStatesProvinces = vi.mocked(fetchStatesProvinces);
 
 describe('getStateProvinceInformation', () => {
@@ -54,13 +59,22 @@ describe('getStateProvinceInformation', () => {
       mockFetchStatesProvinces.mockResolvedValueOnce(mockStateProvincesResponse);
 
       const cultureInfo = new CultureInfo('en-US');
-      const result = await getStateProvinceInformationWithAuth(cultureInfo);
+      const authToken = 'test-token';
+      const updateTokenMock = vi.fn();
+      
+      const result = await getStateProvinceInformationWithAuth(cultureInfo, authToken, updateTokenMock);
 
-      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US');
       expect(result).toEqual(expectedStateProvinceInfo);
     });
 
+    it('should work without auth token', async () => {
+      mockFetchStatesProvinces.mockResolvedValueOnce(mockStateProvincesResponse);
 
+      const cultureInfo = new CultureInfo('en-US');
+      const result = await getStateProvinceInformationWithAuth(cultureInfo);
+
+      expect(result).toEqual(expectedStateProvinceInfo);
+    });
   });
 
   describe('getStateProvinceInformation function', () => {
@@ -71,7 +85,7 @@ describe('getStateProvinceInformation', () => {
       const cultureInfo = new CultureInfo('en-US');
       const result = await getStateProvinceInformation(cultureInfo);
 
-      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US');
+      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US', undefined);
       expect(result).toEqual(expectedStateProvinceInfo);
     });
 
@@ -122,8 +136,8 @@ describe('getStateProvinceInformation', () => {
       const resultCA = await getStateProvinceInformation(cultureInfoCA);
 
       expect(mockFetchStatesProvinces).toHaveBeenCalledTimes(2);
-      expect(mockFetchStatesProvinces).toHaveBeenNthCalledWith(1, 'en-US');
-      expect(mockFetchStatesProvinces).toHaveBeenNthCalledWith(2, 'en-CA');
+      expect(mockFetchStatesProvinces).toHaveBeenNthCalledWith(1, 'en-US', undefined);
+      expect(mockFetchStatesProvinces).toHaveBeenNthCalledWith(2, 'en-CA', undefined);
       expect(resultUS).toEqual(expectedStateProvinceInfo);
       expect(resultCA).toEqual([{ code: 'ON', name: 'Ontario' }]);
     });
@@ -134,7 +148,7 @@ describe('getStateProvinceInformation', () => {
       const cultureInfo = new CultureInfo('en-US');
       const result = await getStateProvinceInformation(cultureInfo);
 
-      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US');
+      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US', undefined);
       // The fallback should return data from the library's default implementation
       // For en-US, it should return US states
       expect(result.length).toBeGreaterThan(0);
@@ -147,7 +161,7 @@ describe('getStateProvinceInformation', () => {
       const cultureInfo = new CultureInfo('ar-SA');
       const result = await getStateProvinceInformation(cultureInfo);
 
-      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('ar-SA');
+      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('ar-SA', undefined);
       // The fallback should fail for unsupported cultures and return empty array
       expect(result).toEqual([]);
     });
@@ -219,7 +233,7 @@ describe('getStateProvinceInformation', () => {
       const stateProvinceInfo = await result.current(cultureInfo);
       
       expect(stateProvinceInfo).toEqual(expectedStateProvinceInfo);
-      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US');
+      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US', undefined);
     });
 
     it('should maintain stable function reference regardless of props changes', () => {

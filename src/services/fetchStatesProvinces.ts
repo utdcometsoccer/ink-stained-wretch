@@ -4,9 +4,10 @@ import { UnauthorizedError } from "../types/UnauthorizedError";
 /**
  * Fetches state and province data from the API
  * @param culture Optional culture string to filter results by locale (passed as route parameter)
+ * @param bearerToken Optional bearer token for authentication
  * @returns Promise that resolves to an array of StateProvince objects
  */
-export async function fetchStatesProvinces(culture?: string): Promise<StateProvinceResponse> {
+export async function fetchStatesProvinces(culture?: string, bearerToken?: string): Promise<StateProvinceResponse> {
   const apiUrl = import.meta.env.VITE_STATES_PROVINCES_API_URL || "";
   
   if (!apiUrl) {
@@ -21,6 +22,10 @@ export async function fetchStatesProvinces(culture?: string): Promise<StateProvi
     "Accept": "application/json",
     "Content-Type": "application/json"
   };
+  
+  if (bearerToken) {
+    headers["Authorization"] = `Bearer ${bearerToken}`;
+  }
 
   try {
     const response = await fetch(fullUrl, {

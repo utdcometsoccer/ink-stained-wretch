@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import type { CultureInfo, StateProvinceInformation, GetStateProvinceInformation } from '@idahoedokpayi/react-country-state-selector';
 import { getStateProvinceInformationByCulture } from '@idahoedokpayi/react-country-state-selector';
 import { fetchStatesProvinces } from './fetchStatesProvinces';
+import { withAuthRetry } from './withAuthRetry';
 
 // Create a cache for memoization
 const stateProvinceCache = new Map<string, StateProvinceInformation[]>();
@@ -11,7 +12,7 @@ const stateProvinceCache = new Map<string, StateProvinceInformation[]>();
  * Maps our StateProvince type to the library's StateProvinceInformation type
  */
 export const getStateProvinceInformation: GetStateProvinceInformation = async (cultureInfo: CultureInfo): Promise<StateProvinceInformation[]> => {
-  return getStateProvinceInformationWithAuth(cultureInfo);
+  return getStateProvinceInformationWithAuth(cultureInfo, undefined, undefined);
 };
 
 /**
@@ -19,7 +20,9 @@ export const getStateProvinceInformation: GetStateProvinceInformation = async (c
  * Maps our StateProvince type to the library's StateProvinceInformation type
  */
 export const getStateProvinceInformationWithAuth = async (
-  cultureInfo: CultureInfo
+  cultureInfo: CultureInfo,
+  authToken?: string | null,
+  updateToken?: (newToken: string | null) => void
 ): Promise<StateProvinceInformation[]> => {
   const cacheKey = cultureInfo.Culture;
   
@@ -29,8 +32,12 @@ export const getStateProvinceInformationWithAuth = async (
   }
 
   try {
-    // Fetch from our API with culture as route parameter
-    const response = await fetchStatesProvinces(cultureInfo.Culture);
+    // Fetch from our API with culture as route parameter using auth retry pattern
+    const response = await withAuthRetry(
+      (token) => fetchStatesProvinces(cultureInfo.Culture, token),
+      authToken ?? undefined,
+      updateToken
+    );
     
     // Extract state/province data from the response
     // Find the country data that matches the culture's country
@@ -75,7 +82,7 @@ export const getStateProvinceInformationWithAuth = async (
  */
 export const useGetStateProvinceInformation = (): GetStateProvinceInformation => {
   return useCallback(async (cultureInfo: CultureInfo): Promise<StateProvinceInformation[]> => {
-    return getStateProvinceInformationWithAuth(cultureInfo);
+    return getStateProvinceInformationWithAuth(cultureInfo, undefined, undefined);
   }, []);
 };
 
