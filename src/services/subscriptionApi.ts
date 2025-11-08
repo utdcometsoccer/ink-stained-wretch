@@ -26,6 +26,7 @@ export async function fetchSubscriptionPlans(requestBody: SubscriptionPlanListRe
       currency: requestBody.currency ?? 'usd',
       limit: requestBody.limit ?? 25,
       includeProductDetails: requestBody.includeProductDetails ?? true,
+      culture: requestBody.culture ?? undefined,
     })
   });
   if (response.status === 401) {

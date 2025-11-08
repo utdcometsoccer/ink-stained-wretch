@@ -37,6 +37,7 @@ export function useChooseSubscriptionLogic(state: State, dispatch: React.Dispatc
               active: true,
               limit: 25,
               includeProductDetails: true,
+              culture: state.cultureInfo?.Culture,
               // NOTE: If the API supports cursoring, add it to the request type and pass it here.
             }, token),
             state.authToken ?? undefined,

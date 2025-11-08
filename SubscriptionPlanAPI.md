@@ -69,12 +69,20 @@ If the API request fails, the client should fallback to a local array of subscri
 ```typescript
 import { fetchSubscriptionPlans } from "../services/subscriptionApi";
 import type { SubscriptionPlan } from "../types/SubscriptionPlan";
+import type { SubscriptionPlanListRequest } from "../types/SubscriptionPlanListRequest";
 
-async function getPlans(language: string, region: string): Promise<SubscriptionPlan[]> {
-  const plans = await fetchSubscriptionPlans(language, region);
-  if (plans.length === 0) {
+async function getPlans(culture?: string): Promise<SubscriptionPlan[]> {
+  const request: SubscriptionPlanListRequest = {
+    active: true,
+    limit: 25,
+    includeProductDetails: true,
+    culture: culture
+  };
+  
+  const response = await fetchSubscriptionPlans(request);
+  if (response.plans.length === 0) {
     // fallback to local array
   }
-  return plans;
+  return response.plans;
 }
 ```
