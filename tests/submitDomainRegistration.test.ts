@@ -215,7 +215,7 @@ describe('submitDomainRegistration', () => {
         ...mockDomainRegistration,
         contactInformation: {
           ...mockDomainRegistration.contactInformation!,
-          country: null as any // Explicitly set to null
+          country: null as unknown as string // Explicitly set to null
         }
       };
 

@@ -121,7 +121,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     case 'SAVE_AUTHOR': {
       const author = action.payload;
       const authors = Array.isArray(state.state.Authors) ? state.state.Authors : [];
-      const idx = authors.findIndex((a: any) => a.id === author.id);
+      const idx = authors.findIndex((a) => a.id === author.id);
       let newAuthors;
       if (idx >= 0) {
         newAuthors = [...authors];
@@ -141,7 +141,7 @@ export function appReducer(state: AppState, action: AppAction): AppState {
     case 'DELETE_AUTHOR': {
       const id = action.payload;
       const authors = Array.isArray(state.state.Authors) ? state.state.Authors : [];
-      const newAuthors = authors.filter((a: any) => a.id !== id);
+      const newAuthors = authors.filter((a) => a.id !== id);
       nextState = {
         ...state,
         state: {

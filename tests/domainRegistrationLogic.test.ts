@@ -8,7 +8,7 @@ describe("useDomainRegistrationLogic", () => {
     error: null,
     loading: false
   }));
-  const baseState: any = {
+  const baseState: Record<string, unknown> = {
     domainInputValue: "example.com",
     domainError: null,
     showRedirect: false,
@@ -39,7 +39,7 @@ describe("useDomainRegistrationLogic", () => {
       )
     );
     act(() => {
-      result.current.handleContactChange({ target: { name: "firstName", value: "Jane" } } as any);
+      result.current.handleContactChange({ target: { name: "firstName", value: "Jane" } } as React.ChangeEvent<HTMLInputElement>);
     });
     expect(mockDispatch).toHaveBeenCalled();
   });
@@ -53,7 +53,7 @@ describe("useDomainRegistrationLogic", () => {
       )
     );
     await act(async () => {
-      await result.current.handleSubmit({ preventDefault: () => {} } as any);
+      await result.current.handleSubmit({ preventDefault: () => {} } as React.FormEvent<HTMLFormElement>);
     });
     expect(mockDispatch).toHaveBeenCalled();
   });

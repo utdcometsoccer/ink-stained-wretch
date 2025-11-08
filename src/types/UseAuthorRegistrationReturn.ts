@@ -1,11 +1,13 @@
 import type { Author } from "./Author";
 import type { AuthorRegistrationProps } from "../components/AuthorRegistration/AuthorRegistrationProps";
+import type { AuthorListAction, AuthorListState } from "../reducers/authorListReducer";
+import type { AuthorRegistrationText } from "./LocalizedText";
 
 export type UseAuthorRegistrationReturn = {
-  text: any;
+  text: AuthorRegistrationText;
   authorsList: Author[];
-  listState: any;
-  dispatchList: React.Dispatch<any>;
+  listState: AuthorListState;
+  dispatchList: React.Dispatch<AuthorListAction>;
   handleAddAuthor: () => void;
   handleEditAuthor: (id: string) => void;
   handleDeleteAuthor: (id: string) => void;

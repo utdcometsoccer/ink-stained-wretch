@@ -6,6 +6,7 @@ import { AuthorMainForm } from "../src/components/AuthorMainForm/index";
 import { CultureInfoProvider } from "../src/contexts/CultureInfoContext";
 import { initialAuthorFormState } from "../src/reducers/authorFormReducer";
 import type { AuthorMainFormProps } from "../src/components/AuthorMainForm/AuthorMainFormProps";
+import type { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
 
 // Mock the CSS import
 vi.mock('../src/components/AuthorMainForm/AuthorMainForm.css', () => ({}));
@@ -70,7 +71,11 @@ vi.mock('../src/services/getLanguageInformation', () => ({
 
 // Mock child components
 vi.mock('../src/components/AuthorRegistration/ArticleList', () => ({
-  ArticleList: ({ onEdit, onAdd, onDelete }: any) => (
+  ArticleList: ({ onEdit, onAdd, onDelete }: { 
+    onEdit: (id: string) => void; 
+    onAdd: () => void; 
+    onDelete: (id: string) => void; 
+  }) => (
     <div data-testid="article-list">
       <button onClick={onAdd} data-testid="add-article">Add Article</button>
       <button onClick={() => onEdit('1')} data-testid="edit-article">Edit Article</button>
@@ -80,7 +85,11 @@ vi.mock('../src/components/AuthorRegistration/ArticleList', () => ({
 }));
 
 vi.mock('../src/components/AuthorRegistration/SocialList', () => ({
-  SocialList: ({ onEdit, onAdd, onDelete }: any) => (
+  SocialList: ({ onEdit, onAdd, onDelete }: { 
+    onEdit: (id: string) => void; 
+    onAdd: () => void; 
+    onDelete: (id: string) => void; 
+  }) => (
     <div data-testid="social-list">
       <button onClick={onAdd} data-testid="add-social">Add Social</button>
       <button onClick={() => onEdit('1')} data-testid="edit-social">Edit Social</button>
@@ -90,12 +99,17 @@ vi.mock('../src/components/AuthorRegistration/SocialList', () => ({
 }));
 
 vi.mock('../src/components/BookList/index', () => ({
-  BookList: ({ onEdit, onAdd, onDelete, importBook }: any) => (
+  BookList: ({ onEdit, onAdd, onDelete, importBook }: { 
+    onEdit: (id: string) => void; 
+    onAdd: () => void; 
+    onDelete: (id: string) => void; 
+    importBook: (book: { id: string; title: string }) => void; 
+  }) => (
     <div data-testid="book-list">
       <button onClick={onAdd} data-testid="add-book">Add Book</button>
       <button onClick={() => onEdit('1')} data-testid="edit-book">Edit Book</button>
       <button onClick={() => onDelete('1')} data-testid="delete-book">Delete Book</button>
-      <button onClick={() => importBook && importBook({ id: '1', title: 'Test Book' })} data-testid="import-book">Import Book</button>
+      <button onClick={() => importBook({ id: '1', title: 'Test Book' })} data-testid="import-book">Import Book</button>
     </div>
   )
 }));
@@ -110,7 +124,11 @@ vi.mock('../src/components/ImageManager/index', () => ({
 
 // Mock the dropdown components
 vi.mock('@idahoedokpayi/react-country-state-selector', () => ({
-  LanguageDropdown: ({ onLanguageChange, selectedLanguage, Label }: any) => (
+  LanguageDropdown: ({ onLanguageChange, selectedLanguage, Label }: { 
+    onLanguageChange: (language: { code: string; name: string }) => void; 
+    selectedLanguage: string; 
+    Label: string; 
+  }) => (
     <div data-testid="language-dropdown">
       <label>{Label}</label>
       <select 
@@ -125,7 +143,11 @@ vi.mock('@idahoedokpayi/react-country-state-selector', () => ({
       </select>
     </div>
   ),
-  CountryDropdown: ({ onCountryChange, selectedCountry, Label }: any) => (
+  CountryDropdown: ({ onCountryChange, selectedCountry, Label }: { 
+    onCountryChange: (country: string) => void; 
+    selectedCountry: string; 
+    Label: string; 
+  }) => (
     <div data-testid="country-dropdown">
       <label>{Label}</label>
       <select 
@@ -148,7 +170,7 @@ vi.mock('@idahoedokpayi/react-country-state-selector', () => ({
 }));
 
 describe('AuthorMainForm', () => {
-  const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as any;
+  const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as unknown as CultureInfo;
   
   const defaultProps: AuthorMainFormProps = {
     form: {

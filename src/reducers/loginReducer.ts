@@ -1,6 +1,7 @@
+import type { LoginAction } from "../types/LoginAction";
 import type { LoginLocalState } from "../types/LoginLocalState";
 
-export function loginReducer(state: LoginLocalState, action: any): LoginLocalState {
+export function loginReducer(state: LoginLocalState, action: LoginAction): LoginLocalState {
   switch (action.type) {
     case "START_REDIRECT":
       return { ...state, showRedirect: true, countdown: action.countdown };

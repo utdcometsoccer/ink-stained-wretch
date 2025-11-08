@@ -115,7 +115,7 @@ describe('useChooseCultureLogic', () => {
     // Create a mock form event
     const mockEvent = {
       preventDefault: vi.fn()
-    } as any;
+    } as unknown as React.FormEvent<HTMLFormElement>;
 
     // Submit the form
     act(() => {
@@ -299,7 +299,7 @@ describe('useChooseCultureLogic', () => {
 
     const mockEvent = {
       preventDefault: vi.fn()
-    } as any;
+    } as unknown as React.FormEvent<HTMLFormElement>;
 
     act(() => {
       result.current.handleSubmit(mockEvent);

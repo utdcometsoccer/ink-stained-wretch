@@ -13,7 +13,7 @@ export interface PenguinRandomHouseListAuthorTitles {
 
 export interface PenguinRandomHouseTitlesData {
   titles: PenguinRandomHouseTitle[];
-  _embeds: any | null;
+  _embeds: Record<string, unknown> | null;
   _links: PenguinRandomHouseLink[];
 }
 
@@ -71,7 +71,7 @@ export interface PenguinRandomHouseTitle {
   asin: string;
   customSubjectCategory: string | null;
   coverUpdatedOn: string;
-  otherFields: Record<string, any>;
+  otherFields: Record<string, unknown>;
   isbn10: string;
   isbn10hyphenated: string | null;
   boxComponentCt: number;
@@ -87,17 +87,17 @@ export interface PenguinRandomHouseTitle {
   mediaRating: string | null;
   mediaRatingDesc: string | null;
   coverVariantDesc: string | null;
-  catalogs: any[];
+  catalogs: Record<string, unknown>[];
   familyCoverVariantFlag: boolean;
   sortByAuthor: string;
-  alerts: any[];
+  alerts: Record<string, unknown>[];
   cbRtnDate: string | null;
   isbnCounts: PenguinRandomHouseIsbnCounts;
   graphicCategory: string | null;
   shortRunInd: string | null;
-  asset_types: Record<string, any>;
+  asset_types: Record<string, unknown>;
   isbnStr: string;
-  _embeds: any | null;
+  _embeds: Record<string, unknown> | null;
   _links: PenguinRandomHouseLink[];
 }
 
@@ -121,7 +121,7 @@ export interface PenguinRandomHouseLink {
   rel: string;
   href: string;
   method: string;
-  parameters: any | null;
+  parameters: Record<string, unknown> | null;
 }
 
 export interface PenguinRandomHouseTitlesParams {
@@ -196,5 +196,5 @@ export interface PenguinRandomHouseLink {
   rel: string;
   href: string;
   method: string;
-  parameters: any;
+  parameters: Record<string, unknown> | null;
 }

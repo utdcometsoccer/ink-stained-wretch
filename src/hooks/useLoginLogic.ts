@@ -82,8 +82,8 @@ export function useLoginLogic(
             errorMessage = error;
           } else if (error instanceof Error) {
             errorMessage = error.message + (error.stack ? `\n${error.stack}` : '');
-          } else if (error && typeof error === 'object' && 'message' in error && typeof (error as any).message === 'string') {
-            errorMessage = (error as any).message;
+          } else if (error && typeof error === 'object' && 'message' in error && typeof (error as { message: unknown }).message === 'string') {
+            errorMessage = (error as { message: string }).message;
           }
         } else {
           errorMessage = 'An error occurred during sign in. Please try again.';

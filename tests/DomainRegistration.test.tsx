@@ -3,6 +3,8 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { DomainRegistration } from "../src/components/DomainRegistration/index";
 import type { State } from "../src/types/State";
 import { CultureInfoProvider } from "../src/contexts/CultureInfoContext";
+import type { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
+
 
 // Mock the validateDomainWhois function to avoid network calls
 vi.mock('../src/services/validateDomainWhois', () => ({
@@ -83,7 +85,7 @@ describe("DomainRegistration", () => {
         }
       }
     };
-    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as any;
+    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as unknown as CultureInfo;
     render(
       <CultureInfoProvider cultureInfo={mockCultureInfo}>
         <DomainRegistration state={state} dispatch={mockDispatch} />
@@ -107,7 +109,7 @@ describe("DomainRegistration", () => {
         }
       }
     };
-    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as any;
+    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as unknown as CultureInfo;
     render(
       <CultureInfoProvider cultureInfo={mockCultureInfo}>
         <DomainRegistration state={state} dispatch={mockDispatch} />
@@ -140,7 +142,7 @@ describe("DomainRegistration", () => {
         }
       }
     };
-    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as any;
+    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as unknown as CultureInfo;
     render(
       <CultureInfoProvider cultureInfo={mockCultureInfo}>
         <DomainRegistration state={state} dispatch={mockDispatch} />
@@ -194,7 +196,7 @@ describe("DomainRegistration", () => {
         }
       }
     };
-    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as any;
+    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as unknown as CultureInfo;
     render(
       <CultureInfoProvider cultureInfo={mockCultureInfo}>
         <DomainRegistration state={state} dispatch={mockDispatch} />
@@ -225,7 +227,7 @@ describe("DomainRegistration", () => {
         }
       }
     };
-    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as any;
+    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as unknown as CultureInfo;
     render(
       <CultureInfoProvider cultureInfo={mockCultureInfo}>
         <DomainRegistration state={state} dispatch={mockDispatch} />
@@ -270,7 +272,7 @@ describe("DomainRegistration", () => {
         }
       }
     };
-    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as any;
+    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as unknown as CultureInfo;
     render(
       <CultureInfoProvider cultureInfo={mockCultureInfo}>
         <DomainRegistration state={state} dispatch={mockDispatch} />
