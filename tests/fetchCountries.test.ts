@@ -37,7 +37,7 @@ describe('fetchCountries', () => {
       status: 200,
       statusText: 'OK',
       json: vi.fn().mockResolvedValueOnce(mockCountriesResponse)
-    } as any);
+    } as unknown as Response);
 
     const result = await fetchCountries();
     expect(result).toEqual(mockCountriesResponse);
@@ -49,7 +49,7 @@ describe('fetchCountries', () => {
       status: 200,
       statusText: 'OK',
       json: vi.fn().mockResolvedValueOnce(mockCountriesResponse)
-    } as any);
+    } as unknown as Response);
 
     await fetchCountries('en-US');
 
@@ -69,7 +69,7 @@ describe('fetchCountries', () => {
 
   it('returns fallback data when fetch returns undefined', async () => {
     // Mock fetch to return undefined (simulating network failure)
-    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(undefined as any);
+    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(undefined as unknown as Response);
 
     const result = await fetchCountries();
     
@@ -84,7 +84,7 @@ describe('fetchCountries', () => {
       status: 500,
       statusText: 'Internal Server Error',
       json: vi.fn()
-    } as any);
+    } as unknown as Response);
 
     const result = await fetchCountries();
     

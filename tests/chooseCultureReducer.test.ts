@@ -113,7 +113,7 @@ describe("chooseCultureReducer", () => {
   });
 
   it("should return unchanged state for unknown action type", () => {
-    const newState = chooseCultureReducer(initialState, { type: "UNKNOWN_ACTION" } as any);
+    const newState = chooseCultureReducer(initialState, { type: "UNKNOWN_ACTION" } as never);
     
     expect(newState).toEqual(initialState);
   });

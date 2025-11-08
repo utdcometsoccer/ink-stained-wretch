@@ -32,7 +32,7 @@ describe("useBookList", () => {
     );
     expect(result.current.state.disableGoogleImport).toBe(false);
     act(() => {
-      result.current.onEditClick({ preventDefault: () => {} } as any, mockBooks[0]);
+      result.current.onEditClick({ preventDefault: () => {} } as React.MouseEvent<HTMLButtonElement>, mockBooks[0]);
     });
     // Simulate effect for Editing
     act(() => {

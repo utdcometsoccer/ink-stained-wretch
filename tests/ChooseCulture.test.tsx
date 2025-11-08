@@ -2,6 +2,8 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ChooseCulture } from "../src/components/ChooseCulture";
 import type { State } from "../src/types/State";
+import type { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
+import type { LocalizedText } from "../src/types/LocalizedText";
 
 // Mock the hooks
 vi.mock("../src/hooks/useChooseCulture", () => ({
@@ -74,7 +76,7 @@ describe("ChooseCulture", () => {
   const mockDispatch = vi.fn();
   
   const baseState: State = {
-    cultureInfo: { culture: "en-US" } as any,
+    cultureInfo: { culture: "en-US" } as unknown as CultureInfo,
     useCookies: false,
     localizationData: {
       ChooseCulture: {
@@ -88,7 +90,7 @@ describe("ChooseCulture", () => {
         cookieConsent: "I consent to cookies",
         cookiesInfo: "We use cookies to improve your experience"
       }
-    } as any
+    } as unknown as LocalizedText
   };
 
   beforeEach(async () => {
@@ -109,7 +111,7 @@ describe("ChooseCulture", () => {
         cookieConsent: "I consent to cookies",
         cookiesInfo: "We use cookies to improve your experience"
       }
-    } as any);
+    } as unknown as LocalizedText);
     
     vi.mocked(useChooseCultureLogic).mockReturnValue({
       localState: {

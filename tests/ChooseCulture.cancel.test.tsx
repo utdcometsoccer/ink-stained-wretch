@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { ChooseCulture } from "../src/components/ChooseCulture";
 import { State } from "../src/types/State";
 import { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
+import type { LocalizedText } from "../src/types/LocalizedText";
 
 // Mock the hooks
 vi.mock("../src/hooks/useChooseCulture", () => ({
@@ -41,7 +42,7 @@ describe("ChooseCulture Cancel Button", () => {
         cookieConsent: "Cookie Consent",
         cookiesInfo: "Cookies Info"
       }
-    } as any);
+    } as unknown as LocalizedText);
   });
 
   it("should be disabled on initial load when no culture is selected", async () => {
@@ -67,7 +68,7 @@ describe("ChooseCulture Cancel Button", () => {
       cultureInfo: undefined,
       useCookies: false,
       localizationData: null
-    } as any;
+    } as Record<string, unknown>;
 
     render(<ChooseCulture state={baseState} dispatch={mockDispatch} />);
 
@@ -98,7 +99,7 @@ describe("ChooseCulture Cancel Button", () => {
       cultureInfo: undefined, // No valid culture in global state
       useCookies: false,
       localizationData: null
-    } as any;
+    } as Record<string, unknown>;
 
     render(<ChooseCulture state={baseState} dispatch={mockDispatch} />);
 
@@ -129,7 +130,7 @@ describe("ChooseCulture Cancel Button", () => {
       cultureInfo: new CultureInfo("en-US"),
       useCookies: false,
       localizationData: null
-    } as any;
+    } as Record<string, unknown>;
 
     render(<ChooseCulture state={baseState} dispatch={mockDispatch} />);
 
@@ -160,7 +161,7 @@ describe("ChooseCulture Cancel Button", () => {
       cultureInfo: new CultureInfo("en-US"),
       useCookies: false,
       localizationData: null
-    } as any;
+    } as Record<string, unknown>;
 
     render(<ChooseCulture state={baseState} dispatch={mockDispatch} />);
 
@@ -191,7 +192,7 @@ describe("ChooseCulture Cancel Button", () => {
       cultureInfo: new CultureInfo("en-US"),
       useCookies: false,
       localizationData: null
-    } as any;
+    } as Record<string, unknown>;
 
     render(<ChooseCulture state={baseState} dispatch={mockDispatch} />);
 
@@ -222,7 +223,7 @@ describe("ChooseCulture Cancel Button", () => {
       cultureInfo: new CultureInfo("en-US"),
       useCookies: false,
       localizationData: null
-    } as any;
+    } as Record<string, unknown>;
 
     render(<ChooseCulture state={baseState} dispatch={mockDispatch} />);
 
@@ -253,7 +254,7 @@ describe("ChooseCulture Cancel Button", () => {
       cultureInfo: new CultureInfo("en-US"),
       useCookies: false,
       localizationData: null
-    } as any;
+    } as Record<string, unknown>;
 
     render(<ChooseCulture state={baseState} dispatch={mockDispatch} />);
 
@@ -284,7 +285,7 @@ describe("ChooseCulture Cancel Button", () => {
       cultureInfo: new CultureInfo("en-US"),
       useCookies: false,
       localizationData: null
-    } as any;
+    } as Record<string, unknown>;
 
     render(<ChooseCulture state={baseState} dispatch={mockDispatch} />);
 

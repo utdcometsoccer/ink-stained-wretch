@@ -54,7 +54,7 @@ export const trackException = (error: Error, severityLevel?: number) => {
   }
 };
 
-export const trackEvent = (name: string, properties?: { [key: string]: any }) => {
+export const trackEvent = (name: string, properties?: { [key: string]: unknown }) => {
   if (appInsights) {
     appInsights.trackEvent({
       name: name,

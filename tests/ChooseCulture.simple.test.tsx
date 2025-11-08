@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import { ChooseCulture } from "../src/components/ChooseCulture";
 import { State } from "../src/types/State";
 import { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
+import type { LocalizedText } from "../src/types/LocalizedText";
 
 // Mock the hooks
 vi.mock("../src/hooks/useChooseCulture", () => ({
@@ -26,8 +27,8 @@ describe("ChooseCulture", () => {
   const baseState: State = {
     cultureInfo: new CultureInfo("en-US"),
     useCookies: false,
-    localizationData: null
-  } as any;
+    localizationData: undefined
+  };
 
   beforeEach(async () => {
     vi.clearAllMocks();
@@ -41,7 +42,7 @@ describe("ChooseCulture", () => {
         continue: "Continue", 
         cancel: "Cancel"
       }
-    } as any);
+    } as unknown as LocalizedText);
     
     vi.mocked(useChooseCultureLogic).mockReturnValue({
       localState: {

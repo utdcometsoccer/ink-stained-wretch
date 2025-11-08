@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { ContactInfoForm } from "../src/components/DomainRegistration/ContactInfoForm";
 import { CultureInfoProvider } from "../src/contexts/CultureInfoContext";
 import type { State } from "../src/types/State";
+import type { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
 describe("ContactInfoForm", () => {
   const baseState: State = {
     domainRegistration: {
@@ -19,11 +20,11 @@ describe("ContactInfoForm", () => {
         telephoneNumber: "9876543210",
       },
     },
-  } as any;
+  };
 
   it("renders all contact fields", () => {
     const mockCityRef = { current: document.createElement('input') };
-    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as any;
+    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as unknown as CultureInfo;
     render(
       <CultureInfoProvider cultureInfo={mockCultureInfo}>
         <ContactInfoForm state={baseState} cityRef={mockCityRef} onChange={() => {}} />
@@ -41,7 +42,7 @@ describe("ContactInfoForm", () => {
   it("calls onChange when input changes", () => {
     const handleChange = vi.fn();
     const mockCityRef = { current: document.createElement('input') };
-    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as any;
+    const mockCultureInfo = { Culture: 'en-US', Language: 'en', Country: 'US' } as unknown as CultureInfo;
     render(
       <CultureInfoProvider cultureInfo={mockCultureInfo}>
         <ContactInfoForm state={baseState} cityRef={mockCityRef} onChange={handleChange} />
@@ -54,7 +55,7 @@ describe("ContactInfoForm", () => {
   it("automatically sets country from culture info when country is undefined", () => {
     const handleChange = vi.fn();
     const mockCityRef = { current: document.createElement('input') };
-    const mockCultureInfo = { Culture: 'fr-CA', Language: 'fr', Country: 'CA' } as any;
+    const mockCultureInfo = { Culture: 'fr-CA', Language: 'fr', Country: 'CA' } as unknown as CultureInfo;
     
     // Create state with undefined country
     const stateWithoutCountry: State = {
@@ -72,7 +73,7 @@ describe("ContactInfoForm", () => {
           telephoneNumber: "5141234567",
         },
       },
-    } as any;
+    };
 
     render(
       <CultureInfoProvider cultureInfo={mockCultureInfo}>
@@ -94,7 +95,7 @@ describe("ContactInfoForm", () => {
   it("automatically sets country from culture info when country is empty string", () => {
     const handleChange = vi.fn();
     const mockCityRef = { current: document.createElement('input') };
-    const mockCultureInfo = { Culture: 'de-DE', Language: 'de', Country: 'DE' } as any;
+    const mockCultureInfo = { Culture: 'de-DE', Language: 'de', Country: 'DE' } as unknown as CultureInfo;
     
     // Create state with empty country
     const stateWithEmptyCountry: State = {
@@ -112,7 +113,7 @@ describe("ContactInfoForm", () => {
           telephoneNumber: "4930123456",
         },
       },
-    } as any;
+    };
 
     render(
       <CultureInfoProvider cultureInfo={mockCultureInfo}>
@@ -134,7 +135,7 @@ describe("ContactInfoForm", () => {
   it("does not auto-set country when country is already populated", () => {
     const handleChange = vi.fn();
     const mockCityRef = { current: document.createElement('input') };
-    const mockCultureInfo = { Culture: 'en-GB', Language: 'en', Country: 'GB' } as any;
+    const mockCultureInfo = { Culture: 'en-GB', Language: 'en', Country: 'GB' } as unknown as CultureInfo;
     
     // Use baseState which already has country set to "US"
     render(
