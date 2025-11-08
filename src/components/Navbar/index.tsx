@@ -2,7 +2,7 @@ import { type FC } from 'react';
 import { useLocalizationContext } from '../../hooks/useLocalizationContext.ts';
 import { useNavbarLogic } from '../../hooks/useNavbar.tsx';
 import { useTrackComponent } from '../../hooks/useTrackComponent.ts';
-import { useCultureInfo } from '../../contexts/CultureInfoContext';
+import { useCultureInfo } from '../../hooks/useCultureInfo';
 import './Navbar.css';
 import type { NavbarProps } from './NavbarProps';
 

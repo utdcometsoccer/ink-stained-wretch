@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { DomainRegistration } from "../src/components/DomainRegistration/index";
 import type { State } from "../src/types/State";
-import { CultureInfoProvider } from "../src/contexts/CultureInfoContext";
+import { CultureInfoProvider } from '../src/contexts/CultureInfoProvider';
 import type { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
 
 

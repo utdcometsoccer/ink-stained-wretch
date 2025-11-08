@@ -3,6 +3,7 @@ import type { Dispatch } from "react";
 import type { AuthorFormAction } from "../../types/AuthorFormAction";
 import type { AuthorFormUIState } from "../../types/AuthorFormUIState";
 import type { Book } from "../../types/Book";
+import type { ManagedImage } from "../../types/ManagedImage";
 
 export interface AuthorMainFormProps {
     form: AuthorFormUIState;
@@ -25,7 +26,7 @@ export interface AuthorMainFormProps {
     importAuthorFromOpenLibrary: (e: React.MouseEvent<HTMLButtonElement>) => void;
     importAuthorFromPenguinRandomHouse: (e: React.MouseEvent<HTMLButtonElement>) => void;
     handleCancelClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-    listUserImages: () => Promise<void>;
-    deleteImage: (imageId: string) => Promise<void>;
-    uploadImage: (file: File) => Promise<void>;
+    listUserImages: (token?: string) => Promise<ManagedImage[]>;
+    deleteImage: (imageId: string, token?: string) => Promise<void>;
+    uploadImage: (file: File, token?: string) => Promise<ManagedImage>;
 }

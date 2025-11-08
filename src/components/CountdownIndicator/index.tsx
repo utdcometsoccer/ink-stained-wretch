@@ -3,7 +3,7 @@ import { useCountdownIndicatorLogic } from '../../hooks/useCountdownIndicator';
 import type { CountdownIndicatorProps } from './CountdownIndicatorProps';
 import { useTrackComponent } from '../../hooks/useTrackComponent';
 import { useLocalizationContext } from '../../hooks/useLocalizationContext';
-import { useCultureInfo } from '../../contexts/CultureInfoContext';
+import { useCultureInfo } from '../../hooks/useCultureInfo';
 
 
 export const CountdownIndicator: FC<CountdownIndicatorProps> = ({ countdown, showRedirect, countdownRef, text }) => {

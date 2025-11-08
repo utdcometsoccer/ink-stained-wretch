@@ -194,6 +194,7 @@ export function useBookList({ authorName, importBook, onEdit, onDelete, openLibr
       case "default":
         break;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buttonState]);
 
   function onGoogleImportClick(event: React.MouseEvent<HTMLButtonElement>): void {

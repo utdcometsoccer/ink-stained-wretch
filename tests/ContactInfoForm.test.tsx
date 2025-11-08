@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ContactInfoForm } from "../src/components/DomainRegistration/ContactInfoForm";
-import { CultureInfoProvider } from "../src/contexts/CultureInfoContext";
+import { CultureInfoProvider } from '../src/contexts/CultureInfoProvider';
 import type { State } from "../src/types/State";
 import type { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
 describe("ContactInfoForm", () => {

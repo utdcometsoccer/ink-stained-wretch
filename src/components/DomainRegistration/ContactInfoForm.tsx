@@ -5,7 +5,7 @@ import { useTrackComponent } from "../../hooks/useTrackComponent";
 import { useGetStateProvinceInformation } from "../../services/getStateProvinceInformation";
 import { useGetCountryInformation } from "../../services/getCountryInformation";
 import { getBrowserCultureWithFallback } from "../../services/getBrowserCultureWithFallback";
-import { useCultureInfo } from "../../contexts/CultureInfoContext";
+import { useCultureInfo } from "../../hooks/useCultureInfo";
 import type { ContactInfoFormProps } from "./ContactInfoFormProps";
 import "./DomainRegistration.css";
 

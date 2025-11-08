@@ -44,6 +44,7 @@ export function useFetchStripeClientSecret(
 			cancelled = true;
 		};
 		// Track individual fields for stability and to avoid refiring on object identity changes
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [req.customerId, req.priceId, req.domain, req.active, bearerToken]);
 
 	return { stripeClientSecret, error, loading };

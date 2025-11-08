@@ -7,7 +7,7 @@ import type { UseAuthorRegistrationReturn } from "../types/UseAuthorRegistration
 import { useAuthorsByDomain } from "./useAuthorsByDomain";
 import { useLocalizationContext } from "./useLocalizationContext";
 import { useTrackComponent } from './useTrackComponent';
-import { useCultureInfo } from "../contexts/CultureInfoContext";
+import { useCultureInfo } from "./useCultureInfo";
 
 export function useAuthorRegistration({ state, dispatch }: AuthorRegistrationProps): UseAuthorRegistrationReturn {
     const { culture } = useCultureInfo();
@@ -27,7 +27,7 @@ export function useAuthorRegistration({ state, dispatch }: AuthorRegistrationPro
                 dispatch({ type: "SAVE_AUTHOR", payload: author });
             });
         }
-    }, [authorInformation, error, loading]);
+    }, [authorInformation, error, dispatch]);
     const [listState, dispatchList] = useReducer(authorListReducer, {
         ...initialAuthorListState
     });

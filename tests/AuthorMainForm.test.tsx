@@ -3,10 +3,10 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { AuthorMainForm } from "../src/components/AuthorMainForm/index";
-import { CultureInfoProvider } from "../src/contexts/CultureInfoContext";
 import { initialAuthorFormState } from "../src/reducers/authorFormReducer";
 import type { AuthorMainFormProps } from "../src/components/AuthorMainForm/AuthorMainFormProps";
 import type { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
+import { CultureInfoProvider } from "../src/contexts/CultureInfoProvider";
 
 // Mock the CSS import
 vi.mock('../src/components/AuthorMainForm/AuthorMainForm.css', () => ({}));
@@ -70,12 +70,12 @@ vi.mock('../src/services/getLanguageInformation', () => ({
 }));
 
 // Mock child components
-vi.mock('../src/components/AuthorRegistration/ArticleList', () => ({
+vi.mock('../src/components/AuthorRegistration/ArticleList', (): Record<string, unknown> => ({
   ArticleList: ({ onEdit, onAdd, onDelete }: { 
     onEdit: (id: string) => void; 
     onAdd: () => void; 
     onDelete: (id: string) => void; 
-  }) => (
+  }): React.JSX.Element => (
     <div data-testid="article-list">
       <button onClick={onAdd} data-testid="add-article">Add Article</button>
       <button onClick={() => onEdit('1')} data-testid="edit-article">Edit Article</button>
@@ -84,12 +84,12 @@ vi.mock('../src/components/AuthorRegistration/ArticleList', () => ({
   )
 }));
 
-vi.mock('../src/components/AuthorRegistration/SocialList', () => ({
+vi.mock('../src/components/AuthorRegistration/SocialList', (): Record<string, unknown> => ({
   SocialList: ({ onEdit, onAdd, onDelete }: { 
     onEdit: (id: string) => void; 
     onAdd: () => void; 
     onDelete: (id: string) => void; 
-  }) => (
+  }): React.JSX.Element => (
     <div data-testid="social-list">
       <button onClick={onAdd} data-testid="add-social">Add Social</button>
       <button onClick={() => onEdit('1')} data-testid="edit-social">Edit Social</button>
@@ -98,13 +98,13 @@ vi.mock('../src/components/AuthorRegistration/SocialList', () => ({
   )
 }));
 
-vi.mock('../src/components/BookList/index', () => ({
+vi.mock('../src/components/BookList/index', (): Record<string, unknown> => ({
   BookList: ({ onEdit, onAdd, onDelete, importBook }: { 
     onEdit: (id: string) => void; 
     onAdd: () => void; 
     onDelete: (id: string) => void; 
     importBook: (book: { id: string; title: string }) => void; 
-  }) => (
+  }): React.JSX.Element => (
     <div data-testid="book-list">
       <button onClick={onAdd} data-testid="add-book">Add Book</button>
       <button onClick={() => onEdit('1')} data-testid="edit-book">Edit Book</button>
@@ -114,8 +114,8 @@ vi.mock('../src/components/BookList/index', () => ({
   )
 }));
 
-vi.mock('../src/components/ImageManager/index', () => ({
-  ImageManager: ({ onSelect }: { onSelect: (image: { url: string }) => void }) => (
+vi.mock('../src/components/ImageManager/index', (): Record<string, unknown> => ({
+  ImageManager: ({ onSelect }: { onSelect: (image: { url: string }) => void }): React.JSX.Element => (
     <div data-testid="image-manager">
       <button onClick={() => onSelect({ url: 'test-image.jpg' })} data-testid="select-image">Select Image</button>
     </div>
@@ -123,12 +123,12 @@ vi.mock('../src/components/ImageManager/index', () => ({
 }));
 
 // Mock the dropdown components
-vi.mock('@idahoedokpayi/react-country-state-selector', () => ({
+vi.mock('@idahoedokpayi/react-country-state-selector', (): Record<string, unknown> => ({
   LanguageDropdown: ({ onLanguageChange, selectedLanguage, Label }: { 
     onLanguageChange: (language: { code: string; name: string }) => void; 
     selectedLanguage: string; 
     Label: string; 
-  }) => (
+  }): React.JSX.Element => (
     <div data-testid="language-dropdown">
       <label>{Label}</label>
       <select 
@@ -147,7 +147,7 @@ vi.mock('@idahoedokpayi/react-country-state-selector', () => ({
     onCountryChange: (country: string) => void; 
     selectedCountry: string; 
     Label: string; 
-  }) => (
+  }): React.JSX.Element => (
     <div data-testid="country-dropdown">
       <label>{Label}</label>
       <select 

@@ -2,7 +2,7 @@ import { CountryDropdown, LanguageDropdown, type Language } from "@idahoedokpayi
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { type FC } from "react";
 import penguinLogo from '../../assets/penguin-vector.png';
-import { useCultureInfo } from "../../contexts/CultureInfoContext";
+import { useCultureInfo } from "../../hooks/useCultureInfo";
 import { useLocalizationContext } from "../../hooks/useLocalizationContext";
 import { useTrackComponent } from "../../hooks/useTrackComponent";
 import { useGetLanguageInformation } from "../../services/getLanguageInformation";
@@ -137,9 +137,9 @@ export const AuthorMainForm: FC<AuthorMainFormProps> = ({
                                     dispatchForm({ type: "UPDATE_FIELD", payload: { name: "HeadShotURL", value: img.url } });
                                     dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: false });
                                 }}
-                                listUserImages={listUserImages}
-                                deleteImage={deleteImage}
-                                uploadImage={uploadImage}
+                                listUserImages={(t: string) => listUserImages(t)}
+                                deleteImage={(imageId: string, t: string) => deleteImage(imageId, t)}
+                                uploadImage={(file: File, t: string) => uploadImage(file, t)}
                             />
                             <button type="button" className="author-form-image-manager-close" onClick={() => dispatchForm({ type: "SET_SHOW_IMAGE_MANAGER", payload: false })}>{localized.close}</button>
                         </div>
