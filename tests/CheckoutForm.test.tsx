@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import React from 'react';
-import { render, waitFor, fireEvent } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { CheckoutForm } from '../src/components/Checkout/CheckoutForm';
 import { Elements } from '@stripe/react-stripe-js';

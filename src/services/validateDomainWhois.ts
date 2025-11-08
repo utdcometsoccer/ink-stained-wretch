@@ -9,7 +9,7 @@ export async function validateDomainWhois(domain: string): Promise<boolean> {
     const data = await response.json() as WhoisResult;
     // Example: if data.available is "yes", domain is available
     return data.available === 'yes';
-  } catch (error) {
+  } catch {
     // On error, treat as not existing (or handle as needed)
     return false;
   }

@@ -10,8 +10,8 @@ const mockImages: ManagedImage[] = [
   { id: '2', url: 'url2', name: 'img2.png', size: 4096, uploadedAt: '2023-10-02T12:00:00Z' },
 ];
 
-const mockListUserImages = vi.fn(async (token: string) => new Promise<Array<ManagedImage>>((resolve, reject) => resolve(mockImages)));
-const mockDeleteImage = vi.fn(async (id: string, token: string) => {});
+const mockListUserImages = vi.fn(async () => new Promise<Array<ManagedImage>>((resolve) => resolve(mockImages)));
+const mockDeleteImage = vi.fn(async () => {});
 
 describe('ImageManager', () => {
   it('renders images from mocked API', async () => {

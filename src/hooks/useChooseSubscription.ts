@@ -9,9 +9,10 @@ import { withAuthRetry } from "../services/withAuthRetry";
 import { trackException } from "../services/applicationInsights";
 import { fallbackPlans } from "../components/ChooseSubscription/fallbackPlans";
 import type { State } from "../types/State";
+import type { AppAction } from "../types/actions";
 import { useRunOnce } from "./useRunOnce";
 
-export function useChooseSubscriptionLogic(state: State, dispatch: React.Dispatch<any>) {  
+export function useChooseSubscriptionLogic(state: State, dispatch: React.Dispatch<AppAction>) {  
   const [subState, subDispatch] = useReducer(
     chooseSubscriptionReducer,
     initialChooseSubscriptionState

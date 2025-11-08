@@ -20,12 +20,20 @@ export const Checkout: FC<CheckoutProps> = ({ state, dispatch }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [subscription, setSubscription] = useState<SubscriptionCreateResponse | null>(null);
   useEffect(() => {
-    !id ? dispatch({ type: 'SET_ERROR', payload: 'No Stripe customer ID found' }) : dispatch({ type: 'CLEAR_ERROR' });    
+    if (!id) {
+      dispatch({ type: 'SET_ERROR', payload: 'No Stripe customer ID found' });
+    } else {
+      dispatch({ type: 'CLEAR_ERROR' });
+    }
   }, [dispatch, id]);
   useTrackComponent('Checkout', { state });
   const { stripePriceId } = selectedSubscriptionPlan || { stripePriceId: null };
   useEffect(() => {
-    !stripePriceId ? dispatch({ type: 'SET_ERROR', payload: 'No Stripe price ID found' }) : dispatch({ type: 'CLEAR_ERROR' });
+    if (!stripePriceId) {
+      dispatch({ type: 'SET_ERROR', payload: 'No Stripe price ID found' });
+    } else {
+      dispatch({ type: 'CLEAR_ERROR' });
+    }
   }, [dispatch, stripePriceId]);
   const localized = useLocalizationContext();
   const localizedCheckout = localized.Checkout;
@@ -49,10 +57,14 @@ export const Checkout: FC<CheckoutProps> = ({ state, dispatch }) => {
   const { subscriptionId, clientSecret } = subscription || {};
   useEffect(() => {
     if (!loading) {
-      !clientSecret ? dispatch({ type: 'SET_ERROR', payload: 'No Stripe client secret found' }) : dispatch({ type: 'CLEAR_ERROR' });
+      if (!clientSecret) {
+        dispatch({ type: 'SET_ERROR', payload: 'No Stripe client secret found' });
+      } else {
+        dispatch({ type: 'CLEAR_ERROR' });
+      }
       dispatch({ type: 'UPDATE_STATE', payload: { SubscriptionId: subscriptionId } });
     }
-  }, [dispatch, clientSecret, loading]);
+  }, [dispatch, clientSecret, loading, subscriptionId]);
 
   if (loading && !clientSecret) {
     return <CircularProgress />;

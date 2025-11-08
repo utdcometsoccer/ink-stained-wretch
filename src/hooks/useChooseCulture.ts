@@ -5,6 +5,7 @@ import type { Action } from "../types/Action";
 import { getBrowserCultureWithFallback } from "../services/getBrowserCultureWithFallback";
 import { getLocalizedText } from "../services/localization";
 import { getDefaultLocale } from "../services/getDefaultLocale";
+import type { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
 
 
 export function useChooseCultureLogic(state: State, dispatch: Dispatch<Action>) {
@@ -31,7 +32,7 @@ export function useChooseCultureLogic(state: State, dispatch: Dispatch<Action>) 
             Language: language,
             Country: country,
             Culture: culture,
-          } as any,
+          } as CultureInfo,
         },
       });
       // Set loading state

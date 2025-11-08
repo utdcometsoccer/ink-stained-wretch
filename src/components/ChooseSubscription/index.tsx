@@ -7,7 +7,7 @@ import "./ChooseSubscription.css";
 import { fallbackPlans } from './fallbackPlans';
 
 export const ChooseSubscription: FC<ChooseCultureProps> = (props) => {
-  useTrackComponent('ChooseSubscription', props);
+  useTrackComponent('ChooseSubscription', { hasState: !!props.state, hasCulture: !!props.culture });
   const { subState, handleSelect } = useChooseSubscriptionLogic(props.state, props.dispatch);
   const localized = useLocalizationContext().ChooseSubscription;
   const { state } = props;

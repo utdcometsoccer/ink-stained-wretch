@@ -51,7 +51,7 @@ describe('fetchStatesProvinces', () => {
       status: 200,
       statusText: 'OK',
       json: vi.fn().mockResolvedValueOnce(mockStateProvincesResponse)
-    } as any);
+    } as unknown as Response);
 
     const result = await fetchStatesProvinces();
     expect(result).toEqual(mockStateProvincesResponse);
@@ -63,7 +63,7 @@ describe('fetchStatesProvinces', () => {
       status: 200,
       statusText: 'OK',
       json: vi.fn().mockResolvedValueOnce(mockStateProvincesResponse)
-    } as any);
+    } as unknown as Response);
 
     await fetchStatesProvinces('en-US');
 
@@ -87,7 +87,7 @@ describe('fetchStatesProvinces', () => {
       status: 200,
       statusText: 'OK',
       json: vi.fn().mockResolvedValueOnce(mockStateProvincesResponse)
-    } as any);
+    } as unknown as Response);
 
     await fetchStatesProvinces();
 
@@ -109,7 +109,7 @@ describe('fetchStatesProvinces', () => {
       status: 200,
       statusText: 'OK',
       json: vi.fn().mockResolvedValueOnce(mockStateProvincesResponse)
-    } as any);
+    } as unknown as Response);
 
     await fetchStatesProvinces('es-MX');
 
@@ -127,7 +127,7 @@ describe('fetchStatesProvinces', () => {
 
   it('throws error when fetch returns undefined', async () => {
     // Mock fetch to return undefined (simulating network failure)
-    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(undefined as any);
+    vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce(undefined as unknown as Response);
 
     await expect(fetchStatesProvinces()).rejects.toThrow(
       'Error fetching states/provinces: Cannot read properties of undefined (reading \'status\')'
@@ -140,7 +140,7 @@ describe('fetchStatesProvinces', () => {
       status: 500,
       statusText: 'Internal Server Error',
       json: vi.fn()
-    } as any);
+    } as unknown as Response);
 
     await expect(fetchStatesProvinces()).rejects.toThrow(
       'Failed to fetch states/provinces: 500 Internal Server Error'

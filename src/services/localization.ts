@@ -45,9 +45,8 @@ export async function getLocalizedText(culture: string): Promise<LocalizedText |
     }
   } catch {
     result = getStaticLocalizedText(culture);
-  } finally {
-    return result;
   }
+  return result;
 }
 /**
  * Fetches localized text from the REST API for the given language and region.

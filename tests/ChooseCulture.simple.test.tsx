@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { ChooseCulture } from "../src/components/ChooseCulture";
 import { State } from "../src/types/State";
 import { CultureInfo } from "@idahoedokpayi/react-country-state-selector";
@@ -60,7 +60,6 @@ describe("ChooseCulture", () => {
   });
 
   it("shows countdown and disables continue button during countdown", async () => {
-    const useLocalizationContext = (await import("../src/hooks/useLocalizationContext")).useLocalizationContext;
     const { useChooseCultureLogic } = await import("../src/hooks/useChooseCulture");
     
     // Mock with countdown active

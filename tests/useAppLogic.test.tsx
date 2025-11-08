@@ -1,5 +1,5 @@
 import { renderHook, act, waitFor } from '@testing-library/react';
-import { vi, describe, it, expect, beforeEach, MockedFunction } from 'vitest';
+import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { useAppLogic } from '../src/hooks/useAppLogic';
 import {
   initializeAppInsights,
@@ -81,8 +81,8 @@ describe('useAppLogic', () => {
     act(() => {
       result.current.dispatch({ type: 'SET_UI_STATE', payload: 'login' });
     });
-    const calls = (trackPageView as unknown as { mock: { calls: any[] } }).mock.calls;
-    const hasLogin = calls.some((args) => String(args[0]).includes('login'));
+    const calls = (trackPageView as unknown as { mock: { calls: unknown[] } }).mock.calls;
+    const hasLogin = calls.some((args: unknown) => String((args as unknown[])[0]).includes('login'));
     expect(hasLogin).toBe(true);
   });
 
@@ -101,13 +101,13 @@ describe('useAppLogic', () => {
     await act(async () => {
       // Some environments may not have PromiseRejectionEvent; fallback to simple object event
       try {
-        const evt = new PromiseRejectionEvent('unhandledrejection', { reason: new Error('reject') } as any);
+        const evt = new PromiseRejectionEvent('unhandledrejection', { reason: new Error('reject') } as PromiseRejectionEventInit);
         window.dispatchEvent(evt);
       } catch {
         // Fallback custom event
         const evt = new CustomEvent('unhandledrejection', { detail: { reason: new Error('reject') } });
-        (evt as any).reason = new Error('reject');
-        window.dispatchEvent(evt as any);
+        (evt as unknown as { reason: Error }).reason = new Error('reject');
+        window.dispatchEvent(evt);
       }
       await Promise.resolve();
     });

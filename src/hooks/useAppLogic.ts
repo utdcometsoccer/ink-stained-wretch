@@ -69,7 +69,9 @@ export function useAppLogic() {
         dispatch({ type: 'UPDATE_STATE', payload: { loading: false } });
       }
     }
-    !localizationDataLoaded ? fetchLocalizedText() : () => console.log('Localization data already loaded');
+    if (!localizationDataLoaded) {
+      fetchLocalizedText();
+    }
   });  
 
   

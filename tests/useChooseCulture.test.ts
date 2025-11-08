@@ -3,11 +3,10 @@ import { vi, describe, it, expect, beforeEach } from 'vitest';
 import { CultureInfo } from '@idahoedokpayi/react-country-state-selector';
 import { useChooseCultureLogic } from '../src/hooks/useChooseCulture';
 import type { State } from '../src/types/State';
-import type { Action } from '../src/types/Action';
 
 // Mock the culture detection from browser
 vi.mock('@idahoedokpayi/react-country-state-selector', async () => {
-  const actual = await vi.importActual('@idahoedokpayi/react-country-state-selector') as any;
+  const actual = await vi.importActual('@idahoedokpayi/react-country-state-selector') as Record<string, unknown>;
   return {
     ...actual,
     cultureFromBrowser: vi.fn(() => ({

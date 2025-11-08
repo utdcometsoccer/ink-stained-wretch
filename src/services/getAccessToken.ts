@@ -9,7 +9,7 @@ export async function getAccessToken(): Promise<string | null> {
       scopes:import.meta.env.VITE_ENTRA_SCOPES.split(",")
     });
     return response.accessToken;
-  } catch (err) {
+  } catch {
     return null;
   }
 }
