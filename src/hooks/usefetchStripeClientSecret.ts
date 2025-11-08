@@ -44,7 +44,7 @@ export function useFetchStripeClientSecret(
 			cancelled = true;
 		};
 		// Track individual fields for stability and to avoid refiring on object identity changes
-	}, [req.customerId, req.priceId, req.domain, bearerToken]);
+	}, [req.customerId, req.priceId, req.domain, req.active, bearerToken]);
 
 	return { stripeClientSecret, error, loading };
 }

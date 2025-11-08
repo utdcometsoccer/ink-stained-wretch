@@ -12,6 +12,7 @@ export async function fetchStripeClientSecret(request: CreateStripeCheckoutSessi
       domain: request.domain || window.location.origin,
       customerId: request.customerId,
       priceId: request.priceId,
+      active: request.active ?? true,
     })
   });
 
