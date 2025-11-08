@@ -50,10 +50,9 @@ describe('getBrowserCultureWithFallback', () => {
 
   describe('when browser culture is invalid', () => {
     it('should return default when Language is missing', () => {
-      mockCultureFromBrowser.mockReturnValue({
-        Country: 'US',
-        Culture: 'en-US'
-      });
+      mockCultureFromBrowser.mockReturnValue(
+        new CultureInfo('en-US')
+      );
 
       const result = getBrowserCultureWithFallback();
 
@@ -65,10 +64,9 @@ describe('getBrowserCultureWithFallback', () => {
     });
 
     it('should return default when Country is missing', () => {
-      mockCultureFromBrowser.mockReturnValue({
-        Language: 'en',
-        Culture: 'en-US'
-      });
+      mockCultureFromBrowser.mockReturnValue(
+        new CultureInfo('en-US')
+      );
 
       const result = getBrowserCultureWithFallback();
 

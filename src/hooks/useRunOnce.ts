@@ -19,5 +19,6 @@ export function useRunOnce(
     return () => {
       cancelRef.current = true;
     };
-  }, [effect]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 }

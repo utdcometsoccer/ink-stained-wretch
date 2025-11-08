@@ -70,7 +70,7 @@ export function useAppLogic() {
       }
     }
     if (!localizationDataLoaded) {
-      fetchLocalizedText();
+      void fetchLocalizedText();
     }
   });  
 
