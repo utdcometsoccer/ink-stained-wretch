@@ -19,6 +19,10 @@ export const Checkout: FC<CheckoutProps> = ({ state, dispatch }) => {
   const { displayName } = userProfile || { displayName: '' };
   const [loading, setLoading] = useState<boolean>(true);
   const [subscription, setSubscription] = useState<SubscriptionCreateResponse | null>(null);
+  const { stripePriceId } = selectedSubscriptionPlan || { stripePriceId: null };
+  
+  useTrackComponent('Checkout', { state });
+  
   useEffect(() => {
     if (!id) {
       dispatch({ type: 'SET_ERROR', payload: 'No Stripe customer ID found' });
@@ -26,8 +30,7 @@ export const Checkout: FC<CheckoutProps> = ({ state, dispatch }) => {
       dispatch({ type: 'CLEAR_ERROR' });
     }
   }, [dispatch, id]);
-  useTrackComponent('Checkout', { state });
-  const { stripePriceId } = selectedSubscriptionPlan || { stripePriceId: null };
+
   useEffect(() => {
     if (!stripePriceId) {
       dispatch({ type: 'SET_ERROR', payload: 'No Stripe price ID found' });
@@ -35,8 +38,10 @@ export const Checkout: FC<CheckoutProps> = ({ state, dispatch }) => {
       dispatch({ type: 'CLEAR_ERROR' });
     }
   }, [dispatch, stripePriceId]);
+
   const localized = useLocalizationContext();
   const localizedCheckout = localized.Checkout;
+
   useRunOnce(() => {
     const run = async () => {
       try {
@@ -50,11 +55,12 @@ export const Checkout: FC<CheckoutProps> = ({ state, dispatch }) => {
         // finalize
         setLoading(false);
       }
-    }
-    run();
+    };
+    void run();
   });
 
   const { subscriptionId, clientSecret } = subscription || {};
+  
   useEffect(() => {
     if (!loading) {
       if (!clientSecret) {

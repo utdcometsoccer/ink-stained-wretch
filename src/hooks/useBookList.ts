@@ -78,7 +78,7 @@ export function useBookList({ authorName, importBook, onEdit, onDelete, openLibr
                 });
               }
               if (importBook) {
-                importBook({
+                void importBook({
                   id: crypto.randomUUID(),
                 Title: openLibraryBook.title || "",
                 Description: (descriptionIsString ? openLibraryBook.description?.toString() : descriptionTypeValue?.value || "") || "",
