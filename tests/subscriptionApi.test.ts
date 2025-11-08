@@ -53,4 +53,39 @@ describe('fetchSubscriptionPlans', () => {
     const result = await fetchSubscriptionPlans(requestBody);
     expect(result).toEqual([]);
   });
+
+  it('includes culture in request body when provided', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      status: 200,
+      statusText: 'OK',
+      json: vi.fn().mockResolvedValueOnce([])
+    } as any);
+    
+    const requestBody = { active: true, culture: 'en-US' };
+    await fetchSubscriptionPlans(requestBody);
+    
+    expect(fetchSpy).toHaveBeenCalledWith(
+      expect.any(String),
+      expect.objectContaining({
+        method: 'POST',
+        body: expect.stringContaining('"culture":"en-US"')
+      })
+    );
+  });
+
+  it('excludes culture from request body when not provided', async () => {
+    const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValueOnce({
+      status: 200,
+      statusText: 'OK',
+      json: vi.fn().mockResolvedValueOnce([])
+    } as any);
+    
+    const requestBody = { active: true };
+    await fetchSubscriptionPlans(requestBody);
+    
+    const call = fetchSpy.mock.calls[0];
+    const requestOptions = call[1] as RequestInit;
+    const body = JSON.parse(requestOptions.body as string);
+    expect(body.culture).toBeUndefined();
+  });
 });

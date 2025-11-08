@@ -8,4 +8,5 @@ export interface SubscriptionPlanListRequest {
   currency?: 'usd';
   limit?: number;
   includeProductDetails?: boolean;
+  culture?: string;
 }
