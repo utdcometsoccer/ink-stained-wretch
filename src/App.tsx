@@ -7,7 +7,7 @@ import { Container } from "./components/Container";
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { MainContentRenderer } from './components/MainContentRenderer';
 import { Navbar } from './components/Navbar';
-import { CultureInfoProvider } from './contexts/CultureInfoContext';
+import { CultureInfoProvider } from './contexts/CultureInfoProvider';
 import { useAppLogic } from './hooks/useAppLogic';
 import { LocalizationContext } from "./LocalizationContext";
 import { getDefaultLocale } from "./services/getDefaultLocale";

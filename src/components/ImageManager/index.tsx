@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import { useImageManager } from '../../hooks/useImageManager';
 import { useLocalizationContext } from '../../hooks/useLocalizationContext.ts';
 import { useTrackComponent } from '../../hooks/useTrackComponent.ts';
-import { useCultureInfo } from '../../contexts/CultureInfoContext';
+import { useCultureInfo } from '../../hooks/useCultureInfo';
 import type { ManagedImage } from '../../types/ManagedImage';
 import './ImageManager.css';
 import type { ImageManagerProps } from './ImageManagerProps.tsx';
@@ -37,7 +37,7 @@ export const ImageManager = ({ token, onSelect, listUserImages, deleteImage, upl
         await handleUpload(file);
         setUploadStatus(localized.uploadSuccess);
         setTimeout(() => setUploadStatus(null), 3000);
-      } catch (error) {
+      } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : String(error);
         setUploadStatus(`Upload failed: ${file.name} - ${errorMessage}`);
         setTimeout(() => setUploadStatus(null), 5000);

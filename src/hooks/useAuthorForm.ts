@@ -263,6 +263,7 @@ export function useAuthorFormLogic(
       default:
         break;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [buttonState]);
 
   // Create wrapped image API functions that handle 401 responses

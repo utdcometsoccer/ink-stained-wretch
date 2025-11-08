@@ -82,7 +82,7 @@ describe('getBrowserCultureWithFallback', () => {
         Language: 'e',
         Country: 'US',
         Culture: 'e-US'
-      });
+      } as unknown as CultureInfo);
 
       const result = getBrowserCultureWithFallback();
 
@@ -98,7 +98,7 @@ describe('getBrowserCultureWithFallback', () => {
         Language: 'en',
         Country: 'U',
         Culture: 'en-U'
-      });
+      } as unknown as CultureInfo);
 
       const result = getBrowserCultureWithFallback();
 
@@ -110,7 +110,7 @@ describe('getBrowserCultureWithFallback', () => {
     });
 
     it('should return default when cultureFromBrowser returns null', () => {
-      mockCultureFromBrowser.mockReturnValue(null);
+      mockCultureFromBrowser.mockReturnValue(null as unknown as CultureInfo);
 
       const result = getBrowserCultureWithFallback();
 
@@ -138,7 +138,7 @@ describe('getBrowserCultureWithFallback', () => {
 
   describe('fallback behavior', () => {
     it('should return en-us as ultimate fallback when browser culture is invalid', () => {
-      mockCultureFromBrowser.mockReturnValue(null);
+      mockCultureFromBrowser.mockReturnValue(null as unknown as CultureInfo);
 
       const result = getBrowserCultureWithFallback();
 
@@ -152,7 +152,7 @@ describe('getBrowserCultureWithFallback', () => {
 
   describe('ultimate fallback', () => {
     it('should return en-us when no valid options are available', () => {
-      mockCultureFromBrowser.mockReturnValue(undefined);
+      mockCultureFromBrowser.mockReturnValue(undefined as unknown as CultureInfo);
       // No environment variables set
 
       const result = getBrowserCultureWithFallback();

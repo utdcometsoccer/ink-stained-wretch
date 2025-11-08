@@ -8,7 +8,7 @@ import type { AuthorResult } from "./PenguinRandomHouse";
 import type { Social } from "./Social";
 
 
-export type AuthorFormAction = { type: "UPDATE_FIELD"; payload: { name: string; value: string | number | boolean; }; } |
+export type AuthorFormAction = { type: "UPDATE_FIELD"; payload: { name: string; value: string | number | boolean | Article[] | Book[] | Social[]; }; } |
 { type: "ADD_ARTICLE"; payload: Article; } |
 { type: "ADD_BOOK"; payload: Book; } |
 { type: "ADD_SOCIAL"; payload: Social; } |

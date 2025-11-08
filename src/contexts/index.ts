@@ -1,2 +1,2 @@
-export { CultureInfoProvider, useCultureInfo } from './CultureInfoContext';
+export { useCultureInfo } from '../hooks/useCultureInfo';
 export type { CultureInfoContextType } from './CultureInfoContext';

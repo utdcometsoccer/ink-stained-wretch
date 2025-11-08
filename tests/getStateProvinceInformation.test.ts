@@ -220,7 +220,7 @@ describe('getStateProvinceInformation', () => {
       const stateProvinceInfo = await result.current(cultureInfo);
       
       expect(stateProvinceInfo).toEqual(expectedStateProvinceInfo);
-      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US');
+      expect(mockFetchStatesProvinces).toHaveBeenCalledWith('en-US', undefined);
     });
 
     it('should work with the returned function with token', async () => {
