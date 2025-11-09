@@ -265,6 +265,37 @@ npm test         # Run tests
 - TypeScript compilation happens before Vite build
 - ESLint enforces code quality standards
 
+### Development Workflow
+1. **Before Making Changes**:
+   - Run `npm install` to ensure dependencies are current
+   - Run `npm run lint` to check code quality
+   - Run `npm run build` to verify TypeScript compilation
+   - Run `npm test` to ensure existing tests pass
+   - Note any pre-existing errors (not your responsibility to fix)
+
+2. **During Development**:
+   - Use `npm run dev` for live development with HMR
+   - Make incremental, focused changes
+   - Test changes in the browser at `http://localhost:5173`
+   - Check browser console for runtime errors
+
+3. **Before Committing**:
+   - Run `npm run lint` to ensure code quality
+   - Run `npm run build` to verify TypeScript compilation
+   - Run `npm test` to ensure tests pass
+   - Only fix errors related to your changes
+   - Document any known issues or workarounds
+
+### Working with TypeScript Errors
+- **Existing Errors**: The codebase may have pre-existing TypeScript errors. You are NOT responsible for fixing these unless they are directly related to your changes.
+- **New Errors**: If your changes introduce TypeScript errors, you must fix them before completing your task.
+- **Type Safety**: Always provide proper types; avoid using `any` or `unknown` without good reason.
+- **Common Issues**:
+  - Missing properties in interfaces
+  - Incorrect prop types in React components
+  - Type mismatches in function arguments
+  - Missing type definitions for third-party libraries
+
 ## Common Patterns to Follow
 
 ### Image Management
@@ -330,6 +361,66 @@ npm test         # Run tests
 - ❌ Missing dependencies in useEffect (add to dependency array)
 - ❌ Mutating state directly (use immutable updates)
 
+## Task Completion Guidelines
+
+### Acceptance Criteria
+When working on an issue, ensure your changes meet these criteria:
+1. **Functionality**: The feature or fix works as described in the issue
+2. **Code Quality**: Code passes linting (`npm run lint`)
+3. **Type Safety**: Code compiles without new TypeScript errors (`npm run build`)
+4. **Testing**: Existing tests pass (`npm test`); add tests for new features when appropriate
+5. **Documentation**: Update relevant documentation if behavior changes
+6. **Localization**: Add translations for all new user-facing strings
+7. **Accessibility**: Include ARIA labels and maintain keyboard navigation
+8. **Security**: No secrets in code; validate all user inputs
+
+### Common Tasks and Approaches
+- **Bug Fixes**: Identify root cause, add regression test, implement minimal fix
+- **New Features**: Design component structure, implement with types, add translations, test thoroughly
+- **Refactoring**: Maintain existing behavior, improve code quality, verify with tests
+- **Documentation**: Update README, API docs, or inline comments as needed
+- **Test Coverage**: Add unit tests for components/hooks; integration tests for flows
+- **Accessibility Improvements**: Add ARIA labels, ensure keyboard navigation, test with screen readers
+
+## Module-Specific Guidelines
+
+### Components (`src/components/`)
+- Each component should have its own directory with an `index.tsx` file
+- Include a `.css` file for component-specific styles
+- Define props interface in the same file as the component
+- Export the component as a named export
+
+### Hooks (`src/hooks/`)
+- Custom hooks must start with `use` prefix
+- Return objects with named properties for better clarity
+- Include TypeScript return types
+- Handle cleanup in `useEffect` hooks
+
+### Reducers (`src/reducers/`)
+- Use discriminated unions for action types
+- Always return a new state object (immutable updates)
+- Define clear action interfaces
+- Include exhaustive type checking in switch statements
+
+### Services (`src/services/`)
+- Export typed async functions for API calls
+- Use axios for HTTP requests
+- Include proper error handling with try/catch
+- Pass authentication tokens in headers
+- Return typed responses
+
+### Types (`src/types/`)
+- Define interfaces for all data structures
+- Use PascalCase for type/interface names
+- Export types from their respective files
+- Keep types close to their usage when possible
+
+### Locales (`src/locales/`)
+- Maintain consistent key structure across all locale files
+- Update all locale files when adding new keys
+- Test with RTL languages (Arabic) when adding UI text
+- Use nested objects for logical grouping
+
 ## Additional Resources
 
 - [Project README](../README.md) - Comprehensive project documentation
@@ -337,3 +428,27 @@ npm test         # Run tests
 - [Author API Docs](../AuthorAPI.md) - Author API documentation
 - [Subscription API Docs](../SubscriptionPlanAPI.md) - Subscription management
 - [Domain Registration API](../DomainRegistrationAPI.md) - Domain management
+
+## Working with GitHub Copilot Coding Agent
+
+### Best Practices for Issues
+When creating or working on issues:
+- **Clear Scope**: Define specific, actionable tasks
+- **Acceptance Criteria**: List what "done" looks like
+- **Context**: Reference relevant files, functions, or patterns
+- **Constraints**: Note any limitations or requirements
+- **Examples**: Provide examples of desired behavior when applicable
+
+### Iterative Development
+- Make small, incremental changes
+- Test frequently during development
+- Commit working code regularly
+- Request human review when uncertain
+- Document decisions and trade-offs
+
+### Security and Safety
+- Never commit secrets or API keys
+- Validate all user inputs
+- Use parameterized queries/sanitization for database operations
+- Follow principle of least privilege for permissions
+- Report security concerns to maintainers
