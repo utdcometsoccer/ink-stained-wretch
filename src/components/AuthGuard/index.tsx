@@ -2,7 +2,7 @@ import { AuthenticatedTemplate, UnauthenticatedTemplate } from '@azure/msal-reac
 import type { FC } from 'react';
 import { useLoginLogic } from '../../hooks/useLoginLogic';
 import { useLocalizationContext } from '../../hooks/useLocalizationContext';
-import { useTrackComponent } from '../../hooks/useTrackComponent';
+//import { useTrackComponent } from '../../hooks/useTrackComponent';
 import './AuthGuard.css';
 import type { AuthGuardProps } from './AuthGuardProps';
 
@@ -10,7 +10,7 @@ export const AuthGuard: FC<AuthGuardProps> = ({ children, unauthenticatedContent
   const { AuthGuard: { title, message, buttonLabel } } = useLocalizationContext();
   const { handleSignIn } = useLoginLogic(() => {});
   
-  useTrackComponent('AuthGuard', { hasCustomUnauthenticatedContent: !!unauthenticatedContent });
+  //useTrackComponent('AuthGuard', { hasCustomUnauthenticatedContent: !!unauthenticatedContent });
 
   const defaultUnauthenticatedContent = (
     <div className="auth-guard-unauthenticated">

@@ -3,7 +3,8 @@ import { createSubscription } from "../services/createSubscription";
 import type { CreateSubscriptionRequest, SubscriptionCreateResponse } from "../types/Stripe";
 
 export type CreateSubscriptionFn = (
-  payload: CreateSubscriptionRequest
+  payload: CreateSubscriptionRequest,
+  bearerToken: string
 ) => Promise<SubscriptionCreateResponse>;
 
 export interface UseCreateSubscriptionResult {
@@ -18,8 +19,8 @@ export interface UseCreateSubscriptionResult {
  */
 export function useCreateSubscription(
   payload: CreateSubscriptionRequest | null,
+  bearerToken: string,
   fetchFn: CreateSubscriptionFn = createSubscription,
-  bearerToken?: string,
 ): UseCreateSubscriptionResult {
   const [data, setData] = useState<SubscriptionCreateResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -35,10 +36,16 @@ export function useCreateSubscription(
       return;
     }
 
+    if (!bearerToken || bearerToken.trim() === '') {
+      setData(null);
+      setError('Bearer token is required');
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     setError(null);
-  const fn = bearerToken ? (p: CreateSubscriptionRequest) => createSubscription(p, bearerToken) : fetchFn;
-  fn(payload)
+    fetchFn(payload, bearerToken)
       .then((res) => {
         if (!cancelled) setData(res);
       })
