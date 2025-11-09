@@ -12,6 +12,7 @@ A modular, type-safe author platform built with React, TypeScript, and Vite. It 
 - [Key Features](#key-features)
 - [Tech Stack](#tech-stack)
 - [Recent Updates](#recent-updates-2025)
+- [UI/UX Analysis](#uiux-analysis)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
 - [Environment Configuration](#environment-variables)
@@ -95,6 +96,21 @@ Ink Stained Wretch is a comprehensive author platform that enables writers to ma
 - ✅ Optimized component rendering and state management
 - ✅ Improved image loading and caching strategies
 - ✅ Enhanced telemetry and analytics integration
+
+## UI/UX Analysis
+
+A comprehensive UI/UX analysis has been conducted to evaluate the platform before launch. The analysis covers:
+
+- **Usability**: Navigation patterns, interactive elements, and content organization
+- **Accessibility**: WCAG 2.1 compliance, ARIA implementation, keyboard navigation, and multi-language support
+- **User Journey**: Complete flow analysis, error handling, and edge cases
+- **Color Scheme**: Brand identity, color system, and dark mode support
+- **Typography**: Font systems, readability, and responsive typography
+- **Responsive Design**: Breakpoint strategy and touch target optimization
+
+📄 **[Read the full UI/UX Analysis](./UI_UX_ANALYSIS.md)**
+
+The analysis includes 30+ specific issues with severity ratings, prioritized recommendations organized by impact and effort, and a phased implementation timeline for pre-launch, launch, and post-launch improvements.
 
 ## Getting Started
 
