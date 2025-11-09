@@ -45,7 +45,18 @@ export const Checkout: FC<CheckoutProps> = ({ state, dispatch }) => {
   useRunOnce(() => {
     const run = async () => {
       try {
-        const response = await createSubscription({ PriceId: stripePriceId || '', CustomerId: id || '' }, state.authToken ?? undefined);
+        // Validate required parameters before calling createSubscription
+        if (!stripePriceId) {
+          throw new Error('Stripe Price ID is required but not provided');
+        }
+        if (!id) {
+          throw new Error('Stripe Customer ID is required but not provided');
+        }
+        if (!state.authToken) {
+          throw new Error('Authentication token is required but not provided');
+        }
+        
+        const response = await createSubscription({ PriceId: stripePriceId, CustomerId: id }, state.authToken);
         // handle success
         setSubscription(response);
       } catch (error) {
