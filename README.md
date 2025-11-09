@@ -1339,4 +1339,4 @@ npm list --depth=0
 
 ---
 
-*Last updated: January 2025*
+*Last updated: November 2025*
